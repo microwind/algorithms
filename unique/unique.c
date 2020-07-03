@@ -59,6 +59,7 @@ int *uniqueArray1(int arr[], int len)
     }
     k++;
   }
+  // 打印或返回结果
   printArray(result, result_len);
   return 0;
 }

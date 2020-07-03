@@ -109,7 +109,7 @@ int *levelOrder(struct Node *tree, int *result, int len)
   struct Node **queue = (struct Node **)calloc(queue_len, sizeof(struct Node));
   for (int i = 0; i < queue_len; i++)
   {
-    // initialize space or NULL
+    // 初始化成员为NULL或者提前申请空间
     // queue[i] = (struct Node *)malloc(sizeof(struct Node));
     queue[i] = NULL;
   }
@@ -232,10 +232,10 @@ int *postOrderUnRecursive(struct Node *tree, int *result, int len)
       if (item->left != NULL && tree != item->left && tree != item->right)
       {
         queue[idx] = item->left;
-        // 把右子树追加到queue
       }
       else if (item->right != NULL && tree != item->right)
       {
+        // 把右子树追加到queue
         queue[idx] = item->right;
       }
       else
@@ -311,6 +311,7 @@ int main()
   memset(result, -1, len * sizeof(int));
   printf("\r\n origin result = ");
   printArray(result, len);
+
   // 1.
   result = preOrderTraverse(tree, result, len);
   printf("\r\n 1. preOrderTraverse: ");

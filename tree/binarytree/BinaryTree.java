@@ -212,7 +212,7 @@ public class BinaryTree {
     System.out.println("=== start test ===");
     long startTime = System.currentTimeMillis();
     BinaryTree binaryNode = new BinaryTree();
-    List result;
+    List<Integer> result = new ArrayList<>();
     // 1.
     result = binaryNode.preOrderTraverse(tree, new ArrayList<Integer>());
     // [1, 2, 4, 5, 8, 12, 13, 9, 3, 6, 7, 10, 11]
