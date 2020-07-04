@@ -91,3 +91,17 @@ if __name__ == '__main__':
     merge_sort2(arr)
     print("time:" + str((time.time() - start_time) * 1000) + " ms")
     print("merge_sort2 sorted: ", arr)
+
+"""
+jarry@jarrys-mbp mergesort % python merge_sort.py
+
+ Source array1:
+[7, 11, 9, 10, 12, 13, 8]
+time:0.0290870666504 ms
+('merge_sort1 sorted: ', [7, 8, 9, 10, 11, 12, 13])
+
+ Source array2:
+[7, 11, 9, 10, 12, 13, 8]
+time:0.0190734863281 ms
+('merge_sort2 sorted: ', [7, 8, 9, 10, 11, 12, 13])
+"""

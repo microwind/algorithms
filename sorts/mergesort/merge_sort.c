@@ -116,3 +116,12 @@ int main()
     printf("\ntime: %f ms.", ((clock() - start_time) / CLOCKS_PER_SEC * 1000));
     return 0;
 }
+/**
+jarry@jarrys-mbp mergesort % gcc merge_sort.c
+jarry@jarrys-mbp mergesort % ./a.out 
+Origin array: 
+{ 7, 11, 9, 10, 12, 13, 8 }
+Sorted array: 
+{ 7, 8, 9, 10, 11, 12, 13 }
+time: 0.016000 ms.%   
+ */
