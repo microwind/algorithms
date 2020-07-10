@@ -211,56 +211,57 @@ public class BinaryTree {
 
     System.out.println("=== start test ===");
     long startTime = System.currentTimeMillis();
-    BinaryTree binaryNode = new BinaryTree();
+    BinaryTree binarySearch = new BinaryTree();
     List<Integer> result = new ArrayList<>();
     // 1.
-    result = binaryNode.preOrderTraverse(tree, new ArrayList<Integer>());
+    result = binarySearch.preOrderTraverse(tree, new ArrayList<Integer>());
     // [1, 2, 4, 5, 8, 12, 13, 9, 3, 6, 7, 10, 11]
-    System.out.println(" 1. binaryNode.preOrderTraverse:" + result.toString());
+    System.out.println(" 1. binarySearch.preOrderTraverse:" + result.toString());
 
     // 2.
-    result = binaryNode.inOrderTraverse(tree, new ArrayList<Integer>());
+    result = binarySearch.inOrderTraverse(tree, new ArrayList<Integer>());
     // [4, 2, 12, 8, 13, 5, 9, 1, 6, 3, 10, 7, 11]
-    System.out.println(" 2. binaryNode.inOrderTraverse:" + result.toString());
+    System.out.println(" 2. binarySearch.inOrderTraverse:" + result.toString());
 
     // 3.
-    result = binaryNode.postOrderTraverse(tree, new ArrayList<Integer>());
+    result = binarySearch.postOrderTraverse(tree, new ArrayList<Integer>());
     // [4, 12, 13, 8, 9, 5, 2, 6, 10, 11, 7, 3, 1]
     System.out.println(" 3. postOrderTraverse:" + result);
 
     // 4.
-    result = binaryNode.levelOrder(tree);
+    result = binarySearch.levelOrder(tree);
     // [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
     System.out.println(" 4. levelOrder:" + result);
 
     // 5.
-    result = binaryNode.preOrderUnRecursive(tree);
+    result = binarySearch.preOrderUnRecursive(tree);
     // [1, 2, 4, 5, 8, 12, 13, 9, 3, 6, 7, 10, 11]
     System.out.println(" 5. preOrderUnRecursive:" + result);
 
     // 6.
-    result = binaryNode.inOrderUnRecursive(tree);
+    result = binarySearch.inOrderUnRecursive(tree);
     // [4, 2, 12, 8, 13, 5, 9, 1, 6, 3, 10, 7, 11]
     System.out.println(" 6. inOrderUnRecursive:" + result);
 
     // 7.
-    result = binaryNode.postOrderUnRecursive(tree);
+    result = binarySearch.postOrderUnRecursive(tree);
     // [4, 12, 13, 8, 9, 5, 2, 6, 10, 11, 7, 3, 1]
     System.out.println(" 7. postOrderUnRecursive:" + result);
 
     System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime) + " ms.");
   }
 }
-/**
- * jarry@jarrys-MacBook-Pro binarytree % javac BinaryTree.java
- * jarry@jarrys-MacBook-Pro binarytree % java BinaryTree === start test === 1.
- * binaryNode.preOrderTraverse:[1, 2, 4, 5, 8, 12, 13, 9, 3, 6, 7, 10, 11] 2.
- * binaryNode.inOrderTraverse:[4, 2, 12, 8, 13, 5, 9, 1, 6, 3, 10, 7, 11] 3.
- * postOrderTraverse:[4, 12, 13, 8, 9, 5, 2, 6, 10, 11, 7, 3, 1] 4.
- * levelOrder:[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13] 5.
- * preOrderUnRecursive:[1, 2, 4, 5, 8, 12, 13, 9, 3, 6, 7, 10, 11] 6.
- * inOrderUnRecursive:[4, 2, 12, 8, 13, 5, 9, 1, 6, 3, 10, 7, 11] 7.
- * postOrderUnRecursive:[4, 12, 13, 8, 9, 5, 2, 6, 10, 11, 7, 3, 1]
- * 
- * time:9 ms.
+/*
+jarry@jarrys-MacBook-Pro binarytree % javac BinaryTree.java
+jarry@jarrys-MacBook-Pro binarytree % java BinaryTree 
+=== start test ===
+ 1. binarySearch.preOrderTraverse:[1, 2, 4, 5, 8, 12, 13, 9, 3, 6, 7, 10, 11]
+ 2. binarySearch.inOrderTraverse:[4, 2, 12, 8, 13, 5, 9, 1, 6, 3, 10, 7, 11]
+ 3. postOrderTraverse:[4, 12, 13, 8, 9, 5, 2, 6, 10, 11, 7, 3, 1]
+ 4. levelOrder:[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+ 5. preOrderUnRecursive:[1, 2, 4, 5, 8, 12, 13, 9, 3, 6, 7, 10, 11]
+ 6. inOrderUnRecursive:[4, 2, 12, 8, 13, 5, 9, 1, 6, 3, 10, 7, 11]
+ 7. postOrderUnRecursive:[4, 12, 13, 8, 9, 5, 2, 6, 10, 11, 7, 3, 1]
+ 
+ time:9 ms.
  */
