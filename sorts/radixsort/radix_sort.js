@@ -32,7 +32,7 @@ function radixSort1(arr) {
       const idx = Math.floor((arr[i] / exp) % size)
       output[countList[idx] - 1] = arr[i]
       countList[idx] -= 1
-      console.log('set order:', countList, output)
+      console.log('set order:', idx, countList[idx], i, countList, output)
     }
 
     for (let i = 0; i < arr.length; i++) {
