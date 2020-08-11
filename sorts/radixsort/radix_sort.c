@@ -61,38 +61,35 @@ void count_sort(int arr[], int len, int exp)
   int count[size];
   memset(count, 0, size * sizeof(int));
 
-  // Store count of occurrences in count[]
+  // 根据数字所在位置计算
   for (i = 0; i < len; i++)
   {
     int item = arr[i];
     count[(item / exp) % size]++;
   }
 
-  // Change count[i] so that count[i] now contains actual
-  // position of this digit in output[]
+  // 当前位置加上左侧位置，后面的位数为前面的累加之和
   for (i = 1; i < size; i++)
     count[i] += count[i - 1];
 
-  // Build the output array
+  // 构建输出数组，根据计数数组按顺序取得排序内容
   for (i = len - 1; i >= 0; i--)
   {
     output[count[(arr[i] / exp) % size] - 1] = arr[i];
     count[(arr[i] / exp) % size]--;
   }
 
-  // Copy the output array to arr[], so that arr[] now
-  // contains sorted numbers according to current digit
+  // 复制输出数组到原始数组
   for (i = 0; i < len; i++)
   {
     arr[i] = output[i];
   }
 }
 
-// The main function to that sorts arr[] of size n using
-// Radix Sort
+// 基数排序
 int *radix_sort(int arr[], int len)
 {
-  // Find the maximum number to know number of digits
+  // 找出最大值
   int max_value = arr[0];
   for (int i = 1; i < len; i++)
   {
@@ -100,16 +97,14 @@ int *radix_sort(int arr[], int len)
       max_value = arr[i];
   }
 
-  // Do counting sort for every digit. Note that instead
-  // of passing digit number, exp is passed. exp is 10^i
-  // where i is current digit number
+  // 根据位置逐个应用计数排序
   for (int exp = 1; max_value / exp > 0; exp *= 10)
     count_sort(arr, len, exp);
 
   return arr;
 }
 
-// Driver program to test above functions
+// 测试
 int main()
 {
   int arr[] = {170, 45, 75, 90, 802, 24, 2, 66};
