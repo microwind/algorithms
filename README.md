@@ -30,31 +30,33 @@
 [C语言版](./sorts/shellsort/shell_sort.c ) | [JavaScript版](./sorts/shellsort/shell_sort.js ) | [Python版](./sorts/shellsort/shell_sort.py ) | [Java版](./sorts/shellsort/ShellSort.java ) | [TypeScript版](./sorts/shellsort/ShellSort.ts )
 
 ## 数组列表去重复项
-- [数组去重复的N种写法](./sorts/unique/)
-[C语言版](./sorts/unique/unique.c ) | [JavaScript版](./sorts/unique/unique.js ) | [Python版](./sorts/unique/unique.py ) | [Java版](./sorts/unique/UniqueArray.java ) | [TypeScript版](./sorts/unique/UniqueArray.ts )
+- ### [数组去重复的N种写法](./unique/)
+[C语言版](./unique/unique.c ) | [JavaScript版](./unique/unique.js ) | [Python版](./unique/unique.py ) | [Java版](./unique/UniqueArray.java ) | [TypeScript版](./unique/UniqueArray.ts )
 
 ## 字符串搜索与查找
-- [朴素搜索](./string/nativestring/)
-[C语言版](./string/nativestring/string_search.c ) | [JavaScript版](./string/nativestring/string_search.js ) | [Python版](./string/nativestring/string_search.py ) | [Java版](./string/nativestring/StringSearch.java ) | [TypeScript版](./string/nativestring/StringSearch.ts )
-- [二分查找](./search/binarysearch/)
+- ### [朴素搜索](./string/nativesearch/)
+[C语言版](./string/nativesearch/string_search.c ) | [JavaScript版](./string/nativesearch/string_search.js ) | [Python版](./string/nativesearch/string_search.py ) | [Java版](./string/nativesearch/StringSearch.java ) | [TypeScript版](./string/nativesearch/StringSearch.ts )
+- ### [二分查找](./search/binarysearch/)
 [C语言版](./search/binarysearch/binary_search.c ) | [JavaScript版](./search/binarysearch/binary_search.js ) | [Python版](./search/binarysearch/binary_search.py ) | [Java版](./search/binarysearch/BinarySearch.java ) | [TypeScript版](./search/binarysearch/BinarySearch.ts )
 
 ## 树搜索与遍历
-- [二叉树遍历](./tree/binarytree/)
+- ### [二叉树遍历](./tree/binarytree/)
 [C语言版](./tree/binarytree/binary_tree.c ) | [JavaScript版](./tree/binarytree/binary_tree.js ) | [Python版](./tree/binarytree/binary_tree.py ) | [Java版](./tree/binarytree/BinaryTree.java ) | [TypeScript版](./tree/binarytree/BinaryTree.ts )
 
 ## 递归
-- [简单递归](./recursion/)
+- ### [简单递归](./recursion/)
 
 ## 数字计算
-- [数字计算](./number/)
+- ### [数字计算](./number/)
 
 ## 日期与日历
-- [日期与日历](./date/)
+- ### [日期与日历](./date/)
 
 # 数据结构
-- [栈](./stack/)
-- [结构体](./struct/)
+## 堆与栈
+- ### [栈](./data-structure/stack/)
+## 结构体
+- ### [结构体](./data-structure/struct/)
 
 
 `本文链接
