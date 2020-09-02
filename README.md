@@ -1,9 +1,14 @@
 
 # 算法代码
 
-    经典10大排序与多种常见算法例子，分别用C、JS、Java、Python等最流行的高级语言编写，
+    10大经典排序与多种常见算法例子，分别用C、JS、Java、Python等最流行的高级语言编写，
     充分利用不同语言的特点，同时增加了详细注释，通过对比既可以学习算法和数据结构，
     又可以了解语言特色，适合用来学习和交流。
+    
+    The classic `ten sorts` and multiple algorithm examples by most popular programming languages, 
+    such as `C, JS, Java, python` etc., which use the special of different languages, and include detailed comments. 
+    Through comparison, you can not only learn algorithms and data structures but also understand the language features, 
+    which are suitable for learning and communication.
     
 [English](./README_en.md)    
     
