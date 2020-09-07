@@ -1,4 +1,4 @@
-# algorithms
+# multiple language write algorithms code
 
     The classic `ten sorts` and multiple algorithm examples by most popular programming languages, 
     such as `C, JS, Java, python` etc., which use the special of different languages, and include detailed comments. 
