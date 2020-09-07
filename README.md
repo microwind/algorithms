@@ -1,4 +1,4 @@
-# 利用C\Java\Python\JavaScript\TypeScript不同语言来实现算法和数据结构
+# 利用不同语言来实现算法和数据结构(C\Java\Python\JavaScript\TypeScript)
 
     10大经典排序与多种常见算法例子，分别用C、JS、Java、Python等最流行的高级语言编写，
     充分利用不同语言的特点，同时增加了详细注释，通过对比既可以学习算法和数据结构，
