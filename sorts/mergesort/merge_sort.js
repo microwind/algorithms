@@ -10,7 +10,7 @@
  * 3. 合并（Combine），合并两个排好序的子序列，生成排序结果。 归并排序的最坏时间复杂度和平均时间复杂度均为O(nlogn)
  */
 (function () {
-  // 标准递归实现，适合不同语言
+  // 将两个有序数组合并为一个新的有序数组
   function merge (arr, left, mid, right) {
     // 先建立一个长度等于原数组的临时数组
     const temp = []
@@ -57,7 +57,7 @@
       mergeSort(arr, left, mid)
       // 递归合并右侧
       mergeSort(arr, mid + 1, right)
-      // 合并排序
+      // 合并左右结果
       merge(arr, left, mid, right)
     }
     return arr
@@ -78,15 +78,21 @@
     if (len < 2) {
       return arr
     }
+    // 取得当前数组的中间位置
     const mid = Math.floor(len / 2)
     const left = arr.slice(0, mid)
     const right = arr.slice(mid)
-    console.log('arr:', arr)
+    console.log('mergeSort arr:', arr, left, right)
+    // 递归调用，不断重复直到当前数组拆分剩1项
     return merge(mergeSort(left), mergeSort(right))
   }
 
+  // 将两个有序数组进行合并为一个新的有序数组
   function merge (left, right) {
+    // 建立一个空数组，用来存放排序结果
     const result = []
+    // 左右数组的长度都不为空时，则将两个数组的第一个进行比较
+    // 如左侧小于右，则移除左侧的内容到结果数据，反之移动右侧成员
     while (left.length && right.length) {
       if (left[0] <= right[0]) {
         result.push(left.shift())
@@ -94,7 +100,7 @@
         result.push(right.shift())
       }
     }
-
+    // 最后把剩余的左或者右侧成员全部添加到结果数组
     while (left.length) {
       result.push(left.shift())
     }
@@ -102,7 +108,7 @@
     while (right.length) {
       result.push(right.shift())
     }
-
+    // 这样一趟下来后，两个数组就合并为一个新的排序数组
     return result
   }
   // test
