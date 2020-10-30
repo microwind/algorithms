@@ -1,17 +1,14 @@
 /**
- * Copyright © https://github.com/jarry All rights reserved.
- * @author: jarryli@gmail.com
- * @version: 1.0
- */
-/**
- * 质因数分解。一个偶数可以 分解为若干个质数相乘。
+ * @desc
+ * 质因数分解JS语言示例
+ * 一个偶数可以 分解为若干个质数相乘。
  * 20 = 2 * 2 * 5
  * 46 = 2 * 23 
  */
 
 
 (function () {
-  function factor(num) {
+  function factorize(num) {
     let i = 2
     const result = []
     // 如果和数大于1，继续循环分解
@@ -28,13 +25,13 @@
   }
 
   /* test */
-  console.log(factor(20).join('*'))
+  console.log(factorize(20).join('*'))
 
 })();
 
 // Pollard Rho因数分解
 (function () {
-  function factor(num) {
+  function factorize(num) {
     const result = []
     let i = 2
     // 自2往上递增至该数字
@@ -57,13 +54,13 @@
   }
 
   /* test */
-  console.log(factor(20).join('*'))
+  console.log(factorize(20).join('*'))
 
 })();
 
 // 优化
 (function () {
-  function factor(num) {
+  function factorize(num) {
     let i = 2
     const result = []
     // 如果因数的平方小于该数字，说明可以继续分解
@@ -84,6 +81,17 @@
   }
 
   /* test */
-  console.log(factor(20).join('*'))
+  console.log(factorize(20).join('*'))
 
 })();
+
+/** 
+ * test
+  jarry@jarrys-MacBook-Pro factor % node --version
+  v10.13.0
+  jarry@jarrys-MacBook-Pro factor % node factor.js
+  2*2*5
+  2*2*5
+  2*2*5
+  jarry@jarrys-MacBook-Pro factor %
+ */
