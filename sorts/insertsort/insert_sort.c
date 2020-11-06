@@ -7,7 +7,7 @@
 #include <math.h>
 #include <time.h>
 
-int *insertSort1(int arr[], int len)
+int *insert_sort1(int arr[], int len)
 {
   int j;
   int current;
@@ -21,7 +21,7 @@ int *insertSort1(int arr[], int len)
     printf("\r\ni=%d, j=%d, arr[i]=%d, arr[j+1]=%d", i, j, arr[i], arr[j + 1]);
     while (j-- > 0 && current < arr[j])
     {
-      // 逐个位移
+      // 逐个位移，相当于整体右移
       arr[j + 1] = arr[j];
     }
     // 交换为当前项
@@ -31,7 +31,7 @@ int *insertSort1(int arr[], int len)
 }
 
 // 标准通用版
-int *insertSort2(int arr[], int len)
+int *insert_sort2(int arr[], int len)
 {
   int j, current;
   for (int i = 0; i < len; i++)
@@ -50,7 +50,7 @@ int *insertSort2(int arr[], int len)
 }
 
 // 倒序版
-int *insertSort(int arr[], int len)
+int *insert_sort(int arr[], int len)
 {
   for (int i = 0; i < len; i++)
   {
@@ -75,16 +75,40 @@ int main()
 {
   int arr[7] = {7, 11, 9, 10, 12, 13, 8};
   int len = sizeof(arr) / sizeof(arr[0]);
+  printf("\n origin array:\n");
   for (int i = 0; i < len; i++)
   {
     printf("%d ", arr[i]);
   }
   float startTime = clock();
-  insertSort(arr, len);
-  printf("\nsort end:\n");
+  // insert
+  insert_sort(arr, len);
+  printf("\n insert_sort end:\n");
   for (int i = 0; i < len; i++)
   {
     printf("%d ", arr[i]);
+  }
+  printf("\ntime: %f ms.", ((clock() - startTime) / CLOCKS_PER_SEC * 1000));
+
+  // insert1
+  int arr1[7] = {-7, 11, 9, 10, 12, 13, 8};
+  int len1 = sizeof(arr1) / sizeof(arr1[0]);
+  insert_sort1(arr1, len1);
+  printf("\n insert_sort1 end:\n");
+  for (int i = 0; i < len1; i++)
+  {
+    printf("%d ", arr1[i]);
+  }
+  printf("\ntime: %f ms.", ((clock() - startTime) / CLOCKS_PER_SEC * 1000));
+
+  // insert2
+  int arr2[7] = {7, -11, 9, 10, 12, 13, 8};
+  int len2 = sizeof(arr2) / sizeof(arr2[0]);
+  insert_sort2(arr2, len2);
+  printf("\n insert_sort2 end:\n");
+  for (int i = 0; i < len2; i++)
+  {
+    printf("%d ", arr2[i]);
   }
   printf("\ntime: %f ms.", ((clock() - startTime) / CLOCKS_PER_SEC * 1000));
   return 0;
@@ -93,15 +117,36 @@ int main()
 /**
 jarrys-mbp:insertsort jarry$ gcc insert_sort.c
 jarrys-mbp:insertsort jarry$ ./a.out 
+ origin array:
 7 11 9 10 12 13 8 
-i=0, j=0, arr[i]=7, arr[j+1]=11
+i=0, j=-1, arr[i]=7, arr[j+1]=7
+i=1, j=0, arr[i]=11, arr[j+1]=11
+i=2, j=1, arr[i]=9, arr[j+1]=9
+i=3, j=2, arr[i]=10, arr[j+1]=10
+i=4, j=3, arr[i]=12, arr[j+1]=12
+i=5, j=4, arr[i]=13, arr[j+1]=13
+i=6, j=5, arr[i]=8, arr[j+1]=8
+ insert_sort end:
+13 12 11 10 9 8 7 
+time: 0.014000 ms.
+i=0, j=0, arr[i]=-7, arr[j+1]=11
 i=1, j=1, arr[i]=11, arr[j+1]=9
 i=2, j=2, arr[i]=9, arr[j+1]=10
 i=3, j=3, arr[i]=10, arr[j+1]=12
 i=4, j=4, arr[i]=12, arr[j+1]=13
 i=5, j=5, arr[i]=13, arr[j+1]=8
 i=6, j=6, arr[i]=8, arr[j+1]=0
-sort end:
-7 8 9 10 11 12 13 
-time: 0.022000 ms.
+ insert_sort1 end:
+-7 8 9 10 11 12 13 
+time: 0.030000 ms.
+i=0, j=-1, arr[i]=7, arr[j+1]=7
+i=1, j=0, arr[i]=-11, arr[j+1]=-11
+i=2, j=1, arr[i]=9, arr[j+1]=9
+i=3, j=2, arr[i]=10, arr[j+1]=10
+i=4, j=3, arr[i]=12, arr[j+1]=12
+i=5, j=4, arr[i]=13, arr[j+1]=13
+i=6, j=5, arr[i]=8, arr[j+1]=8
+ insert_sort2 end:
+-11 7 8 9 10 12 13 
+time: 0.045000 ms.%  
  */

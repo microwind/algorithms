@@ -3,7 +3,7 @@
  * @author: jarryli@gmail.com
  * @version: 1.0
  */
-(function() {
+(function () {
 
   // 1. ASE
   function bubbleSort(arr) {
@@ -60,11 +60,25 @@
     }
   }
 
+  // 4. 分为左右两列，左列已排序，右侧待排序。自左往右循环左列，逐个与待排序项比较并交换，外循环针对待排序项。
+  function bubbleSort4(arr) {
+    const len = arr.length
+    for (let i = 1; i < len; i++) {
+      for (let j = 0; j < i; j++) {
+        if (arr[j] > arr[i]) {
+          [arr[i], arr[j]] = [arr[j], arr[i]]
+        }
+      }
+    }
+    return arr
+  }
+
   const arr = [7, 11, 9, 10, 12, 13, 8]
   console.time('bubbleSort')
   bubbleSort(arr)
   console.timeEnd('bubbleSort')
   console.log(arr)
+  console.log('bubbleSort4(arr):', bubbleSort4(arr))
 })()
 
 /*
@@ -99,4 +113,5 @@ no. 5
 i=5 j=0 [ 7, 8, 9, 10, 11, 12, 13 ]
 bubbleSort: 6.009ms
 [ 7, 8, 9, 10, 11, 12, 13 ]
+bubbleSort4(arr): [ 7, 8, 9, 10, 11, 12, 13 ]
 */

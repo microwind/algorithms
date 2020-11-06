@@ -142,45 +142,45 @@
   console.log('arr2 origin:', arr2)
 
   console.time('sort')
-  console.log('\r\ninsertSort1 sorted:', insertSort1(arr))
+  console.log('\r\ninsertSort1 sorted:', insertSort1(arr.slice(0, arr.length)))
   console.timeEnd('sort')
   console.time('sort')
-  console.log('\r\ninsertSort1 sorted:', insertSort1(arr2))
-  console.timeEnd('sort')
-
-  console.time('sort')
-  console.log('\r\ninsertSort2 sorted:', insertSort2(arr))
-  console.timeEnd('sort')
-  console.time('sort')
-  console.log('\r\ninsertSort2 sorted:', insertSort2(arr2))
+  console.log('\r\ninsertSort1 sorted:', insertSort1(arr2.slice(0, arr.length)))
   console.timeEnd('sort')
 
   console.time('sort')
-  console.log('\r\ninsertSort3 sorted:', insertSort3(arr))
+  console.log('\r\ninsertSort2 sorted:', insertSort2(arr.slice(0, arr.length)))
   console.timeEnd('sort')
   console.time('sort')
-  console.log('\r\ninsertSort3 sorted:', insertSort3(arr2))
-  console.timeEnd('sort')
-
-  console.time('sort')
-  console.log('\r\ninsertSort4 sorted:', insertSort4(arr))
-  console.timeEnd('sort')
-  console.time('sort')
-  console.log('\r\ninsertSort4 sorted:', insertSort4(arr2))
+  console.log('\r\ninsertSort2 sorted:', insertSort2(arr2.slice(0, arr.length)))
   console.timeEnd('sort')
 
   console.time('sort')
-  console.log('\r\ninsertSort5 sorted:', insertSort5(arr))
+  console.log('\r\ninsertSort3 sorted:', insertSort3(arr.slice(0, arr.length)))
   console.timeEnd('sort')
   console.time('sort')
-  console.log('\r\ninsertSort5 sorted:', insertSort5(arr2))
+  console.log('\r\ninsertSort3 sorted:', insertSort3(arr2.slice(0, arr.length)))
   console.timeEnd('sort')
 
   console.time('sort')
-  console.log('\r\ninsertSort6 sorted:', insertSort6(arr))
+  console.log('\r\ninsertSort4 sorted:', insertSort4(arr.slice(0, arr.length)))
   console.timeEnd('sort')
   console.time('sort')
-  console.log('\r\ninsertSort6 sorted:', insertSort6(arr2))
+  console.log('\r\ninsertSort4 sorted:', insertSort4(arr2.slice(0, arr.length)))
+  console.timeEnd('sort')
+
+  console.time('sort')
+  console.log('\r\ninsertSort5 sorted:', insertSort5(arr.slice(0, arr.length)))
+  console.timeEnd('sort')
+  console.time('sort')
+  console.log('\r\ninsertSort5 sorted:', insertSort5(arr2.slice(0, arr.length)))
+  console.timeEnd('sort')
+
+  console.time('sort')
+  console.log('\r\ninsertSort6 sorted:', insertSort6(arr.slice(0, arr.length)))
+  console.timeEnd('sort')
+  console.time('sort')
+  console.log('\r\ninsertSort6 sorted:', insertSort6(arr2.slice(0, arr.length)))
   console.timeEnd('sort')
 
 })()
@@ -191,40 +191,40 @@ arr origin: [ 7, 11, 9, 10, 12, 13, 8 ]
 arr2 origin: [ 3, 4.3, 15, -2.1, -2, -2.1, 2, 3.2, 3, -7, 10 ]
 
 insertSort1 sorted: [ 7, 8, 9, 10, 11, 12, 13 ]
-sort: 0.737ms
+sort: 0.449ms
 
-insertSort1 sorted: [ -7, -2.1, -2.1, -2, 2, 3, 3, 3.2, 4.3, 10, 15 ]
-sort: 0.263ms
+insertSort1 sorted: [ -2.1, -2.1, -2, 2, 3, 4.3, 15 ]
+sort: 0.295ms
 
 insertSort2 sorted: [ 7, 8, 9, 10, 11, 12, 13 ]
-sort: 0.119ms
+sort: 0.223ms
 
-insertSort2 sorted: [ -7, -2.1, -2.1, -2, 2, 3, 3, 3.2, 4.3, 10, 15 ]
-sort: 0.061ms
+insertSort2 sorted: [ -2.1, -2.1, -2, 2, 3, 4.3, 15 ]
+sort: 0.121ms
 
 insertSort3 sorted: [ 7, 8, 9, 10, 11, 12, 13 ]
-sort: 0.116ms
+sort: 0.193ms
 
-insertSort3 sorted: [ -7, -2.1, -2.1, -2, 2, 3, 3, 3.2, 4.3, 10, 15 ]
-sort: 0.087ms
+insertSort3 sorted: [ -2.1, -2.1, -2, 2, 3, 4.3, 15 ]
+sort: 0.105ms
 
 insertSort4 sorted: [ 7, 8, 9, 10, 11, 12, 13 ]
-sort: 0.301ms
+sort: 0.209ms
 
-insertSort4 sorted: [ -7, -2.1, -2.1, -2, 2, 3, 3, 3.2, 4.3, 10, 15 ]
-sort: 0.131ms
+insertSort4 sorted: [ -2.1, -2.1, -2, 2, 3, 4.3, 15 ]
+sort: 0.098ms
 newArr: [ 7, 8, 9, 10, 11, 12, 13 ]
 
 insertSort5 sorted: [ 7, 8, 9, 10, 11, 12, 13 ]
-sort: 0.568ms
-newArr: [ -7, -2.1, -2.1, -2, 2, 3, 3, 3.2, 4.3, 10, 15 ]
+sort: 0.396ms
+newArr: [ -2.1, -2.1, -2, 2, 3, 4.3, 15 ]
 
-insertSort5 sorted: [ -7, -2.1, -2.1, -2, 2, 3, 3, 3.2, 4.3, 10, 15 ]
-sort: 0.191ms
+insertSort5 sorted: [ -2.1, -2.1, -2, 2, 3, 4.3, 15 ]
+sort: 5.252ms
 
 insertSort6 sorted: [ 7, 8, 9, 10, 11, 12, 13 ]
-sort: 0.232ms
+sort: 0.386ms
 
-insertSort6 sorted: [ -7, -2.1, -2.1, -2, 2, 3, 3, 3.2, 4.3, 10, 15 ]
-sort: 0.075ms
+insertSort6 sorted: [ -2.1, -2.1, -2, 2, 3, 4.3, 15 ]
+sort: 0.111ms
  */

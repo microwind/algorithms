@@ -63,6 +63,30 @@ int bubbleSort2(int arr[], int len)
   return 0;
 }
 
+
+// 分为左右两个序列，左侧为已排序，将待排项与左侧逐个对比并交换位置
+int *bubbleSort3(int arr[], int len)
+{
+  for (int i = 1; i < len; i++)
+  {
+    int j = i - 1;
+    int current = i;
+    while (j >= 0)
+    {
+      if (arr[current] < arr[j]) {
+        printf("\r\ni=%d, j=%d, arr[i]=%d, arr[j+1]=%d", i, j, arr[i], arr[j + 1]);
+        int temp = arr[current];
+        arr[current] = arr[j];
+        arr[j] = temp;
+      }
+      current = j;
+      j--;
+    }
+  }
+  
+  return arr;
+}
+
 // add flag
 void bubbleSort(int arr[], int len)
 {
@@ -103,11 +127,43 @@ int main()
   }
   printf("\ntime: %f ms.", ((clock() - startTime) / CLOCKS_PER_SEC * 1000));
   printf("\nbubbleSort end\n");
+
+  // 1
+  int arr1[7] = {7, 11, -9, 10, 12, 13, 8};
+  int len1 = sizeof(arr1) / sizeof(arr1[0]);
+  bubbleSort1(arr1, len1);
+  printf("\n bubbleSort1 end:\n");
+  for (int i = 0; i < len1; i++)
+  {
+    printf("%d ", arr1[i]);
+  }
+  printf("\ntime: %f ms.", ((clock() - startTime) / CLOCKS_PER_SEC * 1000));
+
+  // 2
+  int arr2[7] = {7, 11, -9, 10, 12, 13, 8};
+  int len2 = sizeof(arr2) / sizeof(arr2[0]);
+  bubbleSort2(arr2, len2);
+  printf("\n bubbleSort2 end:\n");
+  for (int i = 0; i < len2; i++)
+  {
+    printf("%d ", arr2[i]);
+  }
+  printf("\ntime: %f ms.", ((clock() - startTime) / CLOCKS_PER_SEC * 1000));
+
+  // 3
+  int arr3[7] = {7, 11, -9, 10, 12, 13, 8};
+  int len3 = sizeof(arr3) / sizeof(arr3[0]);
+  bubbleSort3(arr3, len3);
+  printf("\n bubbleSort3 end:\n");
+  for (int i = 0; i < len3; i++)
+  {
+    printf("%d ", arr3[i]);
+  }
+  printf("\ntime: %f ms.", ((clock() - startTime) / CLOCKS_PER_SEC * 1000));
 }
 /*
 jarrys-MacBook-Pro:bubblesort jarry$ gcc bubble_sort.c
 jarrys-MacBook-Pro:bubblesort jarry$ ./a.out 
-
 bubbleSort start
 bubbleSort add flag:
 no. 0
@@ -138,6 +194,72 @@ no. 4
 no. 5
  i=5 j=0
 sorted:7 8 9 10 11 12 13 
-time: 0.046000 ms.
+time: 0.041000 ms.
 bubbleSort end
+bubbleSort from left to right:
+ i=0 j=0
+ i=0 j=1
+ i=0 j=2
+ i=0 j=3
+ i=0 j=4
+ i=0 j=5
+ i=1 j=0
+ i=1 j=1
+ i=1 j=2
+ i=1 j=3
+ i=1 j=4
+ i=2 j=0
+ i=2 j=1
+ i=2 j=2
+ i=2 j=3
+ i=3 j=0
+ i=3 j=1
+ i=3 j=2
+ i=4 j=0
+ i=4 j=1
+ i=5 j=0
+ bubbleSort1 end:
+-9 7 8 10 11 12 13 
+time: 0.088000 ms.bubbleSort from right to left:
+ i=0 j=7
+ i=0 j=6
+ i=0 j=5
+ i=0 j=4
+ i=0 j=3
+ i=0 j=2
+ i=0 j=1
+ i=1 j=7
+ i=1 j=6
+ i=1 j=5
+ i=1 j=4
+ i=1 j=3
+ i=1 j=2
+ i=2 j=7
+ i=2 j=6
+ i=2 j=5
+ i=2 j=4
+ i=2 j=3
+ i=3 j=7
+ i=3 j=6
+ i=3 j=5
+ i=3 j=4
+ i=4 j=7
+ i=4 j=6
+ i=4 j=5
+ i=5 j=7
+ i=5 j=6
+ i=6 j=7
+ bubbleSort2 end:
+13 12 11 10 8 7 0 
+time: 0.140000 ms.
+i=2, j=1, arr[i]=-9, arr[j+1]=-9
+i=2, j=0, arr[i]=11, arr[j+1]=-9
+i=3, j=2, arr[i]=10, arr[j+1]=10
+i=6, j=5, arr[i]=8, arr[j+1]=8
+i=6, j=4, arr[i]=13, arr[j+1]=8
+i=6, j=3, arr[i]=13, arr[j+1]=8
+i=6, j=2, arr[i]=13, arr[j+1]=8
+ bubbleSort3 end:
+-9 7 8 10 11 12 13 
+time: 0.161000 ms.%  
 */
