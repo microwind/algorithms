@@ -48,6 +48,10 @@ if __name__ == '__main__':
       print(arr[i]),
       if (i < size - 1):
         print("*"),
+    print("\n")
+    flag = " * "
+    print("%d = %s" % (num, flag.join([str(item) for item in arr])))
+    print(str(num) + " = " + flag.join(map(str, arr)))
 
     print("\r\ntime:" + str((time.time() - start_time) * 1000) + " ms")
 
