@@ -59,11 +59,11 @@ void binaryToDecimal(long num)
   int decimal = 0;
   int i = 0;
   int remainder;
-  int pvoit = 10;
+  int pivot = 10;
   while (num != 0)
   {
-    remainder = num % pvoit;
-    num /= pvoit;
+    remainder = num % pivot;
+    num /= pivot;
     // 从右往左用二进制的每个数去乘以2的次方，次方是数字的位置，以0开始，从右往左递增
     decimal += remainder * pow(2, i);
     i++;

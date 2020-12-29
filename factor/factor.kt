@@ -6,7 +6,7 @@
 fun facorize(number: Int): List<Int> {
     val result = ArrayList<Int>();
     var i = 2;
-//    var num = number;
+    var num = number;
     while (i * i <= num) {
         while (num % i == 0) {
             num = num / i;

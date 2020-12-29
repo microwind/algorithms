@@ -7,7 +7,8 @@
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         NSLog(@"Hi, this is about factor algorithm by Objective-C");
-        Factor *factor = [[Factor alloc] init];
+        // Factor *factor = [[Factor alloc] init];
+        Factor *factor = [Factor new];
         int num = 120;
         NSArray *arr = [factor factorize: num];
         NSLog(@"%@", arr);
@@ -29,7 +30,7 @@ int main(int argc, const char * argv[]) {
             printf("%d", [arr[i] intValue]);
         }
 
-        }
+    }
     return 0;
 }
 

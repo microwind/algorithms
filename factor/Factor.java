@@ -24,6 +24,24 @@ class Factor {
     return result;
   }
 
+  public static int[] factorize1(int num, int len) {
+    int i = 2;
+    int result_idx = 0;
+    int[] result = new int[len];
+    while (num > i * i) {
+      while (num % i == 0) {
+        result[result_idx]  = i;
+        num /= i;
+        result_idx++;
+      }
+      i++;
+    }
+    if (num > 1) {
+      result[result_idx]  = num;
+    }
+    return result;
+  }
+
   public static void factorize2(int num) {
     int i = 2;
     while (num > 1) {
@@ -42,7 +60,7 @@ class Factor {
     int num = 20;
     
     long startTime;
-    // test1
+    // test
     System.out.println("start:" + num);
     startTime = System.currentTimeMillis();
     List<Integer> result = Factor.factorize(num);
@@ -51,6 +69,21 @@ class Factor {
       if (i < result.size() - 1) {
         System.out.print(" * ");
       }
+    }
+    System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime) + " ms.");
+
+    // test 1
+    startTime = System.currentTimeMillis();
+    int len1 = num / 2;
+    int[] result1 = Factor.factorize1(num, len1);
+    for (int i = 0; i < len1; i++) {
+      if (result1[i] <= 0) {
+        break;
+      }
+      if (i != 0) {
+        System.out.print(" * ");
+      }
+      System.out.print(result1[i]);
     }
     System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime) + " ms.");
 
