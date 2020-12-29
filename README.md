@@ -1,5 +1,7 @@
 # 多种语言算法代码示例(C\Java\Python\JavaScript\TypeScript)
 
+    不同语言的差异实现某种算法，比如质因数分解，排序算法等。通过算法例子来了解不同语言的差异。
+
     10大经典排序与多种常见算法例子，分别用C、JS、Java、Python等最流行的高级语言编写，
     充分利用不同语言的特点，同时增加了详细注释，通过对比既可以学习算法和数据结构，
     又可以了解语言特色，适合用来学习和交流。
@@ -10,6 +12,9 @@
     which are suitable for learning and communication.
     
 [English](./README_en.md)    
+
+## 质因数分解算法
+- [C语言/CPP/Java/Python/JS/TS/Kotlin/Dart/Go/Swift/Objective-c 不同语言实现](./factor)
     
 ## 10大经典排序算法
 - ### [冒泡排序 bubble sort](./sorts/bubblesort/)
