@@ -24,6 +24,7 @@ int *factorize(int num, int len) {
   }
   return result;
 }
+
 int main() {
 
   int num = 20;
