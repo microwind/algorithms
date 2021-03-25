@@ -17,6 +17,7 @@ def factorize1(num):
     i = i + 1
   print(result)
 
+"""
 def factorize(num):
   i = 2
   result = []
@@ -25,6 +26,21 @@ def factorize(num):
       result.append(i)
       num = num / i
     i = i + 1
+  if (num > 1):
+    result.append(num)
+  return result
+"""
+
+def factorize(num):
+  i = 2
+  result = []
+  while (num >= i * i):
+    if (num % i == 0):
+      print('num:', num)
+      result.append(i)
+      num = num / i
+    else:
+      i = i + 1
   if (num > 1):
     result.append(num)
   return result

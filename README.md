@@ -33,8 +33,8 @@
 [C语言版](./sorts/countingsort/counting_sort.c ) | [JavaScript版](./sorts/countingsort/counting_sort.js ) | [Python版](./sorts/countingsort/counting_sort.py ) | [Java版](./sorts/countingsort/CountingSort.java ) | [TypeScript版](./sorts/countingsort/CountingSort.ts )
 - ### [基数排序 radix sort](./sorts/radixsort/)
 [C语言版](./sorts/radixsort/radix_sort.c ) | [JavaScript版](./sorts/radixsort/radix_sort.js ) | [Python版](./sorts/radixsort/radix_sort.py ) | [Java版](./sorts/radixsort/RadixSort.java ) | [TypeScript版](./sorts/radixsort/RadixSort.ts )
-- ### [桶排序 buket sort](./sorts/buketsort/)
-[C语言版](./sorts/buketsort/buket_sort.c ) | [JavaScript版](./sorts/buketsort/buket_sort.js ) | [Python版](./sorts/buketsort/buket_sort.py ) | [Java版](./sorts/buketsort/BuketSort.java ) | [TypeScript版](./sorts/buketsort/BuketSort.ts )
+- ### [桶排序 bucket sort](./sorts/bucketsort/)
+[C语言版](./sorts/bucketsort/bucket_sort.c ) | [JavaScript版](./sorts/bucketsort/bucket_sort.js ) | [Python版](./sorts/bucketsort/bucket_sort.py ) | [Java版](./sorts/bucketsort/BuketSort.java ) | [TypeScript版](./sorts/bucketsort/BuketSort.ts )
 - ### [希尔排序 shell sort](./sorts/shellsort/)
 [C语言版](./sorts/shellsort/shell_sort.c ) | [JavaScript版](./sorts/shellsort/shell_sort.js ) | [Python版](./sorts/shellsort/shell_sort.py ) | [Java版](./sorts/shellsort/ShellSort.java ) | [TypeScript版](./sorts/shellsort/ShellSort.ts )
 
