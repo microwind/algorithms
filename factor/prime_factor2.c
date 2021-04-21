@@ -10,22 +10,6 @@
  */
 int main()
 {
-    /*
- 		StringBuffer str = new StringBuffer();
-		int n = 90;
-		str.append(n + " = ");
-		if (n <= 3) {
-			str.append(n);
-		}
-		for (int i = 2; i <= n / 2; i++) {
-			if (n % i == 0) {
-				str.append(i + "* ");
-				n = n / i;
-				i = 1;
-			}
-		}
-		str.append(n);
-*/
     int n = 90;
     if (n <= 3)
     {
