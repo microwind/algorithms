@@ -1,4 +1,4 @@
-# 多种语言算法代码示例(C\Java\Python\JavaScript\TypeScript)
+# 多种语言算法代码示例(C\Java\Python\JavaScript\TypeScript\Dart\Go)
 
     不同语言的差异实现某种算法，比如质因数分解，排序算法等。通过算法例子来了解不同语言的差异。
 
