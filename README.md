@@ -1,13 +1,13 @@
 # 多种语言算法代码示例(C\Java\Python\JavaScript\TypeScript\Dart\Go)
 
-    不同语言的差异实现某种算法，比如质因数分解，排序算法等。通过算法例子来了解不同语言的差异。
+    利用不同语言来实现编程算法，比如质因数分解，排序算法等。通过实际算法代码来理解不同编程语言的差异。
 
-    10大经典排序与多种常见算法例子，分别用C、JS、Java、Python等最流行的高级语言编写，
+    10大经典排序与多种常见算法例子，分别用C, JS, Java, Python, Go, Dart, Rust等最流行的高级语言编写，
     充分利用不同语言的特点，同时增加了详细注释，通过对比既可以学习算法和数据结构，
     又可以了解语言特色，适合用来学习和交流。
     
     The classic `ten sorts` and multiple algorithm examples by most popular programming languages, 
-    such as `C, JS, Java, python` etc., which use the special of different languages, and include detailed comments. 
+    such as `C, JS, Java, Python, Go, Dart, Rust` etc., which use the special of different languages, and include detailed comments. 
     Through comparison, you can not only learn algorithms and data structures but also understand the language features, 
     which are suitable for learning and communication.
     
@@ -18,7 +18,7 @@
     
 ## 10大经典排序算法
 - ### [冒泡排序 bubble sort](./sorts/bubblesort/)
-[C语言版](./sorts/bubblesort/bubble_sort.c ) | [JavaScript版](./sorts/bubblesort/bubble_sort.js ) | [Python版](./sorts/bubblesort/bubble_sort.py ) | [Java版](./sorts/bubblesort/BubbleSort.java ) | [TypeScript版](./sorts/bubblesort/BubbleSort.ts )
+[C语言版](./sorts/bubblesort/bubble_sort.c ) | [JavaScript版](./sorts/bubblesort/bubble_sort.js ) | [Python版](./sorts/bubblesort/bubble_sort.py ) | [Java版](./sorts/bubblesort/BubbleSort.java ) | [TypeScript版](./sorts/bubblesort/BubbleSort.ts ) | [Go版](./sorts/bubblesort/BubbleSort.go ) | [Dart版](./sorts/bubblesort/BubbleSort.dart ) | [Rust版](./sorts/bubblesort/BubbleSort.rs )
 - ### [插入排序 insert sort](./sorts/insertsort/)
 [C语言版](./sorts/insertsort/insert_sort.c ) | [JavaScript版](./sorts/insertsort/insert_sort.js ) | [Python版](./sorts/insertsort/insert_sort.py ) | [Java版](./sorts/insertsort/InsertSort.java ) | [TypeScript版](./sorts/insertsort/InsertSort.ts )
 - ### [选择排序 selection sort](./sorts/selectionsort/)

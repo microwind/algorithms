@@ -1,7 +1,9 @@
 # multiple language write algorithms code
 
+    Use different languages to implement programming algorithms, such as prime factor decomposition, sorting algorithms, etc. Through the practical algorithm code to understand the differences of multiple programming languages.
+
     The classic `ten sorts` and multiple algorithm examples by most popular programming languages, 
-    such as `C, JS, Java, python` etc., which use the special of different languages, and include detailed comments. 
+    such as `C, JS, Java, Python, Go, Dart, Rust` etc., which use the special of different languages, and include detailed comments. 
     Through comparison, you can not only learn algorithms and data structures but also understand the language features, 
     which are suitable for learning and communication.
     
@@ -10,7 +12,7 @@
     
 ## 10 classical sort algorithm
 - ### [bubble sort](./sorts/bubblesort/)
-[C](./sorts/bubblesort/bubble_sort.c ) | [JavaScript](./sorts/bubblesort/bubble_sort.js ) | [Python](./sorts/bubblesort/bubble_sort.py ) | [Java](./sorts/bubblesort/BubbleSort.java ) | [TypeScript](./sorts/bubblesort/BubbleSort.ts )
+[C](./sorts/bubblesort/bubble_sort.c ) | [JavaScript](./sorts/bubblesort/bubble_sort.js ) | [Python](./sorts/bubblesort/bubble_sort.py ) | [Java](./sorts/bubblesort/BubbleSort.java ) | [TypeScript](./sorts/bubblesort/BubbleSort.ts ) | [Go](./sorts/bubblesort/BubbleSort.go ) | [Dart](./sorts/bubblesort/BubbleSort.dart ) | [Rust](./sorts/bubblesort/BubbleSort.rs )
 - ### [insert sort](./sorts/insertsort/)
 [C language](./sorts/insertsort/insert_sort.c ) | [JavaScript](./sorts/insertsort/insert_sort.js ) | [Python](./sorts/insertsort/insert_sort.py ) | [Java](./sorts/insertsort/InsertSort.java ) | [TypeScript](./sorts/insertsort/InsertSort.ts )
 - ### [selection sort](./sorts/selectionsort/)
