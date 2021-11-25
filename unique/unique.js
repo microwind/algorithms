@@ -218,7 +218,7 @@
   // 12. indexOf + new Array push
   console.time('time')
   var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
-  var newArr = [];
+  var newArr = []
   for (var i = 0, l = arr.length; i < l; i++) {
     var item = arr[i]
     if (newArr.indexOf(item) < 0) {
