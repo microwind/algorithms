@@ -80,6 +80,34 @@ func unique3(list []int) []int {
   return result[:result_idx]
 }
 
+/**
+ * @desc 新建数组与是否包含对比法
+ * @params list 数组列表
+ */
+func unique4(list []int) []int {
+  var list_len int = len(list)
+  // 创建一个新数组，初始长度为原数组长度
+  result := make([]int, list_len)
+  // 新数组的下标
+  result_idx := 0
+  for i := 0; i < list_len; i++ {
+    for j := 0; j <= i; j++ {
+      // 将当前项逐个与后面项比较,如果相同且下标相同可以认为是第一次出现
+      // 则可以添加到新数组中去，如果不是第一次出现则可以跳过
+      if list[i] == list[j] {
+      	if i == j {
+      	  fmt.Printf("i%d = j%d \n", i, j)
+      	  result[result_idx] = list[i]
+      	  result_idx++
+      	}
+      	break
+      }
+    }
+  }
+  // 最后按新数组中真正长度返回
+  return result[:result_idx]
+}
+
 // test
 func main() {
   fmt.Println("Hello, unique1 start：")
@@ -98,6 +126,10 @@ func main() {
   list3 := []int {2,2,2,5,2,3,4,4,11,11,2,3,4,5,6,4,5,5}
   fmt.Println("list3:", list3)
   fmt.Println("unique3 result: ", unique3(list3))
+
+  list4 := []int {2,2,2,5,2,3,4,4,11,11,2,3,4,5,6,4,5,5}
+  fmt.Println("list4:", list4)
+  fmt.Println("unique4 result: ", unique4(list4))
 }
 
 /* Test
