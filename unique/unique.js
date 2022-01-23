@@ -264,18 +264,19 @@
     return recursionUnique(arr, len - 1)
   }
   var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
+  console.log('recursionUnique:', recursionUnique(arr, arr.length))
   arr = [1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
   console.log('recursionUnique:', recursionUnique(arr, arr.length))
   console.timeEnd('time')
 })();
 
 (function () {
-  // 115. recursionUniqueNew
+  // 15. recursionUniqueNew
   console.time('time')
 
   function recursionUniqueNew(arr, len) {
-    if (len <= 1) {
-      return arr
+    if (len < 1) {
+      return []
     }
     var l = len
     var last = l - 1
@@ -288,13 +289,13 @@
         break
       }
     }
-    arr.splice(last)
     if (!isRepeat) {
       result.push(lastItem)
     }
     return recursionUniqueNew(arr, len - 1).concat(result)
   }
   var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
+  console.log('recursionUniqueNew:', recursionUniqueNew(arr, arr.length))
   arr = [1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
   console.log('recursionUniqueNew:', recursionUniqueNew(arr, arr.length))
   console.timeEnd('time')
