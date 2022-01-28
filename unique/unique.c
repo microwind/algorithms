@@ -4,6 +4,7 @@
  * @version: 1.0
  */
 #include <stdio.h>
+#include <stdlib.h>
 #include <time.h>
 
 void printArray(int *arr, int len)
@@ -35,7 +36,7 @@ int *uniqueArray1(int arr[], int len)
       if (arr[i] == arr[j])
       {
         // 重复则记录增加1次，表示重复，且跳出循环
-        printf("\r\n arr[%d] equals arr[%d]:%d", i, j, arr[i]);
+        // printf("\r\n arr[%d] equals arr[%d]:%d", i, j, arr[i]);
         count++;
         result_len--;
         break;
@@ -46,7 +47,7 @@ int *uniqueArray1(int arr[], int len)
 
   printf("\n frequent[]=");
   printArray(frequent, len);
-  printf("\n uniqueArray1 unique result:");
+  printf("\n print uniqueArray1 result:");
   int k = 0;
   int result_idx = 0;
   int result[result_len];
@@ -77,7 +78,7 @@ int *uniqueArray2(int arr[], int len)
       // printf("\n i=%d j=%d arr[i]=%d arr[j]=%d", i, j, arr[i], arr[j]);
       if (arr[i] == arr[j])
       {
-        printf("\r\n arr[%d] equals arr[%d]:%d", i, j, arr[i]);
+        // printf("\r\n arr[%d] equals arr[%d]:%d", i, j, arr[i]);
         frequent[i] += 1;
         break;
       }
@@ -87,7 +88,7 @@ int *uniqueArray2(int arr[], int len)
   printArray(frequent, len);
   printf("\n");
 
-  printf("\n uniqueArray2  unique result: ");
+  printf("\n print uniqueArray2 result: ");
   int k = 0;
   while (k < len)
   {
@@ -100,60 +101,98 @@ int *uniqueArray2(int arr[], int len)
   return 0;
 }
 
+
+// 3. 双层循环，自前往后逐个与前面项进行比较，如果值和下标都相同可以认为是第一次出现。
+int *uniqueArray3(int arr[], int len)
+{
+  int *result = (int *)malloc(len * sizeof(int));
+  int idx = 0;
+  for (int i = 0; i < len; i++)
+  {
+    for (int j = 0; j <= i; j++)
+    {
+      // printf("\n i=%d j=%d arr[i]=%d arr[j]=%d", i, j, arr[i], arr[j]);
+      if (arr[i] == arr[j])
+      {
+        // 值相同且下标也相同则表示第一次出现，可以追加到新数组中去
+        if (i == j) {
+          // printf("\r\n arr[%d] vs [%d]:%d", i, j, arr[i]);
+          result[idx] = arr[i];
+          idx++;
+        }
+        break;
+      }
+    }
+  }
+
+  printf("\n print uniqueArray3 result: ");
+  int k = 0;
+  while (k < idx)
+  {
+    printf("%d ", result[k]);
+    k++;
+  }
+  return 0;
+}
+
 // test
 int main()
 {
-  int arr[10] = {1, 3, -1, 1, 2, 2, 4, 2, 2, -1};
-  int len = sizeof(arr) / sizeof(arr[0]);
-  printf("\r\n origin:");
-  printArray(arr, len);
   // 1.
-  printf("\r\n newArr1 unique start:");
+  int arr1[10] = {1, 3, -1, 1, 2, 2, 4, 2, 2, -1};
+  int len = sizeof(arr1) / sizeof(arr1[0]);
+  printf("\r\n arr1:");
+  printArray(arr1, len);
   float startTime1 = clock();
-  uniqueArray1(arr, len);
-  printf("\ntime: %f ms.", ((clock() - startTime1) / CLOCKS_PER_SEC * 1000));
+  uniqueArray1(arr1, len);
+  printf("\ncost: %f ms.", ((clock() - startTime1) / CLOCKS_PER_SEC * 1000));
   printf("\n uniqArray1 end\n");
 
+  // 2.
   int arr2[10] = {1, 3, -1, 1, 2, 2, 4, 2, 2, -1};
   int len2 = sizeof(arr2) / sizeof(arr2[0]);
-  printf("\r\n origin2:");
+  printf("\r\n arr2:");
   printArray(arr2, len2);
   printf("\r\n");
-  // 2.
-  printf("\r\n newArr2 unique start:");
   float startTime2 = clock();
   uniqueArray2(arr2, len);
-  printf("\ntime: %f ms.", ((clock() - startTime2) / CLOCKS_PER_SEC * 1000));
+  printf("\ncost: %f ms.", ((clock() - startTime2) / CLOCKS_PER_SEC * 1000));
   printf("\n uniqArray2 end\n");
+
+  // 3.
+  int arr3[10] = {1, 3, -1, 1, 2, 2, 4, 2, 2, -1};
+  int len3 = sizeof(arr3) / sizeof(arr3[0]);
+  printf("\r\n arr3:");
+  printArray(arr3, len3);
+  printf("\r\n");
+  float startTime3 = clock();
+  uniqueArray3(arr3, len);
+  printf("\ncost: %f ms.", ((clock() - startTime3) / CLOCKS_PER_SEC * 1000));
+  printf("\n uniqArray2 end\n");
+
+
 }
 
 /*
 jarrys-MacBook-Pro:unique jarry$ gcc unique.c
 jarrys-MacBook-Pro:unique jarry$ ./a.out 
-
- origin:{ 1, 3, -1, 1, 2, 2, 4, 2, 2, -1 }
- newArr1 unique start:
- arr[0] equals arr[3]:1
- arr[2] equals arr[9]:-1
- arr[4] equals arr[5]:2
- arr[5] equals arr[7]:2
- arr[7] equals arr[8]:2
+  arr1:{ 1, 3, -1, 1, 2, 2, 4, 2, 2, -1 }
  frequent[]={ 2, 1, 2, 1, 2, 2, 1, 2, 1, 1 }
- uniqueArray1 unique result:{ 3, 1, 4, 2, -1 }
-time: 0.028000 ms.
+ print uniqueArray1 result:{ 3, 1, 4, 2, -1 }
+cost: 0.023000 ms.
  uniqArray1 end
 
- origin2:{ 1, 3, -1, 1, 2, 2, 4, 2, 2, -1 }
+ arr2:{ 1, 3, -1, 1, 2, 2, 4, 2, 2, -1 }
 
- newArr2 unique start:
- arr[3] equals arr[0]:1
- arr[5] equals arr[4]:2
- arr[7] equals arr[4]:2
- arr[8] equals arr[4]:2
- arr[9] equals arr[2]:-1
  frequent[]={ 1, 1, 1, 2, 1, 2, 1, 2, 2, 2 }
 
- uniqueArray2  unique result: 1 3 -1 2 4 
-time: 0.015000 ms.
+ print uniqueArray2 result: 1 3 -1 2 4 
+cost: 0.012000 ms.
  uniqArray2 end
+
+ arr3:{ 1, 3, -1, 1, 2, 2, 4, 2, 2, -1 }
+
+ print uniqueArray3 result: 1 3 -1 2 4 
+cost: 0.012000 ms.
+
 */
