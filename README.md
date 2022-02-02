@@ -18,7 +18,7 @@
     
 ## 10大经典排序算法
 - ### [冒泡排序 bubble sort](./sorts/bubblesort/)
-[C语言版](./sorts/bubblesort/bubble_sort.c ) | [JavaScript版](./sorts/bubblesort/bubble_sort.js ) | [Python版](./sorts/bubblesort/bubble_sort.py ) | [Java版](./sorts/bubblesort/BubbleSort.java ) | [TypeScript版](./sorts/bubblesort/BubbleSort.ts ) | [Go版](./sorts/bubblesort/BubbleSort.go ) | [Dart版](./sorts/bubblesort/BubbleSort.dart ) | [Rust版](./sorts/bubblesort/BubbleSort.rs )
+[C语言版](./sorts/bubblesort/bubble_sort.c ) | [JavaScript版](./sorts/bubblesort/bubble_sort.js ) | [Python版](./sorts/bubblesort/bubble_sort.py ) | [Java版](./sorts/bubblesort/BubbleSort.java ) | [TypeScript版](./sorts/bubblesort/BubbleSort.ts ) | [Go版](./sorts/bubblesort/bubble_sort.go ) | [Dart版](./sorts/bubblesort/bubble_sort.dart ) | [Rust版](./sorts/bubblesort/bubble_sort.rs )
 - ### [插入排序 insert sort](./sorts/insertsort/)
 [C语言版](./sorts/insertsort/insert_sort.c ) | [JavaScript版](./sorts/insertsort/insert_sort.js ) | [Python版](./sorts/insertsort/insert_sort.py ) | [Java版](./sorts/insertsort/InsertSort.java ) | [TypeScript版](./sorts/insertsort/InsertSort.ts )
 - ### [选择排序 selection sort](./sorts/selectionsort/)

@@ -170,7 +170,6 @@ func unique7(arr []int) (result []int) {
   // 先排序
   sort.Ints(arr)
   var arr_len int = len(arr)
-  // 这里使用新切片的方式
   for i := 0; i < arr_len; i++ {
   	// 如果当前项与下一项不重复，则添加到新数组中
   	if i < arr_len - 1 && arr[i] != arr[i + 1] {

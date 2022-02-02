@@ -12,7 +12,7 @@
     
 ## 10 classical sort algorithm
 - ### [bubble sort](./sorts/bubblesort/)
-[C](./sorts/bubblesort/bubble_sort.c ) | [JavaScript](./sorts/bubblesort/bubble_sort.js ) | [Python](./sorts/bubblesort/bubble_sort.py ) | [Java](./sorts/bubblesort/BubbleSort.java ) | [TypeScript](./sorts/bubblesort/BubbleSort.ts ) | [Go](./sorts/bubblesort/BubbleSort.go ) | [Dart](./sorts/bubblesort/BubbleSort.dart ) | [Rust](./sorts/bubblesort/BubbleSort.rs )
+[C](./sorts/bubblesort/bubble_sort.c ) | [JavaScript](./sorts/bubblesort/bubble_sort.js ) | [Python](./sorts/bubblesort/bubble_sort.py ) | [Java](./sorts/bubblesort/BubbleSort.java ) | [TypeScript](./sorts/bubblesort/BubbleSort.ts ) | [Go](./sorts/bubblesort/bubble_sort.go ) | [Dart](./sorts/bubblesort/bubble_sort.dart ) | [Rust](./sorts/bubblesort/bubble_sort.rs )
 - ### [insert sort](./sorts/insertsort/)
 [C language](./sorts/insertsort/insert_sort.c ) | [JavaScript](./sorts/insertsort/insert_sort.js ) | [Python](./sorts/insertsort/insert_sort.py ) | [Java](./sorts/insertsort/InsertSort.java ) | [TypeScript](./sorts/insertsort/InsertSort.ts )
 - ### [selection sort](./sorts/selectionsort/)
@@ -34,7 +34,7 @@
 
 ## array or list unique
 - ### [remove duplication item](./unique/)
-[C language](./unique/unique.c ) | [JavaScript](./unique/unique.js ) | [Python](./unique/unique.py ) | [Java](./unique/UniqueArray.java ) | [TypeScript](./unique/UniqueArray.ts )
+[C language](./unique/unique.c ) | [JavaScript](./unique/unique.js ) | [Python](./unique/unique.py ) | [Java](./unique/UniqueArray.java ) | [TypeScript](./unique/UniqueArray.ts ) | [Go language](./unique/unique.go ) | [Dart](./unique/unique.dart ) 
 
 ## string search
 - ### [native search](./string/nativesearch/)
