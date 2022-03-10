@@ -14,7 +14,7 @@
       minIdx = i
       var j = i + 1
       for (; j < l; j++) {
-        // 从待排序列表找到最小值和位置
+        // 从待排序列表中找到最小值和位置，用作交换
         if (arr[j] < min) {
           min = arr[j]
           minIdx = j
