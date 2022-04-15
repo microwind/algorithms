@@ -44,16 +44,19 @@ merge(List list, int left, int mid, int right) {
 
 mergeSort(List list, int left, int right) {
   // 得到中间值
+  print('mergeSort: $list, $left, $right');
   int mid = (left + right) ~/ 2;
   // 如果左侧小于右侧则执行合并排序
   if (left < right) {
-    // 递归拆分左侧，直到拆分完成
+    // 先递归拆分左侧部分，直到拆分完成
+    print('mergeSort left (left=$left,mid=$mid,right=$right) ${list.sublist(left, mid)} ');
     mergeSort(list, left, mid);
-    print('list left: $list');
-    // 递归拆分右侧，直到拆分完成
+    // 再递归拆分右侧，直到拆分完成
+    print('mergeSort right (left=$left,mid=$mid+1,right=$right) ${list.getRange(mid+1, right)} ');
     mergeSort(list, mid + 1, right);
-    print('list right: $list');
-    // 再合并左右结果
+
+    print('merge sorted: left=${left}, mid=${mid}, right=${right}, list=${list}');
+    // 最后再自底向上合并排序后结果
     merge(list, left, mid, right);
   }
   return list;
@@ -61,7 +64,7 @@ mergeSort(List list, int left, int right) {
 
 main() {
   print("merge sort start:");
-  List data = [4, 3, 2, 1, 5, -1, 10, 39];
+  List data = [4, 2, 5, 1, 3, 5, 7, 9];
   print(mergeSort(data, 0, data.length - 1));
 }
 
