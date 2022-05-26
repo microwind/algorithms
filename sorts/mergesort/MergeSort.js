@@ -10,8 +10,7 @@
  * 3. 合并（Combine），合并两个排好序的子序列，生成排序结果。 归并排序的最坏时间复杂度和平均时间复杂度均为O(nlogn)
  */
 var MergeSort = /** @class */ (function () {
-    function MergeSort() {
-    }
+    function MergeSort() {}
     MergeSort.prototype.merge = function (arr, left, mid, right) {
         // 先建立一个长度等于原数组的临时数组
         var temp = [];
@@ -27,8 +26,7 @@ var MergeSort = /** @class */ (function () {
             if (arr[i] <= arr[j]) {
                 temp[k++] = arr[i++];
                 // 否则移动到临时数组右侧
-            }
-            else {
+            } else {
                 temp[k++] = arr[j++];
             }
         }
@@ -87,4 +85,4 @@ arr: [ -2, 0, 7, 8, 8, 9, 10, 11, 12, 13 ]
 
 sorted: [ -2, 0, 7, 8, 8, 9, 10, 11, 12, 13 ]
 sort: 4.897ms
- */ 
+ */

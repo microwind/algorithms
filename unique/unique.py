@@ -181,7 +181,8 @@ print("dict fromkeys:", dict.fromkeys(data).keys())
 print("time:" + str((time.time() - start_time) * 1000) + " ms")
 
 
-## 11. 利用filter函数，即把不符合条件的过滤掉。这里filter不支持下标，因此需要借助外部列表存储不重复项
+## 11. 利用filter函数，即把不符合条件的过滤掉。
+## 这里filter不支持下标，因此需要借助外部列表存储不重复项
 def uniq(item):
     i = data.index(item)
     if (item not in new_list):

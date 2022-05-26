@@ -5,18 +5,21 @@
  */
 
 // the multi method for array unique
-// JavaScript数组去重的N种方法
+// JavaScript数组去重的N种方法之新数组检测法
 (function () {
-  // 1. new array
+  // 1. 新建数组，把不存在的项添加进去
   console.time('time')
-  var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
-  var newArr = []
-  for (var i = 0, l = arr.length; i < l; i++) {
-    for (var j = 0; j <= i; j++) {
+  const arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
+  const newArr = []
+  // 遍历数组，逐项比较添加到新数组中去
+  for (let i = 0, l = arr.length; i < l; i++) {
+    for (let j = 0; j <= i; j++) {
+      // 检查新数组是否已存在要添加的项
       if (arr[i] === arr[j]) {
         if (i === j) {
           newArr.push(arr[i])
         }
+        // 如果新数组中已存在要添加项则跳过
         break
       }
     }
@@ -26,11 +29,11 @@
 })();
 
 (function () {
-  // 1.1 new array + indexOf
+  // 1.1 新建数组与indexOf检查是否存在
   console.time('time')
-  var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
-  var newArr = []
-  for (var i = 0, l = arr.length; i < l; i++) {
+  const arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
+  const newArr = []
+  for (let i = 0, l = arr.length; i < l; i++) {
     if (newArr.indexOf(arr[i]) < 0) {
       newArr.push(arr[i])
     }
@@ -40,11 +43,11 @@
 })();
 
 (function () {
-  // 1.2 new array + includes
+  // 1.2 新建数组与includes检查是否包含
   console.time('time')
-  var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
-  var newArr = []
-  for (var i = 0, l = arr.length; i < l; i++) {
+  const arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
+  const newArr = []
+  for (let i = 0, l = arr.length; i < l; i++) {
     if (!newArr.includes(arr[i])) {
       newArr.push(arr[i])
     }
@@ -54,14 +57,14 @@
 })();
 
 (function () {
-  // 2.1 one array last -> first
+  // 2.1 从后往前逐个对比，将重复的删除掉
   console.time('time')
-  var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
-  var l = arr.length
-  while (l-- > 0) {
-    for (var i = 0; i < l; i++) {
-      if (arr[l] === arr[i]) {
-        arr.splice(l, 1)
+  const arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
+  let len = arr.length
+  while (len-- > 0) {
+    for (let i = 0; i < len; i++) {
+      if (arr[len] === arr[i]) {
+        arr.splice(len, 1)
         break
       }
     }
@@ -71,16 +74,16 @@
 })();
 
 (function () {
-  // 2.2 one array last -> first from right
+  // 2.2 从后往前逐个对比，将重复的删除掉
   console.time('time')
-  var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
-  var l = arr.length
-  var i = 0
-  while (l-- > 0) {
-    i = l
+  const arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
+  let len = arr.length
+  let i = 0
+  while (len-- > 0) {
+    i = len
     while (i-- > 0) {
-      if (arr[l] === arr[i]) {
-        arr.splice(l, 1)
+      if (arr[len] === arr[i]) {
+        arr.splice(len, 1)
         break
       }
     }
@@ -90,15 +93,15 @@
 })();
 
 (function () {
-  // 3. one array first -> last
+  // 3. 从前往后逐个对比，将重复的删除掉
   console.time('time')
-  var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
-  var l = arr.length
-  for (var i = 0; i < l; i++) {
-    for (var j = i + 1; j < l; j++) {
+  const arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
+  let len = arr.length
+  for (let i = 0; i < len; i++) {
+    for (let j = i + 1; j < len; j++) {
       if (arr[i] === arr[j]) {
         arr.splice(j, 1)
-        l--
+        len--
         i--
         break
       }
@@ -117,7 +120,6 @@
     if (i === arr.indexOf(arr[i])) {
       newArr.push(arr[i])
     } else if (arr.indexOf(arr[i]) >= 0) {
-      // break same item
       continue
     }
   }
@@ -129,7 +131,8 @@
   // 5. filter + indexOf
   console.time('time')
   var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
-  console.log('filter + indexOf: ', arr.filter((item, i) => i === arr.indexOf(item)))
+  arr = arr.filter((item, i) => i === arr.indexOf(item))
+  console.log('filter + indexOf: ', arr)
   console.timeEnd('time')
 })();
 

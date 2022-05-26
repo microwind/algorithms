@@ -10,7 +10,8 @@ import java.util.stream.Stream;
 
 public class UniqueArray {
 
-  // 1. 遍历全部成员，将当前项目与左边项逐个进行对比，如果值相同且下标相同表示唯一，其他则认为是重复项进行忽略
+  // 1. 遍历全部成员，将当前项目与左边项逐个进行对比，如果值相同且下标相同表示唯一，
+  // 其他则认为是重复项进行忽略
   static int[] unique1(int arr[]) {
     int newArr[] = new int[arr.length];
     int x = 0;
@@ -29,7 +30,8 @@ public class UniqueArray {
     return result;
   }
 
-  // 2. 先将数组转换为List，利用List的indexOf方法查找下标，当下标匹配时表示唯一，添加到新列表中
+  // 2. 先将数组转换为List，利用List的indexOf方法查找下标，
+  // 当下标匹配时表示唯一，添加到新列表中
   static Integer[] unique2(Integer arr[]) {
     int x = 0;
     List<Integer> list = new ArrayList<>(Arrays.asList(arr));
@@ -45,7 +47,8 @@ public class UniqueArray {
     return list.subList(list.size() - x, list.size()).toArray(result);
   }
 
-  // 3. 在原有列表上移除重复项目。自后往前遍历，逐个与前面项比较，如果值相同且下标相同，则移除当前项。
+  // 3. 在原有列表上移除重复项目。自后往前遍历，逐个与前面项比较，
+  // 如果值相同且下标相同，则移除当前项。
   static Integer[] unique3(Integer arr[]) {
     List<Integer> list = new ArrayList<>(Arrays.asList(arr));
     int l = list.size();
@@ -61,7 +64,8 @@ public class UniqueArray {
     return list.toArray(new Integer[list.size()]);
   }
 
-  // 4. 在原有列表上移除重复项目。自前往后遍历，逐个与前面项比较，如果值相同且下标相同，则移除前面项。
+  // 4. 在原有列表上移除重复项目。自前往后遍历，逐个与前面项比较，
+  // 如果值相同且下标相同，则移除前面项。
   static Integer[] unique4(Integer arr[]) {
     List<Integer> list = new ArrayList<>(Arrays.asList(arr));
     int l = list.size();
@@ -79,7 +83,8 @@ public class UniqueArray {
     return list.toArray(new Integer[list.size()]);
   }
 
-  // 5. 在原有列表上移除重复项目。自前往后遍历，逐个与后面项比较，如果值相同且下标相同，则移除当前项。
+  // 5. 在原有列表上移除重复项目。自前往后遍历，逐个与后面项比较，
+  // 如果值相同且下标相同，则移除当前项。
   static Integer[] unique5(Integer arr[]) {
     List<Integer> list = new ArrayList<>(Arrays.asList(arr));
     int l = list.size();

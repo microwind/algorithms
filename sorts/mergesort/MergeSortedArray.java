@@ -5,8 +5,12 @@
  * @version: 1.0
  */
 import java.util.*;
+
 public class MergeSortedArray {
 
+  /** 
+   * @desc 新建数组，两两比较移动指针实现已排序数组合并
+   */
   static int[] mergeSorted1(int[] one, int[] two) {
     // 新数组长度是两个数组长度之和
     int[] result = new int[one.length + two.length];
@@ -18,75 +22,87 @@ public class MergeSortedArray {
     int k = 0;
     // 两个数组同时遍历，直到一个遍历完成
     while (i < one.length && j < two.length) {
-      // 两两比较，把小的追加到新数组中，同时移动指针
+      // 两两比较，把小的项追加到新数组中，同时移动小的那个数组指针
       if (one[i] < two[j]) {
-        result[k] = one[i];
-        i++;
-        k++;
+        result[k++] = one[i++];
       } else {
-        result[k] = two[i];
-        j++;
-        k++;
+        result[k++] = two[j++];
       }
     }
 
     // 复制数组1剩余的项目
     while (i < one.length) {
-      result[k] = one[i];
-      k++;
-      i++;
+      result[k++] = one[i++];
     }
     // 复制数组2剩余的项目
-    while (j < one.length) {
-      result[k] = one[j];
-      k++;
-      j++;
+    while (j < two.length) {
+      result[k++] = two[j++];
     }
     return result;
   }
 
-  static List<int> mergeSorted2(List<int> one, List<int> two) {
+
+  /** 
+   * @desc 逐个取出再插入的合并已排序数组的方法
+   * 从第1个数组里依次取出项插入到第2个数组合适位置中，这里采用List以便动态调整
+   */
+  static List<Integer> mergeSorted2(List<Integer> one, List<Integer> two) {
     int twoLen = two.size();
-    for (int i = 0; i < one.length; i++) {
-      int j = twoLen - 1;
-      // 从第1个列表取出一个最小的作为比较项，与第2个列表项自后前往逐个比较
-      // 从第2个列表的项如果大于比较项，则统一往后移动一位
-      while (one[i] < two[j]) {
-        // two.add(j++) = two.add(two[j]);
-        j--;
+    for (int i = 0; i < one.size(); i++) {
+      int j = 0;
+      // 从第1个列表依次取出比较项，与第2个列表项自前往后逐个比较
+      while (j < twoLen) {
+        // 如果比较项小于第2个数组的某项，则插入到该项前面
+        if (one.get(i) < two.get(j)) {
+          // 第2个数组扩容1位，将最后1位复制添加到最后，并增加第2个数组长度
+          two.add(two.get(twoLen - 1));
+          twoLen++;
+          int itemIndex = twoLen - 1;
+          // 并将第2个数组自j位整体后移1位
+          while (itemIndex-- > j) {
+            two.set(itemIndex, two.get(itemIndex - 1));
+          }
+          // 将比较项插入到第2个列表的j位置中
+          two.set(j, one.get(i));
+          break;
+        } else {
+          // 如果全部比较完成，数组2里面没有比它还大的，则添加到最后
+          // 也可以一次性添加数组1里面全部剩余项，终止外部的循环
+          if (j == twoLen - 1) {
+            two.add(one.get(i));
+            twoLen++;
+            break;
+          }
+        }
+        j++;
       }
-
-      // 如果比较项比第2列表里的任何一项都要大
-      if (j == two.size() - 1) {
-        // 则复制列表1的剩余项到列表2，并终止循环
-        // two[j++] = one[i];
-        // break;
-      }
-
-      // 找到第2个列表里比比较项小的位置，把比较项插入到该位置
-      two[j+1] = one[i];
-      twoLen++;
     }
     // 第2个列表是合并了第1个数组的结果
     return two;
   }
 
   public static void main(String args[]) {
-    int arr1[] = {1, 5, 6, 7, 10};
-    int arr2[] = {2, 3, 4, 8, 9};
+    int arr1[] = { 3, 7, 9, 10, 11, 15, 16 };
+    int arr2[] = { 1, 5, 6, 9, 12 };
     System.out.println("mergeSorted1 start:");
+    System.out.println("mergeSorted1 origin arr1: " + 
+    Arrays.toString(arr1) + " arr2: " + Arrays.toString(arr2));
     long startTime = System.currentTimeMillis();
     System.out.println(Arrays.toString(mergeSorted1(arr1, arr2)));
-    System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime) + " ms.");
+    System.out.println("\r\ntime:" +
+     (System.currentTimeMillis() - startTime) + " ms.");
 
-    List list1 = Arrays.asList(1, 5, 6, 7, 10);
-    List list2 = Arrays.asList(2, 3, 4, 8, 9);
+
+    List list1 = new ArrayList<>(Arrays.asList(3, 7, 9, 10, 11, 15, 16));
+    List list2 = new ArrayList<>(Arrays.asList(1, 5, 6, 9, 12));
     System.out.println("mergeSorted2 start:");
-    long startTime = System.currentTimeMillis();
+    System.out.println("mergeSorted2 origin list1: " + list1.toString()
+     + " list2:" + list2.toString());
+    startTime = System.currentTimeMillis();
     System.out.println(mergeSorted2(list1, list2).toString());
-    System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime) + " ms.");
-
+    System.out.println("\r\ntime:" + (System.currentTimeMillis() 
+    - startTime) + " ms.");
 
   }
-  
+
 }
