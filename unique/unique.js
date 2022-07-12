@@ -9,7 +9,7 @@
 (function () {
   // 1. 新建数组，把不存在的项添加进去
   console.time('time')
-  const arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
+  const arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, '1']
   const newArr = []
   // 遍历数组，逐项比较添加到新数组中去
   for (let i = 0, l = arr.length; i < l; i++) {
@@ -31,7 +31,7 @@
 (function () {
   // 1.1 新建数组与indexOf检查是否存在
   console.time('time')
-  const arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
+  const arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, '1']
   const newArr = []
   for (let i = 0, l = arr.length; i < l; i++) {
     if (newArr.indexOf(arr[i]) < 0) {
@@ -45,7 +45,7 @@
 (function () {
   // 1.2 新建数组与includes检查是否包含
   console.time('time')
-  const arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
+  const arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, '1']
   const newArr = []
   for (let i = 0, l = arr.length; i < l; i++) {
     if (!newArr.includes(arr[i])) {
@@ -59,7 +59,7 @@
 (function () {
   // 2.1 从后往前逐个对比，将重复的删除掉
   console.time('time')
-  const arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
+  const arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, '1']
   let len = arr.length
   while (len-- > 0) {
     for (let i = 0; i < len; i++) {
@@ -76,7 +76,7 @@
 (function () {
   // 2.2 从后往前逐个对比，将重复的删除掉
   console.time('time')
-  const arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
+  const arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, '1']
   let len = arr.length
   let i = 0
   while (len-- > 0) {
@@ -95,7 +95,7 @@
 (function () {
   // 3. 从前往后逐个对比，将重复的删除掉
   console.time('time')
-  const arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
+  const arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, '1']
   let len = arr.length
   for (let i = 0; i < len; i++) {
     for (let j = i + 1; j < len; j++) {
@@ -114,7 +114,7 @@
 (function () {
   // 4. forEach + indexOf
   console.time('time')
-  var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
+  var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, '1']
   var newArr = []
   for (var i = 0, l = arr.length; i < l; i++) {
     if (i === arr.indexOf(arr[i])) {
@@ -130,7 +130,7 @@
 (function () {
   // 5. filter + indexOf
   console.time('time')
-  var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
+  var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, '1']
   arr = arr.filter((item, i) => i === arr.indexOf(item))
   console.log('filter + indexOf: ', arr)
   console.timeEnd('time')
@@ -139,7 +139,7 @@
 (function () {
   // 6. Array.from object
   console.time('time')
-  var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
+  var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, '1']
   var obj = {}
   arr.forEach((item) => {
     obj[item] = item
@@ -151,19 +151,19 @@
 (function () {
   // 7. Array.from Map
   console.time('time')
-  var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
+  var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, '1']
   var map = new Map()
   arr.forEach((item, i) => {
     map.set(item, item)
   })
-  console.log('Array.from Map:', Array.from(map.values()))
+  console.log('Array.from Map:', Array.from(map.keys()))
   console.timeEnd('time')
 })();
 
 (function () {
   // 8. from Set
   console.time('time')
-  var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
+  var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, '1']
   var set = new Set(arr)
   console.log('from Set:', Array.from(set))
   console.timeEnd('time')
@@ -172,7 +172,7 @@
 (function () {
   // 9. sort+remove
   console.time('time')
-  var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
+  var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, '1']
   arr.sort()
   var l = arr.length
   while (l-- > 1) {
@@ -187,7 +187,7 @@
 (function () {
   // 10. sort+remove ASE
   console.time('time')
-  var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
+  var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, '1']
   arr.sort((a, b) => {
     return a.toString() > b.toString() ? 1 : -1
   })
@@ -206,7 +206,7 @@
 (function () {
   // 11. from reduce
   console.time('time')
-  var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
+  var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, '1']
   var newArr = arr.reduce((result, item) => {
     if (!Array.isArray(result)) {
       result = [result]
@@ -220,7 +220,7 @@
 (function () {
   // 12. indexOf + new Array push
   console.time('time')
-  var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
+  var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, '1']
   var newArr = []
   for (var i = 0, l = arr.length; i < l; i++) {
     var item = arr[i]
@@ -235,7 +235,7 @@
 (function () {
   // 13. filter+hasOwnProperty
   console.time('time')
-  var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
+  var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, '1']
   var obj = {}
   arr = arr.filter(item => {
     return obj.hasOwnProperty((typeof item) + item) ? false : (obj[(typeof item) + item] = true)
@@ -266,7 +266,7 @@
     }
     return recursionUnique(arr, len - 1)
   }
-  var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
+  var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, '1']
   console.log('recursionUnique:', recursionUnique(arr, arr.length))
   arr = [1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
   console.log('recursionUnique:', recursionUnique(arr, arr.length))
@@ -297,7 +297,7 @@
     }
     return recursionUniqueNew(arr, len - 1).concat(result)
   }
-  var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, 1]
+  var arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, '1']
   console.log('recursionUniqueNew:', recursionUniqueNew(arr, arr.length))
   arr = [1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
   console.log('recursionUniqueNew:', recursionUniqueNew(arr, arr.length))

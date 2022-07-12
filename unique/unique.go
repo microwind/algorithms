@@ -50,7 +50,6 @@ func unique2(arr []int) []int {
       	// fmt.Printf("arr_len=%d equals j=%d\n ", arr[arr_len], arr[j])
       	// 如果存在重复项，则将重复项删除，并重新给数组赋值
         arr = append(arr[:arr_len], arr[arr_len + 1:]...)
-        // 总长度和当前下标各减去1个
         break
       }
     }

@@ -188,7 +188,8 @@ public class UniqueArray {
     return new ArrayList<>(list).toArray(new Integer[list.size()]);
   }
 
-  // 14. 双循环自右往左逐个与左侧项对比，如遇相同则跳过当前项，下一项为当前项，继续逐个与左侧项对比
+  // 14. 双循环自右往左逐个与左侧项对比，如遇相同则跳过当前项
+  // 下一项为当前项，继续逐个与左侧项对比
   static Integer[] unique14(Integer arr[]) {
     int len = arr.length;
     Integer[] result = new Integer[len];
@@ -222,7 +223,8 @@ public class UniqueArray {
 
   // 16. 利用递归调用来去重复。递归自后往前逐个调用，当长度为1时终止。
   // 当后一项与前任一项相同说明有重复，则删除当前项。相当于利用自我调用来替换循环
-  static Integer[] uniqueRecursion1(Integer arr[], int len, List<Integer> result) {
+  static Integer[] uniqueRecursion1(Integer arr[], 
+    int len, List<Integer> result) {
     int last = len - 1;
     Integer lastItem = arr[last];
     int l = last;
@@ -270,11 +272,15 @@ public class UniqueArray {
     if (!isRepeat) {
       result.add(lastItem);
     }
-    return Stream.concat(uniqueRecursion2(arr, len - 1).stream(), result.stream()).collect(Collectors.toList());
+    return Stream.concat(uniqueRecursion2(arr, len - 1).stream(), 
+      result.stream()).collect(Collectors.toList());
   }
 
 
-  // 18. 双重循环，将左侧项逐个与当前项比较。如果遇到值相等则跳出循环比较下标，若下标相同则追加到新数组。这里与第1个方案稍微不同。
+  // 18. 双重循环，将左侧项逐个与当前项比较。
+  // 如果遇到值相等则跳出循环比较下标，
+  // 若下标相同表示第一次出现则追加到新数组。
+  // 这里与第1个方案稍微不同。
   static Integer[] unique18(Integer arr[]) {
     Integer newArr[] = new Integer[arr.length];
     int x = 0;
