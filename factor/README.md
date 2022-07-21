@@ -193,7 +193,7 @@ func factorize(num int, len int) []int {
 ```
 
 ### Kotlin
-  kolin是java的一种语法糖，是完全兼容java语法的，最后也会变成class来执行。在Kotlin 中没有原始类型，一切都是对象。参数参数一旦将值分配给val，就无法更改。如果想重新分配它，则必须将其声明为var，而在Kotlin的方法中，参数隐式声明为final val，也无法更改参数。因此，这里将number赋值给变量num。[factor.kt](./factor.kt)
+  kotlin是java的一种语法糖，是完全兼容java语法的，最后也会变成class来执行。在Kotlin 中没有原始类型，一切都是对象。参数参数一旦将值分配给val，就无法更改。如果想重新分配它，则必须将其声明为var，而在Kotlin的方法中，参数隐式声明为final val，也无法更改参数。因此，这里将number赋值给变量num。[factor.kt](./factor.kt)
 ```kotlin
 fun facorize(number: Int): List<Int> {
     val result = ArrayList<Int>();
@@ -262,6 +262,31 @@ List factorize(int num) {
 - (NSArray*)factorize:(int)num;
 @end
 
+@implementation Factor
+- (NSArray*)factorize:(int)num
+{
+    // NSMutableArray *arr = [NSMutableArray arrayWithCapacity: 100];
+    NSMutableArray *arr = [[NSMutableArray alloc] init];
+    int i = 2;
+    int resultIdx = 0;
+    while (i * i < num) {
+        while (num % i == 0) {
+            [arr addObject: [NSNumber numberWithInt: i]];
+            // NSLog(@"%d" @"=" @"%d", i, resultIdx);
+            resultIdx++;
+            num /= i;
+        }
+        i++;
+    }
+    if (num > 1) {
+        [arr addObject: [NSNumber numberWithInt: num]];
+        NSLog(@"%d", num);
+    }
+    return arr;
+}
+@end
+
+
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         NSLog(@"Hi, this is about factor algorithm by Objective-C");
@@ -291,28 +316,51 @@ int main(int argc, const char * argv[]) {
     }
     return 0;
 }
+```
 
-@implementation Factor
-- (NSArray*)factorize:(int)num
-{
-    // NSMutableArray *arr = [NSMutableArray arrayWithCapacity: 100];
-    NSMutableArray *arr = [[NSMutableArray alloc] init];
-    int i = 2;
-    int resultIdx = 0;
-    while (i * i < num) {
-        while (num % i == 0) {
-            [arr addObject: [NSNumber numberWithInt: i]];
-            // NSLog(@"%d" @"=" @"%d", i, resultIdx);
-            resultIdx++;
-            num /= i;
-        }
-        i++;
+### Rust
+Rust最初是由Mozilla研究院提出，后经多方改良，于2015年正式发布。Rust的语法和C、C++非常类似，它的目标就是替代C和C++。
+
+Rust的目标是高安全、高性能、高并发。Rust抛弃了影响性能的垃圾回收器，通过变量所有权的方式来自动释放内存。同时提供多线程支持且是内存安全的。
+
+Rust 虽然没有没有专门的class来声明对象，但它支持面向对象。Rust可通过结构体来定义类，再通过impl来实现。在 Rust 中虽没有extends，但可以通过特性（trait）实现多态。
+
+Rust从语法上足够精炼，风格比较像普通的高级语言，提供的元组（Tuple）和动态数组（Vector）、切片(Slice)模式非常方便，没有C/C++操作数据那么繁琐，但同时其又保持了底层语言的优越性能，能看得出来Rust是牛人精心打造的。所以未来，很可能Rust会取代C、C++以及Go和Java。
+
+```rust
+fn factorize(mut num: i32) -> Vec<i32> {
+  let mut i = 2;
+  let mut v: Vec<i32> = Vec::new();
+  while i * i <= num {
+    while num % i == 0 {
+      println!("{:}", i);
+      num = num / i;
+      v.push(i);
     }
-    if (num > 1) {
-        [arr addObject: [NSNumber numberWithInt: num]];
-        NSLog(@"%d", num);
-    }
-    return arr;
+    i += 1;
+  }
+  if num > 1 {
+    println!("{:}", num);
+    v.push(num);
+  }
+  return v;
 }
-@end
+
+fn main() {
+  println!("factorize:");
+  let mut num = 20;
+  println!("number is: {:}", num);
+  let v: Vec<i32> = factorize(num);
+  println!("{:?}", v);
+
+  num = 140;
+  println!("number is: {:}", num);
+  let v: Vec<i32> = factorize(num);
+  println!("{:?}", v);
+
+  num = 120;
+  println!("number is: {:}", num);
+  let arr = factorize(num);
+  println!("{:?}", arr);
+}
 ```
