@@ -4,6 +4,31 @@
 - (NSArray*)factorize:(int)num;
 @end
 
+@implementation Factor
+- (NSArray*)factorize:(int)num
+{
+    // NSMutableArray *arr = [NSMutableArray arrayWithCapacity: 100];
+    NSMutableArray *arr = [[NSMutableArray alloc] init];
+    int i = 2;
+    int resultIdx = 0;
+    while (i * i < num) {
+        while (num % i == 0) {
+            [arr addObject: [NSNumber numberWithInt: i]];
+            // NSLog(@"%d" @"=" @"%d", i, resultIdx);
+            resultIdx++;
+            num /= i;
+        }
+        i++;
+    }
+    if (num > 1) {
+        [arr addObject: [NSNumber numberWithInt: num]];
+        NSLog(@"%d", num);
+    }
+    return arr;
+}
+@end
+
+
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         NSLog(@"Hi, this is about factor algorithm by Objective-C");
@@ -33,31 +58,6 @@ int main(int argc, const char * argv[]) {
     }
     return 0;
 }
-
-@implementation Factor
-- (NSArray*)factorize:(int)num
-{
-    // NSMutableArray *arr = [NSMutableArray arrayWithCapacity: 100];
-    NSMutableArray *arr = [[NSMutableArray alloc] init];
-    int i = 2;
-    int resultIdx = 0;
-    while (i * i < num) {
-        while (num % i == 0) {
-            [arr addObject: [NSNumber numberWithInt: i]];
-            // NSLog(@"%d" @"=" @"%d", i, resultIdx);
-            resultIdx++;
-            num /= i;
-        }
-        i++;
-    }
-    if (num > 1) {
-        [arr addObject: [NSNumber numberWithInt: num]];
-        NSLog(@"%d", num);
-    }
-    return arr;
-}
-@end
-
 
 /*
 jarry@jarrys-MacBook-Pro factor % gcc -lc factor.m -framework Foundation

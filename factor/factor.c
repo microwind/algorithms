@@ -7,6 +7,32 @@
 #include <time.h>
 #include <memory.h>
 
+/* 注释版
+int *factorize(int num, int len) {
+  int *result = (int *)malloc(len * sizeof(int));
+  int i = 2;
+  int result_idx = 0;
+  // i的平方小于该数字，说明可以继续分解
+  while (i * i <= num) {
+    // 如果可以被i整除，则说明i是因数，继续以i分解
+    while (num % i == 0) {
+      result[result_idx] = i;
+      // 每分解一次，原数值就赋值为除以i的结果
+      num /= i;
+      // 每增加一个因数，数组下标右移，以便追加到结果中
+      result_idx++;
+    }
+    // 当无法被i整除时，i递增继续分解
+    i++;
+  }
+  // 整除后的得数如果小于i的平方，且大于1那就是最后的分解数
+  if (num > 1) {
+    result[result_idx]  = num;
+  }
+  return result;
+}
+*/
+
 int *factorize(int num, int len) {
   int *result = (int *)malloc(len * sizeof(int));
   int i = 2;
