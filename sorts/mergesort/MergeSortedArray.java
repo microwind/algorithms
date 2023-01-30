@@ -43,7 +43,7 @@ public class MergeSortedArray {
 
 
   /** 
-   * @desc 逐个取出再插入的合并已排序数组的方法
+   * @desc 逐个取出1项插入到另外1个已排序数组中去，相当于选择最小项插入到已排序数组中
    * 从第1个数组里依次取出项插入到第2个数组合适位置中，这里采用List以便动态调整
    */
   static List<Integer> mergeSorted2(List<Integer> one, List<Integer> two) {

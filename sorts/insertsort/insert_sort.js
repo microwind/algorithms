@@ -3,12 +3,14 @@
  * @author: jarryli@gmail.com
  * @version: 1.0
  */
-(function () {
+;(function () {
   // JS标准版
   function insertSort1(arr) {
-    var j, current, l = arr.length
+    let j
+    let current
+    const l = arr.length
     // 外循环用于遍历待排序区间，内循环用来遍历已排序区间
-    for (var i = 0; i < l; i++) {
+    for (let i = 0; i < l; i++) {
       j = i
       current = arr[i]
       // 将该项自右往左与已排序项逐个对比，当遇到比自己大的项(表示升序)时，将该位置右移
@@ -26,7 +28,9 @@
 
   // 标准通用版
   function insertSort2(arr) {
-    var j, current, l = arr.length
+    var j
+    var current
+    var l = arr.length
     for (var i = 0; i < l; i++) {
       j = i - 1
       current = arr[i]
@@ -40,11 +44,12 @@
     return arr
   }
 
-
   // splice版本
   function insertSort3(arr) {
-    var j, current, l = arr.length,
-      isMin
+    var j
+    var current
+    var l = arr.length
+    var isMin
     for (var i = 1; i < l; i++) {
       j = i - 1
       current = arr.splice(i, 1)[0]
@@ -68,10 +73,10 @@
 
   // 新建数组版
   function insertSort4(arr) {
-    var j, l = arr.length,
-      len, isMax
+    var j
+    var l = arr.length
+    var isMax
     var newArr = arr.slice(0, 1)
-    console.time('time')
     for (var i = 1; i < l; i++) {
       isMax = true
       for (var j = 0, len = newArr.length; j < len; j++) {
@@ -92,8 +97,9 @@
 
   // 新建数组版倒序遍历
   function insertSort5(arr) {
-    var l = arr.length,
-      len, isMin
+    var l = arr.length
+    var len
+    var isMin
     var newArr = arr.slice(0, 1)
 
     for (var i = 1; i < l; i++) {
@@ -141,48 +147,47 @@
   console.log('arr origin:', arr)
   console.log('arr2 origin:', arr2)
 
-  console.time('sort')
+  console.time('sort1')
   console.log('\r\ninsertSort1 sorted:', insertSort1(arr.slice(0, arr.length)))
-  console.timeEnd('sort')
-  console.time('sort')
+  console.timeEnd('sort1')
+  console.time('sort1-2')
   console.log('\r\ninsertSort1 sorted:', insertSort1(arr2.slice(0, arr.length)))
-  console.timeEnd('sort')
+  console.timeEnd('sort1-2')
 
-  console.time('sort')
+  console.time('sort2')
   console.log('\r\ninsertSort2 sorted:', insertSort2(arr.slice(0, arr.length)))
-  console.timeEnd('sort')
-  console.time('sort')
+  console.timeEnd('sort2')
+  console.time('sort2-1')
   console.log('\r\ninsertSort2 sorted:', insertSort2(arr2.slice(0, arr.length)))
-  console.timeEnd('sort')
+  console.timeEnd('sort2-1')
 
-  console.time('sort')
+  console.time('sort3')
   console.log('\r\ninsertSort3 sorted:', insertSort3(arr.slice(0, arr.length)))
-  console.timeEnd('sort')
-  console.time('sort')
+  console.timeEnd('sort3')
+  console.time('sort3-1')
   console.log('\r\ninsertSort3 sorted:', insertSort3(arr2.slice(0, arr.length)))
-  console.timeEnd('sort')
+  console.timeEnd('sort3-1')
 
-  console.time('sort')
+  console.time('sort4')
   console.log('\r\ninsertSort4 sorted:', insertSort4(arr.slice(0, arr.length)))
-  console.timeEnd('sort')
-  console.time('sort')
+  console.timeEnd('sort4')
+  console.time('sort4-1')
   console.log('\r\ninsertSort4 sorted:', insertSort4(arr2.slice(0, arr.length)))
-  console.timeEnd('sort')
+  console.timeEnd('sort4-1')
 
-  console.time('sort')
+  console.time('sort5')
   console.log('\r\ninsertSort5 sorted:', insertSort5(arr.slice(0, arr.length)))
-  console.timeEnd('sort')
-  console.time('sort')
+  console.timeEnd('sort5')
+  console.time('sort5-1')
   console.log('\r\ninsertSort5 sorted:', insertSort5(arr2.slice(0, arr.length)))
-  console.timeEnd('sort')
+  console.timeEnd('sort5-1')
 
-  console.time('sort')
+  console.time('sort6')
   console.log('\r\ninsertSort6 sorted:', insertSort6(arr.slice(0, arr.length)))
-  console.timeEnd('sort')
-  console.time('sort')
+  console.timeEnd('sort6')
+  console.time('sort6-1')
   console.log('\r\ninsertSort6 sorted:', insertSort6(arr2.slice(0, arr.length)))
-  console.timeEnd('sort')
-
+  console.timeEnd('sort6-1')
 })()
 
 /**

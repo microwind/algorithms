@@ -17,7 +17,12 @@ func merge_sort1(one []int, two []int) []int {
 	i := 0
 	j := 0
 	k := 0
+	// 循环遍历两个数组，直到有1个数组项全部被比较过为止
 	for i < oneLen && j < twoLen {
+		// 从两个数组里逐个取出最小项来进行比较
+		// 哪个更小就取出哪个添加到结果数组中去
+		// 被取出最小项的数组下标右移1位，结果数组下标也同样移动1位
+		// 继续进行两个数组的最小项比较，直到其中一个数组遍历完成
 		if one[i] < two[j] {
 			result[k] = one[i]
 			k++
@@ -29,17 +34,20 @@ func merge_sort1(one []int, two []int) []int {
 		}
 	}
 
+	// 如果第1个数组项有剩余，则依次复制剩余的第1个数组项
 	for i < oneLen {
 		result[k] = one[i]
 		k++
 		i++
 	}
 
+	// 如果第2个数组项有剩余，则依次复制剩余的第2个数组项
 	for j < twoLen {
 		result[k] = two[j]
 		k++
 		j++
 	}
+
 	return result
 }
 
