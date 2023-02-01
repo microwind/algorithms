@@ -9,13 +9,12 @@ import time
 
 
 # 标准通用版
-def insert_sort(arr):
+def insert_sort1(arr):
     l = len(arr)
-    # 外循环用于遍历待排序区间，内循环用来遍历已排序区间
     for i in range(l):
         j = i - 1
         current = arr[i]
-        # 将该项自右往左与已排序项逐个对比，当遇到比自己大的项(表示升序)时，将该位置右移
+        # 将该项自右往左与已排序项逐个对比，当遇到比自己大的项时，将该位置右移
         # 直到遇到小于等于自己的项则停止移动，表示插入成功
         print('i=' + str(i), ' j=' + str(j), 'current=' + str(current),
               'arr[i]=' + str(arr[i]), 'arr[j]=' + str(arr[j]), 'arr[]=', arr)
@@ -28,8 +27,8 @@ def insert_sort(arr):
     return arr
 
 
-# insert版本
-def insert_sort(arr):
+# 利用list insert函数插入最小项
+def insert_sort2(arr):
     l = len(arr)
     is_min = False
     for i in range(l):
@@ -51,8 +50,8 @@ def insert_sort(arr):
         arr.pop(i)
     return arr
 
-
-def insert_sort(arr):
+# 利用list insert函数插入最大项
+def insert_sort3(arr):
     l = len(arr)
     new_arr = [arr[0]]
     for i in range(1, l):
@@ -72,7 +71,7 @@ def insert_sort(arr):
 
 
 # 新建数组版倒序遍历
-def insert_sort(arr):
+def insert_sort4(arr):
     l = len(arr)
     new_arr = [arr[0]]
     for i in range(1, l):
@@ -94,9 +93,24 @@ def insert_sort(arr):
 
 
 # test
-arr = [7, 11, 9, 10, 12, 13, 8]
+arr1 = [7, 11, 9, 10, 12, 13, 8]
 start_time = time.time()
-print(insert_sort(arr))
+print(insert_sort1(arr1))
+print("time:" + str((time.time() - start_time) * 1000) + " ms")
+
+arr2 = [7, 11, 9, 10, 12, 13, 8]
+start_time = time.time()
+print(insert_sort2(arr2))
+print("time:" + str((time.time() - start_time) * 1000) + " ms")
+
+arr3 = [7, 11, 9, 10, 12, 13, 8]
+start_time = time.time()
+print(insert_sort3(arr3))
+print("time:" + str((time.time() - start_time) * 1000) + " ms")
+
+arr4 = [7, 11, 9, 10, 12, 13, 8]
+start_time = time.time()
+print(insert_sort4(arr4))
 print("time:" + str((time.time() - start_time) * 1000) + " ms")
 """
 jarrys-MacBook-Pro:insert_sort jarry$ python insert_sort.py
@@ -108,5 +122,57 @@ jarrys-MacBook-Pro:insert_sort jarry$ python insert_sort.py
 ('i=5', ' j=4', 'current=13', 'arr[i]=13', 'arr[j]=12', 'arr[]=', [7, 9, 10, 11, 12, 13, 8])
 ('i=6', ' j=5', 'current=8', 'arr[i]=8', 'arr[j]=13', 'arr[]=', [7, 9, 10, 11, 12, 13, 8])
 [7, 8, 9, 10, 11, 12, 13]
-time:0.113010406494 ms
+time:0.168800354004 ms
+('current:', 7)
+('i=0', ' j=-1', 'current=7', 'arr[i]=7', 'arr[j]=8', 'arr[]=', [7, 11, 9, 10, 12, 13, 8])
+('current:', 11)
+('i=1', ' j=0', 'current=11', 'arr[i]=11', 'arr[j]=7', 'arr[]=', [7, 11, 9, 10, 12, 13, 8])
+('current:', 9)
+('i=2', ' j=1', 'current=9', 'arr[i]=9', 'arr[j]=11', 'arr[]=', [7, 11, 9, 10, 12, 13, 8])
+('current:', 10)
+('i=3', ' j=2', 'current=10', 'arr[i]=10', 'arr[j]=9', 'arr[]=', [7, 9, 9, 10, 12, 13, 8])
+('current:', 12)
+('i=4', ' j=3', 'current=12', 'arr[i]=12', 'arr[j]=10', 'arr[]=', [7, 9, 9, 10, 12, 13, 8])
+('current:', 13)
+('i=5', ' j=4', 'current=13', 'arr[i]=13', 'arr[j]=12', 'arr[]=', [7, 9, 9, 10, 12, 13, 8])
+('current:', 8)
+('i=6', ' j=5', 'current=8', 'arr[i]=8', 'arr[j]=13', 'arr[]=', [7, 9, 9, 10, 12, 13, 8])
+[7, 8, 9, 9, 10, 12, 8]
+time:0.189781188965 ms
+('i=1', ' j=0', 'arr[i]=11', 'new_arr[j]=7', 'new_arr[]=', [7])
+('i=2', ' j=0', 'arr[i]=9', 'new_arr[j]=7', 'new_arr[]=', [7, 11])
+('i=2', ' j=1', 'arr[i]=9', 'new_arr[j]=11', 'new_arr[]=', [7, 11])
+('i=3', ' j=0', 'arr[i]=10', 'new_arr[j]=7', 'new_arr[]=', [7, 9, 11])
+('i=3', ' j=1', 'arr[i]=10', 'new_arr[j]=9', 'new_arr[]=', [7, 9, 11])
+('i=3', ' j=2', 'arr[i]=10', 'new_arr[j]=11', 'new_arr[]=', [7, 9, 11])
+('i=4', ' j=0', 'arr[i]=12', 'new_arr[j]=7', 'new_arr[]=', [7, 9, 10, 11])
+('i=4', ' j=1', 'arr[i]=12', 'new_arr[j]=9', 'new_arr[]=', [7, 9, 10, 11])
+('i=4', ' j=2', 'arr[i]=12', 'new_arr[j]=10', 'new_arr[]=', [7, 9, 10, 11])
+('i=4', ' j=3', 'arr[i]=12', 'new_arr[j]=11', 'new_arr[]=', [7, 9, 10, 11])
+('i=5', ' j=0', 'arr[i]=13', 'new_arr[j]=7', 'new_arr[]=', [7, 9, 10, 11, 12])
+('i=5', ' j=1', 'arr[i]=13', 'new_arr[j]=9', 'new_arr[]=', [7, 9, 10, 11, 12])
+('i=5', ' j=2', 'arr[i]=13', 'new_arr[j]=10', 'new_arr[]=', [7, 9, 10, 11, 12])
+('i=5', ' j=3', 'arr[i]=13', 'new_arr[j]=11', 'new_arr[]=', [7, 9, 10, 11, 12])
+('i=5', ' j=4', 'arr[i]=13', 'new_arr[j]=12', 'new_arr[]=', [7, 9, 10, 11, 12])
+('i=6', ' j=0', 'arr[i]=8', 'new_arr[j]=7', 'new_arr[]=', [7, 9, 10, 11, 12, 13])
+('i=6', ' j=1', 'arr[i]=8', 'new_arr[j]=9', 'new_arr[]=', [7, 9, 10, 11, 12, 13])
+('new_arr:', [7, 8, 9, 10, 11, 12, 13])
+[7, 8, 9, 10, 11, 12, 13]
+time:0.335931777954 ms
+('i=1', ' new_len=0', 'arr[i]=11', 'new_arr[new_len]=7', 'new_arr[]=', [7])
+('i=2', ' new_len=1', 'arr[i]=9', 'new_arr[new_len]=11', 'new_arr[]=', [7, 11])
+('i=2', ' new_len=0', 'arr[i]=9', 'new_arr[new_len]=7', 'new_arr[]=', [7, 11])
+('i=3', ' new_len=2', 'arr[i]=10', 'new_arr[new_len]=11', 'new_arr[]=', [7, 9, 11])
+('i=3', ' new_len=1', 'arr[i]=10', 'new_arr[new_len]=9', 'new_arr[]=', [7, 9, 11])
+('i=4', ' new_len=3', 'arr[i]=12', 'new_arr[new_len]=11', 'new_arr[]=', [7, 9, 10, 11])
+('i=5', ' new_len=4', 'arr[i]=13', 'new_arr[new_len]=12', 'new_arr[]=', [7, 9, 10, 11, 12])
+('i=6', ' new_len=5', 'arr[i]=8', 'new_arr[new_len]=13', 'new_arr[]=', [7, 9, 10, 11, 12, 13])
+('i=6', ' new_len=4', 'arr[i]=8', 'new_arr[new_len]=12', 'new_arr[]=', [7, 9, 10, 11, 12, 13])
+('i=6', ' new_len=3', 'arr[i]=8', 'new_arr[new_len]=11', 'new_arr[]=', [7, 9, 10, 11, 12, 13])
+('i=6', ' new_len=2', 'arr[i]=8', 'new_arr[new_len]=10', 'new_arr[]=', [7, 9, 10, 11, 12, 13])
+('i=6', ' new_len=1', 'arr[i]=8', 'new_arr[new_len]=9', 'new_arr[]=', [7, 9, 10, 11, 12, 13])
+('i=6', ' new_len=0', 'arr[i]=8', 'new_arr[new_len]=7', 'new_arr[]=', [7, 9, 10, 11, 12, 13])
+('new_arr:', [7, 8, 9, 10, 11, 12, 13])
+[7, 8, 9, 10, 11, 12, 13]
+time:0.219106674194 ms
 """

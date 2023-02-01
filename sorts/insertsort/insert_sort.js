@@ -4,34 +4,34 @@
  * @version: 1.0
  */
 ;(function () {
-  // JS标准版
+  // 标准版
   function insertSort1(arr) {
     let j
     let current
-    const l = arr.length
+    const len = arr.length
     // 外循环用于遍历待排序区间，内循环用来遍历已排序区间
-    for (let i = 0; i < l; i++) {
+    for (let i = 0; i < len; i++) {
       j = i
       current = arr[i]
-      // 将该项自右往左与已排序项逐个对比，当遇到比自己大的项(表示升序)时，将该位置右移
-      // 直到遇到小于等于自己的项则停止移动，表示插入成功
+      // 将该项与已排序项逐个对比，当遇到比自己大的项时，逐项右移
+      // 直到遇到小于等于自己的项则停止移动
       // console.log('i=' + i, ' j=' + j, 'current=' + current, 'arr[i]=' + arr[i], 'arr[j]=' + arr[j], 'arr[]=', arr)
       while (j-- > 0 && current < arr[j]) {
-        // 逐个位移
+        // 将大于比较项的数逐个位移，以便空出位置
         arr[j + 1] = arr[j]
       }
-      // 交换为当前项
+      // 插入到指定位置
       arr[j + 1] = current
     }
     return arr
   }
 
-  // 标准通用版
+  // 标准版2，j递减时机不同
   function insertSort2(arr) {
     var j
     var current
-    var l = arr.length
-    for (var i = 0; i < l; i++) {
+    var len = arr.length
+    for (var i = 0; i < len; i++) {
       j = i - 1
       current = arr[i]
       // console.log('i=' + i, ' j=' + j, 'current=' + current, 'arr[i]=' + arr[i], 'arr[j+1]=' + arr[j + 1], 'arr[]=', arr)
@@ -48,9 +48,9 @@
   function insertSort3(arr) {
     var j
     var current
-    var l = arr.length
+    var len = arr.length
     var isMin
-    for (var i = 1; i < l; i++) {
+    for (var i = 1; i < len; i++) {
       j = i - 1
       current = arr.splice(i, 1)[0]
       isMin = true
@@ -74,12 +74,12 @@
   // 新建数组版
   function insertSort4(arr) {
     var j
-    var l = arr.length
+    var len = arr.length
     var isMax
     var newArr = arr.slice(0, 1)
-    for (var i = 1; i < l; i++) {
+    for (var i = 1; i < len; i++) {
       isMax = true
-      for (var j = 0, len = newArr.length; j < len; j++) {
+      for (var j = 0, newLen = newArr.length; j < newLen; j++) {
         // console.log('i=' + i, ' j=' + j, 'arr[i]=' + arr[i], 'newArr[j]=' + newArr[j], 'arr[]=', arr)
         if (arr[i] < newArr[j]) {
           // 新建数组来插入到某个位置中

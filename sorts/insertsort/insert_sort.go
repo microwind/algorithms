@@ -12,7 +12,7 @@ func insertSort1(arr []int) []int {
   var j int
   var current int
   var l = len(arr)
-  // 外循环用于遍历待排序区间
+
   for i := 0; i < l; i++ {
     // 当前项为第1项
     current = arr[i]
