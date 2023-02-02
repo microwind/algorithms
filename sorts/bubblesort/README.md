@@ -120,7 +120,7 @@ function bubbleSort1(arr) {
 ## C
 
 ```c
-// 冒泡排序标准版呢，更多实现请看源码
+// 冒泡排序标准版，更多实现请看源码
 void bubbleSort1(int arr[], int len)
 {
 
@@ -161,13 +161,12 @@ fn bubble_sort1<T: Ord>(arr: &mut [T]) -> &mut [T] {
 }
 ```
 
-## darts
+## dart
 
 ```dart
 bubbleSort1(List list) {
   var len = list.length;
   for (var i = 0; i < len; i++) {
-    print("no:" + i.toString());
     for (var j = 0; j < len - i - 1; j++) {
       if (list[j] > list[j + 1]) {
         var tmp = list[j + 1];
@@ -176,7 +175,7 @@ bubbleSort1(List list) {
       }
     }
   }
-  print(list);
+  return list;
 }
 ```
 

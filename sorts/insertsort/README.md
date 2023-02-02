@@ -141,6 +141,7 @@ func insertSort1(arr []int) []int {
 
 ## C
 ```c
+  // c插入排序标准版，其他版本请查看源码文件
 int *insert_sort1(int arr[], int len)
 {
   int j;
