@@ -1,4 +1,4 @@
-## Java/Go/Python/JS/C 语言实现插入冒泡算法
+## Java/Go/Python/JS/C 语言实现冒泡排序算法
 
 ## 说明
 
@@ -160,6 +160,8 @@ fn bubble_sort1<T: Ord>(arr: &mut [T]) -> &mut [T] {
   return arr;
 }
 ```
+
+## darts
 
 ```dart
 bubbleSort1(List list) {
