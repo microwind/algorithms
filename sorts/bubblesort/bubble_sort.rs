@@ -1,5 +1,5 @@
 
-fn bubble_sort<T: Ord>(arr: &mut [T]) -> &mut [T] {
+fn bubble_sort1<T: Ord>(arr: &mut [T]) -> &mut [T] {
   let len = arr.len();
   println!("array size is {:?}", arr.len());
 
@@ -13,8 +13,6 @@ fn bubble_sort<T: Ord>(arr: &mut [T]) -> &mut [T] {
       }
     }
   }
-  // 采用T泛型无法直接打印
-  // `T` cannot be formatted using `{:?}` because it doesn't implement `Debug`
   // println!("array is sorted {:?}", arr);
   return arr;
 }
@@ -42,10 +40,10 @@ fn bubble_sort2<T: Ord>(arr: &mut [T]) -> &mut [T] {
 
 fn main() {
   println!("bubbleSort:");
-  let mut data = [2, -1, 10, 5, 8, 11];
-  println!("sort before: {:?}", data);
-  bubble_sort(&mut data);
-  println!("sort after: {:?}", data);
+  let mut data1 = [2, -1, 10, 5, 8, 11];
+  println!("sort1 before: {:?}", data1);
+  bubble_sort1(&mut data1);
+  println!("sort1 after: {:?}", data1);
 
   let mut data2 = [2, -1, 10, 5, 8, 11];
   println!("sort2 before: {:?}", data2);
@@ -60,7 +58,7 @@ rustc 1.51.0 (2fd73fabe)
 jarry@jarrys-MacBook-Pro bubblesort % rustc ./bubble_sort.rs
 jarry@jarrys-MacBook-Pro bubblesort % ./bubble_sort
 bubbleSort:
-sort before: [2, -1, 10, 5, 8, 11]
+sort1 before: [2, -1, 10, 5, 8, 11]
 array size is 6
 i:0
 i=:0, j=:0
@@ -83,7 +81,7 @@ i=:3, j=:1
 i:4
 i=:4, j=:0
 i:5
-sort after: [-1, 2, 5, 8, 10, 11]
+sort1 after: [-1, 2, 5, 8, 10, 11]
 sort2 before: [2, -1, 10, 5, 8, 11]
 i:0
 i=:0, j=:0

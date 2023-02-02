@@ -4,7 +4,7 @@
  * @version: 1.0
  */
 
-bubbleSort(List list) {
+bubbleSort1(List list) {
   var len = list.length;
   for (var i = 0; i < len; i++) {
     print("no:" + i.toString());
@@ -17,7 +17,7 @@ bubbleSort(List list) {
       print(j.toString() + " * " + i.toString());
     }
   }
-  print(list);
+  return list;
 }
 
 bubbleSort2(List list) {
@@ -38,23 +38,23 @@ bubbleSort2(List list) {
       print(j.toString() + " * " + i.toString());
     }
   }
-  print(list);
+  return list;
 }
 
 main() {
-  print("bubble sort:");
-  List data = [3, 2.5, 10, -4, -0.45];
-  bubbleSort(data);
-  print("bubble sort2:");
+  print("bubblesort1 start:");
+  List data1 = [3, 2.5, 10, -4, -0.45];
+  print("bubblesort1 sorted: ${bubbleSort1(data1)}");
+  print("bubblesort2 start:");
   List data2 = [3, 2.5, 10, -4, -0.45];
-  bubbleSort2(data2);
+  print("bubblesort2 sorted: ${bubbleSort2(data2)}");
 }
 
 /*
 jarry@jarrys-MacBook-Pro flutter_app % dart --version
 Dart SDK version: 2.12.2 (stable) on "macos_x64"
 jarry@jarrys-MacBook-Pro bubblesort % dart bubble_sort.dart 
-bubble sort:
+bubblesort1 start:
 no:0
 0 * 0
 1 * 0
@@ -70,8 +70,8 @@ no:2
 no:3
 0 * 3
 no:4
-[-4, -0.45, 2.5, 3, 10]
-bubble sort2:
+bubblesort1 sorted: [-4, -0.45, 2.5, 3, 10]
+bubblesort2 start:
 no:0
 4 * 0
 3 * 0
@@ -81,5 +81,5 @@ no:1
 4 * 1
 3 * 1
 2 * 1
-[10, 3, 2.5, -0.45, -4]
+bubblesort2 sorted: [10, 3, 2.5, -0.45, -4]
 */

@@ -3,68 +3,77 @@
  * @author: jarryli@gmail.com
  * @version: 1.0
  */
-class BubbleSort {
-    constructor(arr) {
-        this.bubbleSort(arr);
+var BubbleSort = /** @class */ (function () {
+    function BubbleSort(arr) {
+        this.bubbleSort1(arr.slice(0));
+        this.bubbleSort2(arr.slice(0));
+        this.bubbleSort3(arr.slice(0));
     }
     // ASE
-    bubbleSort1(arr) {
-        console.log('bubbleSort from left to right:');
-        const len = arr.length;
-        for (let i = 0; i < len; i++) {
-            for (let j = 0; j < len - i - 1; j++) {
+    BubbleSort.prototype.bubbleSort1 = function (arr) {
+        var _a;
+        console.log('bubbleSort1 from left to right:');
+        var len = arr.length;
+        for (var i = 0; i < len; i++) {
+            for (var j = 0; j < len - i - 1; j++) {
                 // 自左往右每两个进行比较，把大的交换到右侧
                 // 逐轮冒出最大数，已经排好序的不要再比较
                 if (arr[j] > arr[j + 1]) {
-                    [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+                    _a = [arr[j + 1], arr[j]], arr[j] = _a[0], arr[j + 1] = _a[1];
                 }
-                console.log('i=' + i, 'j=' + j, arr);
+                // console.log('i=' + i, 'j=' + j, arr)
             }
         }
-    }
+        console.log(arr);
+    };
     // DESC
-    bubbleSort2(arr) {
-        console.log('bubbleSort from right to left:');
-        const len = arr.length;
-        for (let i = 0; i < len; i++) {
-            for (let j = len - 1; j > i; j--) {
+    BubbleSort.prototype.bubbleSort2 = function (arr) {
+        var _a;
+        console.log('bubbleSort2 from right to left:');
+        var len = arr.length;
+        for (var i = 0; i < len; i++) {
+            for (var j = len - 1; j > i; j--) {
                 // 自右往左每两个进行比较，把小的交换到右侧
                 // 逐轮冒出最小数，已经排好序的不要再比较
                 if (arr[j - 1] < arr[j]) {
-                    [arr[j - 1], arr[j]] = [arr[j], arr[j - 1]];
+                    _a = [arr[j], arr[j - 1]], arr[j - 1] = _a[0], arr[j] = _a[1];
                 }
-                console.log('i=' + i, 'j=' + j, arr);
+                // console.log('i=' + i, 'j=' + j, arr)
             }
         }
-    }
+        console.log(arr);
+    };
     // add flag
-    bubbleSort(arr) {
-        console.log('bubbleSort add flag:');
+    BubbleSort.prototype.bubbleSort3 = function (arr) {
+        var _a;
+        console.log('bubbleSort3 add flag:');
         // 增加一个标志，如果某一轮没有进行过任何的交换
         // 则说明当前数组已排好序，则不必继续后面的遍历，
-        const len = arr.length;
-        let flag = true;
-        for (let i = 0; i < len && flag === true; i++) {
+        var len = arr.length;
+        var flag = true;
+        for (var i = 0; i < len && flag === true; i++) {
             flag = false;
-            console.warn('no. ' + i);
-            for (let j = 0; j < len - i - 1; j++) {
+            // console.warn('no. ' + i)
+            for (var j = 0; j < len - i - 1; j++) {
                 // 自左往右每两个进行比较，把大的交换到右侧
                 // 逐轮冒出最大数，已经排好序的不要再比较
                 if (arr[j] > arr[j + 1]) {
                     flag = true;
-                    [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+                    _a = [arr[j + 1], arr[j]], arr[j] = _a[0], arr[j + 1] = _a[1];
                 }
-                console.log('i=' + i, 'j=' + j, arr);
+                // console.log('i=' + i, 'j=' + j, arr)
             }
         }
-    }
-}
+        console.log(arr);
+    };
+    return BubbleSort;
+}());
 (function () {
-    const arr = [7, 11, 9, 10, 12, 13, 8];
+    // test
+    var arr = [7, 11, 9, 10, 12, 13, 8];
     console.time('bubbleSort');
     new BubbleSort(arr);
     console.timeEnd('bubbleSort');
-    console.log(arr);
 })();
 /*
 jarrys-MacBook-Pro:bubblesort jarry$ tsc BubbleSort.ts -t es2020

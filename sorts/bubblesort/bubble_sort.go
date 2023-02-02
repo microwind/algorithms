@@ -7,7 +7,7 @@ package main
 
 import "fmt"
 
-func bubbleSort(list []int) {
+func bubbleSort1(list []int) []int {
 	var length = len(list)
 	for i := 0; i < length; i++ {
 		fmt.Printf("\nno: %d\n", i)
@@ -20,7 +20,7 @@ func bubbleSort(list []int) {
 			}
 		}
 	}
-	fmt.Println(list)
+	return list
 }
 
 func bubbleSort2(list []int) []int {
@@ -65,9 +65,9 @@ func bubbleSort3(list []int) []int {
 }
 
 func main() {
-	fmt.Println("bubble sort:")
-	data := [...]int{3, 2, 10, -4, -10}
-	bubbleSort(data[:])
+	fmt.Println("bubble sort1:")
+	data1 := [...]int{3, 2, 10, -4, -10}
+	fmt.Println(bubbleSort1(data1[:]))
 
 	fmt.Println("bubble sort2:")
 	data2 := [...]int{3, 2, 10, -4, -10}
@@ -83,7 +83,7 @@ jarry@jarrys-MacBook-Pro bubblesort % go version
 go version go1.15 darwin/amd64
 jarry@jarrys-MacBook-Pro bubblesort % go build bubble_sort.go
 jarry@jarrys-MacBook-Pro bubblesort % ./bubble_sort
-bubble sort:
+bubble sort1:
 
 no: 0
 j=0 * i=0 | j=1 * i=0 | j=2 * i=0 | j=3 * i=0 |

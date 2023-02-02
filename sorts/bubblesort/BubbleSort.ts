@@ -6,11 +6,13 @@
 class BubbleSort {
 
   constructor(arr: Array<any>) {
-    this.bubbleSort(arr)
+    this.bubbleSort1(arr.slice(0))
+    this.bubbleSort2(arr.slice(0))
+    this.bubbleSort3(arr.slice(0))
   }
   // ASE
-  bubbleSort(arr: Array<number>) {
-    console.log('bubbleSort from left to right:')
+  bubbleSort1(arr: Array<number>) {
+    console.log('bubbleSort1 from left to right:')
     const len = arr.length
     for (let i = 0; i < len; i++) {
       for (let j = 0; j < len - i - 1; j++) {
@@ -19,14 +21,15 @@ class BubbleSort {
         if (arr[j] > arr[j + 1]) {
           [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]
         }
-        console.log('i=' + i, 'j=' + j, arr)
+        // console.log('i=' + i, 'j=' + j, arr)
       }
     }
+    console.log(arr)
   }
 
   // DESC
   bubbleSort2(arr: Array<Object>) {
-    console.log('bubbleSort from right to left:')
+    console.log('bubbleSort2 from right to left:')
     const len = arr.length
     for (let i = 0; i < len; i++) {
       for (let j = len - 1; j > i; j--) {
@@ -35,14 +38,15 @@ class BubbleSort {
         if (arr[j - 1] < arr[j]) {
           [arr[j - 1], arr[j]] = [arr[j], arr[j - 1]]
         }
-        console.log('i=' + i, 'j=' + j, arr)
+        // console.log('i=' + i, 'j=' + j, arr)
       }
     }
+    console.log(arr)
   }
 
   // add flag
   bubbleSort3<T>(arr: Array<T>) {
-    console.log('bubbleSort add flag:')
+    console.log('bubbleSort3 add flag:')
     // 增加一个标志，如果某一轮没有进行过任何的交换
     // 则说明当前数组已排好序，则不必继续后面的遍历，
     const len = arr.length
@@ -50,7 +54,7 @@ class BubbleSort {
 
     for (let i = 0; i < len && flag === true; i++) {
       flag = false
-      console.warn('no. ' + i)
+      // console.warn('no. ' + i)
       for (let j = 0; j < len - i - 1; j++) {
         // 自左往右每两个进行比较，把大的交换到右侧
         // 逐轮冒出最大数，已经排好序的不要再比较
@@ -58,64 +62,38 @@ class BubbleSort {
           flag = true;
           [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]
         }
-        console.log('i=' + i, 'j=' + j, arr)
+        // console.log('i=' + i, 'j=' + j, arr)
       }
     }
+    console.log(arr)
   }
 
 }
-(function() {
-  // 1.
+(function () {
+  // test
   var arr = [7, 11, 9, 10, 12, 13, 8]
   console.time('bubbleSort')
-  const bubbleSort = new BubbleSort(arr)
-  console.log(arr)
+  new BubbleSort(arr)
   console.timeEnd('bubbleSort')
-
-  // 2.
-  var arr = [7, 11, 9, 10, 12, 13, 8]
-  console.time('bubbleSort2')
-  console.log(arr)
-  console.timeEnd('bubbleSort2')
-
-  // 3.
-  var arr = [7, 11, 9, 10, 12, 13, 8]
-  console.time('bubbleSort3')
-  console.log(arr)
-  console.timeEnd('bubbleSort3')
 })()
 
 /*
 jarrys-MacBook-Pro:bubblesort jarry$ tsc BubbleSort.ts -t es2020
 jarrys-MacBook-Pro:bubblesort jarry$ node BubbleSort.js
-bubbleSort add flag:
-no. 0
-i=0 j=0 [ 7, 11, 9, 10, 12, 13, 8 ]
-i=0 j=1 [ 7, 9, 11, 10, 12, 13, 8 ]
-i=0 j=2 [ 7, 9, 10, 11, 12, 13, 8 ]
-i=0 j=3 [ 7, 9, 10, 11, 12, 13, 8 ]
-i=0 j=4 [ 7, 9, 10, 11, 12, 13, 8 ]
-i=0 j=5 [ 7, 9, 10, 11, 12, 8, 13 ]
-no. 1
-i=1 j=0 [ 7, 9, 10, 11, 12, 8, 13 ]
-i=1 j=1 [ 7, 9, 10, 11, 12, 8, 13 ]
-i=1 j=2 [ 7, 9, 10, 11, 12, 8, 13 ]
-i=1 j=3 [ 7, 9, 10, 11, 12, 8, 13 ]
-i=1 j=4 [ 7, 9, 10, 11, 8, 12, 13 ]
-no. 2
-i=2 j=0 [ 7, 9, 10, 11, 8, 12, 13 ]
-i=2 j=1 [ 7, 9, 10, 11, 8, 12, 13 ]
-i=2 j=2 [ 7, 9, 10, 11, 8, 12, 13 ]
-i=2 j=3 [ 7, 9, 10, 8, 11, 12, 13 ]
-no. 3
-i=3 j=0 [ 7, 9, 10, 8, 11, 12, 13 ]
-i=3 j=1 [ 7, 9, 10, 8, 11, 12, 13 ]
-i=3 j=2 [ 7, 9, 8, 10, 11, 12, 13 ]
-no. 4
-i=4 j=0 [ 7, 9, 8, 10, 11, 12, 13 ]
-i=4 j=1 [ 7, 8, 9, 10, 11, 12, 13 ]
-no. 5
-i=5 j=0 [ 7, 8, 9, 10, 11, 12, 13 ]
-bubbleSort: 5.916ms
-[ 7, 8, 9, 10, 11, 12, 13 ]
+bubbleSort1 from left to right:
+[
+   7,  8,  9, 10,
+  11, 12, 13
+]
+bubbleSort2 from right to left:
+[
+  13, 12, 11, 10,
+   9,  8,  7
+]
+bubbleSort3 add flag:
+[
+   7,  8,  9, 10,
+  11, 12, 13
+]
+bubbleSort: 8.312ms
 */

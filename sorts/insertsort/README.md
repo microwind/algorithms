@@ -1,4 +1,4 @@
-## Java/Go/Python/JS/C不同语言实现插入排序算法
+## Java/Go/Python/JS/C语言实现插入排序算法
 
 ## 说明
 插入排序（Insertion Sort）是一种简单直观的排序算法。它的工作原理是将数据分为已排序和未排序两个序列，对于未排序的数据，在已排序序列中从后向前逐个遍历，找到相应位置插入的方式，其原理跟打扑克牌按顺序插入牌很类似。
@@ -52,8 +52,6 @@ def insert_sort1(arr):
         current = arr[i]
         # 将该项自右往左与已排序项逐个对比，当遇到比自己大的项时，将该位置右移
         # 直到遇到小于等于自己的项则停止移动，表示插入成功
-        print('i=' + str(i), ' j=' + str(j), 'current=' + str(current),
-              'arr[i]=' + str(arr[i]), 'arr[j]=' + str(arr[j]), 'arr[]=', arr)
         while (j >= 0 and current < arr[j]):
             # 逐个位移
             arr[j + 1] = arr[j]
@@ -77,7 +75,6 @@ func insertSort1(arr []int) []int {
     // j是已排序的末尾位置
     j = i - 1
 
-    // 内循环用来遍历已排序区间
     // 将该项自右往左与已排序项逐个对比，当遇到比自己大的项时，则将该位置逐项右移
     // 直到遇到小于等于自己的项则停止移动，表示插入成功
     for j >= 0 && current < arr[j] {

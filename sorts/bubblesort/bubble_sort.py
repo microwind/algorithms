@@ -7,11 +7,11 @@
 """
 import time
 # ASE
-def bubble_sort(arr):
-  print('bubble_sort from left to right:')
+def bubble_sort1(arr):
+  print('bubble_sort1 from left to right:')
   length = len(arr)
   for i in range(length):
-    for j in range(length - 1):
+    for j in range(length - i - 1):
       # 自左往右每两个进行比较，把大的交换到右侧
       # 逐轮冒出最大数，已经排好序的不要再比较
       if (arr[j] > arr[j + 1]):
@@ -20,8 +20,8 @@ def bubble_sort(arr):
 
 
 # DESC
-def bubble_sort(arr):
-  print('bubble_sort from right to left:')
+def bubble_sort2(arr):
+  print('bubble_sort2 from right to left:')
   length = len(arr)
   for i in range(length):
     for j in range(length - 1, i, -1):
@@ -33,8 +33,8 @@ def bubble_sort(arr):
 
 
 # add flag
-def bubble_sort(arr):
-  print('bubble_sort add flag:')
+def bubble_sort3(arr):
+  print('bubble_sort3 add flag:')
   # 增加一个标志，如果某一轮没有进行过任何的交换
   # 则说明当前数组已排好序，则不必继续后面的遍历，
   length = len(arr)
@@ -43,7 +43,7 @@ def bubble_sort(arr):
   for i in range(length):
     flag = False
     print('no. ' + str(i))
-    for j in range(length - 1):
+    for j in range(length -i - 1):
       # 自左往右每两个进行比较，把大的交换到右侧
       # 逐轮冒出最大数，已经排好序的不要再比较
       if (arr[j] > arr[j + 1]):
@@ -52,10 +52,25 @@ def bubble_sort(arr):
       
       print('i=' + str(i), 'j=' + str(j), arr)
 
-arr = [ 7, 11, 9, 10, 12, 13, 8 ]
+
+## tests
+
+arr1 = [ 7, 11, 9, 10, 12, 13, 8 ]
 start_time = time.time()
-bubble_sort(arr)
-print(arr)
+bubble_sort1(arr1)
+print(arr1)
+print("time:" + str((time.time() - start_time) * 1000) + " ms")
+
+arr2 = [ 7, 11, 9, 10, 12, 13, 8 ]
+start_time = time.time()
+bubble_sort2(arr2)
+print(arr2)
+print("time:" + str((time.time() - start_time) * 1000) + " ms")
+
+arr3 = [ 7, 11, 9, 10, 12, 13, 8 ]
+start_time = time.time()
+bubble_sort3(arr3)
+print(arr3)
 print("time:" + str((time.time() - start_time) * 1000) + " ms")
 
 """
