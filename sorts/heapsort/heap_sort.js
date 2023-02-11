@@ -1,4 +1,3 @@
-
 /**
  * Copyright © https://github.com/jarry All rights reserved.
  * @author: jarryli@gmail.com
@@ -7,7 +6,7 @@
 // https://levelup.gitconnected.com/heapsort-for-javascript-newbies-598d25477d55
 // http://www.cppcns.com/wangluo/javascript/149148.html
 // https://www.programiz.com/dsa/heap-sort
-(function() {
+;(function () {
   // 根据完全二叉树结构性质，父子节点与数组下标的关系，通过数组下标i得到节点位置
   const getParent = (i) => Math.floor((i - 1) / 2)
   const getLeft = (i) => 2 * i + 1
@@ -29,10 +28,21 @@
     if (right < size && arr[right] > arr[max]) {
       max = right
     }
-    console.log('idx=', idx, 'left=', left, 'right=', right, 'max=', max, 'size=', size)
+    console.log(
+      'idx=',
+      idx,
+      'left=',
+      left,
+      'right=',
+      right,
+      'max=',
+      max,
+      'size=',
+      size
+    )
     if (max !== idx) {
       // 保持最大堆，如果当前父节点小于子节点，则进行交换
-      [arr[idx], arr[max]] = [arr[max], arr[idx]]
+      ;[arr[idx], arr[max]] = [arr[max], arr[idx]]
       // 继续递归执行，直到符合最大堆特性
       maxHeapify(arr, max, size)
     }
@@ -43,8 +53,17 @@
     let current = arr[idx]
     let child = getLeft(idx)
     // 从当前位置的左节点开始遍历
-    for (; child < size;) {
-      console.log('current=', current, ' idx=', idx, ' child=', child, ' size=', size)
+    for (; child < size; ) {
+      console.log(
+        'current=',
+        current,
+        ' idx=',
+        idx,
+        ' child=',
+        child,
+        ' size=',
+        size
+      )
       // 如果左节点小于右节点且小于总长度，则指向右节点
       if (child + 1 < size && arr[child] < arr[child + 1]) {
         child++
@@ -81,13 +100,13 @@
     // 自下向上逐个将子节点数与最顶端的数进行交换，并保持最大堆特性
     while (child > 0) {
       // 将顶端的父节点与当前子节点互换
-      [arr[0], arr[child]] = [arr[child], arr[0]]
+      ;[arr[0], arr[child]] = [arr[child], arr[0]]
       // 自最底层往上遍历构建大顶堆，已经排好序的不再交换
       maxHeapify(arr, 0, child)
       console.warn('child sort:', child, arr)
       child--
     }
-    
+
     return arr
   }
 
@@ -95,7 +114,6 @@
   console.time('heapSort')
   console.log('sorted:', heapSort(arr))
   console.timeEnd('heapSort')
-
 })()
 
 /*

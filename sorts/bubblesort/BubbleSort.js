@@ -9,7 +9,9 @@ var BubbleSort = /** @class */ (function () {
         this.bubbleSort2(arr.slice(0));
         this.bubbleSort3(arr.slice(0));
     }
-    // ASE
+    /**
+     * 冒泡排序升序，将最大的冒泡到最后
+     */
     BubbleSort.prototype.bubbleSort1 = function (arr) {
         var _a;
         console.log('bubbleSort1 from left to right:');
@@ -26,7 +28,9 @@ var BubbleSort = /** @class */ (function () {
         }
         console.log(arr);
     };
-    // DESC
+    /**
+     * 冒泡排序降序，将最小的冒泡到最后
+     */
     BubbleSort.prototype.bubbleSort2 = function (arr) {
         var _a;
         console.log('bubbleSort2 from right to left:');
@@ -43,7 +47,9 @@ var BubbleSort = /** @class */ (function () {
         }
         console.log(arr);
     };
-    // add flag
+    /**
+     * 冒泡排序升序，增加交换标志，针对有序情况优化
+     */
     BubbleSort.prototype.bubbleSort3 = function (arr) {
         var _a;
         console.log('bubbleSort3 add flag:');
@@ -68,6 +74,7 @@ var BubbleSort = /** @class */ (function () {
     };
     return BubbleSort;
 }());
+;
 (function () {
     // test
     var arr = [7, 11, 9, 10, 12, 13, 8];
@@ -78,34 +85,20 @@ var BubbleSort = /** @class */ (function () {
 /*
 jarrys-MacBook-Pro:bubblesort jarry$ tsc BubbleSort.ts -t es2020
 jarrys-MacBook-Pro:bubblesort jarry$ node BubbleSort.js
-bubbleSort add flag:
-no. 0
-i=0 j=0 [ 7, 11, 9, 10, 12, 13, 8 ]
-i=0 j=1 [ 7, 9, 11, 10, 12, 13, 8 ]
-i=0 j=2 [ 7, 9, 10, 11, 12, 13, 8 ]
-i=0 j=3 [ 7, 9, 10, 11, 12, 13, 8 ]
-i=0 j=4 [ 7, 9, 10, 11, 12, 13, 8 ]
-i=0 j=5 [ 7, 9, 10, 11, 12, 8, 13 ]
-no. 1
-i=1 j=0 [ 7, 9, 10, 11, 12, 8, 13 ]
-i=1 j=1 [ 7, 9, 10, 11, 12, 8, 13 ]
-i=1 j=2 [ 7, 9, 10, 11, 12, 8, 13 ]
-i=1 j=3 [ 7, 9, 10, 11, 12, 8, 13 ]
-i=1 j=4 [ 7, 9, 10, 11, 8, 12, 13 ]
-no. 2
-i=2 j=0 [ 7, 9, 10, 11, 8, 12, 13 ]
-i=2 j=1 [ 7, 9, 10, 11, 8, 12, 13 ]
-i=2 j=2 [ 7, 9, 10, 11, 8, 12, 13 ]
-i=2 j=3 [ 7, 9, 10, 8, 11, 12, 13 ]
-no. 3
-i=3 j=0 [ 7, 9, 10, 8, 11, 12, 13 ]
-i=3 j=1 [ 7, 9, 10, 8, 11, 12, 13 ]
-i=3 j=2 [ 7, 9, 8, 10, 11, 12, 13 ]
-no. 4
-i=4 j=0 [ 7, 9, 8, 10, 11, 12, 13 ]
-i=4 j=1 [ 7, 8, 9, 10, 11, 12, 13 ]
-no. 5
-i=5 j=0 [ 7, 8, 9, 10, 11, 12, 13 ]
-bubbleSort: 5.916ms
-[ 7, 8, 9, 10, 11, 12, 13 ]
+bubbleSort1 from left to right:
+[
+   7,  8,  9, 10,
+  11, 12, 13
+]
+bubbleSort2 from right to left:
+[
+  13, 12, 11, 10,
+   9,  8,  7
+]
+bubbleSort3 add flag:
+[
+   7,  8,  9, 10,
+  11, 12, 13
+]
+bubbleSort: 8.312ms
 */ 

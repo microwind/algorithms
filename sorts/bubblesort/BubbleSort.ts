@@ -10,7 +10,10 @@ class BubbleSort {
     this.bubbleSort2(arr.slice(0))
     this.bubbleSort3(arr.slice(0))
   }
-  // ASE
+s
+  /**
+   * 冒泡排序升序，将最大的冒泡到最后
+   */
   bubbleSort1(arr: Array<number>) {
     console.log('bubbleSort1 from left to right:')
     const len = arr.length
@@ -27,7 +30,9 @@ class BubbleSort {
     console.log(arr)
   }
 
-  // DESC
+  /**
+   * 冒泡排序降序，将最小的冒泡到最后
+   */
   bubbleSort2(arr: Array<Object>) {
     console.log('bubbleSort2 from right to left:')
     const len = arr.length
@@ -44,7 +49,9 @@ class BubbleSort {
     console.log(arr)
   }
 
-  // add flag
+  /**
+   * 冒泡排序升序，增加交换标志，针对有序情况优化
+   */
   bubbleSort3<T>(arr: Array<T>) {
     console.log('bubbleSort3 add flag:')
     // 增加一个标志，如果某一轮没有进行过任何的交换
@@ -69,7 +76,8 @@ class BubbleSort {
   }
 
 }
-(function () {
+
+;(function () {
   // test
   var arr = [7, 11, 9, 10, 12, 13, 8]
   console.time('bubbleSort')

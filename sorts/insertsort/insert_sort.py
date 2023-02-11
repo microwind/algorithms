@@ -7,8 +7,9 @@
 """
 import time
 
-
-# 标准通用版
+'''
+# 插入排序标准通用版
+'''
 def insert_sort1(arr):
     l = len(arr)
     for i in range(l):
@@ -26,8 +27,9 @@ def insert_sort1(arr):
         arr[j + 1] = current
     return arr
 
-
-# 利用list insert函数插入最小项
+'''
+# 插入排序利用list insert函数插入选择项
+'''
 def insert_sort2(arr):
     l = len(arr)
     is_min = False
@@ -50,7 +52,9 @@ def insert_sort2(arr):
         arr.pop(i)
     return arr
 
-# 利用list insert函数插入最大项
+'''
+# 插入排序利用list insert函数插入最大项
+'''
 def insert_sort3(arr):
     l = len(arr)
     new_arr = [arr[0]]
@@ -70,7 +74,9 @@ def insert_sort3(arr):
     return new_arr
 
 
-# 新建数组版倒序遍历
+'''
+# 插入排序新建数组版倒序遍历
+'''
 def insert_sort4(arr):
     l = len(arr)
     new_arr = [arr[0]]

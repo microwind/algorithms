@@ -7,7 +7,9 @@ package main
 
 import "fmt"
 
-// 插入排序标准版
+/**
+ * 插入排序标准版
+ */
 func insertSort1(arr []int) []int {
   var j int
   var current int
@@ -35,7 +37,9 @@ func insertSort1(arr []int) []int {
   return arr
 }
 
-// 标准插入排序降序版
+/**
+ * 插入排序降序版
+ */
 func insertSort2(arr []int) []int {
   for i := 0; i < len(arr); i++ {
     var current = arr[i]
@@ -55,7 +59,9 @@ func insertSort2(arr []int) []int {
   return arr
 }
 
-// 标准插入排序直接插入法
+/**
+ * 插入排序直接插入法，利用copy函数
+ */
 func insertSort3(arr []int) []int {
   for i, current := range arr {
     var j = i - 1

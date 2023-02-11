@@ -1,4 +1,7 @@
 
+/**
+ * 冒泡排序升序，将最大的冒泡到最后
+ */
 fn bubble_sort1<T: Ord>(arr: &mut [T]) -> &mut [T] {
   let len = arr.len();
   println!("array size is {:?}", arr.len());
@@ -17,6 +20,10 @@ fn bubble_sort1<T: Ord>(arr: &mut [T]) -> &mut [T] {
   return arr;
 }
 
+/**
+ * 冒泡排序降序，将最小的冒泡到最后。
+ * 且增加是否交换的标志，针对已排序做优化。
+ */
 fn bubble_sort2<T: Ord>(arr: &mut [T]) -> &mut [T] {
   let len = arr.len();
   let mut flag = true;

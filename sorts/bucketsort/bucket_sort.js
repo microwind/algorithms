@@ -5,8 +5,56 @@
  */
 (function () {
 
-  // 1. 桶排序代码标准版，不支持负数
+  /**
+   * 桶排序支持负数，负数放在第1个桶里排序
+   */
   function bucketSort1(arr) {
+    const max = Math.max(...arr)
+    let min = Math.min.apply(this, arr)
+    if (min < max && min <= 0) min = 1
+    // 设置桶的数量，可以任意设置，也可以根据最大、最小值来设置
+    const bucketNumber = Math.abs(Math.floor((max - min) / min)) + 1
+    const bucketSize = Math.abs(Math.floor((max - min) / bucketNumber)) + 1
+    const buckets = []
+    let idx
+    arr.forEach((item, i) => {
+      // 当前项除以桶数取整，决定应该放在某个桶内
+      idx = Math.floor((item - min) / bucketSize)
+      // 负数全放在第一个桶里，相当于负数按照插入方式排序
+      idx = idx > 0 ? idx : 0
+      // console.log('bucketSort1 bucketNumber=' + bucketNumber, 'bucketSize=' + bucketSize, 'idx=' + idx)
+      if (!buckets[idx]) {
+        buckets[idx] = []
+        buckets[idx].push(item)
+      } else {
+        let len = buckets[idx].length
+        while (len--) {
+          // 自后往前遍历，如果数字大于数组中的项则插入其后
+          if (item > buckets[idx][len]) {
+            buckets[idx].splice(len + 1, 0, item)
+            break
+            // 如果数字最小则插入到最前
+          } else if (len === 0) {
+            buckets[idx].unshift(item)
+          }
+        }
+      }
+    })
+
+    // 按照下标和顺序取出桶内的数字，回填到一个数组中
+    let output = []
+    buckets.forEach((bucketItem) => {
+      if (bucketItem) {
+        output = output.concat(bucketItem)
+      }
+    })
+    return output
+  }
+
+  /**
+   * 桶排序标准版，不支持负数
+   */
+  function bucketSort2(arr) {
     const max = Math.max(...arr)
     let min = Math.min(...arr)
     if (min < max && min <= 0) min = 1
@@ -22,7 +70,7 @@
       idx = Math.floor((item - min) / bucketSize)
       // 如支持负数可把负数全放在第一个桶内
       // idx = idx < 0 ? 0 : idx
-      console.log('bucketSort1 bucketNumber=' + bucketNumber, 'bucketSize=' + bucketSize, 'idx=' + idx)
+      // console.log('bucketSort2 bucketNumber=' + bucketNumber, 'bucketSize=' + bucketSize, 'idx=' + idx)
       if (!buckets[idx]) {
         buckets[idx] = []
         buckets[idx].push(item)
@@ -51,51 +99,9 @@
     return output
   }
 
-  // 2. 桶排序代码简版，负数放在第1个桶排序
-  function bucketSort2(arr) {
-    const max = Math.max(...arr)
-    let min = Math.min.apply(this, arr)
-    if (min < max && min <= 0) min = 1
-    // 设置桶的数量，可以任意设置，也可以根据最大、最小值来设置
-    const bucketNumber = Math.abs(Math.floor((max - min) / min)) + 1
-    const bucketSize = Math.abs(Math.floor((max - min) / bucketNumber)) + 1
-    const buckets = []
-    let idx
-    arr.forEach((item, i) => {
-      // 当前项除以桶数取整，决定应该放在某个桶内
-      idx = Math.floor((item - min) / bucketSize)
-      // 负数全放在第一个桶里，相当于负数按照插入方式排序
-      idx = idx > 0 ? idx : 0
-      console.log('bucketSort2 bucketNumber=' + bucketNumber, 'bucketSize=' + bucketSize, 'idx=' + idx)
-      if (!buckets[idx]) {
-        buckets[idx] = []
-        buckets[idx].push(item)
-      } else {
-        let len = buckets[idx].length
-        while (len--) {
-          // 自后往前遍历，如果数字大于数组中的项则插入其后
-          if (item > buckets[idx][len]) {
-            buckets[idx].splice(len + 1, 0, item)
-            break
-            // 如果数字最小则插入到最前
-          } else if (len === 0) {
-            buckets[idx].unshift(item)
-          }
-        }
-      }
-    })
-
-    // 按照下标和顺序取出桶内的数字，回填到一个数组中
-    let output = []
-    buckets.forEach((bucketItem) => {
-      if (bucketItem) {
-        output = output.concat(bucketItem)
-      }
-    })
-    return output
-  }
-
-  // 3. 桶排序标准版，负数放入第一个桶，挪动排序
+  /**
+   * 桶排序标准版，负数放入第一个桶，挪动排序
+   */
   function bucketSort3(arr) {
     let max = arr[0]
     let min = arr[0]
@@ -126,7 +132,7 @@
       if (idx < 0) {
         idx = 0
       }
-      console.log('bucketSort3 bucketNumber=' + bucketNumber, 'bucketSize=' + bucketSize, 'idx=' + idx)
+      // console.log('bucketSort3 bucketNumber=' + bucketNumber, 'bucketSize=' + bucketSize, 'idx=' + idx)
       // 每个桶都是一个数组，若不存在则创建并放入数字
       if (!Array.isArray(buckets[idx])) {
         buckets[idx] = []
@@ -167,7 +173,9 @@
     return output
   }
 
-  // 4. 桶排序标准版，负数单独排序
+  /**
+   * 桶排序标准版，负数单独排序
+   */
   function bucketSort4(arr) {
     let max = arr[0]
     let min = arr[0]
@@ -195,7 +203,7 @@
       // 排序数字除以桶数得到下标，以此来决定分配到哪个桶里面
       item = arr[i]
       idx = Math.floor((item - min) / bucketSize)
-      console.log('bucketSort4 bucketNumber=' + bucketNumber, 'bucketSize=' + bucketSize, 'idx=' + idx)
+      // console.log('bucketSort4 bucketNumber=' + bucketNumber, 'bucketSize=' + bucketSize, 'idx=' + idx)
       // 如果要支持负数则需要添加到负数下标列表中去
       if (idx < 0) {
         negativeList.push(item)
@@ -248,65 +256,23 @@
     return output
   }
 
-  const arr1 = [2, 11, 9, 30, 15, 13, 80]
-  const arr2 = [3, 4.3, 15, -2.1, -2, -2.1, 2, 3.2, 3, -7, 10]
-  console.time('bucketSort1.1')
-  console.log('origin:', arr1)
-  console.log('bucketSort1 sorted:', bucketSort1(arr1))
-  console.timeEnd('bucketSort1.1')
-
-  console.time('bucketSort1.2')
-  console.log('origin:', arr2)
-  console.log('bucketSort1 sorted:', bucketSort1(arr2))
-  console.timeEnd('bucketSort1.2')
-
-  console.log('\r\n')
-
-  console.time('bucketSort2.1')
-  console.log('origin:', arr1)
-  console.log('bucketSort2 sorted:', bucketSort2(arr1))
-  console.timeEnd('bucketSort2.1')
-  console.time('bucketSort2.2')
-  console.log('origin:', arr2)
-  console.log('bucketSort2 sorted:', bucketSort2(arr2))
-  console.timeEnd('bucketSort2.2')
-
-  console.log('\r\n')
-
-  console.time('bucketSort3.1')
-  console.log('origin:', arr1)
-  console.log('bucketSort3 sorted:', bucketSort3(arr1))
-  console.timeEnd('bucketSort3.1')
-  console.time('bucketSort3.2')
-  console.log('origin:', arr2)
-  console.log('bucketSort3 sorted:', bucketSort3(arr2))
-  console.timeEnd('bucketSort3.2')
-
-  console.log('\r\n')
-
-  console.time('bucketSort4.1')
-  console.log('origin:', arr1)
-  console.log('bucketSort4 sorted:', bucketSort4(arr1))
-  console.timeEnd('bucketSort4.1')
-  console.time('bucketSort4.2')
-  console.log('origin:', arr2)
-  console.log('bucketSort4 sorted:', bucketSort4(arr2))
-  console.timeEnd('bucketSort4.2')
-
-  // use this
-  function bucketSort5(num = 5) {
-    function swap(arr, i, j) {
-      const temp = arr[i]
-      arr[i] = arr[j]
-      arr[j] = temp
+  /**
+   * 桶排序标准版，负数放在第一个桶内排序
+   */
+  function bucketSort5(arr) {
+    function swap(list, i, j) {
+      const temp = list[i]
+      list[i] = list[j]
+      list[j] = temp
     }
-    const max = Math.max(...this)
-    const min = Math.min(...this)
+    const max = Math.max(...arr)
+    const min = Math.min(...arr)
     const buckets = []
-    // 桶数量是最大与最小差比上桶数取整
-    const bucketsSize = Math.floor((max - min) / num) + 1
-    for (let i = 0; i < this.length; i++) {
-      let index = Math.floor(this[i] / bucketsSize)
+    // 桶的容量大小可以是大于1的任意值，可根据数组内容来确定，这里用最大项与最小项的差比上数组长度取整
+    const bucketSize = Math.floor((max - min) / arr.length)
+    for (let i = 0; i < arr.length; i++) {
+      // index是桶的下标，数字除以桶数得到
+      let index = Math.floor(arr[i] / bucketSize)
       if (index < 0) {
         index = 0
       }
@@ -314,228 +280,194 @@
         buckets[index] = []
       }
       // 把数据添加到对应桶中
-      buckets[index].push(this[i])
+      buckets[index].push(arr[i])
       let l = buckets[index].length
-      // push之后立即遍历当前区间的桶，给桶内的数据排序，保证该桶内是排好顺的
+      // console.log('bucketSort5 bucketSize=' + bucketSize, 'arr[i]=' + arr[i], 'index=' + index, buckets)
+      // 添加之后立即遍历当前区间的桶，给桶内的数据按冒泡排序，保证该桶内是排好顺序的
       while (l > 0) {
-        console.log('swap:', l, buckets[index], buckets[index][l], buckets[index][l - 1], JSON.stringify(buckets), JSON.stringify(this))
+        // console.log('bucketSort5 swap:', l, buckets[index], buckets[index][l], buckets[index][l - 1], arr)
         if (buckets[index][l] < buckets[index][l - 1]) {
           swap(buckets[index], l, l - 1)
         }
         l--
       }
     }
-    console.log('buckets:', buckets)
-    // 回填桶
+    // 将各桶的数据回填到新数组
     let wrapBuckets = []
     for (let i = 0; i < buckets.length; i++) {
-      console.log('output:', buckets[i])
       if (buckets[i] !== undefined) {
         wrapBuckets = wrapBuckets.concat(buckets[i])
       }
     }
     return wrapBuckets
   }
-  var arr = [11, 1.3, 1, 1.4, 2, 8, 9, 3, 0, 20, -4]
 
-  function sortArray(arr) {
-    return bucketSort5.call(arr)
-  }
-  console.log(sortArray(arr))
+  // test
+  const arr1 = [2, 11, 9, 30, 15, 13, 80]
+  const arr2 = [3, 4.3, 15, -2.1, -2, -2.1, 2, 3.2, 3, -7, 10]
+  console.time('bucketSort1-arr1')
+  console.log('arr1 origin:', arr1)
+  console.log('bucketSort1-arr1 sorted:', bucketSort1(arr1))
+  console.timeEnd('bucketSort1-arr1')
 
+  console.time('bucketSort1-arr2')
+  console.log('arr2 origin:', arr2)
+  console.log('bucketSort1-arr2 sorted:', bucketSort1(arr2))
+  console.timeEnd('bucketSort1-arr2')
+
+  console.log('\r\n')
+
+  console.time('bucketSort2-arr1')
+  console.log('arr1 origin:', arr1)
+  console.log('bucketSort2-arr1 sorted:', bucketSort2(arr1))
+  console.timeEnd('bucketSort2-arr1')
+  console.time('bucketSort2-arr2')
+  console.log('arr2 origin:', arr2)
+  console.log('bucketSort2-arr1 sorted:', bucketSort2(arr2))
+  console.timeEnd('bucketSort2-arr2')
+
+  console.log('\r\n')
+
+  console.time('bucketSort3-arr1')
+  console.log('arr1 origin:', arr1)
+  console.log('bucketSort3-arr1 sorted:', bucketSort3(arr1))
+  console.timeEnd('bucketSort3-arr1')
+  console.time('bucketSort3-arr2')
+  console.log('arr2 origin:', arr2)
+  console.log('bucketSort3-arr1 sorted:', bucketSort3(arr2))
+  console.timeEnd('bucketSort3-arr2')
+
+  console.log('\r\n')
+
+  console.time('bucketSort4-arr1')
+  console.log('arr1 origin:', arr1)
+  console.log('bucketSort4-arr1 sorted:', bucketSort4(arr1))
+  console.timeEnd('bucketSort4-arr1')
+  console.time('bucketSort4-arr2')
+  console.log('arr2 origin:', arr2)
+  console.log('bucketSort4-arr2 sorted:', bucketSort4(arr2))
+  console.timeEnd('bucketSort4-arr2')
+
+  console.log('\r\n')
+
+  console.time('bucketSort5-arr1')
+  console.log('arr1 origin:', arr1)
+  console.log('bucketSort5-arr1 sorted:', bucketSort5(arr1))
+  console.timeEnd('bucketSort5-arr1')
+  console.time('bucketSort5-arr2')
+  console.log('arr2 origin:', arr2)
+  console.log('bucketSort5-arr2 sorted:', bucketSort5(arr2))
+  console.timeEnd('bucketSort5-arr2')
 
 })()
 
 /**
 jarry@192 bucketsort % node bucket_sort.js
-origin: [ 2, 11, 9, 30, 15, 13, 80 ]
-bucketSort1 bucketNumber=3 bucketSize=27 idx=0
-bucketSort1 bucketNumber=3 bucketSize=27 idx=0
-bucketSort1 bucketNumber=3 bucketSize=27 idx=0
-bucketSort1 bucketNumber=3 bucketSize=27 idx=1
-bucketSort1 bucketNumber=3 bucketSize=27 idx=0
-bucketSort1 bucketNumber=3 bucketSize=27 idx=0
-bucketSort1 bucketNumber=3 bucketSize=27 idx=2
-bucketSort1 sorted: [ 2, 9, 11, 13, 15, 30, 80 ]
-bucketSort1.1: 4.569ms
-origin: [ 3, 4.3, 15, -2.1, -2, -2.1, 2, 3.2, 3, -7, 10 ]
-bucketSort1 bucketNumber=5 bucketSize=3 idx=0
-bucketSort1 bucketNumber=5 bucketSize=3 idx=1
-bucketSort1 bucketNumber=5 bucketSize=3 idx=4
-bucketSort1 bucketNumber=5 bucketSize=3 idx=-2
-bucketSort1 bucketNumber=5 bucketSize=3 idx=-1
-bucketSort1 bucketNumber=5 bucketSize=3 idx=-2
-bucketSort1 bucketNumber=5 bucketSize=3 idx=0
-bucketSort1 bucketNumber=5 bucketSize=3 idx=0
-bucketSort1 bucketNumber=5 bucketSize=3 idx=0
-bucketSort1 bucketNumber=5 bucketSize=3 idx=-3
-bucketSort1 bucketNumber=5 bucketSize=3 idx=3
-bucketSort1 sorted: [ 2, 3, 3, 3.2, 4.3, 10, 15 ]
-bucketSort1.2: 0.676ms
+arr1 origin: [
+   2, 11,  9, 30,
+  15, 13, 80
+]
+bucketSort1-arr1 sorted: [
+   2,  9, 11, 13,
+  15, 30, 80
+]
+bucketSort1-arr1: 8.244ms
+arr2 origin: [
+   3,  4.3, 15, -2.1,
+  -2, -2.1,  2,  3.2,
+   3,   -7, 10
+]
+bucketSort1-arr2 sorted: [
+   -7, -2.1, -2.1,  -2,
+    2,    3,    3, 3.2,
+  4.3,   10,   15
+]
+bucketSort1-arr2: 0.586ms
 
 
-origin: [ 2, 11, 9, 30, 15, 13, 80 ]
-bucketSort2 bucketNumber=40 bucketSize=2 idx=1
-bucketSort2 bucketNumber=40 bucketSize=2 idx=5
-bucketSort2 bucketNumber=40 bucketSize=2 idx=4
-bucketSort2 bucketNumber=40 bucketSize=2 idx=15
-bucketSort2 bucketNumber=40 bucketSize=2 idx=7
-bucketSort2 bucketNumber=40 bucketSize=2 idx=6
-bucketSort2 bucketNumber=40 bucketSize=2 idx=40
-bucketSort2 sorted: [ 2, 9, 11, 13, 15, 30, 80 ]
-bucketSort2.1: 0.817ms
-origin: [ 3, 4.3, 15, -2.1, -2, -2.1, 2, 3.2, 3, -7, 10 ]
-bucketSort2 bucketNumber=5 bucketSize=5 idx=0
-bucketSort2 bucketNumber=5 bucketSize=5 idx=0
-bucketSort2 bucketNumber=5 bucketSize=5 idx=3
-bucketSort2 bucketNumber=5 bucketSize=5 idx=0
-bucketSort2 bucketNumber=5 bucketSize=5 idx=0
-bucketSort2 bucketNumber=5 bucketSize=5 idx=0
-bucketSort2 bucketNumber=5 bucketSize=5 idx=0
-bucketSort2 bucketNumber=5 bucketSize=5 idx=0
-bucketSort2 bucketNumber=5 bucketSize=5 idx=0
-bucketSort2 bucketNumber=5 bucketSize=5 idx=0
-bucketSort2 bucketNumber=5 bucketSize=5 idx=2
-bucketSort2 sorted: [ -7, -2.1, -2.1, -2, 2, 3, 3, 3.2, 4.3, 10, 15 ]
-bucketSort2.2: 0.930ms
+arr1 origin: [
+   2, 11,  9, 30,
+  15, 13, 80
+]
+bucketSort2-arr1 sorted: [
+   2,  9, 11, 13,
+  15, 30, 80
+]
+bucketSort2-arr1: 0.546ms
+arr2 origin: [
+   3,  4.3, 15, -2.1,
+  -2, -2.1,  2,  3.2,
+   3,   -7, 10
+]
+bucketSort2-arr1 sorted: [
+    2,  3,  3, 3.2,
+  4.3, 10, 15
+]
+bucketSort2-arr2: 0.467ms
 
 
-origin: [ 2, 11, 9, 30, 15, 13, 80 ]
-bucketSort3 bucketNumber=40 bucketSize=2 idx=1
-bucketSort3 bucketNumber=40 bucketSize=2 idx=5
-bucketSort3 bucketNumber=40 bucketSize=2 idx=4
-bucketSort3 bucketNumber=40 bucketSize=2 idx=15
-bucketSort3 bucketNumber=40 bucketSize=2 idx=7
-bucketSort3 bucketNumber=40 bucketSize=2 idx=6
-bucketSort3 bucketNumber=40 bucketSize=2 idx=40
-bucketSort3 sorted: [ 2, 9, 11, 13, 15, 30, 80 ]
-bucketSort3.1: 0.389ms
-origin: [ 3, 4.3, 15, -2.1, -2, -2.1, 2, 3.2, 3, -7, 10 ]
-bucketSort3 bucketNumber=5 bucketSize=5 idx=0
-bucketSort3 bucketNumber=5 bucketSize=5 idx=0
-bucketSort3 bucketNumber=5 bucketSize=5 idx=3
-bucketSort3 bucketNumber=5 bucketSize=5 idx=0
-bucketSort3 bucketNumber=5 bucketSize=5 idx=0
-bucketSort3 bucketNumber=5 bucketSize=5 idx=0
-bucketSort3 bucketNumber=5 bucketSize=5 idx=0
-bucketSort3 bucketNumber=5 bucketSize=5 idx=0
-bucketSort3 bucketNumber=5 bucketSize=5 idx=0
-bucketSort3 bucketNumber=5 bucketSize=5 idx=0
-bucketSort3 bucketNumber=5 bucketSize=5 idx=2
-bucketSort3 sorted: [ -7, -2.1, -2.1, -2, 2, 3, 3, 3.2, 4.3, 10, 15 ]
-bucketSort3.2: 0.348ms
+arr1 origin: [
+   2, 11,  9, 30,
+  15, 13, 80
+]
+bucketSort3-arr1 sorted: [
+   2,  9, 11, 13,
+  15, 30, 80
+]
+bucketSort3-arr1: 0.495ms
+arr2 origin: [
+   3,  4.3, 15, -2.1,
+  -2, -2.1,  2,  3.2,
+   3,   -7, 10
+]
+bucketSort3-arr1 sorted: [
+   -7, -2.1, -2.1,  -2,
+    2,    3,    3, 3.2,
+  4.3,   10,   15
+]
+bucketSort3-arr2: 0.3ms
 
 
-origin: [ 2, 11, 9, 30, 15, 13, 80 ]
-bucketSort4 bucketNumber=40 bucketSize=2 idx=1
-bucketSort4 bucketNumber=40 bucketSize=2 idx=5
-bucketSort4 bucketNumber=40 bucketSize=2 idx=4
-bucketSort4 bucketNumber=40 bucketSize=2 idx=15
-bucketSort4 bucketNumber=40 bucketSize=2 idx=7
-bucketSort4 bucketNumber=40 bucketSize=2 idx=6
-bucketSort4 bucketNumber=40 bucketSize=2 idx=40
-bucketSort4 sorted: [ 2, 9, 11, 13, 15, 30, 80 ]
-jarry@192 bucketsort % node bucket_sort.js
-origin: [ 2, 11, 9, 30, 15, 13, 80 ]
-bucketSort1 bucketNumber=3 bucketSize=27 idx=0
-bucketSort1 bucketNumber=3 bucketSize=27 idx=0
-bucketSort1 bucketNumber=3 bucketSize=27 idx=0
-bucketSort1 bucketNumber=3 bucketSize=27 idx=1
-bucketSort1 bucketNumber=3 bucketSize=27 idx=0
-bucketSort1 bucketNumber=3 bucketSize=27 idx=0
-bucketSort1 bucketNumber=3 bucketSize=27 idx=2
-bucketSort1 sorted: [ 2, 9, 11, 13, 15, 30, 80 ]
-bucketSort1.1: 4.709ms
-origin: [ 3, 4.3, 15, -2.1, -2, -2.1, 2, 3.2, 3, -7, 10 ]
-bucketSort1 bucketNumber=5 bucketSize=3 idx=0
-bucketSort1 bucketNumber=5 bucketSize=3 idx=1
-bucketSort1 bucketNumber=5 bucketSize=3 idx=4
-bucketSort1 bucketNumber=5 bucketSize=3 idx=-2
-bucketSort1 bucketNumber=5 bucketSize=3 idx=-1
-bucketSort1 bucketNumber=5 bucketSize=3 idx=-2
-bucketSort1 bucketNumber=5 bucketSize=3 idx=0
-bucketSort1 bucketNumber=5 bucketSize=3 idx=0
-bucketSort1 bucketNumber=5 bucketSize=3 idx=0
-bucketSort1 bucketNumber=5 bucketSize=3 idx=-3
-bucketSort1 bucketNumber=5 bucketSize=3 idx=3
-bucketSort1 sorted: [ 2, 3, 3, 3.2, 4.3, 10, 15 ]
-bucketSort1.2: 0.825ms
+arr1 origin: [
+   2, 11,  9, 30,
+  15, 13, 80
+]
+bucketSort4-arr1 sorted: [
+   2,  9, 11, 13,
+  15, 30, 80
+]
+bucketSort4-arr1: 0.356ms
+arr2 origin: [
+   3,  4.3, 15, -2.1,
+  -2, -2.1,  2,  3.2,
+   3,   -7, 10
+]
+bucketSort4-arr2 sorted: [
+   -7, -2.1, -2.1,  -2,
+    2,    3,    3, 3.2,
+  4.3,   10,   15
+]
+bucketSort4-arr2: 0.292ms
 
 
-origin: [ 2, 11, 9, 30, 15, 13, 80 ]
-bucketSort2 bucketNumber=40 bucketSize=2 idx=1
-bucketSort2 bucketNumber=40 bucketSize=2 idx=5
-bucketSort2 bucketNumber=40 bucketSize=2 idx=4
-bucketSort2 bucketNumber=40 bucketSize=2 idx=15
-bucketSort2 bucketNumber=40 bucketSize=2 idx=7
-bucketSort2 bucketNumber=40 bucketSize=2 idx=6
-bucketSort2 bucketNumber=40 bucketSize=2 idx=40
-bucketSort2 sorted: [ 2, 9, 11, 13, 15, 30, 80 ]
-bucketSort2.1: 0.682ms
-origin: [ 3, 4.3, 15, -2.1, -2, -2.1, 2, 3.2, 3, -7, 10 ]
-bucketSort2 bucketNumber=5 bucketSize=5 idx=0
-bucketSort2 bucketNumber=5 bucketSize=5 idx=0
-bucketSort2 bucketNumber=5 bucketSize=5 idx=3
-bucketSort2 bucketNumber=5 bucketSize=5 idx=0
-bucketSort2 bucketNumber=5 bucketSize=5 idx=0
-bucketSort2 bucketNumber=5 bucketSize=5 idx=0
-bucketSort2 bucketNumber=5 bucketSize=5 idx=0
-bucketSort2 bucketNumber=5 bucketSize=5 idx=0
-bucketSort2 bucketNumber=5 bucketSize=5 idx=0
-bucketSort2 bucketNumber=5 bucketSize=5 idx=0
-bucketSort2 bucketNumber=5 bucketSize=5 idx=2
-bucketSort2 sorted: [ -7, -2.1, -2.1, -2, 2, 3, 3, 3.2, 4.3, 10, 15 ]
-bucketSort2.2: 1.197ms
-
-
-origin: [ 2, 11, 9, 30, 15, 13, 80 ]
-bucketSort3 bucketNumber=40 bucketSize=2 idx=1
-bucketSort3 bucketNumber=40 bucketSize=2 idx=5
-bucketSort3 bucketNumber=40 bucketSize=2 idx=4
-bucketSort3 bucketNumber=40 bucketSize=2 idx=15
-bucketSort3 bucketNumber=40 bucketSize=2 idx=7
-bucketSort3 bucketNumber=40 bucketSize=2 idx=6
-bucketSort3 bucketNumber=40 bucketSize=2 idx=40
-bucketSort3 sorted: [ 2, 9, 11, 13, 15, 30, 80 ]
-bucketSort3.1: 0.620ms
-origin: [ 3, 4.3, 15, -2.1, -2, -2.1, 2, 3.2, 3, -7, 10 ]
-bucketSort3 bucketNumber=5 bucketSize=5 idx=0
-bucketSort3 bucketNumber=5 bucketSize=5 idx=0
-bucketSort3 bucketNumber=5 bucketSize=5 idx=3
-bucketSort3 bucketNumber=5 bucketSize=5 idx=0
-bucketSort3 bucketNumber=5 bucketSize=5 idx=0
-bucketSort3 bucketNumber=5 bucketSize=5 idx=0
-bucketSort3 bucketNumber=5 bucketSize=5 idx=0
-bucketSort3 bucketNumber=5 bucketSize=5 idx=0
-bucketSort3 bucketNumber=5 bucketSize=5 idx=0
-bucketSort3 bucketNumber=5 bucketSize=5 idx=0
-bucketSort3 bucketNumber=5 bucketSize=5 idx=2
-bucketSort3 sorted: [ -7, -2.1, -2.1, -2, 2, 3, 3, 3.2, 4.3, 10, 15 ]
-bucketSort3.2: 0.797ms
-
-
-origin: [ 2, 11, 9, 30, 15, 13, 80 ]
-bucketSort4 bucketNumber=40 bucketSize=2 idx=1
-bucketSort4 bucketNumber=40 bucketSize=2 idx=5
-bucketSort4 bucketNumber=40 bucketSize=2 idx=4
-bucketSort4 bucketNumber=40 bucketSize=2 idx=15
-bucketSort4 bucketNumber=40 bucketSize=2 idx=7
-bucketSort4 bucketNumber=40 bucketSize=2 idx=6
-bucketSort4 bucketNumber=40 bucketSize=2 idx=40
-bucketSort4 sorted: [ 2, 9, 11, 13, 15, 30, 80 ]
-bucketSort4.1: 4.428ms
-origin: [ 3, 4.3, 15, -2.1, -2, -2.1, 2, 3.2, 3, -7, 10 ]
-bucketSort4 bucketNumber=5 bucketSize=5 idx=0
-bucketSort4 bucketNumber=5 bucketSize=5 idx=0
-bucketSort4 bucketNumber=5 bucketSize=5 idx=3
-bucketSort4 bucketNumber=5 bucketSize=5 idx=-1
-bucketSort4 bucketNumber=5 bucketSize=5 idx=-1
-bucketSort4 bucketNumber=5 bucketSize=5 idx=-1
-bucketSort4 bucketNumber=5 bucketSize=5 idx=0
-bucketSort4 bucketNumber=5 bucketSize=5 idx=0
-bucketSort4 bucketNumber=5 bucketSize=5 idx=0
-bucketSort4 bucketNumber=5 bucketSize=5 idx=-2
-bucketSort4 bucketNumber=5 bucketSize=5 idx=2
-bucketSort4 sorted: [ -7, -2.1, -2.1, -2, 2, 3, 3, 3.2, 4.3, 10, 15 ]
-bucketSort4.2: 5.287ms
+arr1 origin: [
+   2, 11,  9, 30,
+  15, 13, 80
+]
+bucketSort5-arr1 sorted: [
+   2,  9, 11, 13,
+  15, 30, 80
+]
+bucketSort5-arr1: 0.241ms
+arr2 origin: [
+   3,  4.3, 15, -2.1,
+  -2, -2.1,  2,  3.2,
+   3,   -7, 10
+]
+bucketSort5-arr2 sorted: [
+   -7, -2.1, -2.1,  -2,
+    2,    3,    3, 3.2,
+  4.3,   10,   15
+]
+bucketSort5-arr2: 0.292ms
 */

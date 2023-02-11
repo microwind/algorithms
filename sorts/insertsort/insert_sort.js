@@ -4,7 +4,9 @@
  * @version: 1.0
  */
 ;(function () {
-  // 标准版
+  /**
+   * 插入排序标准版
+   */
   function insertSort1(arr) {
     let j
     let current
@@ -26,7 +28,9 @@
     return arr
   }
 
-  // 标准版2，j递减时机不同
+  /**
+   * 插入排序标准版2，j递减时机不同
+   */
   function insertSort2(arr) {
     var j
     var current
@@ -44,7 +48,9 @@
     return arr
   }
 
-  // splice版本
+  /**
+   * 插入排序splice直接插入版本
+   */
   function insertSort3(arr) {
     var j
     var current
@@ -71,7 +77,9 @@
     return arr
   }
 
-  // 新建数组版
+  /**
+   * 插入排序新建数组结合splice版
+   */
   function insertSort4(arr) {
     var j
     var len = arr.length
@@ -95,7 +103,9 @@
     return newArr
   }
 
-  // 新建数组版倒序遍历
+  /**
+   * 插入排序倒序遍历版
+   */
   function insertSort5(arr) {
     var l = arr.length
     var len
@@ -121,7 +131,9 @@
     return newArr
   }
 
-  // 新建数组版挪动插入版
+  /**
+   * 新建数组版挪动插入版
+   */
   function insertSort6(arr) {
     const len = arr.length
     const newArr = [arr[0]]
@@ -142,6 +154,7 @@
     return newArr
   }
 
+  // test
   const arr = [7, 11, 9, 10, 12, 13, 8]
   const arr2 = [3, 4.3, 15, -2.1, -2, -2.1, 2, 3.2, 3, -7, 10]
   console.log('arr origin:', arr)

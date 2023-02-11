@@ -17,7 +17,9 @@ struct Node *insertion_sort(struct Node *list);
 void print(int arr[], int len);
 void print_buckets(struct Node *list);
 
-// Sorting function
+/**
+ * 桶排序，通过strut结构提来当做桶，与普通数组排序一样
+ */
 void bucket_sort(int arr[], int len)
 {
   int max_value = arr[0];
@@ -36,20 +38,20 @@ void bucket_sort(int arr[], int len)
   int i, j;
   struct Node **buckets;
 
-  // Set bucket size
+  //  设置每个桶的大小
   int bucket_size = (max_value - min_value) / min_value + 1;
-  // How many buckets
+  // 一共多少个桶
   int bucket_number = (max_value - min_value) / bucket_size + 1;
-  // Create buckets and allocate memory size
+  // 申请内存空间
   buckets = (struct Node **)malloc(sizeof(struct Node *) * bucket_number);
 
-  // Initialize empty buckets
+  // 初始化空的桶
   for (i = 0; i < bucket_number; ++i)
   {
     buckets[i] = NULL;
   }
 
-  // Fill the buckets with respective elements
+  // 给桶内填充数据
   for (i = 0; i < len; ++i)
   {
     struct Node *current;
@@ -60,7 +62,7 @@ void bucket_sort(int arr[], int len)
     buckets[pos] = current;
   }
 
-  // Print the buckets along with their elements
+  // 打印全部桶
   for (i = 0; i < bucket_number; i++)
   {
     printf("Bucket[%d]:", i);
@@ -68,14 +70,14 @@ void bucket_sort(int arr[], int len)
     printf("\n");
   }
 
-  // Sort the elements of each bucket
+  // 给每个桶按插入排序
   for (i = 0; i < bucket_number; ++i)
   {
     buckets[i] = insertion_sort(buckets[i]);
   }
 
   printf("-------------\n");
-  printf("Bucktets after sorting\n");
+  printf("排序之后\n");
   for (i = 0; i < bucket_number; i++)
   {
     printf("Bucket[%d]: ", i);
@@ -83,7 +85,7 @@ void bucket_sort(int arr[], int len)
     printf("\n");
   }
 
-  // Put sorted elements on arr
+  // 再将数据取出给数组
   for (j = 0, i = 0; i < bucket_number; ++i)
   {
     struct Node *node;
@@ -98,7 +100,7 @@ void bucket_sort(int arr[], int len)
   return;
 }
 
-// Function to sort the elements of each bucket
+// 针对桶的插入排序
 struct Node *insertion_sort(struct Node *list)
 {
   struct Node *k, *node_list;
@@ -158,7 +160,7 @@ void print(int arr[], int len)
   printf("\n");
 }
 
-// Print buckets
+// 打印全部桶
 void print_buckets(struct Node *list)
 {
   struct Node *cur = list;
@@ -176,17 +178,17 @@ int main(void) {
   int arr3[5] = {9, -1, -2, 0, 4};
   int len = sizeof(arr) / sizeof(arr[0]);
 
-  printf("Initial arr: ");
+  printf("arr1: ");
   print(arr, len);
   printf("-------------\n");
 
   bucket_sort(arr, len);
   printf("-------------\n");
-  printf("Sorted arr: ");
+  printf("Sorted arr1: ");
   print(arr, len);
 
   int len2 = sizeof(arr2) / sizeof(arr2[0]);
-  printf("Initial arr2: ");
+  printf("arr2: ");
   print(arr2, len2);
   printf("-------------\n");
 
@@ -194,6 +196,16 @@ int main(void) {
   printf("-------------\n");
   printf("Sorted arr2: ");
   print(arr2, len2);
+
+  int len3 = sizeof(arr3) / sizeof(arr3[0]);
+  printf("arr3: ");
+  print(arr3, len3);
+  printf("-------------\n");
+
+  bucket_sort(arr3, len3);
+  printf("-------------\n");
+  printf("Sorted arr3: ");
+  print(arr3, len3);
 
   return 0;
 }

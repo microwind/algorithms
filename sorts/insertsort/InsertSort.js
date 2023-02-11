@@ -12,7 +12,9 @@ var InsertSort = /** @class */ (function () {
         this.insertSort5(arr.slice(0));
         this.arr = this.insertSort6(arr);
     }
-    // TS标准版
+    /**
+     * 插入排序标准版
+     */
     InsertSort.prototype.insertSort1 = function (arr) {
         console.time('time');
         var j, current, l = arr.length;
@@ -42,7 +44,9 @@ var InsertSort = /** @class */ (function () {
         console.timeEnd('time');
         return arr;
     };
-    // 标准通用版
+    /**
+     * 插入排序标准版2，j递减时机不同
+     */
     InsertSort.prototype.insertSort2 = function (arr) {
         console.time('time');
         var j, current, l = arr.length;
@@ -68,7 +72,9 @@ var InsertSort = /** @class */ (function () {
         console.timeEnd('time');
         return arr;
     };
-    // splice版本
+    /**
+     * 插入排序splice版本
+     */
     InsertSort.prototype.insertSort3 = function (arr) {
         console.time('time');
         var j, current, l = arr.length, isMin;
@@ -102,7 +108,9 @@ var InsertSort = /** @class */ (function () {
         console.timeEnd('time');
         return arr;
     };
-    // 新建数组版
+    /**
+     * 插入排序新建数组+splice版
+     */
     InsertSort.prototype.insertSort4 = function (arr) {
         console.time('time');
         var j, len, l = arr.length, isMax;
@@ -133,7 +141,9 @@ var InsertSort = /** @class */ (function () {
         console.timeEnd('time');
         return newArr;
     };
-    // 新建数组版倒序遍历
+    /**
+     * 插入排序新建数组版倒序遍历
+     */
     InsertSort.prototype.insertSort5 = function (arr) {
         console.time('time');
         var l = arr.length, len, isMin;
@@ -164,7 +174,9 @@ var InsertSort = /** @class */ (function () {
         console.timeEnd('time');
         return newArr;
     };
-    // 新建数组版挪动插入版
+    /**
+     * 插入排序新建数组版挪动插入版
+     */
     InsertSort.prototype.insertSort6 = function (arr) {
         console.time('time');
         var len = arr.length;
@@ -205,14 +217,40 @@ origin: [
    7, 11, 9, 10,
   12, 13, 8
 ]
+sort1: [
+   7,  8,  9, 10,
+  11, 12, 13
+]
+time: 0.274ms
+sort2: [
+   7,  8,  9, 10,
+  11, 12, 13
+]
+time: 0.264ms
+sort3: [
+   7,  8,  9, 10,
+  11, 12, 13
+]
+time: 0.163ms
+sort4 newArr: [
+   7,  8,  9, 10,
+  11, 12, 13
+]
+time: 3.699ms
+sort5 newArr: [
+   7,  8,  9, 10,
+  11, 12, 13
+]
+time: 0.121ms
 sort6: [
    7, 11, 9, 10,
   12, 13, 8
 ]
+time: 0.128ms
 
 sorted: [
    7,  8,  9, 10,
   11, 12, 13
 ]
-sort: 7.377ms
-   */
+sort-all: 13.866ms
+*/

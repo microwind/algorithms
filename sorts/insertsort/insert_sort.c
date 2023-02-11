@@ -7,6 +7,9 @@
 #include <math.h>
 #include <time.h>
 
+/**
+ * 插入排序标准版1
+ */
 int *insert_sort1(int arr[], int len)
 {
   int j;
@@ -30,7 +33,9 @@ int *insert_sort1(int arr[], int len)
   return arr;
 }
 
-// 标准通用版
+/**
+ * 插入排序标准版2
+ */
 int *insert_sort2(int arr[], int len)
 {
   int j, current;
@@ -49,7 +54,9 @@ int *insert_sort2(int arr[], int len)
   return arr;
 }
 
-// 倒序版
+/**
+ * 插入排序倒序版
+ */
 int *insert_sort3(int arr[], int len)
 {
   for (int i = 0; i < len; i++)

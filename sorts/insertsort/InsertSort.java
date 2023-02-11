@@ -9,7 +9,9 @@ import java.util.Arrays;
 
 class InsertSort {
 
-  // java插入排序标准版
+  /**
+   * 插入排序标准版
+   */
   static int[] insertSort1(final int[] arr) {
     for (int i = 0; i < arr.length; i++) {
       int j = i;
@@ -27,7 +29,9 @@ class InsertSort {
     return arr;
   }
 
-  // java插入排序for循环升序版
+  /**
+   * 插入排序for循环升序版
+   */
   public static int[] insertSort2(final int arr[]) {
     // 外循环是待排序列表，内循环是已排序列表
     // 这里i可以自1开始
@@ -44,7 +48,9 @@ class InsertSort {
     return arr;
   }
 
-  // java插入排序for循环降序版
+  /**
+   * 插入排序for循环降序版
+   */
   static int[] insertSort3(int[] arr) {
     for (int i = 0; i < arr.length; i++) {
       int current = arr[i];

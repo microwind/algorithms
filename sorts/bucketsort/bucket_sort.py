@@ -7,8 +7,9 @@
 """
 import time
 
-
+'''
 # 1. 桶排序代码简版，负数全放在第1桶
+'''
 def bucket_sort1(arr):
     max_value = max(arr)
     min_value = min(arr)
@@ -47,8 +48,9 @@ def bucket_sort1(arr):
             output = output + buckets[i]
     return output
 
-
-    # 2. 桶排序标准版，负数单独排序处理
+'''
+# 2. 桶排序标准版，负数单独排序处理
+'''
 def bucket_sort2(arr):
     max_value = arr[0]
     min_value = arr[0]
@@ -117,7 +119,9 @@ def bucket_sort2(arr):
                 j += 1
     return output
 
-
+'''
+# 1. 桶排序，利用sorted函数
+'''
 def bucket_sort3(arr):
     buckets = []
     max_value = max(arr)

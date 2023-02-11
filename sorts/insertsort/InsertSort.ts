@@ -14,7 +14,10 @@ class InsertSort {
     this.insertSort5(arr.slice(0))
     this.arr = this.insertSort6(arr)
   }
-  // TS标准版
+
+  /**
+   * 插入排序标准版
+   */
   insertSort1(arr: Array<number>) {
     console.time('time')
     let j: number,
@@ -47,7 +50,9 @@ class InsertSort {
     return arr
   }
 
-  // 标准通用版
+  /**
+   * 插入排序标准版2，j递减时机不同
+   */
   insertSort2(arr: number[]) {
     console.time('time')
     let j: number,
@@ -76,7 +81,9 @@ class InsertSort {
     return arr
   }
 
-  // splice版本
+  /**
+   * 插入排序splice版本
+   */
   insertSort3<T>(arr: Array<T>) {
     console.time('time')
     let j: number,
@@ -114,7 +121,9 @@ class InsertSort {
     return arr
   }
 
-  // 新建数组版
+  /**
+   * 插入排序新建数组+splice版
+   */
   insertSort4(arr: Array<any>) {
     console.time('time')
     let j: number,
@@ -149,7 +158,9 @@ class InsertSort {
     return newArr
   }
 
-  // 新建数组版倒序遍历
+  /**
+   * 插入排序新建数组版倒序遍历
+   */
   insertSort5(arr: Array<number>) {
     console.time('time')
     let l = arr.length,
@@ -183,7 +194,9 @@ class InsertSort {
     return newArr
   }
 
-  // 新建数组版挪动插入版
+  /**
+   * 插入排序新建数组版挪动插入版
+   */
   insertSort6(arr: Array<number>) {
     console.time('time')
     const len = arr.length

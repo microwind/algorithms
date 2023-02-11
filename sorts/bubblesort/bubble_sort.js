@@ -4,7 +4,9 @@
  * @version: 1.0
  */
 ;(function () {
-  // 1. ASE
+  /**
+   * 冒泡排序升序，将最大的冒泡到最后
+   */
   function bubbleSort1(arr) {
     console.log('bubbleSort1 from left to right:')
     const len = arr.length
@@ -21,7 +23,9 @@
     console.log(arr)
   }
 
-  // 2. DESC
+  /**
+   * 冒泡排序降序，将最小的冒泡到最后
+   */
   function bubbleSort2(arr) {
     console.log('bubbleSort2 from right to left:')
     const len = arr.length
@@ -38,7 +42,9 @@
     console.log(arr)
   }
 
-  // 3. add flag
+  /**
+   * 冒泡排序增加交换标志，针对有序情况优化
+   */
   function bubbleSort3(arr) {
     console.log('bubbleSort3 add flag:')
     // 增加一个标志，如果某一轮没有进行过任何的交换
@@ -62,7 +68,9 @@
     console.log(arr)
   }
 
-  // 4. 分为左右两列，左列已排序，右侧待排序。自左往右循环左列，逐个与待排序项比较并交换，外循环针对待排序项。
+  /**
+   * 插入冒泡排序法，分为左右两个序列，左侧为已排序，将待排项与左侧逐个对比并交换位置
+   */
   function bubbleSort4(arr) {
     console.log('bubbleSort4:')
     const len = arr.length
@@ -77,6 +85,7 @@
     return arr
   }
 
+  /* test */
   const arr1 = [7, 11, 9, 10, 12, 13, 8]
   console.time('bubbleSort1')
   bubbleSort1(arr1)

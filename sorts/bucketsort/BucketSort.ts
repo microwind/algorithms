@@ -6,7 +6,9 @@
 class BucketSort {
   constructor() {}
 
-  // 1. 桶排序代码简版，不支持负数
+  /**
+   * 1. 桶排序代码简版，不支持负数
+   */
   bucketSort1(arr: Array<number>) {
     const max = Math.max(...arr)
     let min = Math.min(...arr)
@@ -47,7 +49,9 @@ class BucketSort {
     return output;
   }
 
-  // 2. 桶排序代码简版，负数放在第1个桶排序
+  /**
+   * 2. 桶排序代码简版，负数放在第1个桶排序
+   */
   bucketSort2(arr: Array<number>) {
     const max = Math.max(...arr)
     let min = Math.min(...arr)
@@ -90,7 +94,9 @@ class BucketSort {
     return output;
   }
 
-  // 3. 桶排序标准版，负数放入第一个桶，挪动排序
+  /**
+   * 3. 桶排序标准版，负数放入第一个桶，挪动排序
+   */
   bucketSort3(arr: Array<number>) {
     let max = arr[0];
     let min = arr[0];
@@ -160,7 +166,9 @@ class BucketSort {
     return output;
   }
 
-  // 4. 桶排序标准版，负数单独排序
+  /**
+   * 4. 桶排序标准版，负数单独排序
+   */
   bucketSort4(arr: Array<number>) {
     let max = arr[0];
     let min = arr[0];

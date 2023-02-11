@@ -24,7 +24,9 @@ void swap(int arr[], int a, int b)
   arr[a] = tmp;
 }
 
-// ASE
+/**
+ * 冒泡排序升序，将最大的冒泡到最后
+ */
 int *bubbleSort1(int arr[], int len)
 {
   printf("bubbleSort1 from left to right:");
@@ -46,7 +48,9 @@ int *bubbleSort1(int arr[], int len)
   return arr;
 }
 
-// DESC
+/**
+ * 冒泡排序降序，将最小的冒泡到最后
+ */
 int bubbleSort2(int arr[], int len)
 {
   printf("bubbleSort2 from right to left:");
@@ -66,10 +70,41 @@ int bubbleSort2(int arr[], int len)
   return 0;
 }
 
-// 插入冒泡法，分为左右两个序列，左侧为已排序，将待排项与左侧逐个对比并交换位置
-int *bubbleSort3(int arr[], int len)
+/**
+ * 冒泡排序增加交换标志，针对有序情况优化
+ */
+void bubbleSort3(int arr[], int len)
 {
-  printf("bubbleSort3:");
+  printf("bubbleSort3 add flag:");
+  // 增加一个标志，如果某一轮没有进行过任何的交换
+  // 则说明当前数组已排好序，则不必继续后面的遍历，
+  bool flag = true;
+
+  for (int i = 0; i < len && flag == true; i++)
+  {
+    flag = false;
+    printf("\r\nno. %d", i);
+    for (int j = 0; j < len - i - 1; j++)
+    {
+      // 自左往右每两个进行比较，把大的交换到右侧
+      // 逐轮冒出最大数，已经排好序的不要再比较
+      if (arr[j] > arr[j + 1])
+      {
+        flag = true;
+        swap(arr, j, j + 1);
+      }
+      printf("\r\n i=%d j=%d", i, j);
+    }
+  }
+}
+
+
+/**
+ * 插入冒泡排序法，分为左右两个序列，左侧为已排序，将待排项与左侧逐个对比并交换位置
+ */
+int *bubbleSort4(int arr[], int len)
+{
+  printf("bubbleSort4:");
   for (int i = 1; i < len; i++)
   {
     int j = i - 1;
@@ -91,32 +126,6 @@ int *bubbleSort3(int arr[], int len)
   }
 
   return arr;
-}
-
-// add flag
-void bubbleSort4(int arr[], int len)
-{
-  printf("bubbleSort4 add flag:");
-  // 增加一个标志，如果某一轮没有进行过任何的交换
-  // 则说明当前数组已排好序，则不必继续后面的遍历，
-  bool flag = true;
-
-  for (int i = 0; i < len && flag == true; i++)
-  {
-    flag = false;
-    printf("\r\nno. %d", i);
-    for (int j = 0; j < len - i - 1; j++)
-    {
-      // 自左往右每两个进行比较，把大的交换到右侧
-      // 逐轮冒出最大数，已经排好序的不要再比较
-      if (arr[j] > arr[j + 1])
-      {
-        flag = true;
-        swap(arr, j, j + 1);
-      }
-      printf("\r\n i=%d j=%d", i, j);
-    }
-  }
 }
 
 int main()
@@ -157,7 +166,7 @@ int main()
   }
   printf("\ntime: %f ms.", ((clock() - startTime) / CLOCKS_PER_SEC * 1000));
 
-  // sort3
+  // sort4s
   int arr4[7] = {7, 11, -9, 10, 12, 13, 8};
   int len4 = sizeof(arr4) / sizeof(arr4[0]);
   bubbleSort4(arr4, len4);
@@ -196,7 +205,7 @@ bubbleSort1 from left to right:
  i=4 j=1
  i=5 j=0
 bubbleSort1 sorted:-9 7 8 10 11 12 13 
-time: 0.040000 ms.bubbleSort2 from right to left:
+time: 0.051000 ms.bubbleSort2 from right to left:
  i=0 j=7
  i=0 j=6
  i=0 j=5
@@ -226,16 +235,7 @@ time: 0.040000 ms.bubbleSort2 from right to left:
  i=5 j=6
  i=6 j=7
 bubbleSort2 sorted:13 12 11 10 8 7 0 
-time: 0.051000 ms.bubbleSort3:
-i=2, j=1, arr[i]=-9, arr[j+1]=-9
-i=2, j=0, arr[i]=11, arr[j+1]=-9
-i=3, j=2, arr[i]=10, arr[j+1]=10
-i=6, j=5, arr[i]=8, arr[j+1]=8
-i=6, j=4, arr[i]=13, arr[j+1]=8
-i=6, j=3, arr[i]=13, arr[j+1]=8
-i=6, j=2, arr[i]=13, arr[j+1]=8
-bubbleSort3 sorted:-9 7 8 10 11 12 13 
-time: 0.070000 ms.bubbleSort4 add flag:
+time: 0.062000 ms.bubbleSort3 add flag:
 no. 0
  i=0 j=0
  i=0 j=1
@@ -261,6 +261,15 @@ no. 3
 no. 4
  i=4 j=0
  i=4 j=1
+bubbleSort3 sorted:-9 7 8 10 11 12 13 
+time: 0.182000 ms.bubbleSort4:
+i=2, j=1, arr[i]=-9, arr[j+1]=-9
+i=2, j=0, arr[i]=11, arr[j+1]=-9
+i=3, j=2, arr[i]=10, arr[j+1]=10
+i=6, j=5, arr[i]=8, arr[j+1]=8
+i=6, j=4, arr[i]=13, arr[j+1]=8
+i=6, j=3, arr[i]=13, arr[j+1]=8
+i=6, j=2, arr[i]=13, arr[j+1]=8
 bubbleSort4 sorted:-9 7 8 10 11 12 13 
-time: 0.126000 ms.%    
+time: 0.227000 ms.%  
 */

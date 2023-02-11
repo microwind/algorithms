@@ -3,20 +3,23 @@
  * @author: jarryli@gmail.com
  * @version: 1.0
  */
-class BucketSort {
-    constructor() { }
-    // 1. 桶排序代码简版，不支持负数
-    bucketSort1(arr) {
-        const max = Math.max(...arr);
-        let min = Math.min(...arr);
+var BucketSort = /** @class */ (function () {
+    function BucketSort() {
+    }
+    /**
+     * 1. 桶排序代码简版，不支持负数
+     */
+    BucketSort.prototype.bucketSort1 = function (arr) {
+        var max = Math.max.apply(Math, arr);
+        var min = Math.min.apply(Math, arr);
         if (min < max && min <= 0)
             min = 1;
         // 设置桶的数量，可以任意设置，也可以根据最大、最小值来设置
-        const bucketNumber = Math.abs(Math.floor((max - min) / min)) + 1;
-        const bucketSize = Math.abs(Math.floor((max - min) / bucketNumber)) + 1;
-        const buckets = [];
-        let idx;
-        arr.forEach((item, i) => {
+        var bucketNumber = Math.abs(Math.floor((max - min) / min)) + 1;
+        var bucketSize = Math.abs(Math.floor((max - min) / bucketNumber)) + 1;
+        var buckets = [];
+        var idx;
+        arr.forEach(function (item, i) {
             // 当前项除以桶间距取整，决定应该放在某个桶内
             idx = Math.floor((item - min) / bucketSize);
             if (!buckets[idx]) {
@@ -24,7 +27,7 @@ class BucketSort {
                 buckets[idx].push(item);
             }
             else {
-                let len = buckets[idx].length;
+                var len = buckets[idx].length;
                 // 只能遍历下标为0的项，负数相当于丢弃
                 while (len--) {
                     // 自后往前遍历，如果数字大于数组中的项则插入其后
@@ -40,26 +43,28 @@ class BucketSort {
             }
         });
         // 按照下标和顺序取出桶内的数字，回填到一个数组中
-        let output = [];
-        buckets.forEach((bucketItem) => {
+        var output = [];
+        buckets.forEach(function (bucketItem) {
             if (bucketItem) {
                 output = output.concat(bucketItem);
             }
         });
         return output;
-    }
-    // 2. 桶排序代码简版，负数放在第1个桶排序
-    bucketSort2(arr) {
-        const max = Math.max(...arr);
-        let min = Math.min(...arr);
+    };
+    /**
+     * 2. 桶排序代码简版，负数放在第1个桶排序
+     */
+    BucketSort.prototype.bucketSort2 = function (arr) {
+        var max = Math.max.apply(Math, arr);
+        var min = Math.min.apply(Math, arr);
         if (min < max && min <= 0)
             min = 1;
         // 设置桶的数量，可以任意设置，也可以根据最大、最小值来设置
-        const bucketNumber = Math.abs(Math.floor((max - min) / min)) + 1;
-        const bucketSize = Math.abs(Math.floor((max - min) / bucketNumber)) + 1;
-        const buckets = [];
-        let idx;
-        arr.forEach((item, i) => {
+        var bucketNumber = Math.abs(Math.floor((max - min) / min)) + 1;
+        var bucketSize = Math.abs(Math.floor((max - min) / bucketNumber)) + 1;
+        var buckets = [];
+        var idx;
+        arr.forEach(function (item, i) {
             // 当前项除以桶数取整，决定应该放在某个桶内
             idx = Math.floor((item - min) / bucketSize);
             // 负数全放在第一个桶里，相当于负数按照插入方式排序
@@ -69,7 +74,7 @@ class BucketSort {
                 buckets[idx].push(item);
             }
             else {
-                let len = buckets[idx].length;
+                var len = buckets[idx].length;
                 while (len--) {
                     // 自后往前遍历，如果数字大于数组中的项则插入其后
                     if (item > buckets[idx][len]) {
@@ -84,20 +89,22 @@ class BucketSort {
             }
         });
         // 按照下标和顺序取出桶内的数字，回填到一个数组中
-        let output = [];
-        buckets.forEach((bucketItem) => {
+        var output = [];
+        buckets.forEach(function (bucketItem) {
             if (bucketItem) {
                 output = output.concat(bucketItem);
             }
         });
         return output;
-    }
-    // 3. 桶排序标准版，负数放入第一个桶，挪动排序
-    bucketSort3(arr) {
-        let max = arr[0];
-        let min = arr[0];
+    };
+    /**
+     * 3. 桶排序标准版，负数放入第一个桶，挪动排序
+     */
+    BucketSort.prototype.bucketSort3 = function (arr) {
+        var max = arr[0];
+        var min = arr[0];
         // 得到最大与最小值
-        for (let i = 0, len = arr.length; i < len; i++) {
+        for (var i = 0, len = arr.length; i < len; i++) {
             if (arr[i] > max) {
                 max = arr[i];
             }
@@ -108,13 +115,13 @@ class BucketSort {
         if (min < max && min <= 0)
             min = 1;
         // 设置桶的数量，可以任意设置，也可以根据最大小值来设置
-        const bucketNumber = Math.abs(Math.floor((max - min) / min)) + 1;
-        const bucketSize = Math.abs(Math.floor((max - min) / bucketNumber)) + 1;
+        var bucketNumber = Math.abs(Math.floor((max - min) / min)) + 1;
+        var bucketSize = Math.abs(Math.floor((max - min) / bucketNumber)) + 1;
         // 桶列表与桶下标
-        const buckets = [];
-        let idx;
-        let item;
-        for (let i = 0, len = arr.length; i < len; i++) {
+        var buckets = [];
+        var idx;
+        var item;
+        for (var i = 0, len = arr.length; i < len; i++) {
             // 排序数字除以桶数得到下标，以此来决定分配到哪个桶里面
             item = arr[i];
             idx = Math.floor((item - min) / bucketSize);
@@ -129,32 +136,32 @@ class BucketSort {
             }
             else {
                 // 如果桶内已有数字，先留出最后一个空位，然后按照顺序插入
-                let len = buckets[idx].length;
-                buckets[idx].length = len + 1;
-                while (len--) {
-                    if (item < buckets[idx][len]) {
+                var len_1 = buckets[idx].length;
+                buckets[idx].length = len_1 + 1;
+                while (len_1--) {
+                    if (item < buckets[idx][len_1]) {
                         // 如果插入的数字小于当前项，则将当前项逐个往后挪
-                        buckets[idx][len + 1] = buckets[idx][len];
-                        if (len === 0) {
+                        buckets[idx][len_1 + 1] = buckets[idx][len_1];
+                        if (len_1 === 0) {
                             buckets[idx][0] = item;
                         }
                     }
                     else {
                         // 如果大于等于当前项，则插入到当前项后面，循环中止
-                        buckets[idx][len + 1] = item;
+                        buckets[idx][len_1 + 1] = item;
                         break;
                     }
                 }
             }
         }
         // 按照下标和顺序取出桶内的数字，回填到数组中
-        const output = [];
+        var output = [];
         // 把数组内容取出
-        for (let i = 0, len = buckets.length; i < len; i++) {
-            const bucketItem = buckets[i];
+        for (var i = 0, len = buckets.length; i < len; i++) {
+            var bucketItem = buckets[i];
             if (bucketItem) {
-                let j = 0;
-                const bucketItemLen = bucketItem.length;
+                var j = 0;
+                var bucketItemLen = bucketItem.length;
                 while (j < bucketItemLen) {
                     output.push(bucketItem[j]);
                     j++;
@@ -162,13 +169,15 @@ class BucketSort {
             }
         }
         return output;
-    }
-    // 4. 桶排序标准版，负数单独排序
-    bucketSort4(arr) {
-        let max = arr[0];
-        let min = arr[0];
+    };
+    /**
+     * 4. 桶排序标准版，负数单独排序
+     */
+    BucketSort.prototype.bucketSort4 = function (arr) {
+        var max = arr[0];
+        var min = arr[0];
         // 得到最大与最小值
-        for (let i = 0, len = arr.length; i < len; i++) {
+        for (var i = 0, len = arr.length; i < len; i++) {
             if (arr[i] > max) {
                 max = arr[i];
             }
@@ -179,15 +188,15 @@ class BucketSort {
         if (min < max && min <= 0)
             min = 1;
         // 设置桶的数量，可以任意设置，也可以根据最大小值来设置
-        const bucketNumber = Math.abs(Math.floor((max - min) / min)) + 1;
-        const bucketSize = Math.abs(Math.floor((max - min) / bucketNumber)) + 1;
+        var bucketNumber = Math.abs(Math.floor((max - min) / min)) + 1;
+        var bucketSize = Math.abs(Math.floor((max - min) / bucketNumber)) + 1;
         // 桶列表与桶下标
-        const buckets = [];
-        let idx;
-        let item;
+        var buckets = [];
+        var idx;
+        var item;
         // 支持小数，如果要支持负数，则需要将负数下标单独存取，见注释
-        const negativeList = [];
-        for (let i = 0, len = arr.length; i < len; i++) {
+        var negativeList = [];
+        for (var i = 0, len = arr.length; i < len; i++) {
             // 排序数字除以桶数得到下标，以此来决定分配到哪个桶里面
             item = arr[i];
             idx = Math.floor(item / bucketSize);
@@ -203,39 +212,39 @@ class BucketSort {
             }
             else {
                 // 如果桶内已有数字，先留出最后一个空位，然后按照顺序插入
-                let len = buckets[idx].length;
-                buckets[idx].length = len + 1;
-                while (len--) {
-                    if (item < buckets[idx][len]) {
+                var len_2 = buckets[idx].length;
+                buckets[idx].length = len_2 + 1;
+                while (len_2--) {
+                    if (item < buckets[idx][len_2]) {
                         // 如果插入的数字小于当前项，则将当前项逐个往后挪
-                        buckets[idx][len + 1] = buckets[idx][len];
-                        if (len === 0) {
+                        buckets[idx][len_2 + 1] = buckets[idx][len_2];
+                        if (len_2 === 0) {
                             buckets[idx][0] = item;
                         }
                     }
                     else {
                         // 如果大于等于当前项，则插入到当前项后面，循环中止
-                        buckets[idx][len + 1] = item;
+                        buckets[idx][len_2 + 1] = item;
                         break;
                     }
                 }
             }
         }
         // 按照下标和顺序取出桶内的数字，回填到数组中
-        const output = [];
+        var output = [];
         // 先把负数排序然后逐个取出，这里将负数单独出来排序了
-        negativeList.sort((a, b) => {
+        negativeList.sort(function (a, b) {
             return a - b;
         });
-        for (let i = 0, len = negativeList.length; i < len; i++) {
+        for (var i = 0, len = negativeList.length; i < len; i++) {
             output.push(negativeList[i]);
         }
         // 把数组内容取出
-        for (let i = 0, len = buckets.length; i < len; i++) {
-            const bucketItem = buckets[i];
+        for (var i = 0, len = buckets.length; i < len; i++) {
+            var bucketItem = buckets[i];
             if (bucketItem) {
-                let j = 0;
-                const bucketItemLen = bucketItem.length;
+                var j = 0;
+                var bucketItemLen = bucketItem.length;
                 while (j < bucketItemLen) {
                     output.push(bucketItem[j]);
                     j++;
@@ -243,12 +252,13 @@ class BucketSort {
             }
         }
         return output;
-    }
-}
+    };
+    return BucketSort;
+}());
 (function () {
-    const bucketSort = new BucketSort();
-    const arr1 = [7, 11, 9, 10, 12, 13, 8];
-    const arr2 = [3, 4.3, 15, -2.1, -2, -2.1, 2, 3.2, 3, -7, 10];
+    var bucketSort = new BucketSort();
+    var arr1 = [7, 11, 9, 10, 12, 13, 8];
+    var arr2 = [3, 4.3, 15, -2.1, -2, -2.1, 2, 3.2, 3, -7, 10];
     console.time("bucketSort1.1");
     console.log("origin:", arr1);
     console.log("bucketSort1 sorted:", bucketSort.bucketSort1(arr1));
@@ -286,36 +296,36 @@ class BucketSort {
     console.timeEnd("bucketSort4.2");
 })();
 /**
- jarry@192 bucketsort % tsc BucketSort.ts -t es2020
+jarry@192 bucketsort % tsc BucketSort.ts -t es2020
 jarry@192 bucketsort % node BucketSort.js
 origin: [ 7, 11, 9, 10, 12, 13, 8 ]
 bucketSort1 sorted: [ 7, 8, 9, 10, 11, 12, 13 ]
-bucketSort1.1: 4.336ms
+bucketSort1.1: 4.384ms
 origin: [ 3, 4.3, 15, -2.1, -2, -2.1, 2, 3.2, 3, -7, 10 ]
 bucketSort1 sorted: [ 2, 3, 3, 3.2, 4.3, 10, 15 ]
-bucketSort1.2: 0.473ms
+bucketSort1.2: 0.490ms
 
 
 origin: [ 7, 11, 9, 10, 12, 13, 8 ]
 bucketSort2 sorted: [ 7, 8, 9, 10, 11, 12, 13 ]
-bucketSort2.1: 0.309ms
+bucketSort2.1: 0.285ms
 origin: [ 3, 4.3, 15, -2.1, -2, -2.1, 2, 3.2, 3, -7, 10 ]
 bucketSort2 sorted: [ -7, -2.1, -2.1, -2, 2, 3, 3, 3.2, 4.3, 10, 15 ]
-bucketSort2.2: 0.128ms
+bucketSort2.2: 0.131ms
 
 
 origin: [ 7, 11, 9, 10, 12, 13, 8 ]
 bucketSort3 sorted: [ 7, 8, 9, 10, 11, 12, 13 ]
-bucketSort3.1: 0.523ms
+bucketSort3.1: 0.848ms
 origin: [ 3, 4.3, 15, -2.1, -2, -2.1, 2, 3.2, 3, -7, 10 ]
 bucketSort3 sorted: [ -7, -2.1, -2.1, -2, 2, 3, 3, 3.2, 4.3, 10, 15 ]
-bucketSort3.2: 0.642ms
+bucketSort3.2: 0.664ms
 
 
 origin: [ 7, 11, 9, 10, 12, 13, 8 ]
 bucketSort4 sorted: [ 7, 8, 9, 10, 11, 12, 13 ]
-bucketSort4.1: 0.302ms
+bucketSort4.1: 0.348ms
 origin: [ 3, 4.3, 15, -2.1, -2, -2.1, 2, 3.2, 3, -7, 10 ]
 bucketSort4 sorted: [ -7, -2.1, -2.1, -2, 2, 3, 3, 3.2, 4.3, 10, 15 ]
-bucketSort4.2: 0.564ms
+bucketSort4.2: 0.593ms
  */ 

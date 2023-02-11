@@ -6,7 +6,10 @@
  * @version: 1.0
 """
 import time
-# ASE
+
+'''
+# 冒泡排序升序，将最大的冒泡到最后
+'''
 def bubble_sort1(arr):
   print('bubble_sort1 from left to right:')
   length = len(arr)
@@ -18,8 +21,9 @@ def bubble_sort1(arr):
         [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]
       print('i=' + str(i), 'j=' + str(j), arr)
 
-
-# DESC
+'''
+# 冒泡排序降序，将最小的冒泡到最后
+'''
 def bubble_sort2(arr):
   print('bubble_sort2 from right to left:')
   length = len(arr)
@@ -32,7 +36,9 @@ def bubble_sort2(arr):
       print('i=' + str(i), 'j=' + str(j), arr)
 
 
-# add flag
+'''
+# 冒泡排序增加交换标志，针对有序情况优化
+'''
 def bubble_sort3(arr):
   print('bubble_sort3 add flag:')
   # 增加一个标志，如果某一轮没有进行过任何的交换
@@ -53,7 +59,7 @@ def bubble_sort3(arr):
       print('i=' + str(i), 'j=' + str(j), arr)
 
 
-## tests
+# test
 
 arr1 = [ 7, 11, 9, 10, 12, 13, 8 ]
 start_time = time.time()

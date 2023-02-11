@@ -4,6 +4,9 @@
  * @version: 1.0
  */
 
+/**
+ * 冒泡排序升序，将最大的冒泡到最后
+ */
 bubbleSort1(List list) {
   var len = list.length;
   for (var i = 0; i < len; i++) {
@@ -20,6 +23,9 @@ bubbleSort1(List list) {
   return list;
 }
 
+/**
+ * 冒泡排序降序且增加交换标志，针对有序情况优化
+ */
 bubbleSort2(List list) {
   var len = list.length;
   bool flag = true;
