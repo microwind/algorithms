@@ -13,7 +13,7 @@ import time
 def bucket_sort1(arr):
     max_value = max(arr)
     min_value = min(arr)
-    min_value = 1 if min_value <= 0 else min_value
+    # min_value = 1 if min_value <= 0 else min_value
     # 设置桶的数量，可以任意设置，也可以根据最大、最小值来设置
     bucket_number = int(max_value - min_value) / min_value + 1
     bucket_number = len(arr) / 2 if bucket_number > len(arr) else bucket_number
@@ -60,6 +60,7 @@ def bucket_sort2(arr):
             max_value = item
         if item < min_value:
             min_value = item
+    max_value = 2 if max_value <= 1 else max_value
     min_value = 1 if min_value <= 0 else min_value
 
     # 设置桶的数量，可以任意设置，也可以根据最大、最小值来设置
@@ -126,6 +127,7 @@ def bucket_sort3(arr):
     buckets = []
     max_value = max(arr)
     min_value = min(arr)
+    max_value = 2 if max_value <= 1 else max_value
     min_value = 1 if min_value <= 0 else min_value
     bucket_number = int(max_value - min_value) / min_value + 1
 

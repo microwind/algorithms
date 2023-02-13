@@ -12,7 +12,7 @@ class BucketSort {
   bucketSort1(arr: Array<number>) {
     const max = Math.max(...arr)
     let min = Math.min(...arr)
-    if (min < max && min <= 0) min = 1
+    if (max > 0 && min < 0) min = 1
     // 设置桶的数量，可以任意设置，也可以根据最大、最小值来设置
     const bucketNumber: number = Math.abs(Math.floor((max - min) / min)) + 1
     const bucketSize: number = Math.abs(Math.floor((max - min) / bucketNumber)) + 1

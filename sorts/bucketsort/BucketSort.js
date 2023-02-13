@@ -12,7 +12,7 @@ var BucketSort = /** @class */ (function () {
     BucketSort.prototype.bucketSort1 = function (arr) {
         var max = Math.max.apply(Math, arr);
         var min = Math.min.apply(Math, arr);
-        if (min < max && min <= 0)
+        if (max > 0 && min < 0)
             min = 1;
         // 设置桶的数量，可以任意设置，也可以根据最大、最小值来设置
         var bucketNumber = Math.abs(Math.floor((max - min) / min)) + 1;

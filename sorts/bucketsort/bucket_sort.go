@@ -27,11 +27,11 @@ func bucketSort1(arr []int) []int {
     }
   }
 
-  if max < 0 {
-    max = -max
+  if max < 1 {
+    max = 2
   }
-  if min < 0 {
-    min = -min
+  if min < 1 {
+    min = 1
   }
 
   // 每个桶的容量大小，也就是桶的间隔，用最大减去最小，也可以自定义
@@ -53,9 +53,11 @@ func bucketSort1(arr []int) []int {
   for i := 0; i < arrLen; i++ {
     var item = arr[i]
     var idx int = (item - min) / bucketSize
-    // 下标最小为0
+    // 下标最小为0，最大为桶数
     if idx < 0 {
       idx = 0
+    } else if idx >= bucketNumber {
+      idx = bucketNumber - 1
     }
     // 确定排序项对应的桶
     var bucket []int = buckets[idx]
@@ -193,18 +195,18 @@ jarry@jarrys-MacBook-Pro bucketsort % go version
 go version go1.19.5 darwin/amd64
 jarry@jarrys-MacBook-Pro bucketsort % go run bucket_sort.go
 bucket sort1:
-i, item, bucketSize, bucketNumber, idx, bucket: 0 | 20 | 8 | 9 | 1   [0 0 0 0 0 0 0 0 0 0]
-i, item, bucketSize, bucketNumber, idx, bucket: 1 | 11 | 8 | 9 | 0   [0 0 0 0 0 0 0 0 0 0]
-i, item, bucketSize, bucketNumber, idx, bucket: 2 | 0 | 8 | 9 | 0   [11 0 0 0 0 0 0 0 0 0]
-i, item, bucketSize, bucketNumber, idx, bucket: 3 | -10 | 8 | 9 | 0   [0 11 0 0 0 0 0 0 0 0]
-i, item, bucketSize, bucketNumber, idx, bucket: 4 | 9 | 8 | 9 | 0   [-10 0 11 0 0 0 0 0 0 0]
-i, item, bucketSize, bucketNumber, idx, bucket: 5 | 6 | 8 | 9 | 0   [-10 0 9 11 0 0 0 0 0 0]
-i, item, bucketSize, bucketNumber, idx, bucket: 6 | 30 | 8 | 9 | 2   [0 0 0 0 0 0 0 0 0 0]
-i, item, bucketSize, bucketNumber, idx, bucket: 7 | 15 | 8 | 9 | 0   [-10 0 6 9 11 0 0 0 0 0]
-i, item, bucketSize, bucketNumber, idx, bucket: 8 | 13 | 8 | 9 | 0   [-10 0 6 9 11 15 0 0 0 0]
-i, item, bucketSize, bucketNumber, idx, bucket: 9 | 80 | 8 | 9 | 8   [0 0 0 0 0 0 0 0 0 0]
+i, item, bucketSize, bucketNumber, idx, bucket: 0 | 20 | 80 | 1 | 0   [0 0 0 0 0 0 0 0 0 0]
+i, item, bucketSize, bucketNumber, idx, bucket: 1 | 11 | 80 | 1 | 0   [20 0 0 0 0 0 0 0 0 0]
+i, item, bucketSize, bucketNumber, idx, bucket: 2 | 0 | 80 | 1 | 0   [11 20 0 0 0 0 0 0 0 0]
+i, item, bucketSize, bucketNumber, idx, bucket: 3 | -10 | 80 | 1 | 0   [0 11 20 0 0 0 0 0 0 0]
+i, item, bucketSize, bucketNumber, idx, bucket: 4 | 9 | 80 | 1 | 0   [-10 0 11 20 0 0 0 0 0 0]
+i, item, bucketSize, bucketNumber, idx, bucket: 5 | 6 | 80 | 1 | 0   [-10 0 9 11 20 0 0 0 0 0]
+i, item, bucketSize, bucketNumber, idx, bucket: 6 | 30 | 80 | 1 | 0   [-10 0 6 9 11 20 0 0 0 0]
+i, item, bucketSize, bucketNumber, idx, bucket: 7 | 15 | 80 | 1 | 0   [-10 0 6 9 11 20 30 0 0 0]
+i, item, bucketSize, bucketNumber, idx, bucket: 8 | 13 | 80 | 1 | 0   [-10 0 6 9 11 15 20 30 0 0]
+i, item, bucketSize, bucketNumber, idx, bucket: 9 | 80 | 80 | 1 | 0   [-10 0 6 9 11 13 15 20 30 0]
 [-10 0 6 9 11 13 15 20 30 80]
-sort1 end. cost: 52.758µs
+sort1 end. cost: 62.903µs
 bucket sort2:
 i, item, bucketNumber, bucketIndex, bucket: 0 | 20.11 | 2 | 1 | []
 i, item, bucketNumber, bucketIndex, bucket: 1 | 13.32 | 2 | 1 | [20.11]
@@ -215,5 +217,5 @@ i, item, bucketNumber, bucketIndex, bucket: 5 | -10.3243 | 2 | 0 | [-10.3243 0.1
 i, item, bucketNumber, bucketIndex, bucket: 6 | 13.32 | 2 | 1 | [9.3244 13.32 20.11]
 i, item, bucketNumber, bucketIndex, bucket: 7 | 8.43 | 2 | 1 | [9.3244 13.32 13.32 20.11]
 [-10.3243 -10.3243 0.12323 8.43 9.3244 13.32 13.32 20.11]
-sort2 end. cost: 140.123µs
+sort2 end. cost: 73.693µs
 */

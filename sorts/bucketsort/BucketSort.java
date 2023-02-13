@@ -21,6 +21,7 @@ public class BucketSort {
       if (arr[i] < min)
         min = arr[i];
     }
+    // 最大最小的下限
     if (max < 2) {
       max = 2;
     }

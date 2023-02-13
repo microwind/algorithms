@@ -9,9 +9,15 @@
    * 桶排序支持负数，负数放在第1个桶里排序
    */
   function bucketSort1(arr) {
-    const max = Math.max(...arr)
+    let max = Math.max(...arr)
     let min = Math.min.apply(this, arr)
-    if (min < max && min <= 0) min = 1
+    max = Math.abs(max)
+    min = Math.abs(min)
+    if (max < min) {
+      const tmp = max
+      max = min
+      min = tmp
+    }
     // 设置桶的数量，可以任意设置，也可以根据最大、最小值来设置
     const bucketNumber = Math.abs(Math.floor((max - min) / min)) + 1
     const bucketSize = Math.abs(Math.floor((max - min) / bucketNumber)) + 1
@@ -115,7 +121,7 @@
       }
     }
     if (max <= 0) max = 1
-    if (min < max && min <= 0) min = 1
+    if (min <= 0) min = 1
     // 设置桶的数量，可以任意设置，也可以根据最大小值来设置
     const bucketNumber = Math.abs(Math.floor((max - min) / min)) + 1
     const bucketSize = Math.abs(Math.floor((max - min) / bucketNumber)) + 1
