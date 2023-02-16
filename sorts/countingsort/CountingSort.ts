@@ -43,7 +43,7 @@ class CountingSort {
   // 计数排序
   countingSort2(arr: Array<number>) {
     const countList = [];
-    // 用一个计数器来计数，长度为数组长度+1
+    // 用一个计数器来计数，长度为数组最大值+1
     countList.length = Math.max.apply(null, arr) + 1;
     const min = Math.min(...arr);
     // 根据待排序项给对应下标的位置增加标记，多个相同的则需要递增
