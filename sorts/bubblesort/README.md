@@ -1,4 +1,4 @@
-## Java/Go/Python/JS/C 语言实现冒泡排序算法
+## 【冒泡排序算法详解】Java/Go/Python/JS/C不同语言实现
 
 ## 说明
 

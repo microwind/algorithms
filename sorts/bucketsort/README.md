@@ -1,4 +1,4 @@
-## Java/Go/Python/JS/C 不同语言实现桶排序算法
+## 【桶排序算法详解】Java/Go/Python/JS/C不同语言实现
 
 ## 说明
 

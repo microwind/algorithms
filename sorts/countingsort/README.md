@@ -1,4 +1,4 @@
-## Java/Go/Python/JS/C 不同语言实现计数排序算法
+## 【计数排序算法详解】Java/Go/Python/JS/C不同语言实现
 
 ## 说明
 
@@ -30,7 +30,6 @@
 
 ```java
   public int[] countingSort1(int[] arr) {
-    
     int minValue = arr[0];
     int maxValue = arr[0];
     for (int item : arr) {
@@ -47,20 +46,27 @@
     int[] counter = new int[realLen];
     for (int item : arr) {
       int idx = item - minValue;
-      // 有值下标增加1
+      // 下标增加1
       counter[idx] += 1;
     }
 
-    int outpuIdx = 0;
-    for (int i = 0; i < realLen; i++) {
-      int item = counter[i];
-      for (int j = 0; j < item; j++) {
-        // 如果相同则取多次
-        arr[outpuIdx] = i + minValue;
-        outpuIdx++;
-      }
+    // 后一项记录前一项的值，这样得到排序位置
+    for (int i = 1; i < realLen; i++) {
+      counter[i] += counter[i - 1];
     }
-    return arr;
+
+    // 根据位置将计数数组内容添加到返回数组中
+    int[] output = new int[realLen];
+    for (int i = 0; i < arr.length; i++) {
+      int item = arr[i] - minValue;
+      // 根据当前项从计数数组得到新数组下标
+      int idx = counter[item] - 1;
+      // 给返回的下标赋值为当前项
+      output[idx] = item + minValue;
+      // 取出一项，计数数组则减少一项
+      counter[item] -= 1;
+    }
+    return output;
   }
 ```
 
@@ -120,12 +126,10 @@ func countingSort2(arr []int) []int {
     countList[idx]++
   }
 
-  // fmt.Println("countList after count: ", countList)
   // 把上一项的值个数存入到当前项，相当于排序
   for i := 1; i < len(countList); i++ {
     countList[i] += countList[i-1]
   }
-  // fmt.Println("countList after sort: ", countList)
 
   // 按位置还原数据，下一个索引记录了上一个的坐标值
   for i := 0; i < arrLen; i++ {
@@ -137,8 +141,6 @@ func countingSort2(arr []int) []int {
     output[idx] = item + min
     // 取出一项计数则减少一个
     countList[item] -= 1
-
-    fmt.Println("[item, idx, countList[idx], output] :", item, idx, countList[idx], output)
   }
 
   return output
@@ -148,29 +150,41 @@ func countingSort2(arr []int) []int {
 ## JS
 
 ```js
-// 计数排序，数组下标为负
-function countingSort2(arr) {
-  const countList = []
-  // 用一个计数器来计数，长度为数组最大值+1
-  const min = Math.min(...arr)
-  countList.length = Math.max.apply(null, arr) - min + 1
-  // 根据待排序项给对应下标的位置增加标记，多个相同的则需要递增
-  // 适合正整数, 如果是负数和小数就不可以。此写法JS可支持负数，把数组当对象使用。
-  arr.forEach(val => {
-    countList[val] = countList[val] || 0
-    countList[val]++
-  })
-  console.log('countList:', countList)
-  const output = []
-  // 遍历全部，从最小数开始遍历，JS数组支持下标为负
-  for (var i = min, l = countList.length; i < l; i++) {
-    var val = countList[i]
-    console.log('i|val:', i, val)
-    // 下标若大于0，则取出来，如果相同则取多次
-    for (var j = 0; j < val; j++) {
-      output.push(i)
-    }
+// 计数排序标准版
+function countingSort1(arr) {
+  // 计算最大值与最小值
+  const arrLen = arr.length
+  const min = Math.min.apply(null, arr)
+  const max = Math.max.apply(null, arr)
+  // 计数数组的长度在最大和最小差值+1
+  const countListLen = max - min + 1
+  const countList = Array(countListLen).fill(0)
+  for (let i = 0, l = arrLen; i < l; i++) {
+    // 把下标减去min值，可以支持负数
+    // 最小的数的坐标为0，以此累加
+    const idx = arr[i] - min
+    // 根据待排序项给对应下标的位置增加1个标记
+    countList[idx] += 1
   }
+
+  // 将上一项的值添加到下一项中
+  for (let i = 1; i < countListLen; i++) {
+    countList[i] += countList[i - 1]
+  }
+
+  // 按位置还原数据，下一个索引记录了上一个的坐标值
+  const output = []
+  for (let i = 0; i < arrLen; i++) {
+    // 当前项来自原始数组减去-min
+    const item = arr[i] - min
+    // 根据当前项从计数数组里找到目标位置
+    const idx = countList[item] - 1
+    // 输出数据加上min进行还原
+    output[idx] = item + min
+    // 取出一项计数则减少一个
+    countList[item] -= 1
+  }
+
   return output
 }
 ```
@@ -178,82 +192,84 @@ function countingSort2(arr) {
 ## TS
 
 ```ts
+ // 计数排序
   countingSort1(arr: Array<number>) {
-    const countList = [];
+    const countList: number[] = []
     // 计算最大值与最小值
-    const min = Math.min.apply(null, arr);
-    const max = Math.max.apply(null, arr);
+    const min = Math.min.apply(null, arr)
+    const max = Math.max.apply(null, arr)
     // 计数数组的长度在最大和最小差值+1
-    countList.length = max - min + 1;
+    countList.length = max - min + 1
     for (var i = 0, l = arr.length; i < l; i++) {
       // 把下标减去min值，以便减少计数数组的长度，同时可以支持负数，最小坐标为0
-      const idx = arr[i] - min;
+      const idx = arr[i] - min
       // 根据待排序项给对应下标的位置增加1个标记
       if (!countList[idx]) {
-        countList[idx] = 1;
+        countList[idx] = 1
       } else {
         // 多个相同的数字则需要多个标记
-        countList[idx] += 1;
+        countList[idx] += 1
       }
     }
-    console.log("countList:", countList);
-    const output = [];
+
+    const output: number[] = []
     // 遍历计数数组
     countList.forEach((val, i) => {
       // 下标若大于0，则取出来，如果相同则取多次
       for (var j = 0; j < val; j++) {
-        console.log("i|val:", i, val);
         if (val && val > 0) {
           // 取出的值要+min还原
-          output.push(i + min);
+          output.push(i + min)
         }
       }
-    });
-    return output;
+    })
+    return output
   }
 ```
 
 ## C
 
 ```c
-// 计数排序，支持正负整数
-void *countingSort1(int arr[], int len)
+// 计数排序标准版，注意与桶排序区别
+int *countingSort2(int arr[], int len)
 {
-  int max_value = arr[0];
-  int min_value = arr[0];
+  int max = arr[0];
+  int min = arr[0];
   for (int i = 1; i < len; i++)
   {
-    if (arr[i] > max_value)
-      max_value = arr[i];
-    if (arr[i] < min_value)
-      min_value = arr[i];
+    if (arr[i] > max)
+      max = arr[i];
+    if (arr[i] < min)
+      min = arr[i];
   }
-  // 数组初始值
-  int FLAG = -1;
-  // 数组的数量为最大值减去最小，这是为了减少数量，否则可以取最大值
-  int size = max_value - min_value + 1;
-  int buckets[size];
-  int* output = malloc(len * sizeof(int));
-  memset(buckets, FLAG, size * sizeof(int));
+
+  int real_len = max - min + 1;
+  int count_list[real_len];
+  for (int i = 0; i < real_len; i++)
+    count_list[i] = 0;
 
   for (int i = 0; i < len; i++)
+    count_list[arr[i] - min]++;
+
+  // 输出方式2. 把上一项的值个数存入到当前项，还原位置取出
+  for (int i = 1; i < real_len; i++)
   {
-    // 给对应数字的桶增加标记，代表序号。把下标减去min值，以便减少计数数组的长度
-    int idx = arr[i] - min_value;
-    buckets[idx] += 1;
+    count_list[i] += count_list[i - 1];
+  }
+  int *output = malloc(len * sizeof(int));
+  // 按位置还原数据，下一个索引记录了上一个的坐标值
+  for (int i = 0; i < len; i++)
+  {
+    // 当前项来自原始数组减去-min
+    int item = arr[i] - min;
+    // 根据当前项从计数数组里找到目标位置
+    int idx = count_list[item] - 1;
+    // 输出数据加上min进行还原
+    output[idx] = item + min;
+    // 取出一项计数则减少一个
+    count_list[item] -= 1;
   }
 
-  int output_idx = 0;
-  for (int i = 0; i < size; i++)
-  {
-    while (buckets[i] >= 0)
-    {
-      // 将每个数组的标记按顺序取出，值要加上min_value还原
-      output[output_idx] = i + min_value;
-      buckets[i] -= 1;
-      output_idx++;
-    }
-  }
   return output;
 }
 ```
