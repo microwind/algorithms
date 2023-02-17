@@ -1,5 +1,5 @@
 ## 概览
-![计数排序](../images/sort/sort.png)
+<img src="../images/sort/sort.png" width="70%">
 
 ## 比较
 ![计数排序](../images/sort/sort-comparison.png)
