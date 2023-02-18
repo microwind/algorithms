@@ -56,7 +56,9 @@ class MergeSort {
     // 得到中间值
     int mid = (left + right) / 2;
     // 如果左侧小于右侧则执行合并排序
+    System.out.println("mergeSort left=" + left + " right=" + right);
     if (left < right) {
+      System.out.println("mergeSort left<right left=" + left + " right=" + right);
       // 递归合并左侧
       mergeSort(arr, left, mid);
       // 递归合并右侧

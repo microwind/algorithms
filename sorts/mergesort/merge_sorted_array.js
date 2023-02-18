@@ -183,3 +183,204 @@
   console.info('\r\n mergeSorted4 result:', mergeSorted4(arr1.slice(0, arr1.length), arr2.slice(0, arr2.length)))
   console.timeEnd('mergeSorted4 sorted cost')
 })()
+
+/**
+jarry@jarrys-MacBook-Pro mergesort % node merge_sorted_array.js
+
+==== merge sorted array  === 
+
+mergeSorted1 origin: [
+   3,  7,  9, 10,
+  11, 15, 16
+] [ 1, 5, 6, 9, 12 ]
+while one[i] < two[j] 0 < 1 [ 1 ]
+while one[i] < two[j] 1 < 1 [ 1, 3 ]
+while one[i] < two[j] 1 < 2 [ 1, 3, 5 ]
+while one[i] < two[j] 1 < 3 [ 1, 3, 5, 6 ]
+while one[i] < two[j] 2 < 3 [ 1, 3, 5, 6, 7 ]
+while one[i] < two[j] 2 < 4 [ 1, 3, 5, 6, 7, 9 ]
+while one[i] < two[j] 3 < 4 [
+  1, 3, 5, 6,
+  7, 9, 9
+]
+while one[i] < two[j] 4 < 4 [
+  1, 3, 5,  6,
+  7, 9, 9, 10
+]
+while one[i] < two[j] 5 < 4 [
+  1, 3,  5,  6, 7,
+  9, 9, 10, 11
+]
+while one[i] < two[j] 5 < 5 [
+  1, 3,  5,  6,  7,
+  9, 9, 10, 11, 12
+]
+[
+   3,  7,  9, 10,
+  11, 15, 16
+] 5 7
+
+ mergeSorted1 result: [
+   1,  3,  5,  6,  7,
+   9,  9, 10, 11, 12,
+  15, 16
+]
+mergeSorted1 sorted cost: 4.644ms
+mergeSorted2 origin: [
+   3,  7,  9, 10,
+  11, 15, 16
+] [ 1, 5, 6, 9, 12 ]
+for one[i] < two[j] 0 vs 0 3 1 [
+   3,  7,  9, 10,
+  11, 15, 16
+] [ 1, 5, 6, 9, 12 ]
+insert 3 into two at 1
+for one[i] < two[j] 1 vs 1 7 3 [
+   3,  7,  9, 10,
+  11, 15, 16
+] [ 1, 3, 5, 6, 9, 12 ]
+for one[i] < two[j] 1 vs 2 7 5 [
+   3,  7,  9, 10,
+  11, 15, 16
+] [ 1, 3, 5, 6, 9, 12 ]
+for one[i] < two[j] 1 vs 3 7 6 [
+   3,  7,  9, 10,
+  11, 15, 16
+] [ 1, 3, 5, 6, 9, 12 ]
+insert 7 into two at 4
+for one[i] < two[j] 2 vs 4 9 7 [
+   3,  7,  9, 10,
+  11, 15, 16
+] [
+  1, 3,  5, 6,
+  7, 9, 12
+]
+for one[i] < two[j] 2 vs 5 9 9 [
+   3,  7,  9, 10,
+  11, 15, 16
+] [
+  1, 3,  5, 6,
+  7, 9, 12
+]
+insert 9 into two at 6
+for one[i] < two[j] 3 vs 6 10 9 [
+   3,  7,  9, 10,
+  11, 15, 16
+] [
+  1, 3, 5,  6,
+  7, 9, 9, 12
+]
+insert 10 into two at 7
+for one[i] < two[j] 4 vs 7 11 10 [
+   3,  7,  9, 10,
+  11, 15, 16
+] [
+  1, 3,  5,  6, 7,
+  9, 9, 10, 12
+]
+insert 11 into two at 8
+for one[i] < two[j] 5 vs 8 15 11 [
+   3,  7,  9, 10,
+  11, 15, 16
+] [
+  1, 3,  5,  6,  7,
+  9, 9, 10, 11, 12
+]
+for one[i] < two[j] 6 vs 9 16 12 [
+   3,  7,  9, 10,
+  11, 15, 16
+] [
+   1, 3,  5,  6,  7,
+   9, 9, 10, 11, 12,
+  15
+]
+
+ mergeSorted2 result: [
+   1,  3,  5,  6,  7,
+   9,  9, 10, 11, 12,
+  15, 16
+]
+mergeSorted2 sorted cost: 1.344ms
+mergeSorted3 origin: [
+   3,  7,  9, 10,
+  11, 15, 16
+] [ 1, 5, 6, 9, 12 ]
+insert 3 into two at 1
+while one[i] < two[j] 0 < 0 3 1 [
+   3,  7,  9, 10,
+  11, 15, 16
+] [ 1, 3, 5, 6, 9, 12 ]
+insert 7 into two at 4
+while one[i] < two[j] 1 < 3 7 6 [
+   3,  7,  9, 10,
+  11, 15, 16
+] [
+  1, 3,  5, 6,
+  7, 9, 12
+]
+insert 9 into two at 6
+while one[i] < two[j] 2 < 5 9 9 [
+   3,  7,  9, 10,
+  11, 15, 16
+] [
+  1, 3, 5,  6,
+  7, 9, 9, 12
+]
+insert 10 into two at 7
+while one[i] < two[j] 3 < 6 10 9 [
+   3,  7,  9, 10,
+  11, 15, 16
+] [
+  1, 3,  5,  6, 7,
+  9, 9, 10, 12
+]
+insert 11 into two at 8
+while one[i] < two[j] 4 < 7 11 10 [
+   3,  7,  9, 10,
+  11, 15, 16
+] [
+  1, 3,  5,  6,  7,
+  9, 9, 10, 11, 12
+]
+concat remained: [ 15, 16 ]
+
+ mergeSorted3 result: [
+   1,  3,  5,  6,  7,
+   9,  9, 10, 11, 12,
+  15, 16
+]
+mergeSorted3 sorted cost: 1.007ms
+mergeSorted4 origin: [
+   3,  7,  9, 10,
+  11, 15, 16
+] [ 1, 5, 6, 9, 12 ]
+while one[i] < two[j] 0 < 1 [ 1 ]
+while one[i] < two[j] 1 < 1 [ 1, 3 ]
+while one[i] < two[j] 1 < 2 [ 1, 3, 5 ]
+while one[i] < two[j] 1 < 3 [ 1, 3, 5, 6 ]
+while one[i] < two[j] 2 < 3 [ 1, 3, 5, 6, 7 ]
+while one[i] < two[j] 2 < 4 [ 1, 3, 5, 6, 7, 9 ]
+while one[i] < two[j] 3 < 4 [
+  1, 3, 5, 6,
+  7, 9, 9
+]
+while one[i] < two[j] 4 < 4 [
+  1, 3, 5,  6,
+  7, 9, 9, 10
+]
+while one[i] < two[j] 5 < 4 [
+  1, 3,  5,  6, 7,
+  9, 9, 10, 11
+]
+while one[i] < two[j] 5 < 5 [
+  1, 3,  5,  6,  7,
+  9, 9, 10, 11, 12
+]
+
+ mergeSorted4 result: [
+   1,  3,  5,  6,  7,
+   9,  9, 10, 11, 12,
+  15, 16
+]
+mergeSorted4 sorted cost: 2.044ms
+ */

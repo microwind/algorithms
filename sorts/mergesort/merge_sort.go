@@ -15,8 +15,11 @@ func merge(one []int, two []int) []int {
 	var twoLen = len(two)
 	// 新建一个空数组，用来保存排序后的结果
 	var result = make([]int, oneLen+twoLen)
+	// i是第一个数组下标
 	i := 0
+	// j是第二个数组下标
 	j := 0
+	// k是新数组下标
 	k := 0
 	// 遍历两个数组，直到其中一个被遍历完成为止
 	for i < oneLen && j < twoLen {
@@ -75,12 +78,9 @@ func main() {
 }
 
 /*
- jarry@jarrys-MacBook-Pro bubblesort % go version
- go version go1.15 darwin/amd64
 jarry@jarrys-MacBook-Pro mergesort % go run merge_sort.go
 merge_sort arr1:
 [7 8 9 10 11 12 13]
 merge_sort arr2:
 [-27 0 4 4 8 9 13 20 120 122]
-jarry@jarrys-MacBook-Pro mergesort %
 */

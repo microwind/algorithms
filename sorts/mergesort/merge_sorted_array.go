@@ -59,7 +59,7 @@ func main() {
 }
 
 /*
- jarry@jarrys-MacBook-Pro bubblesort % go version
+ jarry@jarrys-MacBook-Pro mergesort % go version
  go version go1.15 darwin/amd64
  jarry@jarrys-MacBook-Pro mergesort % go run merge_sorted_array.go
  merge_sort1:
