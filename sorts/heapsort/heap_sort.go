@@ -3,134 +3,86 @@
  * @author: jarryli@gmail.com
  * @version: 1.0
  */
-#include <stdio.h>
-#include <math.h>
-#include <time.h>
+package main
 
-int get_left(int i)
-{
-  return i * 2 + 1;
+import (
+  "fmt"
+  "time"
+)
+
+/* 根据完全二叉树结构性质，父子节点与数组下标的关系，通过数组下标i得到节点位置 */
+
+// 获取父节点
+func getParent(i int) int {
+  return int((i - 1) / 2)
 }
 
-int get_right(int i)
-{
-  return i * 2 + 2;
+// 获取左节点
+func getLeft(i int) int {
+  return 2*i + 1
 }
 
-void swap(int arr[], int from, int to)
-{
-  int temp = arr[from];
-  arr[from] = arr[to];
-  arr[to] = temp;
+// 获取右节点
+func getRight(i int) int {
+  return 2*i + 2
 }
-/**
- * 始终保持大顶堆特性
- */
-void max_heapify(int arr[], int idx, int size)
-{
-  int max = idx;
-  int left = get_left(max);
-  int right = get_right(max);
-  if (left < size && arr[left] > arr[max])
-  {
-    max = left;
+
+// 始终保持大顶堆特性, 构建大顶堆的递归写法
+func maxHeapify(arr []int, idx int, size int) {
+  var max = idx
+  var left = getLeft(idx)
+  var right = getRight(idx)
+  // 获取最大数的位置
+  if left < size && arr[left] > arr[max] {
+    max = left
   }
-  if (right < size && arr[right] > arr[max])
-  {
-    max = right;
+  if right < size && arr[right] > arr[max] {
+    max = right
   }
-
-  printf("\r\nidx=%d, left=%d, right=%d, max=%d, size=%d", idx, left, right, max, size);
-
-  if (max != idx)
-  {
-    // swap the current width max value
-    swap(arr, idx, max);
-    // make max tree recursive
-    max_heapify(arr, max, size);
+  fmt.Println("idx=", idx, "left=", left, "right=", right, "max=", max, "size:", size)
+  if max != idx {
+    // 保持最大顶堆，如果当前父节点小于子节点，则进行交换
+    arr[idx], arr[max] = arr[max], arr[idx]
+    // 继续递归执行，直到整棵树符合最大堆特性
+    maxHeapify(arr, max, size)
   }
 }
 
-void heap_sort(int arr[], int len)
-{
-  int parent = (len - 1) / 2 - 1;
-  int child = len - 1;
-  while (parent >= 0)
-  {
-    max_heapify(arr, parent, len);
-    printf("\r\nparent=%d, len=%d", parent, len);
-    parent--;
+// 堆排序算法
+func heapSort(arr []int) []int {
+  var arrLen = len(arr)
+  // 最底层的父节点
+  var parent = getParent(arrLen) - 1
+  // 最底层的子节点
+  var child = arrLen - 1
+  // 从最后的父节点开始遍历，把最大的那个父节点冒出到堆顶
+  for ; parent >= 0; parent-- {
+    maxHeapify(arr, parent, arrLen)
+    fmt.Println("parent sort:", parent, arr)
   }
-
-  printf("child start: parent=%d child=%d", parent, child);
-
-  while (child > 0)
-  {
-    swap(arr, 0, child);
-    max_heapify(arr, 0, child);
-    printf("\r\nchild=%d, parent=%d", 0, child);
-    child--;
+  fmt.Println("child start:", "parent=", parent, " child=", child)
+  // 从子节点往上开始交换和保持大顶堆
+  for child > 0 {
+    // 将顶端的父节点与当前子节点互换
+    arr[0], arr[child] = arr[child], arr[0]
+    // 自最底层往上遍历排序
+    maxHeapify(arr, 0, child)
+    fmt.Println("child sort:", child, arr)
+    child--
   }
+  return arr
 }
 
-int main()
-{
-  int arr[7] = {7, 11, 9, 10, 12, 13, 8};
-  int len = sizeof(arr) / sizeof(arr[0]);
-  for (int i = 0; i < len; i++)
-  {
-    printf("%d ", arr[i]);
-  }
-  float startTime = clock();
-  heap_sort(arr, len);
-  printf("\nsort end:\n");
-  for (int i = 0; i < len; i++)
-  {
-    printf("%d ", arr[i]);
-  }
-  printf("\ntime: %f ms.", ((clock() - startTime) / CLOCKS_PER_SEC * 1000));
-  return 0;
+// test
+func main() {
+  fmt.Println("heap sort1:")
+  time1 := time.Now()
+  data1 := []int{7, 11, 9, 10, 12, 13, 8}
+  fmt.Println(heapSort(data1[:]))
+  fmt.Println("data1 end. cost:", time.Since(time1))
 }
 
 /*
-jarrys-MacBook-Pro:heapsort jarry$ gcc ./heap_sort.c
-jarrys-MacBook-Pro:heapsort jarry$ ./a.out
-7 11 9 10 12 13 8
-idx=2, left=5, right=6, max=5, size=7
-idx=5, left=11, right=12, max=5, size=7
-parent=2, len=7
-idx=1, left=3, right=4, max=4, size=7
-idx=4, left=9, right=10, max=4, size=7
-parent=1, len=7
-idx=0, left=1, right=2, max=2, size=7
-idx=2, left=5, right=6, max=5, size=7
-idx=5, left=11, right=12, max=5, size=7
-parent=0, len=7child start: parent=-1 child=6
-idx=0, left=1, right=2, max=1, size=6
-idx=1, left=3, right=4, max=4, size=6
-idx=4, left=9, right=10, max=4, size=6
-child=0, parent=6
-idx=0, left=1, right=2, max=1, size=5
-idx=1, left=3, right=4, max=3, size=5
-idx=3, left=7, right=8, max=3, size=5
-child=0, parent=5
-idx=0, left=1, right=2, max=1, size=4
-idx=1, left=3, right=4, max=1, size=4
-child=0, parent=4
-idx=0, left=1, right=2, max=2, size=3
-idx=2, left=5, right=6, max=2, size=3
-child=0, parent=3
-idx=0, left=1, right=2, max=1, size=2
-idx=1, left=3, right=4, max=1, size=2
-child=0, parent=2
-idx=0, left=1, right=2, max=0, size=1
-child=0, parent=1
-sort end:
-7 8 9 10 11 12 13
-time: 0.073000 ms
-*/
-
-/**
 oringal array: [7, 11, 9, 10, 12, 13, 8]
 heap:
               7(0)
@@ -139,7 +91,7 @@ heap:
        /    \      /     \
    10(3)  12(4)  13(5)  8(6)
 
-父节点步骤
+父节点步骤，构建大顶堆，父节点要大于左右子节点
 1. maxHeapify: idx= 2 left= 5 right= 6 max= 5 size= 7
               7(0)
           /         \
@@ -268,4 +220,43 @@ heap:
 
 6.1 maxHeapify: idx= 0 left= 1 right= 2 max= 0 size= 1
 
- */
+*/
+
+/*
+jarry@jarrys-MacBook-Pro heapsort % go version
+go version go1.19.5 darwin/amd64
+jarry@jarrys-MacBook-Pro heapsort % go run heap_sort.go
+heap sort1:
+idx= 2 left= 5 right= 6 max= 5 size: 7
+idx= 5 left= 11 right= 12 max= 5 size: 7
+parent sort: 2 [7 11 13 10 12 9 8]
+idx= 1 left= 3 right= 4 max= 4 size: 7
+idx= 4 left= 9 right= 10 max= 4 size: 7
+parent sort: 1 [7 12 13 10 11 9 8]
+idx= 0 left= 1 right= 2 max= 2 size: 7
+idx= 2 left= 5 right= 6 max= 5 size: 7
+idx= 5 left= 11 right= 12 max= 5 size: 7
+parent sort: 0 [13 12 9 10 11 7 8]
+child start: parent= -1  child= 6
+idx= 0 left= 1 right= 2 max= 1 size: 6
+idx= 1 left= 3 right= 4 max= 4 size: 6
+idx= 4 left= 9 right= 10 max= 4 size: 6
+child sort: 6 [12 11 9 10 8 7 13]
+idx= 0 left= 1 right= 2 max= 1 size: 5
+idx= 1 left= 3 right= 4 max= 3 size: 5
+idx= 3 left= 7 right= 8 max= 3 size: 5
+child sort: 5 [11 10 9 7 8 12 13]
+idx= 0 left= 1 right= 2 max= 1 size: 4
+idx= 1 left= 3 right= 4 max= 1 size: 4
+child sort: 4 [10 8 9 7 11 12 13]
+idx= 0 left= 1 right= 2 max= 2 size: 3
+idx= 2 left= 5 right= 6 max= 2 size: 3
+child sort: 3 [9 8 7 10 11 12 13]
+idx= 0 left= 1 right= 2 max= 1 size: 2
+idx= 1 left= 3 right= 4 max= 1 size: 2
+child sort: 2 [8 7 9 10 11 12 13]
+idx= 0 left= 1 right= 2 max= 0 size: 1
+child sort: 1 [7 8 9 10 11 12 13]
+[7 8 9 10 11 12 13]
+data1 end. cost: 213.241µs
+*/

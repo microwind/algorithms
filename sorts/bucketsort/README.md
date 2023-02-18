@@ -2,7 +2,7 @@
 
 ## 说明
 
-桶排序（Bucket sort）也称箱排序，是一个排序算法，工作原理是将数组分到几个桶里，桶的数量可由排序数组最大值与最小值关系决定，可以固定几个桶。每个桶内再通过插入、冒泡或或是以桶递归方式进行排序。
+桶排序（Bucket Sort）也称箱排序，是一个排序算法，工作原理是将数组分到几个桶里，桶的数量可由排序数组最大值与最小值关系决定，可以固定几个桶。每个桶内再通过插入、冒泡或或是以桶递归方式进行排序。
 
 ## 实现过程
 
@@ -415,6 +415,6 @@ void *bucketSort1(int arr[], int len)
 ```
 # 链接
 
-桶排序算法源码：[https://github.com/microwind/algorithms/tree/master/sorts/bubblesort](https://github.com/microwind/algorithms/tree/master/sorts/bubblesort)
+桶排序算法源码：[https://github.com/microwind/algorithms/tree/master/sorts/bucketsort](https://github.com/microwind/algorithms/tree/master/sorts/bucketsort)
 
 其他排序算法源码：[https://github.com/microwind/algorithms](https://github.com/microwind/algorithms)

@@ -2,7 +2,7 @@
 
 ## 说明
 
-计数排序（Counting sort）是一种稳定的线性时间排序算法。该算法于1954年由 Harold H. Seward 提出。计数排序使用一个额外的数组，数组的下标对应待排序的数字。然后根据新数组的下标来获得正确的顺序。就像给每个位置按数字顺序做好标记，然后把对应数组放入其中，最后把下标打印出来即可。计数排序适合数量较少的整数排序，对于浮点不太适合。
+计数排序（Counting Sort）是一种稳定的线性时间排序算法。该算法于1954年由 Harold H. Seward 提出。计数排序使用一个额外的数组，数组的下标对应待排序的数字。然后根据新数组的下标来获得正确的顺序。就像给每个位置按数字顺序做好标记，然后把对应数组放入其中，最后把下标打印出来即可。计数排序适合数量较少的整数排序，对于浮点不太适合。
 
 ## 实现过程
 
@@ -275,6 +275,6 @@ int *countingSort2(int arr[], int len)
 ```
 # 链接
 
-计数排序算法源码：[https://github.com/microwind/algorithms/tree/master/sorts/bubblesort](https://github.com/microwind/algorithms/tree/master/sorts/bubblesort)
+计数排序算法源码：[https://github.com/microwind/algorithms/tree/master/sorts/coutingsort](https://github.com/microwind/algorithms/tree/master/sorts/coutingsort)
 
 其他排序算法源码：[https://github.com/microwind/algorithms](https://github.com/microwind/algorithms)

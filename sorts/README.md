@@ -12,7 +12,7 @@
 - ### [选择排序 selection sort](./selectionsort/)
 [C语言版](./selectionsort/selection_sort.c ) | [JavaScript版](./selectionsort/selection_sort.js ) | [Python版](./selectionsort/selection_sort.py ) | [Java版](./selectionsort/SelectionSort.java ) | [TypeScript版](./selectionsort/SelectionSort.ts )
 - ### [堆排序 heap sort](./heapsort/)
-[C语言版](./heapsort/heap_sort.c ) | [JavaScript版](./heapsort/heap_sort.js ) | [Python版](./heapsort/heap_sort.py ) | [Java版](./heapsort/HeapSort.java ) | [TypeScript版](./heapsort/HeapSort.ts )
+[C语言版](./heapsort/heap_sort.c ) | [JavaScript版](./heapsort/heap_sort.js ) | [Python版](./heapsort/heap_sort.py ) | [Java版](./heapsort/HeapSort.java ) | [TypeScript版](./heapsort/HeapSort.ts ) | [Go版](./heapsort/heap_sort.go )
 - ### [快速排序 quick sort](./quicksort/)
 [C语言版](./quicksort/quick_sort.c ) | [JavaScript版](./quicksort/quick_sort.js ) | [Python版](./quicksort/quick_sort.py ) | [Java版](./quicksort/QuickSort.java ) | [TypeScript版](./quicksort/QuickSort.ts )
 - ### [归并排序 merge sort](./mergesort/)
