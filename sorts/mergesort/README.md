@@ -193,7 +193,7 @@ func merge_sort(arr []int) []int {
 ## JS
 
 ```js
-// JS第二种写法，利用JS语言特点实现
+// JS第二种写法，利用JS语言特点实现，更多版本 请查看源码
 (function () {
   function mergeSort (arr) {
     const len = arr.length
@@ -240,57 +240,56 @@ func merge_sort(arr []int) []int {
 
 ```ts
 class MergeSort {
-
   merge(arr: Array<number>, left: number, mid: number, right: number) {
     // 先建立一个长度等于原数组的临时数组
-    const temp = [];
+    const temp = Array<number>()
     // 左侧指针
-    let i = left;
+    let i = left
     // 右侧指针
-    let j = mid + 1;
+    let j = mid + 1
     // 临时数组指针
-    let k = 0;
+    let k = 0
     // 当左指针小于中间，且右指针不大于最右侧时
     while (i <= mid && j <= right) {
       // 如果左侧小于右侧，将数移到临时数组中左侧
       if (arr[i] <= arr[j]) {
-        temp[k++] = arr[i++];
-      // 否则移动到临时数组右侧
+        temp[k++] = arr[i++]
+        // 否则移动到临时数组右侧
       } else {
-        temp[k++] = arr[j++];
+        temp[k++] = arr[j++]
       }
     }
 
     // 如果左边数组还有数据，就把左侧剩余都放入到原数组后面
     while (i <= mid) {
-      temp[k++] = arr[i++];
+      temp[k++] = arr[i++]
     }
     // 如果右侧数组还有数据，把剩下的数据放入到原数组后面
     while (j <= right) {
-      temp[k++] = arr[j++];
+      temp[k++] = arr[j++]
     }
 
     // 将排序后的元素全部移动到原数组中
-    let x = 0;
+    let x = 0
     while (left <= right) {
-      arr[left++] = temp[x++];
+      arr[left++] = temp[x++]
     }
-    console.log("arr:", arr);
+    console.log('arr:', arr)
   }
 
   mergeSort(arr: Array<number>, left: number, right: number) {
     // 得到中间值
-    const mid = Math.floor((left + right) / 2);
+    const mid = Math.floor((left + right) / 2)
     // 如果左侧小于右侧则执行合并排序
     if (left < right) {
       // 递归合并左侧
-      this.mergeSort(arr, left, mid);
+      this.mergeSort(arr, left, mid)
       // 递归合并右侧
-      this.mergeSort(arr, mid + 1, right);
+      this.mergeSort(arr, mid + 1, right)
       // 合并排序
-      this.merge(arr, left, mid, right);
+      this.merge(arr, left, mid, right)
     }
-    return arr;
+    return arr
   }
 }
 ```

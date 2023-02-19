@@ -118,7 +118,7 @@ var BucketSort = /** @class */ (function () {
         var bucketNumber = Math.abs(Math.floor((max - min) / min)) + 1;
         var bucketSize = Math.abs(Math.floor((max - min) / bucketNumber)) + 1;
         // 桶列表与桶下标
-        var buckets = [];
+        var buckets = (Array);
         var idx;
         var item;
         for (var i = 0, len = arr.length; i < len; i++) {
@@ -155,7 +155,7 @@ var BucketSort = /** @class */ (function () {
             }
         }
         // 按照下标和顺序取出桶内的数字，回填到数组中
-        var output = [];
+        var output = Array();
         // 把数组内容取出
         for (var i = 0, len = buckets.length; i < len; i++) {
             var bucketItem = buckets[i];
@@ -191,11 +191,11 @@ var BucketSort = /** @class */ (function () {
         var bucketNumber = Math.abs(Math.floor((max - min) / min)) + 1;
         var bucketSize = Math.abs(Math.floor((max - min) / bucketNumber)) + 1;
         // 桶列表与桶下标
-        var buckets = [];
+        var buckets = (Array);
         var idx;
         var item;
         // 支持小数，如果要支持负数，则需要将负数下标单独存取，见注释
-        var negativeList = [];
+        var negativeList = Array();
         for (var i = 0, len = arr.length; i < len; i++) {
             // 排序数字除以桶数得到下标，以此来决定分配到哪个桶里面
             item = arr[i];
@@ -207,7 +207,7 @@ var BucketSort = /** @class */ (function () {
             }
             // 每个桶都是一个数组，若不存在则创建并放入数字
             if (!Array.isArray(buckets[idx])) {
-                buckets[idx] = [];
+                buckets[idx] = Array();
                 buckets[idx].push(item);
             }
             else {
@@ -231,7 +231,7 @@ var BucketSort = /** @class */ (function () {
             }
         }
         // 按照下标和顺序取出桶内的数字，回填到数组中
-        var output = [];
+        var output = Array();
         // 先把负数排序然后逐个取出，这里将负数单独出来排序了
         negativeList.sort(function (a, b) {
             return a - b;

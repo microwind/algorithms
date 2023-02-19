@@ -4,13 +4,12 @@
  * @version: 1.0
  */
 class BubbleSort {
-
   constructor(arr: Array<any>) {
     this.bubbleSort1(arr.slice(0))
     this.bubbleSort2(arr.slice(0))
     this.bubbleSort3(arr.slice(0))
   }
-s
+  s
   /**
    * 冒泡排序升序，将最大的冒泡到最后
    */
@@ -22,7 +21,7 @@ s
         // 自左往右每两个进行比较，把大的交换到右侧
         // 逐轮冒出最大数，已经排好序的不要再比较
         if (arr[j] > arr[j + 1]) {
-          [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]
+          ;[arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]
         }
         // console.log('i=' + i, 'j=' + j, arr)
       }
@@ -41,7 +40,7 @@ s
         // 自右往左每两个进行比较，把小的交换到右侧
         // 逐轮冒出最小数，已经排好序的不要再比较
         if (arr[j - 1] < arr[j]) {
-          [arr[j - 1], arr[j]] = [arr[j], arr[j - 1]]
+          ;[arr[j - 1], arr[j]] = [arr[j], arr[j - 1]]
         }
         // console.log('i=' + i, 'j=' + j, arr)
       }
@@ -66,15 +65,14 @@ s
         // 自左往右每两个进行比较，把大的交换到右侧
         // 逐轮冒出最大数，已经排好序的不要再比较
         if (arr[j] > arr[j + 1]) {
-          flag = true;
-          [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]
+          flag = true
+          ;[arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]
         }
         // console.log('i=' + i, 'j=' + j, arr)
       }
     }
     console.log(arr)
   }
-
 }
 
 ;(function () {

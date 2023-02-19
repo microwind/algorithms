@@ -7,7 +7,7 @@ class HeapSort {
   getParent(i: number) {
     return Math.floor((i - 1) / 2)
   }
-    
+
   getLeft(i: number) {
     return 2 * i + 1
   }
@@ -23,12 +23,23 @@ class HeapSort {
     if (left < size && arr[left] > arr[max]) {
       max = left
     }
-    if (right < size &&  arr[right] > arr[max]) {
+    if (right < size && arr[right] > arr[max]) {
       max = right
     }
-    console.log('idx=', idx, 'left=', left, 'right=', right, 'max=', max, 'size:', size)
+    console.log(
+      'idx=',
+      idx,
+      'left=',
+      left,
+      'right=',
+      right,
+      'max=',
+      max,
+      'size:',
+      size
+    )
     if (max !== idx) {
-      [arr[idx], arr[max]] = [arr[max], arr[idx]]
+      ;[arr[idx], arr[max]] = [arr[max], arr[idx]]
       this.maxHeapify(max, size)
     }
   }
@@ -50,18 +61,17 @@ class HeapSort {
     // 从子节点往上开始交换和保持大顶堆
     while (child > 0) {
       // 将顶端的父节点与当前子节点互换
-      [arr[0], arr[child]] = [arr[child], arr[0]]
+      ;[arr[0], arr[child]] = [arr[child], arr[0]]
       // 自最底层往上遍历排序
       this.maxHeapify(0, child)
-      console.warn('child sort:', child, arr);
+      console.warn('child sort:', child, arr)
       child--
     }
     return arr
   }
-
 }
 
-(function() {
+;(function () {
   const arr = [7, 11, 9, 10, 12, 13, 8]
   console.log('start sort:', arr)
   console.time('heapSort')
