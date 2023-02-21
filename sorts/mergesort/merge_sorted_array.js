@@ -5,12 +5,12 @@
  */
 (function () {
   /**
-   * 合并两个已排序数组。
+   * 双指针合并两个已排序数组。
    * 新建数组复制法，比较数组1和数组2的当前项，将小的添加到新数组中
    * @param {Arary} one
    * @param {Array} two
    */
-  function mergeSorted1 (one, two) {
+  function mergeSorted1(one, two) {
     const result = []
     // 数组1下标
     let i = 0
@@ -29,7 +29,7 @@
       } else {
         result[k++] = two[j++]
       }
-      console.log(`while one[i] < two[j] ${i} < ${j}`, result)
+      // console.log(`while one[i] < two[j] ${i} < ${j}`, result)
     }
 
     console.log(one, i, oneLen)
@@ -52,7 +52,7 @@
    * @param {Arary} one
    * @param {Array} two
    */
-  function mergeSorted2 (one, two) {
+  function mergeSorted2(one, two) {
     const oneLen = one.length
     let twoLen = two.length
     let j = 0
@@ -75,7 +75,7 @@
             break
           }
         }
-        console.log(`for one[i] < two[j] ${i} vs ${j}`, one[i], two[j], one, two)
+        // console.log(`for one[i] < two[j] ${i} vs ${j}`, one[i], two[j], one, two)
       }
     }
     return two
@@ -87,7 +87,7 @@
    * @param {Arary} one
    * @param {Array} two
    */
-  function mergeSorted3 (one, two) {
+  function mergeSorted3(one, two) {
     const oneLen = one.length
     let twoLen = two.length
     for (let i = 0; i < oneLen; i++) {
@@ -111,18 +111,18 @@
       two.splice(j + 1, 0, one[i])
       twoLen++
 
-      console.log(`while one[i] < two[j] ${i} < ${j}`, one[i], two[j], one, two)
+      // console.log(`while one[i] < two[j] ${i} < ${j}`, one[i], two[j], one, two)
     }
     return two
   }
 
   /**
    * 合并两个已排序数组。
-   * 新建数组复制法，比较数组1和数组2的当前项，将小的添加到新数组中
+   * 新建数组push法，比较数组1和数组2的当前项，将小的添加到新数组中
    * @param {Arary} one
    * @param {Array} two
    */
-  function mergeSorted4 (one, two) {
+  function mergeSorted4(one, two) {
     const result = []
     // 数组1下标
     let i = 0
@@ -141,7 +141,7 @@
         result.push(two[j])
         j++
       }
-      console.log(`while one[i] < two[j] ${i} < ${j}`, result)
+      // console.log(`while one[i] < two[j] ${i} < ${j}`, result)
     }
 
     // 如果数组1还有剩余的没有添加完，就全部追加到新数组最后
@@ -159,10 +159,36 @@
     return result
   }
 
+  /**
+   * 合并两个已排序数组。
+   * 合并数组再采取普通排序法
+   * @param {Arary} one
+   * @param {Array} two
+   */
+  function mergeSorted5(one, two) {
+    const oneLen = one.length
+    const twoLen = two.length
+
+    const result = one.concat(two)
+    // 从第2个数组开始遍历，采用插入排序
+    for (let i = oneLen; i < oneLen + twoLen; i++) {
+      let j = i
+      const current = result[i]
+      // 如果当前项小于已排序的项，则逐个右移1位
+      while (j-- > 0 && current < result[j]) {
+        result[j + 1] = result[j]
+      }
+      // 空出位置插入比较项
+      result[j + 1] = current
+    }
+
+    return result
+  }
+
   // test
   console.log('\n\r==== merge sorted array  === \r\n')
-  const arr1 = [3, 7, 9, 10, 11, 15, 16]
-  const arr2 = [1, 5, 6, 9, 12]
+  const arr1 = [-3, 7, 9, 10, 11, 15, 16]
+  const arr2 = [-1, 5, 6, 9, 12]
   console.time('mergeSorted1 sorted cost')
   console.log('mergeSorted1 origin:', arr1, arr2)
   console.info('\r\n mergeSorted1 result:', mergeSorted1(arr1.slice(0, arr1.length), arr2.slice(0, arr2.length)))
@@ -182,205 +208,85 @@
   console.log('mergeSorted4 origin:', arr1, arr2)
   console.info('\r\n mergeSorted4 result:', mergeSorted4(arr1.slice(0, arr1.length), arr2.slice(0, arr2.length)))
   console.timeEnd('mergeSorted4 sorted cost')
+
+  console.time('mergeSorted5 sorted cost')
+  console.log('mergeSorted5 origin:', arr1, arr2)
+  console.info('\r\n mergeSorted5 result:', mergeSorted5(arr1.slice(0, arr1.length), arr2.slice(0, arr2.length)))
+  console.timeEnd('mergeSorted5 sorted cost')
 })()
 
 /**
 jarry@jarrys-MacBook-Pro mergesort % node merge_sorted_array.js
-
 ==== merge sorted array  === 
 
 mergeSorted1 origin: [
-   3,  7,  9, 10,
+  -3,  7,  9, 10,
   11, 15, 16
-] [ 1, 5, 6, 9, 12 ]
-while one[i] < two[j] 0 < 1 [ 1 ]
-while one[i] < two[j] 1 < 1 [ 1, 3 ]
-while one[i] < two[j] 1 < 2 [ 1, 3, 5 ]
-while one[i] < two[j] 1 < 3 [ 1, 3, 5, 6 ]
-while one[i] < two[j] 2 < 3 [ 1, 3, 5, 6, 7 ]
-while one[i] < two[j] 2 < 4 [ 1, 3, 5, 6, 7, 9 ]
-while one[i] < two[j] 3 < 4 [
-  1, 3, 5, 6,
-  7, 9, 9
-]
-while one[i] < two[j] 4 < 4 [
-  1, 3, 5,  6,
-  7, 9, 9, 10
-]
-while one[i] < two[j] 5 < 4 [
-  1, 3,  5,  6, 7,
-  9, 9, 10, 11
-]
-while one[i] < two[j] 5 < 5 [
-  1, 3,  5,  6,  7,
-  9, 9, 10, 11, 12
-]
+] [ -1, 5, 6, 9, 12 ]
 [
-   3,  7,  9, 10,
+  -3,  7,  9, 10,
   11, 15, 16
 ] 5 7
 
  mergeSorted1 result: [
-   1,  3,  5,  6,  7,
+  -3, -1,  5,  6,  7,
    9,  9, 10, 11, 12,
   15, 16
 ]
-mergeSorted1 sorted cost: 4.644ms
+mergeSorted1 sorted cost: 2.296ms
 mergeSorted2 origin: [
-   3,  7,  9, 10,
+  -3,  7,  9, 10,
   11, 15, 16
-] [ 1, 5, 6, 9, 12 ]
-for one[i] < two[j] 0 vs 0 3 1 [
-   3,  7,  9, 10,
-  11, 15, 16
-] [ 1, 5, 6, 9, 12 ]
-insert 3 into two at 1
-for one[i] < two[j] 1 vs 1 7 3 [
-   3,  7,  9, 10,
-  11, 15, 16
-] [ 1, 3, 5, 6, 9, 12 ]
-for one[i] < two[j] 1 vs 2 7 5 [
-   3,  7,  9, 10,
-  11, 15, 16
-] [ 1, 3, 5, 6, 9, 12 ]
-for one[i] < two[j] 1 vs 3 7 6 [
-   3,  7,  9, 10,
-  11, 15, 16
-] [ 1, 3, 5, 6, 9, 12 ]
+] [ -1, 5, 6, 9, 12 ]
+insert -3 into two at 0
 insert 7 into two at 4
-for one[i] < two[j] 2 vs 4 9 7 [
-   3,  7,  9, 10,
-  11, 15, 16
-] [
-  1, 3,  5, 6,
-  7, 9, 12
-]
-for one[i] < two[j] 2 vs 5 9 9 [
-   3,  7,  9, 10,
-  11, 15, 16
-] [
-  1, 3,  5, 6,
-  7, 9, 12
-]
 insert 9 into two at 6
-for one[i] < two[j] 3 vs 6 10 9 [
-   3,  7,  9, 10,
-  11, 15, 16
-] [
-  1, 3, 5,  6,
-  7, 9, 9, 12
-]
 insert 10 into two at 7
-for one[i] < two[j] 4 vs 7 11 10 [
-   3,  7,  9, 10,
-  11, 15, 16
-] [
-  1, 3,  5,  6, 7,
-  9, 9, 10, 12
-]
 insert 11 into two at 8
-for one[i] < two[j] 5 vs 8 15 11 [
-   3,  7,  9, 10,
-  11, 15, 16
-] [
-  1, 3,  5,  6,  7,
-  9, 9, 10, 11, 12
-]
-for one[i] < two[j] 6 vs 9 16 12 [
-   3,  7,  9, 10,
-  11, 15, 16
-] [
-   1, 3,  5,  6,  7,
-   9, 9, 10, 11, 12,
-  15
-]
 
  mergeSorted2 result: [
-   1,  3,  5,  6,  7,
+  -3, -1,  5,  6,  7,
    9,  9, 10, 11, 12,
   15, 16
 ]
-mergeSorted2 sorted cost: 1.344ms
+mergeSorted2 sorted cost: 0.721ms
 mergeSorted3 origin: [
-   3,  7,  9, 10,
+  -3,  7,  9, 10,
   11, 15, 16
-] [ 1, 5, 6, 9, 12 ]
-insert 3 into two at 1
-while one[i] < two[j] 0 < 0 3 1 [
-   3,  7,  9, 10,
-  11, 15, 16
-] [ 1, 3, 5, 6, 9, 12 ]
+] [ -1, 5, 6, 9, 12 ]
+insert -3 into two at 0
 insert 7 into two at 4
-while one[i] < two[j] 1 < 3 7 6 [
-   3,  7,  9, 10,
-  11, 15, 16
-] [
-  1, 3,  5, 6,
-  7, 9, 12
-]
 insert 9 into two at 6
-while one[i] < two[j] 2 < 5 9 9 [
-   3,  7,  9, 10,
-  11, 15, 16
-] [
-  1, 3, 5,  6,
-  7, 9, 9, 12
-]
 insert 10 into two at 7
-while one[i] < two[j] 3 < 6 10 9 [
-   3,  7,  9, 10,
-  11, 15, 16
-] [
-  1, 3,  5,  6, 7,
-  9, 9, 10, 12
-]
 insert 11 into two at 8
-while one[i] < two[j] 4 < 7 11 10 [
-   3,  7,  9, 10,
-  11, 15, 16
-] [
-  1, 3,  5,  6,  7,
-  9, 9, 10, 11, 12
-]
 concat remained: [ 15, 16 ]
 
  mergeSorted3 result: [
-   1,  3,  5,  6,  7,
+  -3, -1,  5,  6,  7,
    9,  9, 10, 11, 12,
   15, 16
 ]
-mergeSorted3 sorted cost: 1.007ms
+mergeSorted3 sorted cost: 0.746ms
 mergeSorted4 origin: [
-   3,  7,  9, 10,
+  -3,  7,  9, 10,
   11, 15, 16
-] [ 1, 5, 6, 9, 12 ]
-while one[i] < two[j] 0 < 1 [ 1 ]
-while one[i] < two[j] 1 < 1 [ 1, 3 ]
-while one[i] < two[j] 1 < 2 [ 1, 3, 5 ]
-while one[i] < two[j] 1 < 3 [ 1, 3, 5, 6 ]
-while one[i] < two[j] 2 < 3 [ 1, 3, 5, 6, 7 ]
-while one[i] < two[j] 2 < 4 [ 1, 3, 5, 6, 7, 9 ]
-while one[i] < two[j] 3 < 4 [
-  1, 3, 5, 6,
-  7, 9, 9
-]
-while one[i] < two[j] 4 < 4 [
-  1, 3, 5,  6,
-  7, 9, 9, 10
-]
-while one[i] < two[j] 5 < 4 [
-  1, 3,  5,  6, 7,
-  9, 9, 10, 11
-]
-while one[i] < two[j] 5 < 5 [
-  1, 3,  5,  6,  7,
-  9, 9, 10, 11, 12
-]
+] [ -1, 5, 6, 9, 12 ]
 
  mergeSorted4 result: [
-   1,  3,  5,  6,  7,
+  -3, -1,  5,  6,  7,
    9,  9, 10, 11, 12,
   15, 16
 ]
-mergeSorted4 sorted cost: 2.044ms
+mergeSorted4 sorted cost: 0.258ms
+mergeSorted5 origin: [
+  -3,  7,  9, 10,
+  11, 15, 16
+] [ -1, 5, 6, 9, 12 ]
+
+ mergeSorted5 result: [
+  -3, -1,  5,  6,  7,
+   9,  9, 10, 11, 12,
+  15, 16
+]
+mergeSorted5 sorted cost: 0.25ms
  */
