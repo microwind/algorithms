@@ -1,5 +1,5 @@
 /**
- * Copyhigh © https://github.com/jarry All highs reserved.
+ * Copyhigh © https://github.com/jarry All rights reserved.
  * @author: jarryli@gmail.com
  * @version: 1.0
  */
@@ -9,6 +9,26 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+void printArray(int *arr, int len)
+{
+  for (int i = 0; i < len; i++)
+  {
+    printf("%d ", arr[i]);
+  }
+}
+
+void printArray2(int *arr, int start, int end)
+{
+  printf("[");
+  for (int i = start; i < end; i++)
+  {
+    printf("%d", arr[i]);
+    if (i != end - 1) 
+    printf(", ");
+  }
+  printf("]");
+}
+
 void swap(int *a, int *b)
 {
   int t = *a;
@@ -17,7 +37,7 @@ void swap(int *a, int *b)
 }
 
 /** 方式1,标准递归版本。需要左右不断交换，无需新建数组。*/
-void *quickSort(int arr[], int low, int high)
+void *quickSort1(int arr[], int low, int high)
 {
   int i = low > 0 ? low : 0;
   int j = high;
@@ -55,46 +75,56 @@ void *quickSort(int arr[], int low, int high)
   if (low < j)
   {
     printf("\r\n  low < j:recursion:  low=%d, high=%d, i=%d, j=%d, midIndex=%d, pivot=%d", low, high, i, j, midIndex, pivot);
-    quickSort(arr, low, j);
+    quickSort1(arr, low, j);
   }
   // 基数位置小于右侧，不断递归右侧部分
   if (i < high)
   {
     printf("\r\n  i < high:recursion:  low=%d, high=%d, i=%d, j=%d, midIndex=%d, pivot=%d", low, high, i, j, midIndex, pivot);
-    quickSort(arr, i, high);
+    quickSort1(arr, i, high);
   }
 
   return arr;
 }
 
-/**
-jarrys-MacBook-Pro:quicksort jarry$ gcc quick_sort.c
-jarrys-MacBook-Pro:quicksort jarry$ ./a.out 
 
- quickSort start
+/* 快排方式2，递归分区交换 */
+// 数组分区写法，以左侧第1个数为基准，将大于基准的数放在右侧
+int partition(int *arr, int left, int right)
+{
+  // 基数位置以左侧为准
+  int pivotIndex = left;
+  int swapIndex = pivotIndex + 1;
+  for (int i = swapIndex; i <= right; i++)
+  {
+    // 当比较项小于基数时，将比较项逐个挪到左侧，同时左侧下标移动1位
+    if (arr[i] < arr[pivotIndex])
+    {
+      swap(&arr[i], &arr[swapIndex]);
+      swapIndex++;
+    }
+  }
+  // 将基数项调整到最新交换位置，交换位置-1就是分割线
+  swap(&arr[pivotIndex], &arr[swapIndex - 1]);
+  printf("\r\n");
+  printArray2(arr, left, swapIndex);
+  printf(" swapIndex=%d, arr[swapIndex]=%d ", swapIndex, arr[swapIndex]);
+  printArray2(arr, swapIndex, right);
+  return swapIndex - 1;
+}
+// 快排方式2，递归分区交换
+int *quickSort2(int *arr, int left, int right)
+{
+  if (left < right)
+  {
+    int pivot = partition(arr, left, right);
+    quickSort2(arr, left, pivot - 1);
+    quickSort2(arr, pivot + 1, right);
+  }
+  return arr;
+}
 
- origin:7 11 9 10 12 13 8 
-arr[i] < pivot: i=0, j=6, pivot=10
-  low=0, high=6, i=1, j=6, midIndex=3, pivot=10
-arr[i] < pivot: i=2, j=5, pivot=10
-arr[i] > pivot: i=3, j=5, pivot=10
-arr[i] > pivot: i=3, j=4, pivot=10
-  low=0, high=6, i=3, j=3, midIndex=3, pivot=10
-  low < j:recursion:  low=0, high=6, i=4, j=2, midIndex=3, pivot=10
-arr[i] < pivot: i=0, j=2, pivot=8
-arr[i] > pivot: i=1, j=2, pivot=8
-  low=0, high=2, i=1, j=1, midIndex=1, pivot=8
-  i < high:recursion:  low=0, high=6, i=4, j=2, midIndex=3, pivot=10
-arr[i] < pivot: i=4, j=6, pivot=13
-  low=4, high=6, i=5, j=6, midIndex=5, pivot=13
-  low < j:recursion:  low=4, high=6, i=6, j=5, midIndex=5, pivot=13
-  low=4, high=5, i=4, j=5, midIndex=4, pivot=12
- sorted:7 8 9 10 11 12 13 
-time: 0.029000 ms.
- quickSort end
- */
-
-/** 方式2,非递归版本。先建立栈，或引入外部stack库。*/
+/** 方式3,非递归版本。先建立栈，或引入外部stack库。*/
 /* defined stack  */
 typedef int item;
 typedef struct stack *Stack;
@@ -250,34 +280,87 @@ void *quickSortNotRecurion(int arr[], int low, int high)
 // test
 int main()
 {
-  int arr[7] = {7, 11, 9, 10, 12, 13, 8};
-  printf("\r\n quickSort start\r\n");
-  int len = sizeof(arr) / sizeof(arr[0]);
-  printf("\r\n origin:");
-  for (int i = 0; i < len; i++)
-  {
-    printf("%d ", arr[i]);
-  }
-  float startTime = clock();
-  int *newArr = quickSort(arr, 0, len - 1);
-  // int *newArr = quickSortNotRecurion(arr, 0, len - 1);
-  printf("\r\n sorted:");
-  for (int i = 0; i < len; i++)
-  {
-    printf("%d ", newArr[i]);
-  }
+  printf("\r\n sort start\r\n");
 
+  // test quicksort1
+  printf("\r\n==quick1 origin==\r\n");
+  int arr1[7] = {7, 11, 9, 10, 12, 13, 8};
+  int len1 = sizeof(arr1) / sizeof(arr1[0]);
+  printArray(arr1, len1);
+  float startTime = clock();
+  int *newArr1 = quickSort1(arr1, 0, len1 - 1);
+  // int *newArr = quickSortNotRecurion(arr, 0, len - 1);
+  printf("\r\nquick1 sorted:");
+  printArray(newArr1, len1);
   printf("\ntime: %f ms.", ((clock() - startTime) / CLOCKS_PER_SEC * 1000));
-  printf("\n quickSort end\n");
+  printf("\n==quick1 end==\n");
+
+  // test quicksort1
+  printf("\r\n==quick2 origin==\r\n");
+  int arr2[7] = {7, 11, 9, 10, 12, 13, 8};
+  int len2 = sizeof(arr2) / sizeof(arr2[0]);
+  printArray(arr2, len2);
+  startTime = clock();
+  int *newArr2 = quickSort2(arr2, 0, len2 - 1);
+  printf("\r\n quick2 sorted:");
+  printArray(newArr2, len2);
+  printf("\ntime: %f ms.", ((clock() - startTime) / CLOCKS_PER_SEC * 1000));
+  printf("\n==quick2 end==\n");
+
+  // test quicksort3
+  printf("\r\n==quick3 origin==\r\n");
+  int arr3[7] = {7, 11, 9, 10, 12, 13, 8};
+  int len3 = sizeof(arr3) / sizeof(arr3[0]);
+  printArray(arr3, len3);
+  startTime = clock();
+  int *newArr3 = quickSortNotRecurion(arr3, 0, len3 - 1);
+  printf("\r\n quick3 sorted:");
+  printArray(newArr3, len3);
+  printf("\ntime: %f ms.", ((clock() - startTime) / CLOCKS_PER_SEC * 1000));
+  printf("\n==quick3 end==\n");
+
 }
 
 /**
-jarrys-MacBook-Pro:quicksort jarry$ gcc quick_sort.c -o quick_sort_stack
-jarrys-MacBook-Pro:quicksort jarry$ ./quick_sort_stack 
+jarrys-MacBook-Pro:quicksort jarry$ gcc quick_sort.c -o quick_sort
+jarry@jarrys-MacBook-Pro quicksort % ./quick_sort        
 
- quickSort start
+ sort start
 
- origin:7 11 9 10 12 13 8 
+==quick1 origin==
+7 11 9 10 12 13 8 
+arr[i] < pivot: i=0, j=6, pivot=10
+  low=0, high=6, i=1, j=6, midIndex=3, pivot=10
+arr[i] < pivot: i=2, j=5, pivot=10
+arr[i] > pivot: i=3, j=5, pivot=10
+arr[i] > pivot: i=3, j=4, pivot=10
+  low=0, high=6, i=3, j=3, midIndex=3, pivot=10
+  low < j:recursion:  low=0, high=6, i=4, j=2, midIndex=3, pivot=10
+arr[i] < pivot: i=0, j=2, pivot=8
+arr[i] > pivot: i=1, j=2, pivot=8
+  low=0, high=2, i=1, j=1, midIndex=1, pivot=8
+  i < high:recursion:  low=0, high=6, i=4, j=2, midIndex=3, pivot=10
+arr[i] < pivot: i=4, j=6, pivot=13
+  low=4, high=6, i=5, j=6, midIndex=5, pivot=13
+  low < j:recursion:  low=4, high=6, i=6, j=5, midIndex=5, pivot=13
+  low=4, high=5, i=4, j=5, midIndex=4, pivot=12
+quick1 sorted:7 8 9 10 11 12 13 
+time: 0.034000 ms.
+==quick1 end==
+
+==quick2 origin==
+7 11 9 10 12 13 8 
+[7] swapIndex=1, arr[swapIndex]=11 [11, 9, 10, 12, 13]
+[8, 9, 10, 11] swapIndex=5, arr[swapIndex]=13 [13]
+[8] swapIndex=2, arr[swapIndex]=9 [9]
+[9] swapIndex=3, arr[swapIndex]=10 []
+[12, 13] swapIndex=7, arr[swapIndex]=0 []
+ quick2 sorted:7 8 9 10 11 12 13 
+time: 0.016000 ms.
+==quick2 end==
+
+==quick3 origin==
+7 11 9 10 12 13 8 
 high - low = 6
 
 arr[i] < pivot: i=0, j=6, arr[i]=7, arr[j]=8, pivot=10
@@ -290,7 +373,7 @@ arr[i] < pivot: i=4, j=6, arr[i]=12, arr[j]=11, pivot=13
   low < j:recursion:  low=4, high=6, i=6, j=5, midIndex=5, pivot=13
 arr[i] < pivot: i=0, j=2, arr[i]=7, arr[j]=9, pivot=8
 arr[i] > pivot: i=1, j=2, arr[i]=8, arr[j]=9, pivot=8
- sorted:7 8 9 10 11 12 13 
-time: 0.079000 ms.
- quickSort end
+ quick3 sorted:7 8 9 10 11 12 13 
+time: 0.068000 ms.
+==quick3 end==
  */
