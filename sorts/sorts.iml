@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/bubblesort" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/bucketsort" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/countingsort" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/heapsort" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/insertsort" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mergesort" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/quicksort" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/radixsort" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/selectionsort" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/shellsort" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #-*- encoding: UTF-8-*-
 """
- * Copyright © https://github.com/jarry All rights reserved.
+ * Copyright © https://github.com/microwind All rights reserved.
  * @author: jarryli@gmail.com
  * @version: 1.0
 """
@@ -9,42 +9,43 @@ import time
 
 
 # 利用计数排序来实现基本排序
-def count_sort(arr, exp):
-    size = len(arr)
-    output = [0] * size
-    count = [0] * 10
+def counting_sort(arr, radix):
+    arr_len = len(arr)
+    # 基数radix按10进位，amount表示0-9的数字的长度，也是10个
     amount = 10
+    count_list = [0] * amount
+    sorted_list = [0] * arr_len
 
-    # 按下标位置计算，exp为数字的位置
-    for i in range(0, size):
-        index = arr[i] // exp
-        count[index % amount] += 1
+    # 根据基数求得当前项目对应位置的数值，并给对应计数数组位置加1
+    for i in range(0, arr_len):
+        index = arr[i] // radix % amount
+        count_list[index] += 1
 
     # 当前位置加上左侧位置，后面的位数为前面的累加之和
     for i in range(1, amount):
-        count[i] += count[i - 1]
+        count_list[i] += count_list[i - 1]
 
     # 构建输出数组，根据计数数组按顺序取得排序内容
-    i = size - 1
+    i = arr_len - 1
     while i >= 0:
-        index = arr[i] // exp
-        output[count[index % amount] - 1] = arr[i]
-        count[index % amount] -= 1
+        index = arr[i] // radix % amount
+        sorted_list[count_list[index] - 1] = arr[i]
+        count_list[index] -= 1
         i -= 1
 
     # 复制输出数组到原始数组
-    for i in range(0, size):
-        arr[i] = output[i]
+    for i in range(0, arr_len):
+        arr[i] = sorted_list[i]
 
     return arr
 
 def radix_sort(arr):
     max_value = max(arr)
-    # 按位数应用计数排序
-    exp = 1
-    while max_value // exp > 0:
-        count_sort(arr, exp)
-        exp *= 10
+    # 根据最大值，逐个按进位(基数)来应用排序，radix即数位。
+    radix = 1
+    while max_value // radix > 0:
+        counting_sort(arr, radix)
+        radix *= 10
 
     return arr
 

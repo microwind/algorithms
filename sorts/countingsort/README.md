@@ -11,7 +11,6 @@
 3. 遍历待排序数组，将数字与计数数组下标对应，按出现次数做标记；做对应时为了减少数组长度，可以用下标减去最小值；
 4. 反向取出数据，按出现的次数逐个追加到输出数组中。
 
-
 ## 示意图
 
 ![计数排序](../../images/sort/counting1.png)
@@ -273,6 +272,13 @@ int *countingSort2(int arr[], int len)
   return output;
 }
 ```
+
+# 基数排序与计数排序、桶排序区别
+    基数排序与计数排序、桶排序都使用桶的概念来排序，其差异如下：
+    基数排序：根据数据的位数来分配桶，每一位对应一个桶，先将全部数据的位数按最大位数对齐，再根据位数上的值大小排列；
+    计数排序：根据最大最小差值设定若干桶，每个桶对应一个数值，将数据放入桶里并把值存入下一个桶，最后按索引顺序取出对应桶里的值；
+    桶排序：根据情况分为若干个桶，每个桶存储一定范围的数值，每个桶单独排序，最后按桶顺序取出数据；
+
 # 链接
 
 计数排序算法源码：[https://github.com/microwind/algorithms/tree/master/sorts/coutingsort](https://github.com/microwind/algorithms/tree/master/sorts/coutingsort)

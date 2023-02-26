@@ -1,3 +1,4 @@
+
 /**
  * Copyright © https://github.com/jarry All rights reserved.
  * @author: jarryli@gmail.com
@@ -5,93 +6,146 @@
  */
 
 import java.util.*;
-class RadixSort {
-  RadixSort() {
 
-  }
+class RadixSort {
 
   // 基数排序，基于计数排序的基础上，按数字的每个位置来排序
-  public static int[] countingSort(int arr[], int exp) {
-    int[] countList = new int[10];
-    int size = 10;
+  public static int[] countingSort(int arr[], int radix) {
+    // 基数radix按10进位，range为10
+    int range = 10;
+    int[] countList = new int[range];
+    int[] sortedList = new int[arr.length];
+
+    // 根据基数求得当前项目对应位置的数值，并给对应计数数组位置加1
     for (int i = 0; i < arr.length; i++) {
       int item = arr[i];
-      // 取得数字的最后一位，并给对应计数数组加1
-      int idx = (item / exp) % size;
+      // 根据radix获得当前位置的数字是几，存入对应计数数组
+      int idx = (item / radix) % range;
       countList[idx] += 1;
     }
-    System.out.println("countingSort countList:" + Arrays.toString(countList));
 
     // 根据位置计数，后面的位数为前面的累加之和
-    for (int i = 1; i < size; i++) {
+    for (int i = 1; i < range; i++) {
       countList[i] += countList[i - 1];
     }
+    System.out.println("radixSort1 countingSort countList:" + Arrays.toString(countList));
 
-    int[] output = new int[arr.length];
     // 根据计数数组按顺序取出排序内容
     for (int i = arr.length - 1; i >= 0; i--) {
-      int idx = (arr[i] / exp) % size;
-      output[countList[idx] - 1] = arr[i];
+      int idx = (arr[i] / radix) % range;
+      // 根据计数位置得到顺序
+      sortedList[countList[idx] - 1] = arr[i];
       countList[idx] -= 1;
     }
 
     // 最后赋值给原数据
     for (int i = 0; i < arr.length; i++) {
-      System.out.println("countingSort arr:" + Arrays.toString(arr));
-      arr[i] = output[i];
+      arr[i] = sortedList[i];
     }
-    return output;
+    System.out.println("radixSort1 -> sortedList:" + Arrays.toString(sortedList));
+    return sortedList;
   }
 
-  public static int[] sort(int arr[]) {
-    int[] output = new int[arr.length];
+  // 基数排序1，按数位大小，基于计数排序实现
+  public static int[] radixSort1(int arr[]) {
     int max = arr[0];
-    for (int i  = 0; i < arr.length; i++) {
+    for (int i = 0; i < arr.length; i++) {
       if (arr[i] > max) {
         max = arr[i];
       }
     }
-    // 根据最大值，逐个按进位(基数)来应用排序
+    // 根据最大值，逐个按进位(基数)来应用排序，radix即数位。
     for (int radix = 1; (max / radix) > 0; radix *= 10) {
-      System.out.println("radix:" + radix);
-      output = countingSort(arr, radix);
+      countingSort(arr, radix);
     }
-    return output;
+    return arr;
   }
+
+  // 基数排序2，基于计数排序实现，计数排序写在一个方法内
+  public static int[] radixSort2(int arr[]) {
+    int arrLen = arr.length;
+    // 基数radix按10进位，range为10
+    int range = 10;
+    int[] sortedList = new int[arrLen];
+    int max = arr[0];
+    for (int i = 0; i < arrLen; i++) {
+      if (arr[i] > max) {
+        max = arr[i];
+      }
+    }
+
+    // 根据基数求得当前项目对应位置的数值，并给对应计数数组位置加1
+    // 按最大值补齐数位，基数radix按10进位
+    for (int radix = 1; (max / radix) > 0; radix *= range) {
+
+      // 计数数组，长度为10，0-9一共10个数字
+      int[] countList = new int[range];
+      // 根据基数得到当前位数，并给计数数组对应位置加1
+      for (int i = 0; i < arrLen; i++) {
+        int item = arr[i];
+        int idx = (item / radix) % range;
+        countList[idx] += 1;
+      }
+
+      // 计数排序构建，自前往后，逐个将上一项的值存入当前项
+      for (int i = 1; i < range; i++) {
+        countList[i] += countList[i - 1];
+      }
+
+      System.out.println("radixSort2 -> countList:" + Arrays.toString(countList));
+
+      // 根据计数数组按顺序取出排序内容
+      for (int i = arrLen - 1; i >= 0; i--) {
+        int idx = (arr[i] / radix) % range;
+        sortedList[countList[idx] - 1] = arr[i];
+        countList[idx] -= 1;
+      }
+
+      System.out.println("radixSort2 -> sortedList:" + Arrays.toString(sortedList));
+      // 将新顺序赋值给原数组
+      for (int i = 0; i < arr.length; i++) {
+        arr[i] = sortedList[i];
+      }
+    }
+
+    return sortedList;
+  }
+
   // test
   public static void main(String args[]) {
-    int arr[] = { 7, 11, 9, 10, 12, 13, 8 };
-    System.out.println("sort start:" + Arrays.toString(arr));
+    int arr1[] = { 7, 11, 9, 10, 12, 13, 8 };
+    System.out.println("sort1 start:" + Arrays.toString(arr1));
     long startTime = System.currentTimeMillis();
-    arr = RadixSort.sort(arr);
+    arr1 = RadixSort.radixSort1(arr1);
     System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime) + " ms.");
-    System.out.println("sorted:" + Arrays.toString(arr));
+    System.out.println("sort1 sorted:" + Arrays.toString(arr1));
+
+    int arr2[] = { 7, 11, 9, 10, 12, 13, 8 };
+    System.out.println("sort2 start:" + Arrays.toString(arr2));
+    long startTime2 = System.currentTimeMillis();
+    arr2 = RadixSort.radixSort2(arr2);
+    System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime2) + " ms.");
+    System.out.println("sort2 sorted:" + Arrays.toString(arr2));
   }
 }
 
 /*
-jarry@jarrys-MacBook-Pro radixsort % javac RadixSort.java
-jarry@jarrys-MacBook-Pro radixsort % java RadixSort
-sort start:[7, 11, 9, 10, 12, 13, 8]
-radix:1
-countingSort countList:[1, 1, 1, 1, 0, 0, 0, 1, 1, 1]
-countingSort arr:[7, 11, 9, 10, 12, 13, 8]
-countingSort arr:[10, 11, 9, 10, 12, 13, 8]
-countingSort arr:[10, 11, 9, 10, 12, 13, 8]
-countingSort arr:[10, 11, 12, 10, 12, 13, 8]
-countingSort arr:[10, 11, 12, 13, 12, 13, 8]
-countingSort arr:[10, 11, 12, 13, 7, 13, 8]
-countingSort arr:[10, 11, 12, 13, 7, 8, 8]
-radix:10
-countingSort countList:[3, 4, 0, 0, 0, 0, 0, 0, 0, 0]
-countingSort arr:[10, 11, 12, 13, 7, 8, 9]
-countingSort arr:[7, 11, 12, 13, 7, 8, 9]
-countingSort arr:[7, 8, 12, 13, 7, 8, 9]
-countingSort arr:[7, 8, 9, 13, 7, 8, 9]
-countingSort arr:[7, 8, 9, 10, 7, 8, 9]
-countingSort arr:[7, 8, 9, 10, 11, 8, 9]
-countingSort arr:[7, 8, 9, 10, 11, 12, 9]
-
-time:8 ms.
-sorted:[7, 8, 9, 10, 11, 12, 13]
+ * jarry@jarrys-MacBook-Pro radixsort % javac RadixSort.java
+ * jarry@jarrys-MacBook-Pro radixsort % java RadixSort
+ * sort1 start:[7, 11, 9, 10, 12, 13, 8]
+ * radixSort1 countingSort countList:[1, 2, 3, 4, 4, 4, 4, 5, 6, 7]
+ * radixSort1 -> sortedList:[10, 11, 12, 13, 7, 8, 9]
+ * radixSort1 countingSort countList:[3, 7, 7, 7, 7, 7, 7, 7, 7, 7]
+ * radixSort1 -> sortedList:[7, 8, 9, 10, 11, 12, 13]
+ * 
+ * time:0 ms.
+ * sort1 sorted:[7, 8, 9, 10, 11, 12, 13]
+ * sort2 start:[7, 11, 9, 10, 12, 13, 8]
+ * radixSort2 -> countList:[1, 2, 3, 4, 4, 4, 4, 5, 6, 7]
+ * radixSort2 -> sortedList:[10, 11, 12, 13, 7, 8, 9]
+ * radixSort2 -> countList:[3, 7, 7, 7, 7, 7, 7, 7, 7, 7]
+ * radixSort2 -> sortedList:[7, 8, 9, 10, 11, 12, 13]
+ * 
+ * time:0 ms.
+ * sort2 sorted:[7, 8, 9, 10, 11, 12, 13]
  */
