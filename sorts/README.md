@@ -1,7 +1,4 @@
 ## 概览
-<img src="../images/sort/sort.png" width="70%">
-
-## 比较
 ![计数排序](../images/sort/sort-comparison.png)
 
 ## 10大经典排序算法

@@ -28,7 +28,7 @@ void print_array(int *arr, int len)
 int *radixSort(int *arr, int len)
 {
 
-  // 基数radix按10进位，range为10
+  // 以10倍递进
   int range = 10;
   int output[len];
 
@@ -41,8 +41,8 @@ int *radixSort(int *arr, int len)
     }
   }
 
-  // 根据最大值，逐个按进位(基数)来应用排序，radix即数位。
-  for (int radix = 1; (max / radix) > 0; radix *= range)
+  // 根据最大值，逐个按进位(基数)来应用排序，exponent即基数。
+  for (int exponent = 1; (max / exponent) > 0; exponent *= range)
   {
 
     // 计数数组，长度为10，0-9一共10个数字
@@ -52,7 +52,7 @@ int *radixSort(int *arr, int len)
     for (int i = 0; i < len; i++)
     {
       int item = arr[i];
-      int idx = (item / radix) % range;
+      int idx = (item / exponent) % range;
       countList[idx] += 1;
     }
 
@@ -65,7 +65,7 @@ int *radixSort(int *arr, int len)
     // 根据计数数组按顺序取出排序内容
     for (int i = len - 1; i >= 0; i--)
     {
-      int idx = (arr[i] / radix) % range;
+      int idx = (arr[i] / exponent) % range;
       output[countList[idx] - 1] = arr[i];
       countList[idx] -= 1;
     }

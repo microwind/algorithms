@@ -11,7 +11,7 @@ import (
 )
 
 // 1. 基数排序，基于计数排序的基础上，按数字的每个位置来排序
-func countingSort(arr []int, radix int) []int {
+func countingSort(arr []int, exponent int) []int {
   var arrLen = len(arr)
   var amount = 10
   var countList = make([]int, amount)
@@ -19,7 +19,7 @@ func countingSort(arr []int, radix int) []int {
   for i := 0; i < arrLen; i++ {
     var item = arr[i]
     // 根据基数取得数位上的值，并给对应计数数组加1
-    var idx = (item / radix) % amount
+    var idx = (item / exponent) % amount
     countList[idx] += 1
   }
 
@@ -32,7 +32,7 @@ func countingSort(arr []int, radix int) []int {
   var sortedList = make([]int, arrLen)
   // 补齐位数，根据计数数组按顺序取得排序内容
   for i := arrLen - 1; i >= 0; i-- {
-    var idx = (arr[i] / radix) % amount
+    var idx = (arr[i] / exponent) % amount
     sortedList[countList[idx]-1] = arr[i]
     countList[idx] -= 1
   }
@@ -53,8 +53,8 @@ func radixSort1(arr []int) []int {
     }
   }
   // 根据最大值，逐个按进位(基数)来应用排序，基数步长为10。
-  for radix := 1; (max / radix) > 0; radix *= 10 {
-    countingSort(arr, radix)
+  for exponent := 1; (max / exponent) > 0; exponent *= 10 {
+    countingSort(arr, exponent)
   }
   return arr
 }
@@ -62,7 +62,7 @@ func radixSort1(arr []int) []int {
 // 基数排序2，基于计数排序实现，计数排序写在一个方法内
 func radixSort2(arr []int) []int {
   var arrLen = len(arr)
-  // 基数radix按10进位，amount为10
+  // 基数exponent按10进位，amount为10
   var amount = 10
   var sortedList = make([]int, arrLen)
   var max = arr[0]
@@ -73,15 +73,15 @@ func radixSort2(arr []int) []int {
   }
 
   // 根据基数求得当前项目对应位置的数值，并给对应计数数组位置加1
-  // 按最大值补齐数位，基数radix按10进位
-  for radix := 1; (max / radix) > 0; radix *= amount {
+  // 按最大值补齐数位，基数exponent按10进位
+  for exponent := 1; (max / exponent) > 0; exponent *= amount {
 
     // 计数数组，长度为10，0-9一共10个数字
     countList := make([]int, amount)
     // 根据基数得到当前位数，并给计数数组对应位置加1
     for i := 0; i < arrLen; i++ {
       var item = arr[i]
-      var idx = (item / radix) % amount
+      var idx = (item / exponent) % amount
       countList[idx] += 1
     }
 
@@ -94,7 +94,7 @@ func radixSort2(arr []int) []int {
 
     // 根据计数数组按顺序取出排序内容
     for i := arrLen - 1; i >= 0; i-- {
-      var idx = (arr[i] / radix) % amount
+      var idx = (arr[i] / exponent) % amount
       sortedList[countList[idx]-1] = arr[i]
       countList[idx] -= 1
     }

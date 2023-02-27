@@ -6,7 +6,7 @@
 
 class RadixSort {
   // 基数排序，基于计数排序的基础上，按数字的每个位置来排序
-  countingSort(arr: Array<number>, radix: number) {
+  countingSort(arr: Array<number>, exponent: number) {
     const countList = Array<number>()
     const range = 10;
     countList.length = range;
@@ -14,7 +14,7 @@ class RadixSort {
     for (let i = 0, l = arr.length; i < l; i++) {
       const item = arr[i];
       // 取得数字的最后一位，并给对应计数数组加1
-      const idx = Math.floor((item / radix) % range);
+      const idx = Math.floor((item / exponent) % range);
       countList[idx] += 1;
     }
     console.log("countingSort countList:", countList);
@@ -27,7 +27,7 @@ class RadixSort {
     const sortedList = Array<number>();
     // 根据计数数组按顺序取出排序内容
     for (let i = arr.length - 1; i >= 0; i--) {
-      const idx = Math.floor((arr[i] / radix) % range);
+      const idx = Math.floor((arr[i] / exponent) % range);
       sortedList[countList[idx] - 1] = arr[i];
       countList[idx] -= 1;
     }
@@ -42,8 +42,8 @@ class RadixSort {
   radixSort(arr: Array<number>) {
     let sortedList = Array<number>();
     const max = Math.max.apply(null, arr);
-    for (let radix = 1; Math.floor(max / radix) > 0; radix *= 10) {
-      sortedList = this.countingSort(arr, radix);
+    for (let exponent = 1; Math.floor(max / exponent) > 0; exponent *= 10) {
+      sortedList = this.countingSort(arr, exponent);
     }
     return sortedList;
   }

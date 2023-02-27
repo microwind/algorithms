@@ -10,8 +10,8 @@ import java.util.*;
 class RadixSort {
 
   // 基数排序，基于计数排序的基础上，按数字的每个位置来排序
-  public static int[] countingSort(int arr[], int radix) {
-    // 基数radix按10进位，range为10
+  public static int[] countingSort(int arr[], int exponent) {
+    // 基数exponent按10进位，range为10
     int range = 10;
     int[] countList = new int[range];
     int[] sortedList = new int[arr.length];
@@ -19,8 +19,8 @@ class RadixSort {
     // 根据基数求得当前项目对应位置的数值，并给对应计数数组位置加1
     for (int i = 0; i < arr.length; i++) {
       int item = arr[i];
-      // 根据radix获得当前位置的数字是几，存入对应计数数组
-      int idx = (item / radix) % range;
+      // 根据exponent获得当前位置的数字是几，存入对应计数数组
+      int idx = (item / exponent) % range;
       countList[idx] += 1;
     }
 
@@ -32,7 +32,7 @@ class RadixSort {
 
     // 根据计数数组按顺序取出排序内容
     for (int i = arr.length - 1; i >= 0; i--) {
-      int idx = (arr[i] / radix) % range;
+      int idx = (arr[i] / exponent) % range;
       // 根据计数位置得到顺序
       sortedList[countList[idx] - 1] = arr[i];
       countList[idx] -= 1;
@@ -54,9 +54,9 @@ class RadixSort {
         max = arr[i];
       }
     }
-    // 根据最大值，逐个按进位(基数)来应用排序，radix即数位。
-    for (int radix = 1; (max / radix) > 0; radix *= 10) {
-      countingSort(arr, radix);
+    // 根据最大值，逐个按进位(基数)来应用排序，exponent即数位。
+    for (int exponent = 1; (max / exponent) > 0; exponent *= 10) {
+      countingSort(arr, exponent);
     }
     return arr;
   }
@@ -64,7 +64,7 @@ class RadixSort {
   // 基数排序2，基于计数排序实现，计数排序写在一个方法内
   public static int[] radixSort2(int arr[]) {
     int arrLen = arr.length;
-    // 基数radix按10进位，range为10
+    // 基数exponent按10进位，range为10
     int range = 10;
     int[] sortedList = new int[arrLen];
     int max = arr[0];
@@ -75,15 +75,15 @@ class RadixSort {
     }
 
     // 根据基数求得当前项目对应位置的数值，并给对应计数数组位置加1
-    // 按最大值补齐数位，基数radix按10进位
-    for (int radix = 1; (max / radix) > 0; radix *= range) {
+    // 按最大值补齐数位，基数exponent按10进位
+    for (int exponent = 1; (max / exponent) > 0; exponent *= range) {
 
       // 计数数组，长度为10，0-9一共10个数字
       int[] countList = new int[range];
       // 根据基数得到当前位数，并给计数数组对应位置加1
       for (int i = 0; i < arrLen; i++) {
         int item = arr[i];
-        int idx = (item / radix) % range;
+        int idx = (item / exponent) % range;
         countList[idx] += 1;
       }
 
@@ -96,7 +96,7 @@ class RadixSort {
 
       // 根据计数数组按顺序取出排序内容
       for (int i = arrLen - 1; i >= 0; i--) {
-        int idx = (arr[i] / radix) % range;
+        int idx = (arr[i] / exponent) % range;
         sortedList[countList[idx] - 1] = arr[i];
         countList[idx] -= 1;
       }

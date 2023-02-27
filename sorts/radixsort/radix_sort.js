@@ -7,7 +7,7 @@
 // 1. 基数排序，基于计数排序的基础上，按数字的每个位置来排序
 function radixSort1(arr) {
 
-  function countingSort(arr, radix) {
+  function countingSort(arr, exponent) {
     const countList = []
     const range = 10
     countList.length = range
@@ -15,7 +15,7 @@ function radixSort1(arr) {
     for (let i = 0, l = arr.length; i < l; i++) {
       const item = arr[i]
       // 根据基数取得数位上的值，并给对应计数数组加1
-      const idx = Math.floor((item / radix) % range)
+      const idx = Math.floor((item / exponent) % range)
       countList[idx] += 1
     }
     console.log('countingSort countList:', countList)
@@ -28,7 +28,7 @@ function radixSort1(arr) {
     const sortedList = []
     // 补齐位数，根据计数数组按顺序取得排序内容
     for (let i = arr.length - 1; i >= 0; i--) {
-      const idx = Math.floor((arr[i] / radix) % range)
+      const idx = Math.floor((arr[i] / exponent) % range)
       sortedList[countList[idx] - 1] = arr[i]
       countList[idx] -= 1
     }
@@ -42,9 +42,9 @@ function radixSort1(arr) {
   }
 
   const max = Math.max.apply(null, arr)
-  // 根据最大值，逐个按进位(基数)来应用排序，radix即数位。
-  for (let radix = 1; Math.floor(max / radix) > 0; radix *= 10) {
-    countingSort(arr, radix)
+  // 根据最大值，逐个按进位(基数)来应用排序，exponent即基数。
+  for (let exponent = 1; Math.floor(max / exponent) > 0; exponent *= 10) {
+    countingSort(arr, exponent)
   }
   return arr
 }

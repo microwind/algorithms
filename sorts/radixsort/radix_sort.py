@@ -9,16 +9,16 @@ import time
 
 
 # 利用计数排序来实现基本排序
-def counting_sort(arr, radix):
+def counting_sort(arr, exponent):
     arr_len = len(arr)
-    # 基数radix按10进位，amount表示0-9的数字的长度，也是10个
+    # 基数exponent按10进位，amount表示0-9的数字的长度，也是10个
     amount = 10
     count_list = [0] * amount
     sorted_list = [0] * arr_len
 
     # 根据基数求得当前项目对应位置的数值，并给对应计数数组位置加1
     for i in range(0, arr_len):
-        index = arr[i] // radix % amount
+        index = arr[i] // exponent % amount
         count_list[index] += 1
 
     # 当前位置加上左侧位置，后面的位数为前面的累加之和
@@ -28,7 +28,7 @@ def counting_sort(arr, radix):
     # 构建输出数组，根据计数数组按顺序取得排序内容
     i = arr_len - 1
     while i >= 0:
-        index = arr[i] // radix % amount
+        index = arr[i] // exponent % amount
         sorted_list[count_list[index] - 1] = arr[i]
         count_list[index] -= 1
         i -= 1
@@ -41,11 +41,11 @@ def counting_sort(arr, radix):
 
 def radix_sort(arr):
     max_value = max(arr)
-    # 根据最大值，逐个按进位(基数)来应用排序，radix即数位。
-    radix = 1
-    while max_value // radix > 0:
-        counting_sort(arr, radix)
-        radix *= 10
+    # 根据最大值，逐个按进位(基数)来应用排序，exponent即数位。
+    exponent = 1
+    while max_value // exponent > 0:
+        counting_sort(arr, exponent)
+        exponent *= 10
 
     return arr
 

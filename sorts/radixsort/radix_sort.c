@@ -23,7 +23,7 @@ void print_array(int *arr, int len)
 }
 
 // 计数排序，根据基数按位进行计数
-void counting_sort(int arr[], int len, int radix)
+void counting_sort(int arr[], int len, int exponent)
 {
   int output[len];
   int range = 10;
@@ -33,7 +33,7 @@ void counting_sort(int arr[], int len, int radix)
   for (int i = 0; i < len; i++)
   {
     int item = arr[i];
-    int idx = (item / radix) % range;
+    int idx = (item / exponent) % range;
     count_list[idx]++;
   }
 
@@ -46,7 +46,7 @@ void counting_sort(int arr[], int len, int radix)
   // 构建输出数组，根据计数数组按顺序取得排序内容
   for (int i = len - 1; i >= 0; i--)
   {
-    int idx = (arr[i] / radix) % range;
+    int idx = (arr[i] / exponent) % range;
     output[count_list[idx] - 1] = arr[i];
     count_list[idx]--;
   }
@@ -69,10 +69,10 @@ int *radix_sort(int arr[], int len)
       max_value = arr[i];
   }
 
-  // 根据最大值，逐个按进位(基数)来应用排序，radix即数位。
-  for (int radix = 1; max_value / radix > 0; radix *= 10)
+  // 根据最大值，逐个按进位(基数)来应用排序，exponent即数位。
+  for (int exponent = 1; max_value / exponent > 0; exponent *= 10)
   {
-    counting_sort(arr, len, radix);
+    counting_sort(arr, len, exponent);
   }
 
   return arr;
