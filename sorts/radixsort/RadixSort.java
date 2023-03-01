@@ -16,9 +16,17 @@ class RadixSort {
     int[] countList = new int[range];
     int[] sortedList = new int[arr.length];
 
+    // 设定最小值以支持负数
+    int min = arr[0];
+    for (int i = 0; i < arr.length; i++) {
+      if (arr[i] < min) {
+        min = arr[i];
+      }
+    }
+
     // 根据基数求得当前项目对应位置的数值，并给对应计数数组位置加1
     for (int i = 0; i < arr.length; i++) {
-      int item = arr[i];
+      int item = arr[i] - min;
       // 根据exponent获得当前位置的数字是几，存入对应计数数组
       int idx = (item / exponent) % range;
       countList[idx] += 1;
@@ -32,7 +40,8 @@ class RadixSort {
 
     // 根据计数数组按顺序取出排序内容
     for (int i = arr.length - 1; i >= 0; i--) {
-      int idx = (arr[i] / exponent) % range;
+      int item = arr[i] - min;
+      int idx = (item / exponent) % range;
       // 根据计数位置得到顺序
       sortedList[countList[idx] - 1] = arr[i];
       countList[idx] -= 1;
@@ -73,6 +82,13 @@ class RadixSort {
         max = arr[i];
       }
     }
+    // 设定最小值以支持负数
+    int min = arr[0];
+    for (int i = 0; i < arr.length; i++) {
+      if (arr[i] < min) {
+        min = arr[i];
+      }
+    }
 
     // 根据基数求得当前项目对应位置的数值，并给对应计数数组位置加1
     // 按最大值补齐数位，基数exponent按10进位
@@ -82,7 +98,7 @@ class RadixSort {
       int[] countList = new int[range];
       // 根据基数得到当前位数，并给计数数组对应位置加1
       for (int i = 0; i < arrLen; i++) {
-        int item = arr[i];
+        int item = arr[i] - min;
         int idx = (item / exponent) % range;
         countList[idx] += 1;
       }
@@ -96,7 +112,8 @@ class RadixSort {
 
       // 根据计数数组按顺序取出排序内容
       for (int i = arrLen - 1; i >= 0; i--) {
-        int idx = (arr[i] / exponent) % range;
+        int item = arr[i] - min;
+        int idx = (item / exponent) % range;
         sortedList[countList[idx] - 1] = arr[i];
         countList[idx] -= 1;
       }
@@ -113,14 +130,14 @@ class RadixSort {
 
   // test
   public static void main(String args[]) {
-    int arr1[] = { 7, 11, 9, 10, 12, 13, 8 };
+    int arr1[] = { 7, 11, -9, 10, 12, 13, 8 };
     System.out.println("sort1 start:" + Arrays.toString(arr1));
     long startTime = System.currentTimeMillis();
     arr1 = RadixSort.radixSort1(arr1);
     System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime) + " ms.");
     System.out.println("sort1 sorted:" + Arrays.toString(arr1));
 
-    int arr2[] = { 7, 11, 9, 10, 12, 13, 8 };
+    int arr2[] = { 7, 11, -9, 10, 12, 13, 8 };
     System.out.println("sort2 start:" + Arrays.toString(arr2));
     long startTime2 = System.currentTimeMillis();
     arr2 = RadixSort.radixSort2(arr2);
@@ -132,20 +149,20 @@ class RadixSort {
 /*
  * jarry@jarrys-MacBook-Pro radixsort % javac RadixSort.java
  * jarry@jarrys-MacBook-Pro radixsort % java RadixSort
- * sort1 start:[7, 11, 9, 10, 12, 13, 8]
- * radixSort1 countingSort countList:[1, 2, 3, 4, 4, 4, 4, 5, 6, 7]
- * radixSort1 -> sortedList:[10, 11, 12, 13, 7, 8, 9]
- * radixSort1 countingSort countList:[3, 7, 7, 7, 7, 7, 7, 7, 7, 7]
- * radixSort1 -> sortedList:[7, 8, 9, 10, 11, 12, 13]
+ * sort1 start:[7, 11, -9, 10, 12, 13, 8]
+ * radixSort1 countingSort countList:[2, 3, 4, 4, 4, 4, 5, 6, 6, 7]
+ * radixSort1 -> sortedList:[11, -9, 12, 13, 7, 8, 10]
+ * radixSort1 countingSort countList:[1, 4, 7, 7, 7, 7, 7, 7, 7, 7]
+ * radixSort1 -> sortedList:[-9, 7, 8, 10, 11, 12, 13]
+ * 
+ * time:1 ms.
+ * sort1 sorted:[-9, 7, 8, 10, 11, 12, 13]
+ * sort2 start:[7, 11, -9, 10, 12, 13, 8]
+ * radixSort2 -> countList:[2, 3, 4, 4, 4, 4, 5, 6, 6, 7]
+ * radixSort2 -> sortedList:[11, -9, 12, 13, 7, 8, 10]
+ * radixSort2 -> countList:[1, 4, 7, 7, 7, 7, 7, 7, 7, 7]
+ * radixSort2 -> sortedList:[-9, 7, 8, 10, 11, 12, 13]
  * 
  * time:0 ms.
- * sort1 sorted:[7, 8, 9, 10, 11, 12, 13]
- * sort2 start:[7, 11, 9, 10, 12, 13, 8]
- * radixSort2 -> countList:[1, 2, 3, 4, 4, 4, 4, 5, 6, 7]
- * radixSort2 -> sortedList:[10, 11, 12, 13, 7, 8, 9]
- * radixSort2 -> countList:[3, 7, 7, 7, 7, 7, 7, 7, 7, 7]
- * radixSort2 -> sortedList:[7, 8, 9, 10, 11, 12, 13]
- * 
- * time:0 ms.
- * sort2 sorted:[7, 8, 9, 10, 11, 12, 13]
+ * sort2 sorted:[-9, 7, 8, 10, 11, 12, 13]
  */

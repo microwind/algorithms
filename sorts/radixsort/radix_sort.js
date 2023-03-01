@@ -12,8 +12,10 @@ function radixSort1(arr) {
     const range = 10
     countList.length = range
     countList.fill(0)
+    // 设定最小值以支持负数
+    const min = Math.min.apply(null, arr)
     for (let i = 0, l = arr.length; i < l; i++) {
-      const item = arr[i]
+      const item = arr[i] - min
       // 根据基数取得数位上的值，并给对应计数数组加1
       const idx = Math.floor((item / exponent) % range)
       countList[idx] += 1
@@ -28,7 +30,8 @@ function radixSort1(arr) {
     const sortedList = []
     // 补齐位数，根据计数数组按顺序取得排序内容
     for (let i = arr.length - 1; i >= 0; i--) {
-      const idx = Math.floor((arr[i] / exponent) % range)
+      const item = arr[i] - min
+      const idx = Math.floor((item / exponent) % range)
       sortedList[countList[idx] - 1] = arr[i]
       countList[idx] -= 1
     }
@@ -121,17 +124,17 @@ Object.defineProperty(Array.prototype, 'flat', {
 
 // test
 ;(function () {
-  const arr1 = [33, 4, 15, 43, 323454, 7, 10, 1235, 200, 87431]
+  const arr1 = [33, 4, -15, 43, 323454, 7, 10, 1235, 200, 87431]
   console.time('radixSort1')
   console.log('origin radixSort1:', arr1)
   console.log('radixSort1 sorted:', radixSort1(arr1))
   console.timeEnd('radixSort1')
 
-  const arr2 = [33, 4, 15, 43, 323454, 7, 10, 1235, 200, 87431]
-  console.time('radixSort2')
-  console.log('origin radixSort2:', arr2)
-  console.log('radixSort2 sorted:', radixSort2(arr2))
-  console.timeEnd('radixSort2')
+  // const arr2 = [33, 4, 15, 43, 323454, 7, 10, 1235, 200, 87431]
+  // console.time('radixSort2')
+  // console.log('origin radixSort2:', arr2)
+  // console.log('radixSort2 sorted:', radixSort2(arr2))
+  // console.timeEnd('radixSort2')
 })()
 
 /**
