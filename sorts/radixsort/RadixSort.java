@@ -91,8 +91,8 @@ class RadixSort {
     }
 
     // 根据基数求得当前项目对应位置的数值，并给对应计数数组位置加1
-    // 按最大值补齐数位，基数exponent按10进位
-    for (int exponent = 1; (max / exponent) > 0; exponent *= range) {
+    // 从1开始，每10进位，逐位进行比较和排序，一直到最大减去最小数
+    for (int exponent = 1; ((max - min) / exponent) > 0; exponent *= range) {
 
       // 计数数组，长度为10，0-9一共10个数字
       int[] countList = new int[range];
@@ -137,7 +137,7 @@ class RadixSort {
     System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime) + " ms.");
     System.out.println("sort1 sorted:" + Arrays.toString(arr1));
 
-    int arr2[] = { 7, 11, -9, 10, 12, 13, 8 };
+    int arr2[] = { 33, -4, 15, 43, -323454, 7, 10, 1235, 200, 87431 };
     System.out.println("sort2 start:" + Arrays.toString(arr2));
     long startTime2 = System.currentTimeMillis();
     arr2 = RadixSort.radixSort2(arr2);
@@ -155,14 +155,22 @@ class RadixSort {
  * radixSort1 countingSort countList:[1, 4, 7, 7, 7, 7, 7, 7, 7, 7]
  * radixSort1 -> sortedList:[-9, 7, 8, 10, 11, 12, 13]
  * 
- * time:1 ms.
- * sort1 sorted:[-9, 7, 8, 10, 11, 12, 13]
- * sort2 start:[7, 11, -9, 10, 12, 13, 8]
- * radixSort2 -> countList:[2, 3, 4, 4, 4, 4, 5, 6, 6, 7]
- * radixSort2 -> sortedList:[11, -9, 12, 13, 7, 8, 10]
- * radixSort2 -> countList:[1, 4, 7, 7, 7, 7, 7, 7, 7, 7]
- * radixSort2 -> sortedList:[-9, 7, 8, 10, 11, 12, 13]
- * 
  * time:0 ms.
- * sort2 sorted:[-9, 7, 8, 10, 11, 12, 13]
+ * sort1 sorted:[-9, 7, 8, 10, 11, 12, 13]
+ * sort2 start:[33, -4, 15, 43, -323454, 7, 10, 1235, 200, 87431]
+ * radixSort2 -> countList:[2, 3, 3, 3, 5, 6, 6, 8, 8, 10]
+ * radixSort2 -> sortedList:[-4, -323454, 7, 10, 200, 87431, 33, 43, 15, 1235]
+ * radixSort2 -> countList:[1, 1, 1, 1, 1, 3, 6, 6, 9, 10]
+ * radixSort2 -> sortedList:[-323454, -4, 200, 7, 10, 15, 87431, 33, 1235, 43]
+ * radixSort2 -> countList:[1, 1, 1, 1, 7, 7, 9, 9, 10, 10]
+ * radixSort2 -> sortedList:[-323454, -4, 7, 10, 15, 33, 43, 200, 1235, 87431]
+ * radixSort2 -> countList:[2, 2, 2, 9, 10, 10, 10, 10, 10, 10]
+ * radixSort2 -> sortedList:[-323454, 87431, -4, 7, 10, 15, 33, 43, 200, 1235]
+ * radixSort2 -> countList:[1, 2, 10, 10, 10, 10, 10, 10, 10, 10]
+ * radixSort2 -> sortedList:[-323454, 87431, -4, 7, 10, 15, 33, 43, 200, 1235]
+ * radixSort2 -> countList:[1, 1, 1, 9, 10, 10, 10, 10, 10, 10]
+ * radixSort2 -> sortedList:[-323454, -4, 7, 10, 15, 33, 43, 200, 1235, 87431]
+ * 
+ * time:1 ms.
+ * sort2 sorted:[-323454, -4, 7, 10, 15, 33, 43, 200, 1235, 87431]
  */

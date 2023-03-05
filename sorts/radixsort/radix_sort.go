@@ -10,7 +10,7 @@ import (
   "time"
 )
 
-// 1. 基数排序，基于计数排序的基础上，按数字的每个位置来排序
+// 1. 基数排序简版，基于计数排序的基础上，按数字的每个位置来排序
 func countingSort(arr []int, exponent int) []int {
   var arrLen = len(arr)
   var amount = 10
@@ -59,7 +59,7 @@ func radixSort1(arr []int) []int {
   return arr
 }
 
-// 基数排序2，基于计数排序实现，计数排序写在一个方法内
+// 2. 基数排序支持负数版，计算最小值，基于计数排序实现
 func radixSort2(arr []int) []int {
   var arrLen = len(arr)
   // 基数exponent按10进位，amount为10
@@ -71,16 +71,22 @@ func radixSort2(arr []int) []int {
       max = arr[i]
     }
   }
+  var min = arr[0]
+  for i := 0; i < arrLen; i++ {
+    if arr[i] < min {
+      min = arr[i]
+    }
+  }
 
   // 根据基数求得当前项目对应位置的数值，并给对应计数数组位置加1
   // 按最大值补齐数位，基数exponent按10进位
-  for exponent := 1; (max / exponent) > 0; exponent *= amount {
+  for exponent := 1; ((max - min) / exponent) > 0; exponent *= amount {
 
     // 计数数组，长度为10，0-9一共10个数字
     countList := make([]int, amount)
     // 根据基数得到当前位数，并给计数数组对应位置加1
     for i := 0; i < arrLen; i++ {
-      var item = arr[i]
+      var item = arr[i] - min
       var idx = (item / exponent) % amount
       countList[idx] += 1
     }
@@ -94,7 +100,8 @@ func radixSort2(arr []int) []int {
 
     // 根据计数数组按顺序取出排序内容
     for i := arrLen - 1; i >= 0; i-- {
-      var idx = (arr[i] / exponent) % amount
+      item := arr[i] - min
+      var idx = (item / exponent) % amount
       sortedList[countList[idx]-1] = arr[i]
       countList[idx] -= 1
     }
@@ -118,7 +125,7 @@ func main() {
 
   fmt.Println("radix sort2:")
   time2 := time.Now()
-  data2 := []int{33, 4, 15, 43, 323454, 7, 10, 1235, 200, 87431}
+  data2 := []int{33, -4, 15, 43, -323454, 7, 10, 1235, 200, 87431}
   fmt.Println(radixSort2(data2[:]))
   fmt.Println("sort2 end. cost:", time.Since(time2))
 }
@@ -135,14 +142,14 @@ radixSort1 countList: [7 8 8 9 9 9 9 10 10 10]
 radixSort1 countList: [8 8 9 9 9 9 9 9 10 10]
 radixSort1 countList: [9 9 9 10 10 10 10 10 10 10]
 [4 7 10 15 33 43 200 1235 87431 323454]
-sort1 end. cost: 39.11µs
+sort1 end. cost: 40.616µs
 radix sort2:
-radixSort2 -> countList: [2 3 3 5 7 9 9 10 10 10]
-radixSort2 -> countList: [3 5 5 8 9 10 10 10 10 10]
-radixSort2 -> countList: [6 6 8 8 10 10 10 10 10 10]
-radixSort2 -> countList: [7 8 8 9 9 9 9 10 10 10]
-radixSort2 -> countList: [8 8 9 9 9 9 9 9 10 10]
-radixSort2 -> countList: [9 9 9 10 10 10 10 10 10 10]
-[4 7 10 15 33 43 200 1235 87431 323454]
-sort2 end. cost: 22.168µs
+radixSort2 -> countList: [2 3 3 3 5 6 6 8 8 10]
+radixSort2 -> countList: [1 1 1 1 1 3 6 6 9 10]
+radixSort2 -> countList: [1 1 1 1 7 7 9 9 10 10]
+radixSort2 -> countList: [2 2 2 9 10 10 10 10 10 10]
+radixSort2 -> countList: [1 2 10 10 10 10 10 10 10 10]
+radixSort2 -> countList: [1 1 1 9 10 10 10 10 10 10]
+[-323454 -4 7 10 15 33 43 200 1235 87431]
+sort2 end. cost: 20.759µs
 */

@@ -1,3 +1,8 @@
+/**
+ * Copyright © https://github.com/jarry All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ */
 class HeapSort {
   arr: number[]
   constructor(arr: Array<number>) {

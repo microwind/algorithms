@@ -3,11 +3,7 @@
  * @author: jarryli@gmail.com
  * @version: 1.0
  */
-// https://levelup.gitconnected.com/heapsort-for-javascript-newbies-598d25477d55
-// http://www.cppcns.com/wangluo/javascript/149148.html
-// https://www.programiz.com/dsa/heap-sort
-;
-(function () {
+;(function () {
   // 根据完全二叉树结构性质，父子节点与数组下标的关系，通过数组下标i得到节点位置
   const getParent = (i) => Math.floor((i - 1) / 2)
   const getLeft = (i) => 2 * i + 1

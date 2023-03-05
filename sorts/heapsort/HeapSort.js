@@ -1,23 +1,28 @@
-var HeapSort = /** @class */ (function () {
-    function HeapSort(arr) {
+/**
+ * Copyright © https://github.com/jarry All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ */
+class HeapSort {
+    arr;
+    constructor(arr) {
         this.arr = arr;
         this.heapSort();
     }
-    HeapSort.prototype.getParent = function (i) {
+    getParent(i) {
         return Math.floor((i - 1) / 2);
-    };
-    HeapSort.prototype.getLeft = function (i) {
+    }
+    getLeft(i) {
         return 2 * i + 1;
-    };
-    HeapSort.prototype.getRight = function (i) {
+    }
+    getRight(i) {
         return 2 * i + 2;
-    };
-    HeapSort.prototype.maxHeapify = function (idx, size) {
-        var _a;
-        var max = idx;
-        var arr = this.arr;
-        var left = this.getLeft(idx);
-        var right = this.getRight(idx);
+    }
+    maxHeapify(idx, size) {
+        let max = idx;
+        const arr = this.arr;
+        const left = this.getLeft(idx);
+        const right = this.getRight(idx);
         if (left < size && arr[left] > arr[max]) {
             max = left;
         }
@@ -27,18 +32,17 @@ var HeapSort = /** @class */ (function () {
         console.log('idx=', idx, 'left=', left, 'right=', right, 'max=', max, 'size:', size);
         if (max !== idx) {
             ;
-            _a = [arr[max], arr[idx]], arr[idx] = _a[0], arr[max] = _a[1];
+            [arr[idx], arr[max]] = [arr[max], arr[idx]];
             this.maxHeapify(max, size);
         }
-    };
-    HeapSort.prototype.heapSort = function () {
-        var _a;
-        var arr = this.arr;
-        var len = arr.length;
+    }
+    heapSort() {
+        const arr = this.arr;
+        const len = arr.length;
         // 最底层的父节点
-        var parent = this.getParent(len) - 1;
+        let parent = this.getParent(len) - 1;
         // 最底层的子节点
-        var child = len - 1;
+        let child = len - 1;
         // 从最后的父节点开始遍历，把最大的那个父节点冒出到堆顶
         while (parent >= 0) {
             this.maxHeapify(parent, len);
@@ -50,19 +54,18 @@ var HeapSort = /** @class */ (function () {
         while (child > 0) {
             // 将顶端的父节点与当前子节点互换
             ;
-            _a = [arr[child], arr[0]], arr[0] = _a[0], arr[child] = _a[1];
+            [arr[0], arr[child]] = [arr[child], arr[0]];
             // 自最底层往上遍历排序
             this.maxHeapify(0, child);
             console.warn('child sort:', child, arr);
             child--;
         }
         return arr;
-    };
-    return HeapSort;
-}());
+    }
+}
 ;
 (function () {
-    var arr = [7, 11, 9, 10, 12, 13, 8];
+    const arr = [7, 11, 9, 10, 12, 13, 8];
     console.log('start sort:', arr);
     console.time('heapSort');
     new HeapSort(arr);

@@ -4,17 +4,21 @@
  * @version: 1.0
  */
 
-// 1. 基数排序，基于计数排序的基础上，按数字的每个位置来排序
+// 1. 基数排序LSD版，基于计数排序的基础，按数字的每个位置来排序
 function radixSort1(arr) {
 
-  function countingSort(arr, exponent) {
+  const min = Math.min.apply(null, arr)
+  const max = Math.max.apply(null, arr)
+  // 根据最大值，逐个按进位(基数)来应用排序，exponent即基数。
+  // 最大减去最小得到数位，最小按0来计算，这样可以支持负数。
+  for (let exponent = 1; Math.floor((max - min) / exponent) > 0; exponent *= 10) {
     const countList = []
     const range = 10
     countList.length = range
     countList.fill(0)
-    // 设定最小值以支持负数
-    const min = Math.min.apply(null, arr)
+
     for (let i = 0, l = arr.length; i < l; i++) {
+      // 减去最小值以支持负数，这样桶不会出现负数
       const item = arr[i] - min
       // 根据基数取得数位上的值，并给对应计数数组加1
       const idx = Math.floor((item / exponent) % range)
@@ -40,153 +44,56 @@ function radixSort1(arr) {
     for (let i = 0; i < arr.length; i++) {
       arr[i] = sortedList[i]
     }
-
-    return sortedList
-  }
-
-  const max = Math.max.apply(null, arr)
-  // 根据最大值，逐个按进位(基数)来应用排序，exponent即基数。
-  for (let exponent = 1; Math.floor(max / exponent) > 0; exponent *= 10) {
-    countingSort(arr, exponent)
   }
   return arr
 }
-
-// 2. 基数排序2，把数字按字符串处理，利用JS语言的数组特性进行排序
-function radixSort2(arr) {
-  // 数组展开，循环调用，非递归写法
-  const flatten = (input) => {
-    const stack = [...input]
-    const res = []
-    while (stack.length) {
-      const next = stack.pop()
-      if (Array.isArray(next)) {
-        stack.push(...next)
-      } else {
-        res.push(next)
-      }
-    }
-    return res.reverse()
-  }
-
-  // 与flatten功能一样，这是递归实现
-  const flat = (input, depth = 1, stack = []) => {
-    for (const item of input) {
-      if (Array.isArray(item) && depth > 0) {
-        flat(item, depth - 1, stack)
-      } else {
-        stack.push(item)
-      }
-    }
-    return stack
-  }
-  // 找出数组中最大数的长度
-  const maxLength = Math.max.apply(null, arr).toString().length
-  for (let i = 0; i < maxLength; i++) {
-    // 填充10个空数组，用于放数字0-9
-    const buckets = Array.from({
-      length: 10
-    }, () => [])
-
-    for (let j = 0, l = arr.length; j < l; j++) {
-      // 遍历数组，把每一项的数字都按字符处理
-      const item = arr[j].toString()
-      const numStr = item.charAt(item.length - 1 - i)
-
-      // 当前位数如果不为空则添加到基数桶中
-      const num = Number(numStr)
-      // console.log('radixSort2:', 'i=', i, 'j=', j, 'item=', item, 'num=', num, 'buckets=', buckets)
-      if (num !== undefined) {
-        buckets[num].push(arr[j])
-      }
-    }
-
-    // 将桶逐级展开取出数字
-    if (buckets.flat) {
-      arr = buckets.flat()
-    } else {
-      // arr = flat(buckets)
-      arr = flatten(buckets)
-    }
-  }
-
-  return arr
-}
-
-// 定义Prototype来实现数组扁平，这里扩展了prototype，不可取
-Object.defineProperty(Array.prototype, 'flat', {
-  value: function (depth = 1) {
-    return this.reduce(function (flat, toFlatten) {
-      return flat.concat((Array.isArray(toFlatten) && (depth > 1)) ? toFlatten.flat(depth - 1) : toFlatten)
-    }, [])
-  }
-})
 
 // test
 ;(function () {
-  const arr1 = [33, 4, -15, 43, 323454, 7, 10, 1235, 200, 87431]
+  const arr1 = [33, -4, 15, 43, -323454, 7, 10, 1235, 200, 87431]
   console.time('radixSort1')
   console.log('origin radixSort1:', arr1)
   console.log('radixSort1 sorted:', radixSort1(arr1))
   console.timeEnd('radixSort1')
-
-  // const arr2 = [33, 4, 15, 43, 323454, 7, 10, 1235, 200, 87431]
-  // console.time('radixSort2')
-  // console.log('origin radixSort2:', arr2)
-  // console.log('radixSort2 sorted:', radixSort2(arr2))
-  // console.timeEnd('radixSort2')
 })()
 
 /**
-jarry@jarrys-MacBook-Pro radixsort % node radix_sort.js
+jarry@jarrys-MacBook-Pro radixsort % node radix_sort.js  
 origin radixSort1: [
-     33,      4,  15,
-     43, 323454,   7,
-     10,   1235, 200,
+     33,      -4,  15,
+     43, -323454,   7,
+     10,    1235, 200,
   87431
 ]
 countingSort countList: [
-  2, 1, 0, 2, 2,
-  2, 0, 1, 0, 0
+  2, 1, 0, 0, 2,
+  1, 0, 2, 0, 2
 ]
 countingSort countList: [
-  3, 2, 0, 3, 1,
-  1, 0, 0, 0, 0
+  1, 0, 0, 0, 0,
+  2, 3, 0, 3, 1
 ]
 countingSort countList: [
-  6, 0, 2, 0, 2,
+  1, 0, 0, 0, 6,
+  0, 2, 0, 1, 0
+]
+countingSort countList: [
+  2, 0, 0, 7, 1,
   0, 0, 0, 0, 0
 ]
 countingSort countList: [
-  7, 1, 0, 1, 0,
-  0, 0, 1, 0, 0
+  1, 1, 8, 0, 0,
+  0, 0, 0, 0, 0
 ]
 countingSort countList: [
-  8, 0, 1, 0, 0,
-  0, 0, 0, 1, 0
-]
-countingSort countList: [
-  9, 0, 0, 1, 0,
+  1, 0, 0, 8, 1,
   0, 0, 0, 0, 0
 ]
 radixSort1 sorted: [
-       4,    7,    10,
-      15,   33,    43,
-     200, 1235, 87431,
-  323454
+  -323454,  -4,    7,
+       10,  15,   33,
+       43, 200, 1235,
+    87431
 ]
-radixSort1: 9.418ms
-origin radixSort2: [
-     33,      4,  15,
-     43, 323454,   7,
-     10,   1235, 200,
-  87431
-]
-radixSort2 sorted: [
-       4,    7,    10,
-      15,   33,    43,
-     200, 1235, 87431,
-  323454
-]
-radixSort2: 0.652ms
+radixSort1: 9.595ms
  */

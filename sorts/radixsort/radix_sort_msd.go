@@ -10,8 +10,11 @@ import (
   "time"
 )
 
-// 基数排序，从高到低逐位排序，基于桶排序
-
+// 基数排序，从高到低逐位排序，递归方式，基于桶排序。具体步骤如下：
+// 1. 找出数组中最大的数，确定其位数。
+// 2. MSD是从高位开始，依次按照位数的值将数字放入到不同桶中。
+// 3. 如果桶里的长度超过1，则通过递归继续按桶排序。当桶里的数据只有1位时添加到原列表对应位置。
+// 重复步骤2和3，直到按照最高位排序完成。
 func radixSort(arr []int) []int {
   var amount = 10
   maxValue := max(arr)
@@ -22,33 +25,31 @@ func radixSort(arr []int) []int {
 }
 
 func bucketSortMSD(arr []int, exponent int) []int {
-  var amount = 10
-  if exponent < 1 {
-    return arr
-  }
-
-  if len(arr) <= 1 {
-    return arr
-  }
   fmt.Println("origin arr:", arr, "exponent: ", exponent)
+  if exponent < 1 || len(arr) <= 1 {
+    return arr
+  }
+  var amount = 10
+  fmt.Println("prepared arr:", arr, "exponent: ", exponent)
 
   buckets := [][]int{}
+  // 按数位来获取最小值
   minValue := getMinValue(arr, exponent)
 
-  // 支持负数
+  // 增加偏移以便支持负数
   offset := 0
   if minValue < 0 {
     offset = 0 - minValue
   }
 
-  // 填充空桶
+  // 填充桶二维数组
   for i := 0; i < (amount + offset); i++ {
     buckets = append(buckets, []int{})
   }
 
   // 获取数组项指定数位的值，放入到对应桶中，桶的下标即顺序
-  for idx, num := range arr {
-    bucketIdx := getDigit(arr, idx, exponent) + offset
+  for i, num := range arr {
+    bucketIdx := getDigit(arr, i, exponent) + offset
     buckets[bucketIdx] = append(buckets[bucketIdx], num)
   }
   fmt.Println("append to buckets: ", buckets)
@@ -150,61 +151,45 @@ func main() {
 }
 
 /*
-jarry@jarrys-MacBook-Pro radixsort % go version
-go version go1.19.5 darwin/amd64
 jarry@jarrys-MacBook-Pro radixsort % go run radix_sort_msd.go
-radix sort1:
-origin arr: [33 4 115 143] exponent:  100
-append to buckets:  [[33 4] [115 143] [] [] [] [] [] [] [] []]
-origin arr: [33 4] exponent:  10
-append to buckets:  [[4] [] [] [33] [] [] [] [] [] []]
-jarry@jarrys-MacBook-Pro radixsort % go run radix_sort_msd.go
-jarry@jarrys-MacBook-Pro radixsort % go run radix_sort_msd.go
-radix sort1:
-origin arr: [33 4 115 143] exponent:  100
-append to buckets:  [[33 4] [115 143] [] [] [] [] [] [] [] []]
-origin arr: [33 4] exponent:  10
-append to buckets:  [[4] [] [] [33] [] [] [] [] [] []]
-bucket: [4] sortedBucket:  [4] sortedIdx: 0 set arr:  [4 4]
-bucket: [33] sortedBucket:  [33] sortedIdx: 1 set arr:  [4 33]
-exponent:  10 sorted arr:  [4 33]
-bucket: [4 33] sortedBucket:  [4 33] sortedIdx: 0 set arr:  [4 4 115 143]
-bucket: [4 33] sortedBucket:  [4 33] sortedIdx: 1 set arr:  [4 33 115 143]
-origin arr: [115 143] exponent:  10
-append to buckets:  [[] [115] [] [] [143] [] [] [] [] []]
-bucket: [115] sortedBucket:  [115] sortedIdx: 0 set arr:  [115 143]
-bucket: [143] sortedBucket:  [143] sortedIdx: 1 set arr:  [115 143]
-exponent:  10 sorted arr:  [115 143]
-bucket: [115 143] sortedBucket:  [115 143] sortedIdx: 2 set arr:  [4 33 115 143]
-bucket: [115 143] sortedBucket:  [115 143] sortedIdx: 3 set arr:  [4 33 115 143]
-exponent:  100 sorted arr:  [4 33 115 143]
-[4 33 115 143]
-sort1 end. cost: 118.781µs
 radix sort2:
 origin arr: [33 -4 15 43 -323454 7 10 1235 200 87431] exponent:  10000
+prepared arr: [33 -4 15 43 -323454 7 10 1235 200 87431] exponent:  10000
 append to buckets:  [[-323454] [] [33 -4 15 43 7 10 1235 200] [] [] [] [] [] [] [] [87431] []]
+origin arr: [-323454] exponent:  1000
 bucket: [-323454] sortedBucket:  [-323454] sortedIdx: 0 set arr:  [-323454 -4 15 43 -323454 7 10 1235 200 87431]
 origin arr: [33 -4 15 43 7 10 1235 200] exponent:  1000
+prepared arr: [33 -4 15 43 7 10 1235 200] exponent:  1000
 append to buckets:  [[33 -4 15 43 7 10 200] [1235] [] [] [] [] [] [] [] []]
 origin arr: [33 -4 15 43 7 10 200] exponent:  100
+prepared arr: [33 -4 15 43 7 10 200] exponent:  100
 append to buckets:  [[33 -4 15 43 7 10] [] [200] [] [] [] [] [] [] []]
 origin arr: [33 -4 15 43 7 10] exponent:  10
+prepared arr: [33 -4 15 43 7 10] exponent:  10
 append to buckets:  [[-4 7] [15 10] [] [33] [43] [] [] [] [] []]
 origin arr: [-4 7] exponent:  1
+prepared arr: [-4 7] exponent:  1
 append to buckets:  [[-4] [] [] [] [] [] [] [] [] [] [] [7] [] []]
+origin arr: [-4] exponent:  0
 bucket: [-4] sortedBucket:  [-4] sortedIdx: 0 set arr:  [-4 7]
+origin arr: [7] exponent:  0
 bucket: [7] sortedBucket:  [7] sortedIdx: 1 set arr:  [-4 7]
 exponent:  1 sorted arr:  [-4 7]
 bucket: [-4 7] sortedBucket:  [-4 7] sortedIdx: 0 set arr:  [-4 -4 15 43 7 10]
 bucket: [-4 7] sortedBucket:  [-4 7] sortedIdx: 1 set arr:  [-4 7 15 43 7 10]
 origin arr: [15 10] exponent:  1
+prepared arr: [15 10] exponent:  1
 append to buckets:  [[10] [] [] [] [] [15] [] [] [] []]
+origin arr: [10] exponent:  0
 bucket: [10] sortedBucket:  [10] sortedIdx: 0 set arr:  [10 10]
+origin arr: [15] exponent:  0
 bucket: [15] sortedBucket:  [15] sortedIdx: 1 set arr:  [10 15]
 exponent:  1 sorted arr:  [10 15]
 bucket: [10 15] sortedBucket:  [10 15] sortedIdx: 2 set arr:  [-4 7 10 43 7 10]
 bucket: [10 15] sortedBucket:  [10 15] sortedIdx: 3 set arr:  [-4 7 10 15 7 10]
+origin arr: [33] exponent:  1
 bucket: [33] sortedBucket:  [33] sortedIdx: 4 set arr:  [-4 7 10 15 33 10]
+origin arr: [43] exponent:  1
 bucket: [43] sortedBucket:  [43] sortedIdx: 5 set arr:  [-4 7 10 15 33 43]
 exponent:  10 sorted arr:  [-4 7 10 15 33 43]
 bucket: [-4 7 10 15 33 43] sortedBucket:  [-4 7 10 15 33 43] sortedIdx: 0 set arr:  [-4 -4 15 43 7 10 200]
@@ -213,6 +198,7 @@ bucket: [-4 7 10 15 33 43] sortedBucket:  [-4 7 10 15 33 43] sortedIdx: 2 set ar
 bucket: [-4 7 10 15 33 43] sortedBucket:  [-4 7 10 15 33 43] sortedIdx: 3 set arr:  [-4 7 10 15 7 10 200]
 bucket: [-4 7 10 15 33 43] sortedBucket:  [-4 7 10 15 33 43] sortedIdx: 4 set arr:  [-4 7 10 15 33 10 200]
 bucket: [-4 7 10 15 33 43] sortedBucket:  [-4 7 10 15 33 43] sortedIdx: 5 set arr:  [-4 7 10 15 33 43 200]
+origin arr: [200] exponent:  10
 bucket: [200] sortedBucket:  [200] sortedIdx: 6 set arr:  [-4 7 10 15 33 43 200]
 exponent:  100 sorted arr:  [-4 7 10 15 33 43 200]
 bucket: [-4 7 10 15 33 43 200] sortedBucket:  [-4 7 10 15 33 43 200] sortedIdx: 0 set arr:  [-4 -4 15 43 7 10 1235 200]
@@ -222,6 +208,7 @@ bucket: [-4 7 10 15 33 43 200] sortedBucket:  [-4 7 10 15 33 43 200] sortedIdx: 
 bucket: [-4 7 10 15 33 43 200] sortedBucket:  [-4 7 10 15 33 43 200] sortedIdx: 4 set arr:  [-4 7 10 15 33 10 1235 200]
 bucket: [-4 7 10 15 33 43 200] sortedBucket:  [-4 7 10 15 33 43 200] sortedIdx: 5 set arr:  [-4 7 10 15 33 43 1235 200]
 bucket: [-4 7 10 15 33 43 200] sortedBucket:  [-4 7 10 15 33 43 200] sortedIdx: 6 set arr:  [-4 7 10 15 33 43 200 200]
+origin arr: [1235] exponent:  100
 bucket: [1235] sortedBucket:  [1235] sortedIdx: 7 set arr:  [-4 7 10 15 33 43 200 1235]
 exponent:  1000 sorted arr:  [-4 7 10 15 33 43 200 1235]
 bucket: [-4 7 10 15 33 43 200 1235] sortedBucket:  [-4 7 10 15 33 43 200 1235] sortedIdx: 1 set arr:  [-323454 -4 15 43 -323454 7 10 1235 200 87431]
@@ -232,8 +219,9 @@ bucket: [-4 7 10 15 33 43 200 1235] sortedBucket:  [-4 7 10 15 33 43 200 1235] s
 bucket: [-4 7 10 15 33 43 200 1235] sortedBucket:  [-4 7 10 15 33 43 200 1235] sortedIdx: 6 set arr:  [-323454 -4 7 10 15 33 43 1235 200 87431]
 bucket: [-4 7 10 15 33 43 200 1235] sortedBucket:  [-4 7 10 15 33 43 200 1235] sortedIdx: 7 set arr:  [-323454 -4 7 10 15 33 43 200 200 87431]
 bucket: [-4 7 10 15 33 43 200 1235] sortedBucket:  [-4 7 10 15 33 43 200 1235] sortedIdx: 8 set arr:  [-323454 -4 7 10 15 33 43 200 1235 87431]
+origin arr: [87431] exponent:  1000
 bucket: [87431] sortedBucket:  [87431] sortedIdx: 9 set arr:  [-323454 -4 7 10 15 33 43 200 1235 87431]
 exponent:  10000 sorted arr:  [-323454 -4 7 10 15 33 43 200 1235 87431]
 [-323454 -4 7 10 15 33 43 200 1235 87431]
-sort2 end. cost: 213.955µs
+sort2 end. cost: 397.839µs
 */
