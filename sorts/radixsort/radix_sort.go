@@ -59,7 +59,7 @@ func radixSort1(arr []int) []int {
   return arr
 }
 
-// 2. 基数排序支持负数版，计算最小值，基于计数排序实现
+// 2. 基数排序LSD版，计算最小值，基于计数排序实现
 func radixSort2(arr []int) []int {
   var arrLen = len(arr)
   // 基数exponent按10进位，amount为10

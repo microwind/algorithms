@@ -51,7 +51,7 @@ int get_digit_by_position(int num, int position, int max_length)
 int *bucket_sort(int arr[], int len, int position, int max_length)
 {
   printf("\r\nlen=%d position=%d max_length=%d ", len, position, max_length);
-  // print_array(arr, len);
+
   if (len <= 1 || position > max_length)
   {
     return arr;
@@ -75,7 +75,7 @@ int *bucket_sort(int arr[], int len, int position, int max_length)
     // print_array(buckets[i], len);
   }
 
-  // 默认填充内容为0，
+  // 默认填充内容为0
   int bucket_count_list[range];
   memset(bucket_count_list, 0, range * sizeof(int));
 
@@ -90,15 +90,6 @@ int *bucket_sort(int arr[], int len, int position, int max_length)
     buckets[bucket_idx][number_idx] = arr[i];
     bucket_count_list[bucket_idx] += 1;
   }
-
-  // printf("\r\n[bucket_count_list]:");
-  // print_array(bucket_count_list, range);
-  // for (int i = 0; i < range; i++)
-  // {
-  //   printf("\r\nbuckets[%d]: real length=%d", i, bucket_count_list[i]);
-  //   if (bucket_count_list[i] > 0)
-  //     print_array(buckets[i], len);
-  // }
 
   // 将每个桶的数据按顺序逐个取出，重新赋值给原数组
   int sorted_idx = 0;
@@ -133,7 +124,7 @@ int *bucket_sort(int arr[], int len, int position, int max_length)
   return arr;
 }
 
-// 桶排序，根据数字的位置逐个对比排序，递归方式
+// 计数排序，根据数字的位置逐个对比排序，从高到低MSD，递归方式
 int *radix_sort_msd(int arr[], int len)
 {
   // 找出最大值

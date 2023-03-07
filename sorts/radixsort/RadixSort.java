@@ -9,7 +9,7 @@ import java.util.*;
 
 class RadixSort {
 
-  // 基数排序，基于计数排序的基础上，按数字的每个位置来排序
+  // 基数排序，基于计数排序，按数位从低到高来排序
   public static int[] countingSort(int arr[], int exponent) {
     // 基数exponent按10进位，range为10
     int range = 10;

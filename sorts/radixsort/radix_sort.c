@@ -67,7 +67,7 @@ void counting_sort(int arr[], int len, int exponent)
   }
 }
 
-// 基数排序，从个位到高位逐个对比排序
+// 基数排序，从低位到高位LSD版，基于计数排序
 int *radix_sort(int arr[], int len)
 {
   // 找出最大值

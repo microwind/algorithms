@@ -27,7 +27,7 @@ void print_array(int *arr, int len)
   std::cout << std::right;
 }
 
-// 基数排序，从个位到高位，基于计数排序实现
+// 基数排序，从个位到高位LSD版，基于计数排序实现
 int *radixSort(int *arr, int len)
 {
 
@@ -116,12 +116,12 @@ int main()
 
 /*
 jarry@jarrys-MacBook-Pro radixsort % g++ radix_sort.cpp
-jarry@jarrys-MacBook-Pro radixsort % ./a.out           
+jarry@jarrys-MacBook-Pro radixsort % ./a.out
 
  origin arr1:{ 3 , 4 , 15 , 2 , 2 , 123 , 2 , 3 , 3 , 237 , 10  }
  arr1 sorted:
 { 2 , 2 , 2 , 3 , 3 , 3 , 4 , 10 , 15 , 123 , 237  }
  origin arr2:{ 33 , -4 , 15 , 43 , -323454 , 7 , 10 , 1235 , 200 , 87431 , -534483664  }
  arr2 sorted:
-{ -534483664 , -323454 , -4 , 7 , 10 , 15 , 33 , 43 , 200 , 1235 , 87431  }%  
+{ -534483664 , -323454 , -4 , 7 , 10 , 15 , 33 , 43 , 200 , 1235 , 87431  }%
 */

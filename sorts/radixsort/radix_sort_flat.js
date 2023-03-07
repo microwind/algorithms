@@ -4,7 +4,7 @@
  * @version: 1.0
  */
 
-// 基数排序2，从低到高逐个数位对比排序，利用JS数组展开来还原数组
+// 基数排序2，从低到高逐个数位对比排序，基于桶排序，利用JS数组展开来还原数组
 function radixSort2(arr) {
 
   // 倒数获取数字指定位置的数
@@ -14,7 +14,7 @@ function radixSort2(arr) {
   }
 
   // 获取数组最大数字的位数
-  function getMaxLength(num) {
+  function getNumberLength(num) {
     let maxLength = 0
     while (num > 0) {
       maxLength++
@@ -27,7 +27,7 @@ function radixSort2(arr) {
   const min = Math.min.apply(null, arr)
   // 找出数组中最大数的长度，可以通过计算或直接换成字符串求长度，减去min以便支持负数
   // const maxLength = (max - min).toString().length
-  const maxLength = getMaxLength(max - min)
+  const maxLength = getNumberLength(max - min)
 
   for (let i = 0; i < maxLength; i++) {
     // 每个数位准备10个空数组，用于放数字0-9

@@ -15,16 +15,16 @@ import (
 // 2. MSD是从高位开始，依次按照位数的值将数字放入到不同桶中。
 // 3. 如果桶里的长度超过1，则通过递归继续按桶排序。当桶里的数据只有1位时添加到原列表对应位置。
 // 重复步骤2和3，直到按照最高位排序完成。
-func radixSort(arr []int) []int {
+func radixSortMSD(arr []int) []int {
   var amount = 10
   maxValue := max(arr)
   exponent := pow(amount, getNumberOfDigits(maxValue)-1)
 
-  bucketSortMSD(arr, exponent)
+  bucketSort(arr, exponent)
   return arr
 }
 
-func bucketSortMSD(arr []int, exponent int) []int {
+func bucketSort(arr []int, exponent int) []int {
   fmt.Println("origin arr:", arr, "exponent: ", exponent)
   if exponent < 1 || len(arr) <= 1 {
     return arr
@@ -60,7 +60,7 @@ func bucketSortMSD(arr []int, exponent int) []int {
       continue
     }
     // 递归遍历所有的桶，由里而外逐个桶进行排序
-    sortedBucket := bucketSortMSD(bucket, exponent/amount)
+    sortedBucket := bucketSort(bucket, exponent/amount)
     // 把各个桶里的值按顺序赋给原数组
     for _, num := range sortedBucket {
       arr[sortedIdx] = num
@@ -146,7 +146,7 @@ func main() {
   fmt.Println("radix sort2:")
   time2 := time.Now()
   data2 := []int{33, -4, 15, 43, -323454, 7, 10, 1235, 200, 87431}
-  fmt.Println(radixSort(data2[:]))
+  fmt.Println(radixSortMSD(data2[:]))
   fmt.Println("sort2 end. cost:", time.Since(time2))
 }
 

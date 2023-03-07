@@ -4,12 +4,10 @@
  * @version: 1.0
  */
 var SelectionSort = /** @class */ (function () {
-    function SelectionSort(arr) {
-        this.arr = this.selectionSort2(arr);
+    function SelectionSort() {
     }
     // 标准版
-    SelectionSort.prototype.selectionSort = function (arr) {
-        console.time("time");
+    SelectionSort.prototype.selectionSort1 = function (arr) {
         var min, minIdx, tmp;
         var l = arr.length;
         for (var i = 0; i < l - 1; i++) {
@@ -23,7 +21,7 @@ var SelectionSort = /** @class */ (function () {
                     minIdx = j;
                 }
             }
-            console.log("i=" + i, " j=" + j, "min=" + min, "minIdx=" + minIdx, "arr[]=", arr);
+            console.log('i=' + i, ' j=' + j, 'min=' + min, 'minIdx=' + minIdx, 'arr[]=', arr);
             // 将待排序里最小值交换到已排序最后面
             if (minIdx !== i) {
                 tmp = arr[i];
@@ -31,12 +29,10 @@ var SelectionSort = /** @class */ (function () {
                 arr[minIdx] = tmp;
             }
         }
-        console.timeEnd("time");
         return arr;
     };
     // 新建数组版，无需交换
     SelectionSort.prototype.selectionSort2 = function (arr) {
-        console.time("time");
         var min, minIdx, newArr = [];
         var l = arr.length;
         for (var i = 0; i < l; i++) {
@@ -50,7 +46,7 @@ var SelectionSort = /** @class */ (function () {
                     minIdx = j;
                 }
             }
-            console.log("i=" + i, " j=" + j, "min=" + min, "minIdx=" + minIdx, "arr[]=", arr);
+            console.log('i=' + i, ' j=' + j, 'min=' + min, 'minIdx=' + minIdx, 'arr[]=', arr);
             // 将待排序里最小值添加到新数组中去
             newArr.push(min);
             // 原数组中删除对应的项
@@ -58,17 +54,23 @@ var SelectionSort = /** @class */ (function () {
             l--;
             i--;
         }
-        console.timeEnd("time");
         return newArr;
     };
     return SelectionSort;
 }());
+;
 (function () {
-    var arr = [7, 11, 9, 10, 12, 13, 8];
-    console.time("sort");
-    console.log("origin:", arr);
-    console.log("\r\nsorted:", new SelectionSort(arr).arr);
-    console.timeEnd("sort");
+    var selectionSort = new SelectionSort();
+    var arr1 = [7, 11, -9, 10, -12, 13, 8];
+    console.time('sort1');
+    console.log('origin arr1:', arr1);
+    console.log('\r\narr1 sorted:', selectionSort.selectionSort1(arr1));
+    console.timeEnd('sort1');
+    var arr2 = [7, 11, -9, 10, -12, 13, 8];
+    console.time('sort2');
+    console.log('origin arr2:', arr2);
+    console.log('\r\narr2 sorted:', selectionSort.selectionSort1(arr2));
+    console.timeEnd('sort2');
 })();
 /**
 jarrys-MacBook-Pro:selectionsort jarry$ tsc SelectionSort.ts -m es6

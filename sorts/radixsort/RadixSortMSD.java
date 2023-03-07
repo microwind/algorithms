@@ -7,7 +7,7 @@
 
 import java.util.*;
 
-// 基数排序，从高到低逐位排序，非递归方式，基于桶排序。具体步骤如下：
+// 基数排序，从高到低逐位排序，递归方式，基于桶排序。具体步骤如下：
 // 1. 找出数组中最大的数，确定其位数。
 // 2. MSD是从高位开始，依次按照位数的值将数字放入到不同桶中。
 // 3. 如果桶里的长度超过1，则通过递归继续按桶排序。当桶里的数据只有1位时添加到原列表对应位置。
@@ -73,9 +73,6 @@ class RadixSortMSD {
     }
 
     System.out.println("bucketsCount=" + Arrays.toString(bucketsCount) + "arr=" + Arrays.toString(arr));
-    // for (int[] bucket : buckets) {
-    // System.out.println("bucket=" + Arrays.toString(bucket));
-    // }
     // 将每个桶的数据按顺序逐个取出，重新赋值给原数组
     int sortedIdx = 0;
 

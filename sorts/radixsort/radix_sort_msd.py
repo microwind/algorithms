@@ -14,9 +14,7 @@ import math
 3. 如果桶里的长度超过1，则通过递归继续按桶排序。当桶里的数据只有1位时添加到原列表对应位置。
 重复步骤2和3，直到按照最高位排序完成。
 """
-
-
-# 基数排序，从高到低逐位排序，基于桶排序
+# 桶排序，根据数位递归调用
 def bucket_sort(arr, exponent):
     print('origin arr:', arr, 'exponent:', exponent)
     if (len(arr) <= 1 or exponent <= 0):
@@ -62,7 +60,7 @@ def bucket_sort(arr, exponent):
 
     return arr
 
-
+# 基数排序，从高到低逐位排序MSD版，基于桶排序递归实现
 def radix_sort_msd(arr):
     # 根据最大值，逐个按进位(基数)来应用排序，从高位到低位。
     # 获取数字的数位，这减去min_value是为了支持负数
