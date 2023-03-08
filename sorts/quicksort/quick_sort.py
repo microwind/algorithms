@@ -171,20 +171,20 @@ def quick_sort3(arr, left=None, right=None):
 # 标准递归版本。左右不断分区交换，无需新建数组。
 def partition(arr, left, right):
     # pivot基准可以任意挑选，这里取右侧
-    pivotIndex = right
-    pivot = arr[pivotIndex]
-    swapIndex = left - 1
+    pivot_index = right
+    pivot = arr[pivot_index]
+    partition_index = left - 1
     for i in range(left, right):
         # 如果小于基准值则将小项移到左侧
         if (arr[i] < pivot):
-            swapIndex += 1
-            arr[i], arr[swapIndex] = arr[swapIndex], arr[i]
+            partition_index += 1
+            arr[i], arr[partition_index] = arr[partition_index], arr[i]
     # 最后将基准位置调换至交换位置
-    swapIndex += 1
-    arr[pivotIndex], arr[swapIndex] = arr[swapIndex], arr[pivotIndex]
-    print('partition:', arr, swapIndex, arr[swapIndex], arr[left:swapIndex],
-          arr[swapIndex:right])
-    return swapIndex
+    partition_index += 1
+    arr[pivot_index], arr[partition_index] = arr[partition_index], arr[pivot_index]
+    print('partition_index:', partition_index, 'arr[partition_index]:', arr[partition_index], arr[left:partition_index],
+          arr[partition_index:right])
+    return partition_index
 
 # 快排分区交换版本
 def quick_sort4(arr, left=None, right=None):
@@ -231,6 +231,7 @@ arr4 = quick_sort4(arr4, 0, len(arr4) - 1)
 print("\r\nquick4 sorted:\r\n")
 print(arr4)
 print("time:" + str((time.time() - start_time) * 1000) + " ms")
+
 """
 jarrys-MacBook-Pro:quick_sort jarry$ python quick_sort.py
 ==quick1 orgin:==
@@ -263,7 +264,7 @@ jarrys-MacBook-Pro:quick_sort jarry$ python quick_sort.py
 quick1 sorted:
 
 [7, 8, 9, 10, 11, 12, 13]
-time:0.177145004272 ms
+time:0.220060348511 ms
 
 ==quick2 origin:==
 
@@ -287,7 +288,7 @@ time:0.177145004272 ms
 quick2 sorted:
 
 [7, 8, 9, 10, 11, 12, 13]
-time:0.128030776978 ms
+time:0.109910964966 ms
 
 ==quick3 origin:==
 
@@ -311,18 +312,18 @@ time:0.128030776978 ms
 quick3 sorted:
 
 [7, 8, 9, 10, 11, 12, 13]
-time:0.123023986816 ms
+time:0.139951705933 ms
 
 ==quick4 origin:==
 
 [7, 11, 9, 10, 12, 13, 8]
-('partition:', [7, 8, 9, 10, 12, 13, 11], 1, 8, [7], [8, 9, 10, 12, 13])
-('partition:', [7, 8, 9, 10, 11, 13, 12], 4, 11, [9, 10], [11, 13])
-('partition:', [7, 8, 9, 10, 11, 13, 12], 3, 10, [9], [])
-('partition:', [7, 8, 9, 10, 11, 12, 13], 5, 12, [], [12])
+('partition_index:', 1, 'arr[partition_index]:', 8, [7], [8, 9, 10, 12, 13])
+('partition_index:', 4, 'arr[partition_index]:', 11, [9, 10], [11, 13])
+('partition_index:', 3, 'arr[partition_index]:', 10, [9], [])
+('partition_index:', 5, 'arr[partition_index]:', 12, [], [12])
 
 quick4 sorted:
 
 [7, 8, 9, 10, 11, 12, 13]
-time:0.0591278076172 ms
+time:0.0619888305664 ms
 """

@@ -140,18 +140,18 @@ func partition(arr []int, left int, right int) int {
   // pivot基准可以任意挑选，这里取右侧
   var pivotIndex = right
   var pivot = arr[pivotIndex]
-  var swapIndex = left - 1
+  var partitionIndex = left - 1
   for i := left; i < right; i++ {
     // 如果小于基准则进行交换
     if arr[i] < pivot {
-      swapIndex++
-      arr[swapIndex], arr[i] = arr[i], arr[swapIndex]
+      partitionIndex++
+      arr[partitionIndex], arr[i] = arr[i], arr[partitionIndex]
     }
   }
-  swapIndex++
-  arr[swapIndex], arr[pivotIndex] = arr[pivotIndex], arr[swapIndex]
-  fmt.Println("partition:", arr, swapIndex, arr[swapIndex], arr[left:swapIndex], arr[swapIndex:right])
-  return swapIndex
+  partitionIndex++
+  arr[partitionIndex], arr[pivotIndex] = arr[pivotIndex], arr[partitionIndex]
+  fmt.Println("partition:", arr, partitionIndex, arr[partitionIndex], arr[left:partitionIndex], arr[partitionIndex:right])
+  return partitionIndex
 }
 
 // 方式2, 标准递归版本。左右不断分区交换，无需新建数组。
@@ -340,21 +340,21 @@ int partition(int *arr, int left, int right)
   int pivotIndex = right;
   int pivot = arr[pivotIndex];
   // 记录交换的位置
-  int swapIndex = left - 1;
+  int partitionIndex = left - 1;
   for (int i = left; i < right; i++)
   {
     // 如果小于基准则进行交换
     // 把小于基数的逐个往左侧放，大于基数的往右侧放
     if (arr[i] < pivot)
     {
-      swapIndex++;
-      swap(&arr[swapIndex], &arr[i]);
+      partitionIndex++;
+      swap(&arr[partitionIndex], &arr[i]);
     }
   }
-  swapIndex++;
+  partitionIndex++;
   // 最后把原基数调换到分区线的位置，并返回分区线位置
-  swap(&arr[swapIndex], &arr[pivotIndex]);
-  return swapIndex;
+  swap(&arr[partitionIndex], &arr[pivotIndex]);
+  return partitionIndex;
 }
 
 void quickSort(int *arr, int left, int right)

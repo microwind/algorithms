@@ -32,7 +32,8 @@
 ## Java
 
 ```java
-  // java选择排序标准版，更多版本请看源码文件
+// java选择排序标准版，更多版本请看源码文件
+class SelectionSort {
   static int[] selectionSort1(final int[] arr) {
     int min;
     int minIdx;
@@ -59,6 +60,7 @@
     }
     return arr;
   }
+}
 ```
 
 ```java

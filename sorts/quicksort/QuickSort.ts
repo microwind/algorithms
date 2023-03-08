@@ -56,29 +56,30 @@ f([7]) f([])
   [7]
  */
 
-  // 把数组分按照基准值分为左右两部分，再返回新的中间位置作为排序的pivot
+// 把数组分按照基准值分为左右两部分，小于基准的在左侧，大于基准的在右侧，最后返回基准值的新下标
+// 用于交换的基准值可以取右侧或左侧，若取中间则需要基于基准进行左右交换
   partition(arr: number[], left: number, right: number) {
     // pivot基准可以任意挑选，这里取右侧
     var pivotIndex = right
     var pivot = arr[pivotIndex]
-    var swapIndex = left
+    var partitionIndex = left
     for (var i = left; i < right; i++) {
       // 如果小于基准则进行交换，且交换位置右移
       if (arr[i] < pivot) {
-        ;[arr[swapIndex], arr[i]] = [arr[i], arr[swapIndex]]
-        swapIndex++
+        ;[arr[partitionIndex], arr[i]] = [arr[i], arr[partitionIndex]]
+        partitionIndex++
       }
     }
-    ;[arr[swapIndex], arr[pivotIndex]] = [arr[pivotIndex], arr[swapIndex]]
+    ;[arr[partitionIndex], arr[pivotIndex]] = [arr[pivotIndex], arr[partitionIndex]]
     console.log(
-      'partition:',
-      arr,
-      swapIndex,
-      arr[swapIndex],
-      arr.slice(left, swapIndex),
-      arr.slice(swapIndex, right)
+      'partitionIndex:',
+      partitionIndex,
+      'arr[partitionIndex]',
+      arr[partitionIndex],
+      arr.slice(left, partitionIndex),
+      arr.slice(partitionIndex, right)
     )
-    return swapIndex
+    return partitionIndex
   }
   // 方式2, 标准递归版本。左右不断分区交换，无需新建数组。
   quickSort2(arr: number[], left: number, right: number) {
@@ -157,8 +158,15 @@ f([7]) f([])
 
     while (stack.length > 0 ) {
       // 如果栈内还有数据，则一并马上取出，其他逻辑与标准递归版同
-      j = right = stack.pop()
-      i = left = stack.pop()
+      const lastItem1 = stack.pop()
+      const lastItem2 = stack.pop()
+      if (lastItem1 === undefined || lastItem2 === undefined) {
+        break
+      }
+
+      j = right = lastItem1
+      i = left = lastItem2
+
       midIndex = Math.floor((i + j) / 2)
       pivot = arr[midIndex]
       while (i <= j) {
@@ -263,33 +271,21 @@ quickSort1 sorted: [
    7,  8,  9, 10,
   11, 12, 13
 ]
-sort1: 10.392ms
+sort1: 10.698ms
 sort2 origin: [
    7, 11, 9, 10,
   12, 13, 8
 ]
-partition: [
-   7,  8,  9, 10,
-  12, 13, 11
-] 1 8 [ 7 ] [ 8, 9, 10, 12, 13 ]
-partition: [
-   7,  8,  9, 10,
-  11, 13, 12
-] 4 11 [ 9, 10 ] [ 11, 13 ]
-partition: [
-   7,  8,  9, 10,
-  11, 13, 12
-] 3 10 [ 9 ] []
-partition: [
-   7,  8,  9, 10,
-  11, 12, 13
-] 5 12 [] [ 12 ]
+partitionIndex: 1 arr[partitionIndex] 8 [ 7 ] [ 8, 9, 10, 12, 13 ]
+partitionIndex: 4 arr[partitionIndex] 11 [ 9, 10 ] [ 11, 13 ]
+partitionIndex: 3 arr[partitionIndex] 10 [ 9 ] []
+partitionIndex: 5 arr[partitionIndex] 12 [] [ 12 ]
 
 quickSort2 sorted: [
    7,  8,  9, 10,
   11, 12, 13
 ]
-sort2: 1.321ms
+sort2: 1.16ms
 sort3 origin: [
    7, 11, 9, 10,
   12, 13, 8
@@ -306,7 +302,7 @@ quickSort3 sorted: [
    7,  8,  9, 10,
   11, 12, 13
 ]
-sort3: 0.603ms
+sort3: 0.631ms
 sort4 origin: [
    7, 11, 9, 10,
   12, 13, 8
@@ -323,5 +319,5 @@ quickSort4 sorted: [
    7,  8,  9, 10,
   11, 12, 13
 ]
-sort4: 0.359ms
+sort4: 0.378ms
  */

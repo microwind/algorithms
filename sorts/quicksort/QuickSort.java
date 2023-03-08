@@ -64,24 +64,25 @@ class QuickSort {
   public static int partition(int[] arr, int left, int right) {
     int pivotIndex = right;
     int pivot = arr[pivotIndex];
-    int swapIndex = left - 1;
+    int partitionIndex = left - 1;
     for (int i = left; i < right; i++) {
       if (arr[i] < pivot) {
-        // 将小于基准值的数据交换到左侧，交换下标右移1位
-        swapIndex += 1;
-        int tmp = arr[swapIndex];
-        arr[swapIndex] = arr[i];
+        // 将小于基准值的数据交换到左侧，分区下标右移1位
+        partitionIndex += 1;
+        int tmp = arr[partitionIndex];
+        arr[partitionIndex] = arr[i];
         arr[i] = tmp;
       }
     }
-    swapIndex += 1;
+    partitionIndex += 1;
     // 最后将基准值交换到交换下标处，以此分割左右
-    int tmp = arr[swapIndex];
-    arr[swapIndex] = arr[pivotIndex];
+    int tmp = arr[partitionIndex];
+    arr[partitionIndex] = arr[pivotIndex];
     arr[pivotIndex] = tmp;
-    System.out.println("partition:" + " swapIndex=" + swapIndex + " arr[swapIndex]=" + arr[swapIndex] + " left="
-        + left + " right=" + right);
-    return swapIndex;
+    System.out.println(
+        "partition:" + " partitionIndex=" + partitionIndex + " arr[partitionIndex]=" + arr[partitionIndex] + " left="
+            + left + " right=" + right);
+    return partitionIndex;
   }
 
   public static int[] quickSort2(int[] arr, int start, int end) {
@@ -178,7 +179,6 @@ class QuickSort {
 }
 
 /**
- * // 递归
  * jarry@jarrys-MacBook-Pro quicksort % javac QuickSort.java
  * jarry@jarrys-MacBook-Pro quicksort % java QuickSort
  * quick1 sort start:[7, 11, 9, 10, 12, 13, 8]
@@ -202,22 +202,22 @@ class QuickSort {
  * i=4, j=5, midIndex=4, pivot=12 arr[]=[7, 8, 9, 10, 12, 11, 13]
  * low=4, high=5, i=4, j=5, pivot=12
  * 
- * time:34 ms.
+ * time:31 ms.
  * quick1 sorted:
  * [7, 8, 9, 10, 11, 12, 13]
  * quick2 sort start:[7, 11, 9, 10, 12, 13, 8]
- * partition: swapIndex=1 arr[swapIndex]=8 left=0 right=6
- * partition: swapIndex=4 arr[swapIndex]=11 left=2 right=6
- * partition: swapIndex=3 arr[swapIndex]=10 left=0 right=3
- * partition: swapIndex=2 arr[swapIndex]=9 left=0 right=2
- * partition: swapIndex=1 arr[swapIndex]=8 left=0 right=1
- * partition: swapIndex=5 arr[swapIndex]=12 left=5 right=6
- * partition: swapIndex=4 arr[swapIndex]=11 left=0 right=4
- * partition: swapIndex=3 arr[swapIndex]=10 left=0 right=3
- * partition: swapIndex=2 arr[swapIndex]=9 left=0 right=2
- * partition: swapIndex=1 arr[swapIndex]=8 left=0 right=1
+ * partition: partitionIndex=1 arr[partitionIndex]=8 left=0 right=6
+ * partition: partitionIndex=4 arr[partitionIndex]=11 left=2 right=6
+ * partition: partitionIndex=3 arr[partitionIndex]=10 left=0 right=3
+ * partition: partitionIndex=2 arr[partitionIndex]=9 left=0 right=2
+ * partition: partitionIndex=1 arr[partitionIndex]=8 left=0 right=1
+ * partition: partitionIndex=5 arr[partitionIndex]=12 left=5 right=6
+ * partition: partitionIndex=4 arr[partitionIndex]=11 left=0 right=4
+ * partition: partitionIndex=3 arr[partitionIndex]=10 left=0 right=3
+ * partition: partitionIndex=2 arr[partitionIndex]=9 left=0 right=2
+ * partition: partitionIndex=1 arr[partitionIndex]=8 left=0 right=1
  * 
- * time:5 ms.
+ * time:4 ms.
  * quick2 sorted:
  * [7, 8, 9, 10, 11, 12, 13]
  * quickSortNotRecurion sort start:[7, 11, 9, 10, 12, 13, 8]

@@ -53,23 +53,28 @@ f([7]) f([])
   [7]
  */
 
-// 把数组分按照基准值分为左右两部分，再返回新的中间位置作为排序的pivot
+// 把数组分按照基准值分为左右两部分，小于基准的在左侧，大于基准的在右侧，最后返回基准值的新下标
+// 用于交换的基准值可以取右侧或左侧，若取中间则需要基于基准进行左右交换
 function partition(arr, left, right) {
-  // pivot基准可以任意挑选，这里取右侧
   var pivotIndex = right
   var pivot = arr[pivotIndex]
-  var swapIndex = left - 1
+  var partitionIndex = left - 1
   for (var i = left; i < right; i++) {
-    // 如果小于基准则进行交换
+    // 如果比较项小于基准值则进行交换，并且分区索引增加1位
+    // 也就是将大于基准值的全部往右侧放，以分区索引为分割线
     if (arr[i] < pivot) {
-      swapIndex++;
-      [arr[swapIndex], arr[i]] = [arr[i], arr[swapIndex]]
+      partitionIndex++
+      if (partitionIndex !== i) {
+        [arr[partitionIndex], arr[i]] = [arr[i], arr[partitionIndex]]
+      }
     }
   }
-  swapIndex++;
-  [arr[swapIndex], arr[pivotIndex]] = [arr[pivotIndex], arr[swapIndex]]
-  console.log('partition:', arr, swapIndex, arr[swapIndex], arr.slice(left, swapIndex), arr.slice(swapIndex, right))
-  return swapIndex
+  partitionIndex++;
+  [arr[partitionIndex], arr[pivotIndex]] = [arr[pivotIndex], arr[partitionIndex]]
+  console.log('partitioned arr=', arr, 'partitionIndex:', partitionIndex,
+    'left=', arr.slice(left, partitionIndex), 'arr[partitionIndex]=', arr[partitionIndex],
+    'right=', arr.slice(partitionIndex, right))
+  return partitionIndex
 }
 // 方式2, 标准递归版本。左右不断分区交换，无需新建数组。
 function quickSort2(arr, left, right) {
@@ -208,95 +213,6 @@ function quickSort4(arr, left, right) {
 
 /**
 jarry@jarrys-MacBook-Pro quicksort % node quick_sort.js
-origin: [
-   7, 11, 9, 10,
-  12, 13, 8
-]
-split array: [
-   7, 11, 9, 10,
-  12, 13, 8
-]
-i=0 midIndex=3 pivot=10 arr[]=7,11,9,10,12,13,8
-i=1 midIndex=3 pivot=10 arr[]=7,11,9,10,12,13,8
-i=2 midIndex=3 pivot=10 arr[]=7,11,9,10,12,13,8
-i=3 midIndex=3 pivot=10 arr[]=7,11,9,10,12,13,8
-i=4 midIndex=3 pivot=10 arr[]=7,11,9,10,12,13,8
-i=5 midIndex=3 pivot=10 arr[]=7,11,9,10,12,13,8
-i=6 midIndex=3 pivot=10 arr[]=7,11,9,10,12,13,8
-split array: [ 7, 9, 8 ]
-i=0 midIndex=1 pivot=9 arr[]=7,9,8
-i=1 midIndex=1 pivot=9 arr[]=7,9,8
-i=2 midIndex=1 pivot=9 arr[]=7,9,8
-split array: [ 7, 8 ]
-i=0 midIndex=1 pivot=8 arr[]=7,8
-i=1 midIndex=1 pivot=8 arr[]=7,8
-sorted array: [ 7, 8 ]
-sorted array: [ 7, 8, 9 ]
-split array: [ 11, 12, 13 ]
-i=0 midIndex=1 pivot=12 arr[]=11,12,13
-i=1 midIndex=1 pivot=12 arr[]=11,12,13
-i=2 midIndex=1 pivot=12 arr[]=11,12,13
-sorted array: [ 11, 12, 13 ]
-sorted array: [
-   7,  8,  9, 10,
-  11, 12, 13
-]
-
-quickSort1 sorted: [
-   7,  8,  9, 10,
-  11, 12, 13
-]
-sort1: 2.316ms
-partition: [
-   7,  8,  9, 10,
-  12, 13, 11
-] 1 8 [ 7 ] [ 8, 9, 10, 12, 13 ]
-partition: [
-   7,  8,  9, 10,
-  11, 13, 12
-] 4 11 [ 9, 10 ] [ 11, 13 ]
-partition: [
-   7,  8,  9, 10,
-  11, 13, 12
-] 3 10 [ 9 ] []
-partition: [
-   7,  8,  9, 10,
-  11, 12, 13
-] 5 12 [] [ 12 ]
-
-quickSort2 sorted: [
-   7,  8,  9, 10,
-  11, 12, 13
-]
-sort2: 0.919ms
-arr[i] < pivot:  i=0 j=6 pivot=10
-  left=0 right=6 i=1 j=6 midIndex=3 pivot=10 arr[]=7,11,9,10,12,13,8
-arr[i] < pivot:  i=2 j=5 pivot=10
-arr[j] > pivot:  i=3 j=5 pivot=10
-arr[j] > pivot:  i=3 j=4 pivot=10
-  left=0 right=6 i=3 j=3 midIndex=3 pivot=10 arr[]=7,8,9,10,12,13,11
-left < j:recursion:  left=0 right=6 i=4 j=2arr[]7,8,9,10,12,13,11
-arr[i] < pivot:  i=0 j=2 pivot=8
-arr[j] > pivot:  i=1 j=2 pivot=8
-  left=0 right=2 i=1 j=1 midIndex=1 pivot=8 arr[]=7,8,9,10,12,13,11
-i < right:recursion:  left=0 right=6 i=4 j=2arr[]7,8,9,10,12,13,11
-arr[i] < pivot:  i=4 j=6 pivot=13
-  left=4 right=6 i=5 j=6 midIndex=5 pivot=13 arr[]=7,8,9,10,12,13,11
-left < j:recursion:  left=4 right=6 i=6 j=5arr[]7,8,9,10,12,11,13
-  left=4 right=5 i=4 j=5 midIndex=4 pivot=12 arr[]=7,8,9,10,12,11,13
-
-quickSort3 sorted: [
-   7,  8,  9, 10,
-  11, 12, 13
-]
-sort3: 0.627ms
-arr[i] < pivot:  i=0 j=6 pivot=10arr[]=7,11,9,10,12,13,8
-arr[i] < pivot:  i=2 j=5 pivot=10arr[]=7,8,9,10,12,13,11
-arr[j] > pivot:  i=3 j=5 pivot=10arr[]=7,8,9,10,12,13,11
-arr[j] > pivot:  i=3 j=4 pivot=10arr[]=7,8,9,10,12,13,11
-left < j:recursion:  left=0 right=6 i=4 j=2arr[]=7,8,9,10,12,13,11
-i < right:recursion:  left=0 right=6 i=4 j=2arr[]=7,8,9,10,12,13,11
-jarry@jarrys-MacBook-Pro quicksort % node quick_sort.js
 sort1 origin: [
    7, 11, 9, 10,
   12, 13, 8
@@ -335,33 +251,33 @@ quickSort1 sorted: [
    7,  8,  9, 10,
   11, 12, 13
 ]
-sort1: 10.72ms
+sort1: 10.417ms
 sort2 origin: [
    7, 11, 9, 10,
   12, 13, 8
 ]
-partition: [
+partitioned arr= [
    7,  8,  9, 10,
   12, 13, 11
-] 1 8 [ 7 ] [ 8, 9, 10, 12, 13 ]
-partition: [
+] partitionIndex: 1 left= [ 7 ] arr[partitionIndex]= 8 right= [ 8, 9, 10, 12, 13 ]
+partitioned arr= [
    7,  8,  9, 10,
   11, 13, 12
-] 4 11 [ 9, 10 ] [ 11, 13 ]
-partition: [
+] partitionIndex: 4 left= [ 9, 10 ] arr[partitionIndex]= 11 right= [ 11, 13 ]
+partitioned arr= [
    7,  8,  9, 10,
   11, 13, 12
-] 3 10 [ 9 ] []
-partition: [
+] partitionIndex: 3 left= [ 9 ] arr[partitionIndex]= 10 right= []
+partitioned arr= [
    7,  8,  9, 10,
   11, 12, 13
-] 5 12 [] [ 12 ]
+] partitionIndex: 5 left= [] arr[partitionIndex]= 12 right= [ 12 ]
 
 quickSort2 sorted: [
    7,  8,  9, 10,
   11, 12, 13
 ]
-sort2: 1.03ms
+sort2: 0.96ms
 sort3 origin: [
    7, 11, 9, 10,
   12, 13, 8
@@ -386,7 +302,7 @@ quickSort3 sorted: [
    7,  8,  9, 10,
   11, 12, 13
 ]
-sort3: 0.876ms
+sort3: 0.804ms
 sort4 origin: [
    7, 11, 9, 10,
   12, 13, 8
@@ -406,5 +322,5 @@ quickSort4 sorted: [
    7,  8,  9, 10,
   11, 12, 13
 ]
-sort4: 0.96ms
+sort4: 0.384ms
  */

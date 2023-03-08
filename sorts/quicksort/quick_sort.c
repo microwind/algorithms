@@ -94,23 +94,23 @@ int partition(int *arr, int left, int right)
 {
   // 基数位置以左侧为准
   int pivotIndex = left;
-  int swapIndex = pivotIndex + 1;
-  for (int i = swapIndex; i <= right; i++)
+  int partitionIndex = pivotIndex + 1;
+  for (int i = partitionIndex; i <= right; i++)
   {
     // 当比较项小于基数时，将比较项逐个挪到左侧，同时左侧下标移动1位
     if (arr[i] < arr[pivotIndex])
     {
-      swap(&arr[i], &arr[swapIndex]);
-      swapIndex++;
+      swap(&arr[i], &arr[partitionIndex]);
+      partitionIndex++;
     }
   }
   // 将基数项调整到最新交换位置，交换位置-1就是分割线
-  swap(&arr[pivotIndex], &arr[swapIndex - 1]);
+  swap(&arr[pivotIndex], &arr[partitionIndex - 1]);
   printf("\r\n");
-  printArray2(arr, left, swapIndex);
-  printf(" swapIndex=%d, arr[swapIndex]=%d ", swapIndex, arr[swapIndex]);
-  printArray2(arr, swapIndex, right);
-  return swapIndex - 1;
+  printArray2(arr, left, partitionIndex);
+  printf(" partitionIndex=%d, arr[partitionIndex]=%d ", partitionIndex, arr[partitionIndex]);
+  printArray2(arr, partitionIndex, right);
+  return partitionIndex - 1;
 }
 // 快排方式2，递归分区交换
 int *quickSort2(int *arr, int left, int right)
@@ -322,8 +322,8 @@ int main()
 }
 
 /**
-jarrys-MacBook-Pro:quicksort jarry$ gcc quick_sort.c -o quick_sort
-jarry@jarrys-MacBook-Pro quicksort % ./quick_sort        
+jarry@jarrys-MacBook-Pro quicksort % gcc quick_sort.c
+jarry@jarrys-MacBook-Pro quicksort % ./a.out 
 
  sort start
 
@@ -345,18 +345,18 @@ arr[i] < pivot: i=4, j=6, pivot=13
   low < j:recursion:  low=4, high=6, i=6, j=5, midIndex=5, pivot=13
   low=4, high=5, i=4, j=5, midIndex=4, pivot=12
 quick1 sorted:7 8 9 10 11 12 13 
-time: 0.034000 ms.
+time: 0.046000 ms.
 ==quick1 end==
 
 ==quick2 origin==
 7 11 9 10 12 13 8 
-[7] swapIndex=1, arr[swapIndex]=11 [11, 9, 10, 12, 13]
-[8, 9, 10, 11] swapIndex=5, arr[swapIndex]=13 [13]
-[8] swapIndex=2, arr[swapIndex]=9 [9]
-[9] swapIndex=3, arr[swapIndex]=10 []
-[12, 13] swapIndex=7, arr[swapIndex]=0 []
+[7] partitionIndex=1, arr[partitionIndex]=11 [11, 9, 10, 12, 13]
+[8, 9, 10, 11] partitionIndex=5, arr[partitionIndex]=13 [13]
+[8] partitionIndex=2, arr[partitionIndex]=9 [9]
+[9] partitionIndex=3, arr[partitionIndex]=10 []
+[12, 13] partitionIndex=7, arr[partitionIndex]=0 []
  quick2 sorted:7 8 9 10 11 12 13 
-time: 0.016000 ms.
+time: 0.023000 ms.
 ==quick2 end==
 
 ==quick3 origin==
@@ -374,6 +374,6 @@ arr[i] < pivot: i=4, j=6, arr[i]=12, arr[j]=11, pivot=13
 arr[i] < pivot: i=0, j=2, arr[i]=7, arr[j]=9, pivot=8
 arr[i] > pivot: i=1, j=2, arr[i]=8, arr[j]=9, pivot=8
  quick3 sorted:7 8 9 10 11 12 13 
-time: 0.068000 ms.
+time: 0.075000 ms.
 ==quick3 end==
  */

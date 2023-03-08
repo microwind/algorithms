@@ -51,25 +51,26 @@ var QuickSort = /** @class */ (function () {
   f([7]) f([])
     [7]
    */
-    // 把数组分按照基准值分为左右两部分，再返回新的中间位置作为排序的pivot
+    // 把数组分按照基准值分为左右两部分，小于基准的在左侧，大于基准的在右侧，最后返回基准值的新下标
+    // 用于交换的基准值可以取右侧或左侧，若取中间则需要基于基准进行左右交换
     QuickSort.prototype.partition = function (arr, left, right) {
         var _a, _b;
         // pivot基准可以任意挑选，这里取右侧
         var pivotIndex = right;
         var pivot = arr[pivotIndex];
-        var swapIndex = left;
+        var partitionIndex = left;
         for (var i = left; i < right; i++) {
             // 如果小于基准则进行交换，且交换位置右移
             if (arr[i] < pivot) {
                 ;
-                _a = [arr[i], arr[swapIndex]], arr[swapIndex] = _a[0], arr[i] = _a[1];
-                swapIndex++;
+                _a = [arr[i], arr[partitionIndex]], arr[partitionIndex] = _a[0], arr[i] = _a[1];
+                partitionIndex++;
             }
         }
         ;
-        _b = [arr[pivotIndex], arr[swapIndex]], arr[swapIndex] = _b[0], arr[pivotIndex] = _b[1];
-        console.log('partition:', arr, swapIndex, arr[swapIndex], arr.slice(left, swapIndex), arr.slice(swapIndex, right));
-        return swapIndex;
+        _b = [arr[pivotIndex], arr[partitionIndex]], arr[partitionIndex] = _b[0], arr[pivotIndex] = _b[1];
+        console.log('partitionIndex:', partitionIndex, 'arr[partitionIndex]', arr[partitionIndex], arr.slice(left, partitionIndex), arr.slice(partitionIndex, right));
+        return partitionIndex;
     };
     // 方式2, 标准递归版本。左右不断分区交换，无需新建数组。
     QuickSort.prototype.quickSort2 = function (arr, left, right) {
@@ -131,8 +132,13 @@ var QuickSort = /** @class */ (function () {
         stack.push(right);
         while (stack.length > 0) {
             // 如果栈内还有数据，则一并马上取出，其他逻辑与标准递归版同
-            j = right = stack.pop();
-            i = left = stack.pop();
+            var lastItem1 = stack.pop();
+            var lastItem2 = stack.pop();
+            if (lastItem1 === undefined || lastItem2 === undefined) {
+                break;
+            }
+            j = right = lastItem1;
+            i = left = lastItem2;
             midIndex = Math.floor((i + j) / 2);
             pivot = arr[midIndex];
             while (i <= j) {

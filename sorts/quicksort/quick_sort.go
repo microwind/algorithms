@@ -64,18 +64,18 @@ func partition(arr []int, left int, right int) int {
   // pivot基准可以任意挑选，这里取右侧
   var pivotIndex = right
   var pivot = arr[pivotIndex]
-  var swapIndex = left - 1
+  var partitionIndex = left - 1
   for i := left; i < right; i++ {
     // 如果小于基准则进行交换
     if arr[i] < pivot {
-      swapIndex++
-      arr[swapIndex], arr[i] = arr[i], arr[swapIndex]
+      partitionIndex++
+      arr[partitionIndex], arr[i] = arr[i], arr[partitionIndex]
     }
   }
-  swapIndex++
-  arr[swapIndex], arr[pivotIndex] = arr[pivotIndex], arr[swapIndex]
-  fmt.Println("partition:", arr, swapIndex, arr[swapIndex], arr[left:swapIndex], arr[swapIndex:right])
-  return swapIndex
+  partitionIndex++
+  arr[partitionIndex], arr[pivotIndex] = arr[pivotIndex], arr[partitionIndex]
+  fmt.Println("partitionIndex=", partitionIndex, "arr[partitionIndex]=", arr[partitionIndex], arr[left:partitionIndex], arr[partitionIndex:right])
+  return partitionIndex
 }
 
 // 方式2, 标准递归版本。左右不断分区交换，无需新建数组。
@@ -216,8 +216,6 @@ func main() {
 }
 
 /*
- jarry@jarrys-MacBook-Pro mergesort % go version
- go version go1.15 darwin/amd64
 jarry@jarrys-MacBook-Pro quicksort % go run quick_sort.go
 quick1 origin: [7 11 9 10 12 13 8]
 split array: [7 11 9 10 12 13 8]
@@ -245,15 +243,15 @@ sorted array: [11 12 13]
 sorted array: [7 8 9 10 11 12 13]
 
 quickSort1 sorted: [7 8 9 10 11 12 13]
-quick1. cost: 180.394µs
+quick1. cost: 125.788µs
 quick2 origin: [7 11 9 10 12 13 8]
-partition: [7 8 9 10 12 13 11] 1 8 [7] [8 9 10 12 13]
-partition: [7 8 9 10 11 13 12] 4 11 [9 10] [11 13]
-partition: [7 8 9 10 11 13 12] 3 10 [9] []
-partition: [7 8 9 10 11 12 13] 5 12 [] [12]
+partitionIndex= 1 arr[partitionIndex]= 8 [7] [8 9 10 12 13]
+partitionIndex= 4 arr[partitionIndex]= 11 [9 10] [11 13]
+partitionIndex= 3 arr[partitionIndex]= 10 [9] []
+partitionIndex= 5 arr[partitionIndex]= 12 [] [12]
 
 quickSort2 sorted: [7 8 9 10 11 12 13]
-quick2. cost: 69.206µs
+quick2. cost: 14.256µs
 quick3 origin: [7 11 9 10 12 13 8]
 arr[i] < pivot:  i= 0  j= 6  pivot= 10
   left= 0  right= 6  i= 1  j= 6  midIndex= 3  pivot= 10  arr[]= [7 11 9 10 12 13 8]
@@ -272,7 +270,7 @@ left < j:recursion:  left= 4  right= 6  i= 6  j= 5 arr[] [7 8 9 10 12 11 13]
   left= 4  right= 5  i= 4  j= 5  midIndex= 4  pivot= 12  arr[]= [7 8 9 10 12 11 13]
 
 quickSort3 sorted: [7 8 9 10 11 12 13]
-quick3. cost: 106.357µs
+quick3. cost: 107.965µs
 quick4 origin: [7 11 9 10 12 13 8]
 arr[i] < pivot:  i= 0  j= 6  pivot= 10 arr[]= [7 11 9 10 12 13 8]
 arr[i] < pivot:  i= 2  j= 5  pivot= 10 arr[]= [7 8 9 10 12 13 11]
@@ -286,5 +284,5 @@ arr[i] < pivot:  i= 0  j= 2  pivot= 8 arr[]= [7 8 9 10 11 12 13]
 arr[j] > pivot:  i= 1  j= 2  pivot= 8 arr[]= [7 8 9 10 11 12 13]
 
 quickSort4 sorted: [7 8 9 10 11 12 13]
-quick4. cost: 59.317µs
+quick4. cost: 51.774µs
 */
