@@ -30,7 +30,7 @@ var ShellSort = /** @class */ (function () {
         }
         return arr;
     };
-    /* 2. 希尔排序标准版，基于插入排序进行分组排序，步长按1/2缩减。 */
+    /* 2. 希尔排序，基于插入排序进行分组排序，步长按3倍递减。 */
     ShellSort.prototype.shellSort2 = function (arr) {
         var len = arr.length;
         var gap = 1;

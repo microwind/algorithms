@@ -34,7 +34,7 @@ class ShellSort {
     return arr
   }
 
-  /* 2. 希尔排序标准版，基于插入排序进行分组排序，步长按1/2缩减。 */
+  /* 2. 希尔排序，基于插入排序进行分组排序，步长按3倍递减。 */
   shellSort2(arr: number[]): number[] {
     const len = arr.length
     let gap = 1

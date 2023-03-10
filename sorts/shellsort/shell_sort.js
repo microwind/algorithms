@@ -29,7 +29,7 @@ function shellSort1(arr) {
   return arr
 }
 
-/* 2. 希尔排序标准版，基于插入排序进行分组排序，步长按1/2缩减。 */
+/* 2. 希尔排序，基于插入排序进行分组排序，步长按3倍递减。 */
 function shellSort2(arr) {
   const len = arr.length
   let gap = 1
@@ -64,11 +64,11 @@ function shellSort2(arr) {
   console.log('shellSort1 sorted:', shellSort1(arr1))
   console.timeEnd('shellSort1')
 
-  // const arr2 = [33, 4, 15, 43, 323454, -7, 10.5, 1235, 200, 87431]
-  // console.time('shellSort2')
-  // console.log('origin shellSort2:', arr2)
-  // console.log('shellSort2 sorted:', shellSort2(arr2))
-  // console.timeEnd('shellSort2')
+  const arr2 = [33, 4, 15, 43, 323454, -7, 10.5, 1235, 200, 87431]
+  console.time('shellSort2')
+  console.log('origin shellSort2:', arr2)
+  console.log('shellSort2 sorted:', shellSort2(arr2))
+  console.timeEnd('shellSort2')
 })()
 
 /*
@@ -128,7 +128,7 @@ shellSort1 sorted: [
      200, 1235, 87431,
   323454
 ]
-shellSort1: 11.187ms
+shellSort1: 10.306ms
 origin shellSort2: [
      33,      4,  15,
      43, 323454,  -7,
@@ -219,5 +219,5 @@ shellSort2 sorted: [
      200, 1235, 87431,
   323454
 ]
-shellSort2: 1.872ms
+shellSort2: 1.791ms
 */

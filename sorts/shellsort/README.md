@@ -12,7 +12,7 @@
 
 ## 实现过程
 1. 定义一个分组间隔（步长），分组规则可以是1/2数组长度或其他。
-2. 按步长每间隔取出数字组成子序列，针对子序列按照插入算法进行排序。
+2. 按步长间隔取出数字组成子序列，针对子序列按照插入算法进行排序。
 3. 步长按照分组规则缩量递减，继续新一轮子序列的插入排序。
 3. 待步长为1时，再对全体元素进行一次插入排序，排序完成。
 
@@ -51,6 +51,7 @@ class ShellSort {
         int j = i;
         // 根据步长得到子序列，对子序列按照插入排序
         while (j >= gap && current < arr[j - gap]) {
+          System.out.println("gap=" + gap + " i=" + i + " j=" + j + " arr:" + Arrays.toString(arr));
           arr[j] = arr[j - gap];
           j -= gap;
         }
@@ -80,6 +81,7 @@ class ShellSort {
         int j = i - gap;
         // 根据步长得到子序列，对子序列按照插入排序
         for (; j >= 0 && arr[j] > current; j -= gap) {
+          System.out.println("gap=" + gap + " i=" + i + " j=" + j + " arr:" + Arrays.toString(arr));
           arr[j + gap] = arr[j];
         }
         arr[j + gap] = current;
@@ -108,6 +110,8 @@ def shell_sort1(arr):
             j = i
             # 对子序列按照插入排序
             while j >= gap and current < arr[j - gap]:
+                print('gap=' + str(gap) + ' i=' + str(i) + ' j-gap=' +
+                      str(j - gap) + ' j=' + str(j))
                 arr[j] = arr[j - gap]
                 j -= gap
             # 交换当前项
@@ -117,7 +121,7 @@ def shell_sort1(arr):
     return arr
 
 
-# 2. 希尔排序标准版，基于插入排序进行分组排序，步长按1/2缩减。
+# 2. 希尔排序，基于插入排序进行分组排序，步长按3倍递减。
 def shell_sort2(arr):
     size = len(arr)
     gap = 1
@@ -127,12 +131,12 @@ def shell_sort2(arr):
 
     # 根据步长得到子序列，如果间隔大于0，则表示还可以继续分组
     while (gap > 0):
-        # for (let i = gap; i < len; i++):
         for i in range(gap, size):
             current = arr[i]
             j = i - gap
-            # 对子序列按照插入排序
+            # 对子序列按照插入排序s
             while j >= 0 and arr[j] > current:
+                print('gap=' + str(gap) + ' i=' + str(i) + ' j=' + str(j) + ' j+gap=' + str(j + gap))
                 arr[j + gap] = arr[j]
                 j -= gap
 
@@ -147,7 +151,8 @@ def shell_sort2(arr):
 
 ## Go
 ```go
-// 1. 希尔排序，基于插入排序进行了分组排序
+// go语言希尔排序算法
+// 1. 希尔排序标准版，基于插入排序进行分组排序，步长按1/2缩减。
 func shellSort1(arr []int) []int {
   var arrLen int = len(arr)
   //  设置分组间隔
@@ -159,6 +164,7 @@ func shellSort1(arr []int) []int {
       var j = i
       // 分组按照插入排序
       for j >= gap && current < arr[j-gap] {
+        fmt.Println("gap=", gap, "i=", i, " j-gap=", j-gap, " j=", j)
         arr[j] = arr[j-gap]
         j -= gap
       }
@@ -171,7 +177,7 @@ func shellSort1(arr []int) []int {
   return arr
 }
 
-// 2. 希尔排序标准版，基于插入排序进行分组排序，步长按1/2缩减。
+// 2. 希尔排序，基于插入排序进行分组排序，步长按3倍递减。
 func shellSort2(arr []int) []int {
   var arrLen int = len(arr)
   //  设置分组间隔
@@ -187,6 +193,7 @@ func shellSort2(arr []int) []int {
       var j = i - gap
       // 对子序列按照插入排序
       for ; j >= 0 && arr[j] > current; j -= gap {
+        fmt.Println("gap=", gap, "i=", i, " j=", j, " j+gap=", (j + gap))
         arr[j+gap] = arr[j]
       }
       arr[j+gap] = current
@@ -200,6 +207,7 @@ func shellSort2(arr []int) []int {
 
 ## JS
 ```js
+// js希尔排序算法
 /* 1. 希尔排序标准版，基于插入排序进行分组排序，步长按1/2缩减。 */
 function shellSort1(arr) {
   const len = arr.length
@@ -212,6 +220,7 @@ function shellSort1(arr) {
       let j = i
       // 对子序列按照插入排序
       while (j >= gap && current < arr[j - gap]) {
+        console.log('gap=' + gap + ' i=' + i + ' j=' + j + ' (j - gap)=' + (j - gap), 'arr:', arr)
         arr[j] = arr[j - gap]
         j -= gap
       }
@@ -224,7 +233,7 @@ function shellSort1(arr) {
   return arr
 }
 
-/* 2. 希尔排序标准版，基于插入排序进行分组排序，步长按1/2缩减。 */
+/* 2. 希尔排序，基于插入排序进行分组排序，步长按3倍递减。 */
 function shellSort2(arr) {
   const len = arr.length
   let gap = 1
@@ -239,6 +248,7 @@ function shellSort2(arr) {
       let j = i - gap
       // 对子序列按照插入排序
       for (; j >= 0 && arr[j] > current; j -= gap) {
+        console.log('gap=' + gap + ' i=' + i + ' j=' + j + ' (j + gap)=' + (j + gap), 'arr:', arr)
         arr[j + gap] = arr[j]
       }
       arr[j + gap] = current
@@ -252,6 +262,7 @@ function shellSort2(arr) {
 
 ## TS
 ```ts
+// TS希尔排序算法
 // 1. 希尔排序，基于插入排序进行了分组排序
 class ShellSort {
   shellSort1(arr: number[]): number[] {
@@ -265,6 +276,11 @@ class ShellSort {
         let j = i
         // 对子序列按照插入排序
         while (j >= gap && current < arr[j - gap]) {
+          console.log(
+            'gap=' + gap + ' i=' + i + ' j=' + j + ' (j - gap)=' + (j - gap),
+            'arr:',
+            arr
+          )
           arr[j] = arr[j - gap]
           j -= gap
         }
@@ -277,7 +293,7 @@ class ShellSort {
     return arr
   }
 
-  /* 2. 希尔排序标准版，基于插入排序进行分组排序，步长按1/2缩减。 */
+  /* 2. 希尔排序，基于插入排序进行分组排序，步长按3倍递减。 */
   shellSort2(arr: number[]): number[] {
     const len = arr.length
     let gap = 1
@@ -292,6 +308,11 @@ class ShellSort {
         let j = i - gap
         // 对子序列按照插入排序
         for (; j >= 0 && arr[j] > current; j -= gap) {
+          console.log(
+            'gap=' + gap + ' i=' + i + ' j=' + j + ' (j + gap)=' + (j + gap),
+            'arr:',
+            arr
+          )
           arr[j + gap] = arr[j]
         }
         arr[j + gap] = current
@@ -306,6 +327,7 @@ class ShellSort {
 
 ## C
 ```c
+// C语言希尔排序算法
 /* 1. 希尔排序标准版，基于插入排序进行分组排序，步长按1/2缩减。 */
 float *shell_sort1(float arr[], int len)
 {

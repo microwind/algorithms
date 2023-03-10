@@ -10,7 +10,7 @@ import (
   "time"
 )
 
-// 1. 希尔排序，基于插入排序进行了分组排序
+// 1. 希尔排序标准版，基于插入排序进行分组排序，步长按1/2缩减。
 func shellSort1(arr []int) []int {
   var arrLen int = len(arr)
   //  设置分组间隔
@@ -35,7 +35,7 @@ func shellSort1(arr []int) []int {
   return arr
 }
 
-// 2. 希尔排序标准版，基于插入排序进行分组排序，步长按1/2缩减。
+// 2. 希尔排序，基于插入排序进行分组排序，步长按3倍递减。
 func shellSort2(arr []int) []int {
   var arrLen int = len(arr)
   //  设置分组间隔

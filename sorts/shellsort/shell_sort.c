@@ -93,7 +93,7 @@ float *shell_sort1(float arr[], int len)
   return arr;
 }
 
-/* 2. 希尔排序标准版，基于插入排序进行分组排序，步长按1/2缩减。 */
+/* 2. 希尔排序，基于插入排序进行分组排序，步长按3倍递减。 */
 int *shell_sort2(int arr[], int len)
 {
   // 设置分组增量值（步长）为1/2的数组长度
