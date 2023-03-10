@@ -4,7 +4,7 @@
  * @version: 1.0
  */
 
-// 1. 希尔排序，基于插入排序进行了分组排序
+/* 1. 希尔排序标准版，基于插入排序进行分组排序，步长按1/2缩减。 */
 class ShellSort {
   shellSort1(arr: number[]): number[] {
     const len = arr.length
