@@ -10,9 +10,9 @@ import java.util.*;
 // 选择排序优化版，同时找出最小和最大值进行交换，可减少1半遍历
 // 把数列分为前中后三个区间，分别代表最小已排序、中间待排序以及最大已排序区间
 // 遍历中间待排序同时找最大和最小值，分别交换到最小值区间和最大值区间
-class SelectionSort {
+class SelectionSort2 {
 
-  static int[] sort(final int[] arr) {
+  static int[] selectionSort(final int[] arr) {
     int minValue, maxValue, minIdx, maxIdx;
     int minListIdx, maxListIdx;
     int arrLen = arr.length;
@@ -73,21 +73,21 @@ class SelectionSort {
     int arr1[] = { 7, 11, -9, 10, -12, 13, 8 };
     System.out.println("origin arr1:" + Arrays.toString(arr1));
     long startTime1 = System.currentTimeMillis();
-    int[] sortedArr1 = SelectionSort.sort(arr1);
+    int[] sortedArr1 = SelectionSort2.selectionSort(arr1);
     System.out.println("arr1 sorted:" + Arrays.toString(sortedArr1));
     System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime1) + " ms.");
 
     int arr2[] = { 7, 11, 121, -9, 545, 110, -210, 1245, -132, 192, 153, 19, 8 };
     System.out.println("origin arr2:" + Arrays.toString(arr2));
     long startTime2 = System.currentTimeMillis();
-    int[] sortedArr2 = SelectionSort.sort(arr2);
+    int[] sortedArr2 = SelectionSort2.selectionSort(arr2);
     System.out.println("arr2 sorted:" + Arrays.toString(sortedArr2));
     System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime2) + " ms.");
 
     int arr3[] = { 57, 311, 131, -9, 415, 10, 1330, 1245, -12, 1942, 123, 129, 80 };
     System.out.println("origin arr2:" + Arrays.toString(arr3));
     long startTime3 = System.currentTimeMillis();
-    int[] sortedArr3 = SelectionSort.sort(arr3);
+    int[] sortedArr3 = SelectionSort2.selectionSort(arr3);
     System.out.println("arr3 sorted:" + Arrays.toString(sortedArr3));
     System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime3) + " ms.");
   }
@@ -103,7 +103,7 @@ minValue=-9 maxValue=11 minIdx=2 maxIdx=1 minListIdx=1 maxListIdx=5
 minValue=7 maxValue=10 minIdx=4 maxIdx=3 minListIdx=2 maxListIdx=4
 arr1 sorted:[-12, -9, 7, 8, 10, 11, 13]
 
-time:7 ms.
+time:15 ms.
 origin arr2:[7, 11, 121, -9, 545, 110, -210, 1245, -132, 192, 153, 19, 8]
 minValue=-210 maxValue=1245 minIdx=6 maxIdx=7 minListIdx=0 maxListIdx=12
 minValue=-132 maxValue=545 minIdx=8 maxIdx=4 minListIdx=1 maxListIdx=11

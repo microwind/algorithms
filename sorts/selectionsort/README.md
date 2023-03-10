@@ -127,8 +127,7 @@ class SelectionSort {
 ## Python
 
 ```py
-# python选择排序标准版本，更多实现版本请查看源文件
-# 新建数组版，无需交换
+# python选择排序新建数组版，无需交换，更多实现版本请查看源文件
 def selection_sort2(arr):
     new_list = []
     i = 0
