@@ -1,4 +1,5 @@
-# 算法与数据结构 C/Java/Python/JavaScript/TypeScript/Dart/Go不同语言详解
+# 理解算法与数据结构，不同编程语言详解
+  含 `C\Java\Python\JavaScript\Go\TypeScript\Dart\Swift\Kotlin` 等
 
 ## 通过不同算法学习来理解不同语言的差异
    
