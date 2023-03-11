@@ -17,7 +17,7 @@ int *factorize(int num, int len) {
     // 如果可以被i整除，则说明i是因数，继续以i分解
     while (num % i == 0) {
       result[result_idx] = i;
-      // 每分解一次，原数值就赋值为除以i的结果
+      // 每分解一次，原分解数就赋值为除以i的结果
       num /= i;
       // 每增加一个因数，数组下标右移，以便追加到结果中
       result_idx++;
@@ -25,7 +25,7 @@ int *factorize(int num, int len) {
     // 当无法被i整除时，i递增继续分解
     i++;
   }
-  // 整除后的得数如果小于i的平方，且大于1那就是最后的分解数
+  // 最后的分解数如果大于1说明上一次整除不是自身，即是最后的因素
   if (num > 1) {
     result[result_idx]  = num;
   }

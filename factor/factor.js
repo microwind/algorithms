@@ -7,6 +7,7 @@
  */
 
 
+;
 (function () {
   function factorize(num) {
     let i = 2
@@ -27,9 +28,10 @@
   /* test */
   console.log(factorize(20).join('*'))
 
-})();
+})()
 
 // Pollard Rho因数分解
+;
 (function () {
   function factorize(num) {
     const result = []
@@ -56,9 +58,10 @@
   /* test */
   console.log(factorize(20).join('*'))
 
-})();
+})()
 
 // 优化
+;
 (function () {
   function factorize(num) {
     let i = 2
@@ -73,7 +76,7 @@
       }
       i++
     }
-    // 整除后的得数如果小于i的平方，且大于1那就是最后的分解数
+    // 最后的分解数如果大于1说明上一次整除不是自身，即是最后1个因素
     if (num > 1) {
       result.push(num)
     }
@@ -83,7 +86,7 @@
   /* test */
   console.log(factorize(20).join('*'))
 
-})();
+})()
 
 /** 
  * test
