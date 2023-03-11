@@ -124,7 +124,7 @@ class Factor {
 ```
 
 ### JavaScript语言
-  JavaScript语言的数组没有类型，也无需指定长度，使用起来非常简单易懂。整个代码写法与java版本如出一辙。[factor.js](./factor.js)
+  JavaScript语言的数组没有类型，也无需指定长度，使用起来非常简单易懂。整个代码写法与java版本非常类似，都是类c语言。但js更加灵活，写起来更加简洁明了。[factor.js](./factor.js)
 ```javascript
   function factorize(num) {
     let i = 2
@@ -148,7 +148,7 @@ class Factor {
 ```
 
 ### TypeScript语言
-  typescript是JS的一个变种或者称之为超集，完全兼容js语言，最后会编译成js来执行。主要是基于类、强类型，写法上与js几无差异。当然也可以不按类的方式来写。[PrimeFactor.ts](./PrimeFactor.ts)
+  typescript是JS的一个变种或者称之为超集，完全兼容js语言，最后会编译成js来执行。主要是基于类、强类型，写法上与js几无差异。[PrimeFactor.ts](./PrimeFactor.ts)
 ```typescript
 class PrimeFactor {
   num: number;
@@ -175,7 +175,7 @@ class PrimeFactor {
 ```
 
 ### Python语言
-  python是面向对象语言，与java不同，方法也可以脱离于类存在。看python代码，可以说是最简单明了的，可以说最易懂。与js一样，python也是动态脚本语言，数组也是动态可变的，非常好用。其实python与js也很像，只是相比js来讲，是强类型的(当然也不是严格意义的强类型，这点与ts很像)。[factor.py](./factor.py)
+  python是面向对象语言，与java不同，方法也可以脱离于类存在。看python代码，可以说是最简单明了的，最易懂。与js一样，python也是动态脚本语言，数组也是动态可变的，非常好用。除了没有花括号，python与js也很像，会发现在简单易用以及函数式等理念上非常接近，只是相比js来讲，python是强类型的(当然也不是完全意义的严格类型，这点有争议)。[factor.py](./factor.py)
 ```python
 def factorize(num):
   i = 2
@@ -191,7 +191,7 @@ def factorize(num):
 ```
 
 ### Go语言
-  go语言不以类为依赖，起语言简练，语法上是c和js的混合体，变量声明也是var。数组空间也需要提前申请。无需括号和分号，相对比较简洁。从这段代码来看与c差异不大，本质上是c的变体。[factor.go](./factor.go)
+  go语言不以类为依赖，起语言简练，语法上是c和js、python的混合体，变量声明也是var。数组空间也需要提前申请。无需括号和分号，相对比较简洁。从这段代码来看与c差异不大，本质上是c的变体。相比java，go的设计哲学更加简洁。[factor.go](./factor.go)
 ```go
 func factorize(num int, len int) []int {
   var result = make([]int, len)
@@ -237,7 +237,6 @@ fun facorize(number: Int): List<Int> {
   dart是支持即时编译和提前编译的语言，语法与js基本上一致，只不过需要提前编译并且严格类型。但在实际使用上与js可谓非常接近，熟悉js或ts的开发者上手几乎0成本。这里取整除法与其他语言略有不同，如果不加~则得到小数了。[factor.dart](./factor.dart)
 ```dart
 List factorize(int num) {
-  // List<int> result = [];
   var result = [];
   int i  = 2;
   while (i * i <= num) {
