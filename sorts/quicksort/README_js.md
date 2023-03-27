@@ -1,10 +1,35 @@
-/**
- * Copyright © https://github.com/jarry All rights reserved.
- * @author: jarryli@gmail.com
- * @version: 1.0
- */
+## 【JavaScript快速排序算法】不同版本原理分析
 
-/* 快排方式1, 新建数组递归版本。无需交换，每个分区都是新数组，数量庞大。 */
+## 说明
+
+快速排序（QuickSort），又称分区交换排序（partition-exchange sort），简称快排。快排是一种通过基准划分区块，再不断交换左右项的排序方式，其采用了分治法，减少了交换的次数。它的基本思想是：通过一趟排序将要排序的数据分割成独立的两部分，其中一部分的所有数据都比另外一部分的所有数据都要小，然后再按此方法对这两部分数据分别进行快速排序，整个排序过程可以递归或迭代进行，以此让整个数列变成有序序列。
+
+## 实现过程
+
+1. 在待排序区间找到一个基准点(pivot)，便于理解一般是位于数组中间的那一项。
+2. 逐个循环数组将小于基准的项放左侧，将大于基准的项放在右侧。一般通过交换的方式来实现。
+3. 将基准点左侧全部项和基点右侧全部项分别通过递归(或迭代)方式重复第1项，直到所有数组都交换完成。
+
+## 示意图
+
+![快速排序](../../images/sort/quick1.png)
+
+解释：以某个数字为基点，这里取最右侧的数字8，以基点划分为两个区间，将小于8的数字放在左侧区间，将大于8的数字放在右侧区间。再将左侧区间和右侧区间分别放到递归，按照最右侧为基点，继续分解。直到分解完毕，排序完成。这是其中一种常见的分区递归法，除了这种方式外，还有其他实现方式。
+
+## 性能分析
+平均时间复杂度：O(NlogN)
+最佳时间复杂度：O(NlogN)
+最差时间复杂度：O(N^2)
+空间复杂度：根据实现方式的不同而不同，可以查看不同版本的源码
+
+# 代码
+
+## 快排方式1, 新建数组递归版本。无需交换，每个分区都是新数组，数量庞大。
+
+这个版本利用了JS数组可变且随意拼接的特性，让每个分区都是一个新数组，从而无需交换数组项。
+这个方式非常简单易懂，但理论上来讲不是完全意义上的快排，效率较差。
+
+```javascript
 function quickSort1(arr) {
   // 数组长度为1就不再分解
   console.log('origin array:', arr)
@@ -39,10 +64,11 @@ function quickSort1(arr) {
   // 递归调用遍历左侧和右侧，再将中间值连接起来
   return arr
 }
+```
 
-/**
-quick_sort1 recursion step:
-
+### 递归的过程
+```javascript
+// 基于中间位置进行递归分解：
       f([7, 11, 9, 10, 12, 13, 8])
             /       10          \
       f([7, 9, 8])           f([11, 12, 13])
@@ -51,10 +77,14 @@ quick_sort1 recursion step:
    /   8  \
 f([7]) f([])
   [7]
- */
+// 将递归后的最小单元和基数连接起来
+// 得到：[7, 8, 9, 10, 11, 12, 13]
+```
 
-/* 快排方式2, 标准分区递归版本。左右分区递归交换排序，无需新建数组。 */
+## 快排方式2, 标准分区递归版本。左右分区递归交换排序，无需新建数组。
+这个版本是最常见的标准分区版本，简单好懂。先写一个分区函数，依据基准值把成员项分为左右两部分。基准值可以是数列中的任意一项，为了交换方便，基准值一般最左或最右侧项。把小于基准值的放在左侧，大于基准值的放在右侧，最后返回分区索引。这样就得到一个基于基准值的左右两个部分。再将左右两个部分，分别进行分区逻辑的递归调用，当左右值相等，也就是最小分区只有1项时终止。
 
+```javascript
 // 分区函数，负责把数组分按照基准值分为左右两部分
 // 小于基准的在左侧，大于基准的在右侧最后返回基准值的新下标
 function partition(arr, left, right) {
@@ -78,9 +108,6 @@ function partition(arr, left, right) {
   }
   partitionIndex++;
   [arr[partitionIndex], arr[pivotIndex]] = [arr[pivotIndex], arr[partitionIndex]]
-  console.log('partitioned arr=', arr, 'partitionIndex:', partitionIndex,
-    'left=', arr.slice(left, partitionIndex), 'arr[partitionIndex]=', arr[partitionIndex],
-    'right=', arr.slice(partitionIndex, right + 1), arr)
   return partitionIndex
 }
 
@@ -95,8 +122,13 @@ function quickSort2(arr, left, right) {
   }
   return arr
 }
+```
 
-/* 快排方式3, 标准左右交换递归版本。基于中间位置不断左右交换，无需新建数组。 */
+## 快排方式3, 标准左右交换递归版本。基于中间位置不断左右交换，无需新建数组。
+此版本基于中间位置，建立双指针，同时从前往后和从后往前遍历，从左侧找到大于基准值的项，从右侧找到小于基准值的项。
+再将大于基准值的挪到右侧，将小于基准值的项挪到左侧，直到左侧位置大于右侧时终止。左侧位置小于基准位置则递归调用左侧区间，右侧大于基准位置则递归调用右侧区间，直到所有项排列完成。
+
+```js
 function quickSort3(arr, left, right) {
   var i = left = left !== undefined ? left : 0
   var j = right = right !== undefined ? right : arr.length - 1
@@ -141,8 +173,12 @@ function quickSort3(arr, left, right) {
 
   return arr
 }
+```
 
-/* 快排方式4, 非递归左右交换版本。基于中间位置不断左右交换，利用stack或queue遍历。 */
+## 快排方式4, 非递归左右交换版本。基于中间位置不断左右交换，利用stack或queue遍历。
+这种方式标准左右交换递归版本的非递归版本，其原理一样，只是不再递归调用，而是通过stack来模拟递归效果。这种方式性能最好。
+
+```js
 function quickSort4(arr, left, right) {
   left = left !== undefined ? left : 0
   right = right !== undefined ? right : arr.length - 1
@@ -193,10 +229,13 @@ function quickSort4(arr, left, right) {
   }
   return arr
 }
+```
 
-// 测试
+## 测试
+```js
 (function () {
   const arr = [7, 11, 9, 10, 12, 13, 8]
+  // 构建数列，可以任意构建，支持负数，也不限浮点
   // const arr = [17, 31, 12334, 9.545, -10, -12, 1113, 38]
 
   console.time('sort1')
@@ -355,3 +394,10 @@ quickSort4 sorted: [
 ]
 sort4: 0.377ms
  */
+```
+
+# 链接
+
+多种语言实现快速排序算法源码：[https://github.com/microwind/algorithms/tree/master/sorts/quicksort](https://github.com/microwind/algorithms/tree/master/sorts/quicksort)
+
+其他排序算法源码：[https://github.com/microwind/algorithms](https://github.com/microwind/algorithms)
