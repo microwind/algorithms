@@ -34,9 +34,9 @@ function quickSort1(arr) {
     }
   }
 
+  // 递归调用遍历左侧和右侧，再将中间值连接起来
   arr = quickSort1(left).concat(pivot, quickSort1(right))
   console.log('sorted array:', arr)
-  // 递归调用遍历左侧和右侧，再将中间值连接起来
   return arr
 }
 
