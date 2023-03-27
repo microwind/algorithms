@@ -59,7 +59,6 @@ f([7]) f([])
 // 小于基准的在左侧，大于基准的在右侧最后返回基准值的新下标
 function partition(arr, left, right) {
   // 基准值可以是left与right之间的任意值，再将基准值移动至最左或最右即可。
-  // 直接基于中间位置排序，则需要基于中间位置左右交换，参加基于中间位置交换的版本。
   // var tmpIndex = Math.floor((right - left) / 2)
   // ;[arr[left + tmpIndex], arr[right]] = [arr[right], arr[left + tmpIndex]]
 
