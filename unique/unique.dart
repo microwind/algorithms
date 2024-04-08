@@ -124,7 +124,7 @@ unique5(List<int> list) {
 unique6(List<int> list) {
   List result = [];
   for (var i = 0; i < list.length; i++) {
-    var idx = 0;
+    // var idx = 0;
     for (var j = 0; j <= i; j++) {
       // 将当前项逐个与前面项比较,
       // 如果相同且下标相同则表示第一次出现
