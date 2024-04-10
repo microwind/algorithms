@@ -31,7 +31,7 @@ public class KMPSearch {
   private int[] buildPartialMatchTable(String pattern) {
     // 创建一个数组用于存储部分匹配表
     int[] pmt = new int[pattern.length()];
-    int j = 0; // 初始化 j 为 0
+    int j = 0;
     // 从模式串的第二个字符开始，依次计算每个位置的部分匹配值
     for (int i = 1; i < pattern.length(); i++) {
       // 当字符不匹配时，回溯到前一个位置的部分匹配值
@@ -73,92 +73,89 @@ public class KMPSearch {
   }
 
   /*
-   * 部分匹配表计算规则
+   * 把模式字串逐项展开，计算每项前后缀以及共同项，详细示例
    * 1、从第一个字符开始，逐个递增得到字串组合。
    * 2、计算每个字串的前缀与后缀，前缀即除尾部字符外的全部头部组合，后缀即除首字母外的全部尾部组合。
    * 3、找出前缀和后缀的全部相同项，得到最大内容的长度。
    * 
-   * 例子：abababca
+   * 例子：abababc
    * 
    * 得到如下结果：
    * 
    * 序号, 字符串, 前缀, 后缀, 匹配内容, 内容长度
-   * 1, a, [], [], '', 0
-   * 2, ab, [a], [b], '', 0
-   * 3, aba, [a, ab], [ba, a], 'a', 1
-   * 4, abab, [a, ab, aba], [bab, ab, b], 'a', 2
-   * 5, ababa, [a, ab, aba, abab], [baba, aba, ba, a], 'aba', 3
-   * 6, ababab, [a, ab, aba, abab, ababa], [babab, abab, bab, ab, a], 'abab', 4
-   * 7, abababc, [a, ab, aba, abab, ababab], [bababc, ababc, babc, abc, bc, c],
-   * '', 0
-   * 8, abababca, [a, ab, abab, ababa, ababab, abababc], [bababca, ababca, babca,
-   * abca, bca, ca, a], 'a', 1
+   * 1, a, [], [], '[]', 0
+   * 2, ab, [a], [b], '[]', 0
+   * 3, aba, [a, ab], [ba, a], '[a]', 1
+   * 4, abab, [a, ab, aba], [bab, ab, b], '[ab]', 2
+   * 5, ababa, [a, ab, aba, abab], [baba, aba, ba, a], '[a, aba]', 3
+   * 6, ababab, [a, ab, aba, abab, ababa], [babab, abab, bab, ab, b], '[ab,
+   * abab]', 4
+   * 7, abababc, [a, ab, aba, abab, ababa, ababab], [bababc, ababc, babc, abc, bc,
+   * c], '[]', 0
    */
   private void printPartialMatchTable(String pattern) {
     int patternLen = pattern.length();
     List<Map<String, Object>> results = new ArrayList<>();
+
     for (int i = 1; i <= patternLen; i++) {
-      Map<String, Object> item = new HashMap<String, Object>();
       String content = pattern.substring(0, i);
-      // 添加字串
-      item.put("content", content);
+      String[] prefix = new String[i - 1];
+      String[] postfix = new String[i - 1];
 
-      // 添加前后缀
-      int contentLen = content.length();
-      String[] prefix = new String[contentLen - 1];
-      String[] postfix = new String[contentLen - 1];
-      for (int j = 0; j < contentLen - 1; j++) {
+      for (int j = 0; j < i - 1; j++) {
         prefix[j] = content.substring(0, j + 1);
-        postfix[j] = content.substring(j + 1, contentLen);
+        postfix[j] = content.substring(j + 1);
       }
-      item.put("prefix", prefix);
-      item.put("postfix", postfix);
 
-      // 计算共同项
-      List<String> duplicateItems = new ArrayList<String>();
+      List<String> duplicateItems = new ArrayList<>();
       String duplicateItem = "";
+
       for (int m = 0; m < prefix.length; m++) {
-        for (int n = 0; n < postfix.length; n++) {
-          if (prefix[m].equals(postfix[n])) {
-            if (prefix[m].length() > duplicateItem.length()) {
-              duplicateItem = prefix[m];
-            }
-            duplicateItems.add(prefix[m]);
-          }
+        if (prefix[m].equals(postfix[prefix.length - m - 1])
+            && prefix[m].length() > duplicateItem.length()) {
+          duplicateItem = prefix[m];
+          duplicateItems.add(prefix[m]);
         }
       }
+
+      Map<String, Object> item = new HashMap<>();
+      item.put("content", content);
+      item.put("prefix", prefix);
+      item.put("postfix", postfix);
       item.put("duplicateItem", duplicateItem);
       item.put("duplicateItems", duplicateItems);
 
-      // 添加到最终结果
       results.add(item);
     }
 
-    System.out.println("序号, 字符串, 前缀, 后缀, 匹配内容, 内容长度：");
+    System.out.println("模式串:" + pattern);
+    System.out.println("序号, 子串, 前缀, 后缀, 匹配内容, 最大匹配内容长度：");
+
     for (int i = 0; i < results.size(); i++) {
       Map<String, Object> item = results.get(i);
       System.out
           .println((i + 1) + ", " + item.get("content") + ", " + Arrays.toString((String[]) item.get("prefix")) + ", "
-              + Arrays.toString((String[]) item.get("postfix")) + ", '" + item.get("duplicateItem") + "', "
+              + Arrays.toString((String[]) item.get("postfix")) + ", '" + item.get("duplicateItems") + "', "
               + item.get("duplicateItem").toString().length() + "");
     }
   }
 
-  public static void main(final String args[]) {
-
+  public static void main(String args[]) {
+    Long startTime = System.currentTimeMillis();
     KMPSearch kmpSearch = new KMPSearch();
-    // 打印测试
-    kmpSearch.printPartialMatchTable("abababca");
-
-    String pattern = "ABABCABAB";
-    String text = "ABABCABABCDABABCABAB";
+    // 单个测试
+    String pattern = "ABCABAB";
+    String text = "AAABABCABABCDABABCABAB";
     List<Integer> matches = kmpSearch.find(pattern, text);
-    if (matches.isEmpty()) {
-      System.out.println("Pattern not found in the text.");
-    } else {
-      System.out.println("Pattern found at positions: " + matches);
-    }
+    System.out.println("测试1：单个查找");
+    System.out.println(pattern + " found at positions: " + matches + " in " + text);
 
+    // 打印详尽部分匹配表测试
+    System.out.println("测试2：打印详尽部分匹配表");
+    kmpSearch.printPartialMatchTable("abababc");
+
+    // 多个KMP搜索测试
+    System.out.println("测试3：多个搜索实例");
     String[] textArr = {
         "abc",
         "ababc",
@@ -171,9 +168,6 @@ public class KMPSearch {
         "ababababababababcabcab",
         "ababababaabcbabababcbaba"
     };
-
-    Long startTime = System.currentTimeMillis();
-
     pattern = "abc";
     for (int i = 0; i < textArr.length; i++) {
       System.out.println(pattern + " " + textArr[i] + " " + kmpSearch.find(pattern,
@@ -191,7 +185,11 @@ public class KMPSearch {
  * Java HotSpot(TM) 64-Bit Server VM (build 25.401-b10, mixed mode)
  * jarry@jarrys-MacBook-Pro KMPsearch % javac KMPSearch.java
  * jarry@jarrys-MacBook-Pro KMPsearch % java KMPSearch
- * 序号, 字符串, 前缀, 后缀, 匹配内容, 内容长度：
+ * 测试1：单个查找
+ * ABCABAB found at positions: [4, 15] in AAABABCABABCDABABCABAB
+ * 测试2：打印详尽部分匹配表
+ * 模式串:abababc
+ * 序号, 子串, 前缀, 后缀, 匹配内容, 最大匹配内容长度：
  * 1, a, [], [], '', 0
  * 2, ab, [a], [b], '', 0
  * 3, aba, [a, ab], [ba, a], 'a', 1
@@ -200,9 +198,7 @@ public class KMPSearch {
  * 6, ababab, [a, ab, aba, abab, ababa], [babab, abab, bab, ab, b], 'abab', 4
  * 7, abababc, [a, ab, aba, abab, ababa, ababab], [bababc, ababc, babc, abc, bc,
  * c], '', 0
- * 8, abababca, [a, ab, aba, abab, ababa, ababab, abababc], [bababca, ababca,
- * babca, abca, bca, ca, a], 'a', 1
- * Pattern found at positions: [0, 11]
+ * 测试3：多个搜索实例
  * abc abc [0]
  * abc ababc [2]
  * abc abababc [4]
@@ -214,5 +210,5 @@ public class KMPSearch {
  * abc ababababababababcabcab [14, 17]
  * abc ababababaabcbabababcbaba [9, 17]
  * 
- * time:1 ms.
+ * time:2 ms.
  */

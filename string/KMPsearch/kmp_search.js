@@ -71,43 +71,58 @@ function kmpSearch(pattern, text) {
     }
 
     return find(pattern, text);
-
-
 }
 
+
+/*
+ * 把模式字串逐项展开，计算每项前后缀以及共同项，详细示例
+ * 1、从第一个字符开始，逐个递增得到字串组合。
+ * 2、计算每个字串的前缀与后缀，前缀即除尾部字符外的全部头部组合，后缀即除首字母外的全部尾部组合。
+ * 3、找出前缀和后缀的全部相同项，得到最大内容的长度。
+ * 
+ * 例子：abababc
+ * 
+ * 得到如下结果：
+ * 
+ * 序号, 字符串, 前缀, 后缀, 匹配内容, 内容长度
+ * 1, a, [], [], '', 0
+ * 2, ab, [a], [b], '', 0
+ * 3, aba, [a, ab], [ba, a], 'a', 1
+ * 4, abab, [a, ab, aba], [bab, ab, b], 'a', 2
+ * 5, ababa, [a, ab, aba, abab], [baba, aba, ba, a], 'aba', 3
+ * 6, ababab, [a, ab, aba, abab, ababa], [babab, abab, bab, ab, a], 'abab', 4
+ * 7, abababc, [a, ab, aba, abab, ababab], [bababc, ababc, babc, abc, bc, c],
+ * '', 0
+ */
 function printPartialMatchTable(pattern) {
     let patternLen = pattern.length;
     let results = [];
-    for (let i = 1; i <= patternLen; i++) {
-        let item = {};
-        let content = pattern.substring(0, i);
-        // 添加字串
-        item["content"] = content;
+    for (let i = 0; i < patternLen; i++) {
+        let item = {
+            'prefix': [],
+            'postfix': [],
+        };
+        let content = pattern.substring(0, i + 1);
 
         // 添加前后缀
-        let contentLen = content.length;
-        let prefix = new Array(contentLen - 1);
-        let postfix = new Array(contentLen - 1);
-        for (let j = 0; j < contentLen - 1; j++) {
-            prefix[j] = content.substring(0, j + 1);
-            postfix[j] = content.substring(j + 1, contentLen);
-        }
-        item["prefix"] = prefix;
-        item["postfix"] = postfix;
-
-        // 计算共同项
+        let prefix;
+        let postfix;
         let duplicateItems = [];
         let duplicateItem = "";
-        for (let m = 0; m < prefix.length; m++) {
-            for (let n = 0; n < postfix.length; n++) {
-                if (prefix[m] === postfix[n]) {
-                    if (prefix[m].length > duplicateItem.length) {
-                        duplicateItem = prefix[m];
-                    }
-                    duplicateItems.push(prefix[m]);
-                }
+        for (let j = 0; j < i; j++) {
+            // 从前往后
+            prefix = content.substring(0, j + 1);
+            // 从后往前
+            postfix = content.substring(i - j, i + 1);
+            item["prefix"].push(prefix);
+            item["postfix"].push(postfix);
+            if (prefix === postfix && prefix.length > duplicateItem.length) {
+                duplicateItem = prefix;
+                duplicateItems.push(prefix);
             }
         }
+
+        item["content"] = content;
         item["duplicateItem"] = duplicateItem;
         item["duplicateItems"] = duplicateItems;
 
@@ -115,12 +130,13 @@ function printPartialMatchTable(pattern) {
         results.push(item);
     }
 
-    console.log("序号, 字符串, 前缀, 后缀, 匹配内容, 内容长度：");
+    console.log('模式串:' + pattern)
+    console.log("序号, 子串, 前缀, 后缀, 匹配内容, 最大匹配内容长度：");
     for (let i = 0; i < results.length; i++) {
         let item = results[i];
         console.log(
             i + 1 + ", " + item["content"] + ", " + JSON.stringify(item["prefix"]) + ", " +
-            JSON.stringify(item["postfix"]) + ", '" + item["duplicateItem"] + "', " +
+            JSON.stringify(item["postfix"]) + ", '" + item["duplicateItems"] + "', " +
             item["duplicateItem"].length
         );
     }
@@ -129,11 +145,19 @@ function printPartialMatchTable(pattern) {
 // 执行测试用例，打印是否正确
 (function () {
     console.time("time");
+    // 单个测试
+    console.log("测试1：单个查找");
+    const target = "ABCABAB";
+    const text = "AAABABCABABCDABABCABAB";
+    const matches = kmpSearch(target, text);
+    console.log(target + " found at positions: " + matches + " in " + text);
 
-    printPartialMatchTable("abababca");
+    // 打印详尽部分匹配表测试
+    console.log("测试2：打印详尽部分匹配表");
+    printPartialMatchTable("abababc");
 
-    const pattern = 'abc';
-
+    // 多个KMP搜索测试
+    console.log("测试3：多个搜索实例");
     const textArr = [
         'abc',
         'ababc',
@@ -146,24 +170,28 @@ function printPartialMatchTable(pattern) {
         'ababababababababcabcab',
         'ababababaabcbabababcbaba'
     ];
+    const pattern = 'abc';
     for (let i = 0; i < textArr.length; i++) {
         console.log(pattern, '', textArr[i], kmpSearch(pattern, textArr[i]));
     }
-
     console.timeEnd("time");
 })();
 
 /*
 jarry@jarrys-MacBook-Pro KMPsearch % node kmp_search.js
-序号, 字符串, 前缀, 后缀, 匹配内容, 内容长度：
+测试1：单个查找
+ABCABAB found at positions: 4 in AAABABCABABCDABABCABAB
+测试2：打印详尽部分匹配表
+模式串:abababc
+序号, 子串, 前缀, 后缀, 匹配内容, 最大匹配内容长度：
 1, a, [], [], '', 0
 2, ab, ["a"], ["b"], '', 0
-3, aba, ["a","ab"], ["ba","a"], 'a', 1
-4, abab, ["a","ab","aba"], ["bab","ab","b"], 'ab', 2
-5, ababa, ["a","ab","aba","abab"], ["baba","aba","ba","a"], 'aba', 3
-6, ababab, ["a","ab","aba","abab","ababa"], ["babab","abab","bab","ab","b"], 'abab', 4
-7, abababc, ["a","ab","aba","abab","ababa","ababab"], ["bababc","ababc","babc","abc","bc","c"], '', 0
-8, abababca, ["a","ab","aba","abab","ababa","ababab","abababc"], ["bababca","ababca","babca","abca","bca","ca","a"], 'a', 1
+3, aba, ["a","ab"], ["a","ba"], 'a', 1
+4, abab, ["a","ab","aba"], ["b","ab","bab"], 'ab', 2
+5, ababa, ["a","ab","aba","abab"], ["a","ba","aba","baba"], 'a,aba', 3
+6, ababab, ["a","ab","aba","abab","ababa"], ["b","ab","bab","abab","babab"], 'ab,abab', 4
+7, abababc, ["a","ab","aba","abab","ababa","ababab"], ["c","bc","abc","babc","ababc","bababc"], '', 0
+测试3：多个搜索实例
 abc  abc 0
 abc  ababc 2
 abc  abababc 4
@@ -174,5 +202,170 @@ abc  abababababababcd 12
 abc  ababaabcbabababababc 5
 abc  ababababababababcabcab 14
 abc  ababababaabcbabababcbaba 9
-time: 7.813ms
+time: 8.248ms
  */
+
+
+/****  其他测试  ****/
+function buildPartialMatchTable(pattern) {
+    // 初始化部分匹配表，前两个位置固定为 -1 和 0
+    let next = [-1, 0];
+    let i = 2;
+    let j = 0;
+    // 从模式串的第三个字符开始构建部分匹配表
+    while (i < pattern.length) {
+        if (pattern[i - 1] === pattern[j]) { // 当前位置字符与之前位置字符相等
+            j++; // 匹配长度增加
+            next[i] = j; // 更新部分匹配表的值
+            i++; // 继续比较下一个位置
+        } else if (j > 0) { // 当前位置字符与之前位置字符不相等，但有部分匹配
+            j = next[j]; // 回溯到前一个位置的部分匹配值
+        } else { // 没有部分匹配
+            next[i] = 0; // 当前位置的部分匹配值为0
+            i++; // 继续比较下一个位置
+        }
+    }
+    return next; // 返回构建好的部分匹配表
+};
+// 验证
+console.log('buildPartialMatchTable("abababc"):', buildPartialMatchTable('abababc'));
+
+function buildPartialMatchTable2(pattern) {
+    // 创建一个数组用于存储部分匹配表
+    let pmt = new Array(pattern.length).fill(0);
+    let j = 0; // 初始化 j 为 0
+    // 从模式串的第二个字符开始，依次计算每个位置的部分匹配值
+    for (let i = 1; i < pattern.length; i++) {
+        // 当字符不匹配时，回溯到前一个位置的部分匹配值
+        while (j > 0 && pattern[i] !== pattern[j]) {
+            j = pmt[j - 1];
+        }
+        // 当字符匹配时，更新部分匹配值
+        if (pattern[i] === pattern[j]) {
+            j++;
+        }
+        pmt[i] = j; // 将当前位置的部分匹配值存入部分匹配表
+    }
+    return pmt; // 返回部分匹配表
+}
+
+// 验证
+console.log('buildPartialMatchTable2("abababc"):', buildPartialMatchTable2('abababc'));
+
+function buildPMTArr(target) {
+
+    const pmtArr = [];
+    // 将目标字符串转换为字符数组
+    target = target.split('');
+
+    // 外部循环遍历模式串中的每个字符
+    for (let j = 0; j < target.length; j++) {
+        // 获取模式串不同长度下的部分匹配值
+        let pmt = target; // 将目标字符串赋值给pmt
+        let pmtNum = 0; // 初始化部分匹配值为0
+
+        // 内部循环，遍历模式串开头到第j个字符的所有可能的前缀和后缀组合
+        for (let k = 0; k < j; k++) {
+            // 获取前缀
+            let head = pmt.slice(0, k + 1);
+            // 获取后缀
+            let foot = pmt.slice(j - k, j + 1);
+
+            // 判断前缀和后缀是否相等
+            if (head.join('') === foot.join('')) {
+                let num = head.length; // 获取当前部分匹配的长度
+                // 如果当前部分匹配的长度大于已记录的部分匹配长度，则更新pmtNum
+                if (num > pmtNum) pmtNum = num;
+            }
+        }
+
+        // 将当前位置的部分匹配值（即 j + 1 减去已经找到的最长部分匹配长度）添加到部分匹配表数组中
+        pmtArr.push(j + 1 - pmtNum);
+    }
+
+    // 返回部分匹配表数组
+    return pmtArr;
+}
+
+/**
+ * 使用 KMP 算法在目标字符串中搜索模式串
+ * @param {string} target - 模式串，要搜索的字符串
+ * @param {string} base - 目标字符串，在其中搜索模式串
+ * @returns {number} - 如果找到模式串，则返回其在目标字符串中的起始索引；否则返回 -1
+ */
+function searchByKMP(target, base) {
+    // 用于存储匹配结果的数组
+    let isMatch = [];
+
+    // 构建模式串的部分匹配表
+    let pmt = buildPMTArr(target);
+
+    // 用于记录移位次数
+    let times = 0;
+    // 遍历目标字符串中的每个字符
+    for (let i = 0; i < base.length; i++) {
+        times++;
+        let tempIndex = 0; // 临时存储变量，用于处理不匹配情况
+        // 遍历模式串中的每个字符
+        for (let j = 0; j < target.length; j++) {
+            if (i + target.length <= base.length) {
+                // 如果目标字符串中剩余长度足够容纳模式串
+                if (target.charAt(j) === base.charAt(i + j)) {
+                    // 如果当前字符匹配，则将其添加到匹配结果数组中
+                    isMatch.push(target.charAt(j));
+                } else {
+                    // 如果不匹配，则根据部分匹配表进行调整
+                    if (!j) break; // 如果第一个字符就不匹配，则直接跳到下一个字符
+                    let skip = pmt[j - 1]; // 获取应该跳过的字符数
+                    tempIndex = i + skip - 1; // 计算临时索引
+                    break;
+                }
+            }
+        }
+        // 将当前状态存入调用 KMP 算法的状态信息数组中
+        let data = {
+            index: i,
+            matchArr: isMatch
+        };
+
+        // 如果存在临时索引，则跳转到该索引继续匹配
+        if (tempIndex) i = tempIndex;
+        // 如果匹配结果数组长度等于模式串长度，则表示完全匹配，返回起始索引
+        if (isMatch.length === target.length) {
+            console.log('移位次数:', times); // 输出移位次数
+            return i;
+        }
+        isMatch = []; // 清空匹配结果数组，准备下一轮匹配
+    }
+    return -1; // 如果遍历完目标字符串仍未找到完全匹配的模式串，则返回 -1
+}
+// 验证
+console.log('buildPMTArr("abababc"):', buildPMTArr('abababc'));
+
+const target = "ABCABAB";
+const text = "AAABABCABABCDABABCABAB";
+console.log('searchByKMP(' + target + ',' + text + '):', searchByKMP(target, text));
+
+// 增加测试
+(function () {
+    let pattern = 'abababc'
+    const len = pattern.length
+    const pmtTable = [len].fill(0)
+    for (let i = 0; i < len; i++) {
+        const item = pattern.slice(0, i + 1)
+        let j = 0
+        // 共有成员长度
+        let pmtValue = 0
+        while (j < i) {
+            let prefix = item.substring(0, j + 1)
+            let postfix = item.substring(i - j, i + 1)
+            console.log(i, j, item, '|', prefix, '|', postfix)
+            if (prefix === postfix && prefix.length > pmtValue) {
+                pmtValue = prefix.length
+            }
+            j++
+        }
+        pmtTable[i] = pmtValue
+    }
+    console.log(pmtTable)
+})()
