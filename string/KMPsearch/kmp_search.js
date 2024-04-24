@@ -345,27 +345,3 @@ console.log('buildPMTArr("abababc"):', buildPMTArr('abababc'));
 const target = "ABCABAB";
 const text = "AAABABCABABCDABABCABAB";
 console.log('searchByKMP(' + target + ',' + text + '):', searchByKMP(target, text));
-
-// 增加测试
-(function () {
-    let pattern = 'abababc'
-    const len = pattern.length
-    const pmtTable = [len].fill(0)
-    for (let i = 0; i < len; i++) {
-        const item = pattern.slice(0, i + 1)
-        let j = 0
-        // 共有成员长度
-        let pmtValue = 0
-        while (j < i) {
-            let prefix = item.substring(0, j + 1)
-            let postfix = item.substring(i - j, i + 1)
-            console.log(i, j, item, '|', prefix, '|', postfix)
-            if (prefix === postfix && prefix.length > pmtValue) {
-                pmtValue = prefix.length
-            }
-            j++
-        }
-        pmtTable[i] = pmtValue
-    }
-    console.log(pmtTable)
-})()
