@@ -1,4 +1,8 @@
-/* KMP简单测试 */
+/**
+ * Copyright © https://github.com/jarry All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ */
 
 /**
  * 提取模式串的部分匹配值，构建部分匹配表，KMP通过此表来减少比较步骤。

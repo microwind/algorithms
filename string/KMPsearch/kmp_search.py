@@ -80,6 +80,15 @@ def makePMT2(pattern):
     return pmt
 
 
+"""
+查找 `pattern` 在 `text` 中出现的位置。
+
+:param pattern: 要在文本中搜索的模式字符串。
+:param text: 搜索 `pattern` 的目标文本。
+:return: 如果匹配，则返回其在文本中出现的索引位置；否则返回空数组。
+"""
+
+
 def kmpSearch(pattern, text):
     # 输出原始的模式串和文本
     print(' pattern:', pattern, 'text:', text)
@@ -131,8 +140,8 @@ if __name__ == '__main__':
     print('pattern:', pattern)
     makePMT(pattern)
     makePMT2(pattern)
-    kmpSearch(pattern, 'AAABABCABABCDABABCABAB') #[4, 15]
-    kmpSearch(pattern, 'ABAAABABCABABCDABABCABAB') #[6, 17]
+    kmpSearch(pattern, 'AAABABCABABCDABABCABAB')  # [4, 15]
+    kmpSearch(pattern, 'ABAAABABCABABCDABABCABAB')  # [6, 17]
     print("time:" + str((time.time() - start_time) * 1000) + " ms")
 
 """

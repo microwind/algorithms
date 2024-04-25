@@ -1,4 +1,9 @@
 /**
+ * Copyright © https://github.com/jarry All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ */
+/**
  * KMP算法是在朴素搜素的基础之上构建部分匹配表，将比较过的内容根据匹配表跳过比较，从而减少计算步骤。
  * KMP跳过的理由是什么呢？
  * 关键点：已匹配的模式串的前n位能否等于匹配部分的主串的后n位
