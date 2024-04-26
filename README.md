@@ -1,10 +1,20 @@
 # 理解算法与数据结构，不同编程语言详解
-  含 `C\Java\Python\JavaScript\Go\TypeScript\Dart\Swift\Kotlin` 等
 
-## 通过不同算法学习来理解不同语言的差异
+## 常见的算法有哪些？
+- 文本，字符串搜索、字符串压缩、最大公共子序列、回文计算等。主要是针对字符串进行查找。
+- 数字，进制转换、开平方、斐波那契数列、质因数分解、数字三角形等。主要是进行数值的运算。
+- 排序，冒泡、选择、插入、希尔、归并、快速、堆、计数、桶、基数等。这些跟打扑克排序和挑大小差不多，很好理解。
+- 其他算法还有很多，什么动态规划、贪心、矩阵、回溯算法等。
+  
+<img src="https://pic4.zhimg.com/80/v2-43fde0d41df8fba377333a318f428317_1440w.webp">
+
+## 通过不同算法学习来理解不同语言的差异 [English](./README_en.md)    
+  本仓库包含 `C Java Python JavaScript Go TypeScript Dart Swift Kotlin` 等各种流行语言，分析不同语言特色，提供详尽注释说明。一边学算法和数据结构，一边理解编程语言特色。
    
-   比如质因数分解、字符搜索、二叉树遍历、排序算法等基础算法，以及各种新的leecode题等。
-   每个语言都要自己的特色，通过实际算法和数据结构代码，可以让我们深入理解不同编程语言的差异。
+### 通过算法来学习不同语言的差异。
+
+    比如质因数分解、字符搜索、二叉树遍历、排序算法等基础算法，以及各种新的leecode题等。
+    每个语言都要自己的特色，通过实际算法和数据结构代码，可以让我们深入理解不同编程语言的差异。
 
     10大经典排序与多种常见算法例子，分别用C, JS, Java, Python, Go, Dart, Rust等最流行的高级语言编写，
     充分利用不同语言的特点，同时增加了详细注释，通过对比既可以学习算法和数据结构，
@@ -14,9 +24,17 @@
     such as `C, JS, Java, Python, Go, Dart, Rust` etc., which use the special of different languages, and include detailed comments. 
     Through comparison, you can not only learn algorithms and data structures but also understand the language features, 
     which are suitable for learning and communication.
-    
-[English](./README_en.md)    
 
+
+  参见： [不同编程语言有哪些差异？如何选择入门语言？](https://www.toutiao.com/article/7122744261904450063) | 
+  [如何学好编程？一文彻底搞懂](https://www.toutiao.com/article/7164336029351821855/)
+
+# 常见算法思想
+贪心算法（Greedy Algorithm）、分治算法（Divide and Conquer）、动态规划（Dynamic Programming）、回溯算法（Backtracking）、图算法（Graph Algorithms）、分支界限（Branch and Bound）等。详见：[10大算法思想](./algorithmic_thinking.md)
+
+
+# 常见算法例子
+    
 ## 质因数分解算法
 - [C语言/CPP/Java/Python/JS/TS/Kotlin/Dart/Go/Swift/Objective-c 不同语言实现](./factor)
     
@@ -65,11 +83,33 @@
 ## 日期与日历
 - ### [日期与日历](./date/)
 
-# 数据结构
-## 堆与栈
-- ### [栈](./data-structure/stack/)
-## 结构体
-- ### [结构体](./data-structure/struct/)
+# 数据结构例子
+## 数组（Array）
+- ### [数组](./data-structure/array/)，聚合数据的集合，可以实现线性和非线性
+  
+## 链表（Linked List）
+- ### [链表](./data-structure/linked/)，线性结构，数据以链式结构存储
+  
+## 树（Tree）
+- ### [树](./data-structure/tree/)，非线性结构，模拟树状结构性质的数据集合，一个顶点
+  
+## 堆（Heap）
+- ### [堆](./data-structure/heap/)，非线性结构，特殊的树形数据结构，一般指完全二叉树
+  
+## 栈（Stack）
+- ### [栈](./data-structure/stack/)，线性结构，后进先出
+  
+## 队列（Queue）
+- ### [队列](./data-structure/queue/)，线性结构，先进先出
+
+## 图（Graph）
+- ### [图](./data-structure/graph/)，非线性结构，节点相互连接，每个节点都可以作为顶点
+
+## 散列（Hash）
+- ### [散列](./data-structure/hash/)，线性结构，根据键访问储存位置的数据结构
+
+## 结构体（Struct）
+- ### [结构体](./data-structure/struct/)，组合一组相关的数据
 
 
 `本文链接
@@ -79,4 +119,4 @@
 [推荐学习的编程语言](./recommand-learning-languages.md)
 ## 欢迎加入共建
 
-如果您对这个感兴趣，请加我weixin: springbuild 或者邮件: jarryli@gmail.com，欢迎一起共建！
+如果您对这个感兴趣，请加我weixin: springbuild 或者邮件: `jarryli@gmail.com`  `lichunping@buaa.edu.cn` 欢迎一起共建！
