@@ -1,4 +1,3 @@
-/* KMP简单测试 */
 /**
  * Copyright © https://github.com/microwind All rights reserved.
  * @author: jarryli@gmail.com
@@ -13,7 +12,9 @@ import (
 	"time"
 )
 
-// 暴力求解法
+/* 最大子数组求和算法实现 */
+
+// 方式1、暴力求解法，逐个计算，一一对比
 func maxSubarraySum1(arr []int) int {
 	maxSum := math.MinInt
 	// 遍历数组，找到所有子数组
@@ -48,7 +49,7 @@ func maxSubarraySum1(arr []int) int {
 	return maxSum
 }
 
-// 动态规划方法
+// 方式2、动态规划方法，建立记录表存储每个位置的最大子数组和，比较找出最大值
 func maxSubarraySum2(arr []int) int {
 	// 动态规划数组
 	dp := make([]int, len(arr))
@@ -71,7 +72,7 @@ func maxSubarraySum2(arr []int) int {
 	return maxSum
 }
 
-// Kadane算法
+// 方式3、Kadane算法，动态规划的升级，最简单直接
 func maxSubarraySum3(arr []int) int {
 	if len(arr) == 0 {
 		return 0
