@@ -55,8 +55,8 @@
   [C语言版](./string/nativesearch/string_search.c ) | [Go语言版](./string/nativesearch/string_search.go ) | [JavaScript版](./string/nativesearch/string_search.js ) | [Python版](./string/nativesearch/string_search.py ) | [Java版](./string/nativesearch/StringSearch.java ) | [TypeScript版](./string/nativesearch/StringSearch.ts )
 - ### [二分查找](./search/binarysearch/)
   [C语言版](./search/binarysearch/binary_search.c ) | [Go语言版](./search/binarysearch/binary_search.go ) | [JavaScript版](./search/binarysearch/binary_search.js ) | [Python版](./search/binarysearch/binary_search.py ) | [Java版](./search/binarysearch/BinarySearch.java ) | [TypeScript版](./search/binarysearch/BinarySearch.ts )
-- ### [KMP搜索](./string/KMPSearch/)
-  [C语言版](./string/KMPSearch/kmp_search.c ) | [Go语言版](./string/KMPSearch/kmp_search.go ) | [JavaScript版](./string/KMPSearch/kmp_search.js ) | [Python版](./string/KMPSearch/kmp_search.py ) | [Java版](./string/KMPSearch/KMPSearch.java ) | [TypeScript版](./string/KMPSearch/KMPSearch.ts )
+- ### [KMP搜索](./string/KMPsearch/)
+  [C语言版](./string/KMPsearch/kmp_search.c ) | [Go语言版](./string/KMPsearch/kmp_search.go ) | [JavaScript版](./string/KMPsearch/kmp_search.js ) | [Python版](./string/KMPsearch/kmp_search.py ) | [Java版](./string/KMPsearch/KMPSearch.java ) | [TypeScript版](./string/KMPsearch/KMPSearch.ts )
 
 ### 树搜索与遍历
 - ### [二叉树遍历](./tree/binarytree/)
