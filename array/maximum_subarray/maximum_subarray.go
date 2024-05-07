@@ -25,6 +25,7 @@ func maxSubarraySum1(arr []int) int {
 		}
 
 		fmt.Printf("第%d位组合:\n", i+1)
+		fmt.Println(arr[i])
 		// 内层循环计算子数组和
 		// 使用 strings.Builder 构建字符串
 		var output strings.Builder

@@ -7,6 +7,7 @@
 
 class MaximumSubarray {
 
+  // 方式1、暴力求解法，逐个计算，一一对比
   public static int violenceMethod(int[] arr) {
     int maxSum = Integer.MIN_VALUE;
     for (int i = 0; i < arr.length; i++) {
@@ -14,7 +15,9 @@ class MaximumSubarray {
       if (currentSum > maxSum) {
         maxSum = currentSum;
       }
-      System.out.println("第" + i + "位组合：");
+      System.out.println("第" + (i + 1) + "位组合：");
+      System.out.println(arr[i]);
+
       String output = "" + arr[i];
       for (int j = i + 1; j < arr.length; j++) {
         currentSum += arr[j];
@@ -29,6 +32,7 @@ class MaximumSubarray {
     return maxSum;
   }
 
+  // 方式2、动态规划方法，建立记录表存储每个位置的最大子数组和，比较找出最大值
   public static int dpMethod(int[] arr) {
     // 动态规划数组
     int[] dp = new int[arr.length];
@@ -51,6 +55,7 @@ class MaximumSubarray {
     return maxSum;
   }
 
+  // 方式3、Kadane算法，动态规划的升级，最简单直接
   public static int kadaneMethod(int[] arr) {
     int maxSum = arr[0];
     int currentSum = arr[0];

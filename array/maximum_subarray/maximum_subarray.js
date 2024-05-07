@@ -6,7 +6,8 @@
 
 // 求最大连续子数组之和 - 暴力求解法
 function maxSubarraySum1(arr) {
-    let maxSum = -Infinity;
+    // let maxSum = -Infinity;
+    let maxSum
 
     for (let i = 0; i < arr.length; i++) {
         let currentSum = arr[i];
@@ -14,7 +15,8 @@ function maxSubarraySum1(arr) {
             maxSum = currentSum;
         }
 
-        console.log(`第${i + 1}位组合:`);
+        console.log(`第${i + 1}位`, '子数组:')
+        console.log(arr[i])
 
         for (let j = i + 1; j < arr.length; j++) {
             currentSum += arr[j];

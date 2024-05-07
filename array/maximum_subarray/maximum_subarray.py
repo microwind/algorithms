@@ -31,6 +31,7 @@ def max_subarray_sum1(arr: List[int]) -> int:
             max_sum = current_sum
 
         print(f'第{i + 1}位组合:')
+        print(arr[i])
 
         for j in range(i + 1, len(arr)):
             # 更新子数组之和
