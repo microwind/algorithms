@@ -114,7 +114,7 @@
 ## 相关链接
 - [推荐学习的编程语言](./recommand-learning-languages.md)
 - [不同编程语言有哪些差异？如何选择入门语言？](https://www.toutiao.com/article/7122744261904450063) | 
-- [如何学好编程？一文彻底搞懂](https://www.toutiao.com/article/7164336029351821855/)
+- [如何学好编程？一文彻底搞懂](https://zhuanlan.zhihu.com/p/582174773)
   
 ## 欢迎加入共建
 
