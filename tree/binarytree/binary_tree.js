@@ -167,37 +167,37 @@ console.log(tree)
 
 var result = []
 
-// 1.
+// 1. 先序优先遍历 DLR
 result = preOrderTraverse(tree)
-console.log('1. preOrderTraverse:', result)
 //  [1, 2, 4, 5, 8, 9, 3, 6, 7]
+console.log('1. preOrderTraverse:', result)
 
-// 2.
+// 2. 中序优先遍历 LDR
 result = inOrderTraverse(tree)
 // [4, 2, 8, 5, 9, 1, 6, 3, 7]
 console.log('2. inOrderTraverse:', result)
 
-// 3.
+// 3. 后序优先遍历 LRD
 result = postOrderTraverse(tree)
 //  [4, 8, 9, 5, 2, 6, 7, 3, 1]
 console.log('3. postOrderTraverse:', result)
 
-// 4.
+// 4. 广度优先遍历
 result = levelOrder(tree)
 // [1, 2, 3, 4, 5, 6, 7, 8, 9]
 console.log('4. levelOrder:', result)
 
-// 5.
+// 5. 深度遍历（先序非递归）
 result = preOrderUnRecursive(tree)
 // [1, 2, 4, 5, 8, 9, 3, 6, 7]
 console.log('5. preOrderUnRecursive:', result)
 
-// 6.
+// 6. 深度遍历（中序非递归）
 result = inOrderUnRecursive(tree)
 // [4, 2, 8, 5, 9, 1, 6, 3, 7]
 console.log('6. inOrderUnRecursive:', result)
 
-// 7.
+// 7. 深度遍历（后序非递归）
 result = postOrderUnRecursive(tree)
 // [4, 8, 9, 5, 2, 6, 7, 3, 1]
 console.log('7. postOrderUnRecursive:', result)

@@ -64,11 +64,11 @@
 
 ### 质因数分解
 - ### [C语言/CPP/Java/Python/JS/TS/Kotlin/Dart/Go/Swift/Objective-C/Rust不同语言质因数分解算法](./factor)
-  [C语言版](./factor/factor.c ) | [C++语言版](./factor/factor.cpp ) | [JavaScript版](./unique/factor.js ) |  [TypeScript版](./unique/PrimeFactor.ts ) | [Python版](./factor/factor.py ) | [Java版](./factor/Factor.java ) | [Kotlin版](./factor/factor.kt ) | [Dart版](./unique/factor.dart )  | [Swift版](./unique/factor.swift ) | [Objective-C版](./unique/factor.m )  | [Rust版](./unique/factor.rs ) 
+  [C语言版](./factor/factor.c ) | [C++语言版](./factor/factor.cpp ) | [JavaScript版](./factor/factor.js ) |  [TypeScript版](./factor/PrimeFactor.ts ) | [Go语言版](./factor/factor.go )| [Python版](./factor/factor.py ) | [Java版](./factor/Factor.java ) | [Kotlin版](./factor/factor.kt ) | [Dart版](./factor/factor.dart )  | [Swift版](./factor/factor.swift ) | [Objective-C版](./factor/factor.m )  | [Rust版](./factor/factor.rs ) 
 
 ### 数组列表去重复项
 - ### [数组去重复的N种写法](./unique/)
-  [C语言版](./unique/unique.c ) | [JavaScript版](./unique/unique.js ) | [Python版](./unique/unique.py ) | [Java版](./unique/UniqueArray.java ) | [TypeScript版](./unique/UniqueArray.ts )
+  [C语言版](./unique/unique.c ) | [Go版](./unique/unique.go ) | [JavaScript版](./unique/unique.js ) | [Python版](./unique/unique.py ) | [Java版](./unique/UniqueArray.java ) | [TypeScript版](./unique/UniqueArray.ts ) | [Dart版](./unique/unique.dart ) | [Rust版](./unique/unique.rs )|
 
 ### 递归
 - ### [简单递归](./recursion/)
