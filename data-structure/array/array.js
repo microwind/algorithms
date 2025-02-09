@@ -12,3 +12,16 @@ console.log("Modified element at index 2:", arr[2]);
 for (let i = 0; i < arr.length; i++) {
     console.log(arr[i]);
 }
+
+/*
+jarry@MacBook-Pro array % node -v        
+v16.20.2
+jarry@MacBook-Pro array % node array.js
+Element at index 2: 3
+Modified element at index 2: 10
+1
+2
+10
+4
+5
+*/

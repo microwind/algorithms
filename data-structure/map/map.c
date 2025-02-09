@@ -2,92 +2,127 @@
 #include <stdlib.h>
 #include <string.h>
 
-// 定义Map结构体
-typedef struct Map {
-    char **keys;  // 存储key的数组
-    int *values;  // 存储value的数组
-    int size;     // 元素数量
+#define INITIAL_CAPACITY 10 // 初始容量
+
+// Map 结构体
+typedef struct
+{
+    char *key;
+    int value;
+} Entry;
+
+typedef struct
+{
+    Entry *entries;
+    int size;
+    int capacity;
 } Map;
 
-// 初始化Map
-void map_init(Map *map) {
-    map->keys = NULL;
-    map->values = NULL;
+// 初始化 Map
+void initMap(Map *map)
+{
     map->size = 0;
+    map->capacity = INITIAL_CAPACITY;
+    map->entries = (Entry *)malloc(map->capacity * sizeof(Entry));
 }
 
-// 向Map中插入元素
-void map_put(Map *map, char *key, int value) {
-    // 查找是否已经存在该key
-    for (int i = 0; i < map->size; i++) {
-        if (strcmp(map->keys[i], key) == 0) {
-            // 如果已经存在，则更新对应的value
-            map->values[i] = value;
+// 重新分配容量
+void resizeMap(Map *map, int newCapacity)
+{
+    map->capacity = newCapacity;
+    map->entries = (Entry *)realloc(map->entries, map->capacity * sizeof(Entry));
+}
+
+// 插入键值对（如果存在则更新）
+void put(Map *map, const char *key, int value)
+{
+    for (int i = 0; i < map->size; i++)
+    {
+        if (strcmp(map->entries[i].key, key) == 0)
+        {
+            map->entries[i].value = value; // 更新值
             return;
         }
     }
-    // 如果不存在，则在末尾插入新元素
-    map->keys = (char **)realloc(map->keys, sizeof(char *) * (map->size + 1));
-    map->values = (int *)realloc(map->values, sizeof(int) * (map->size + 1));
-    map->keys[map->size] = strdup(key);
-    map->values[map->size] = value;
+    if (map->size >= map->capacity)
+    {
+        resizeMap(map, map->capacity * 2);
+    }
+    map->entries[map->size].key = strdup(key);
+    map->entries[map->size].value = value;
     map->size++;
 }
 
-// 从Map中删除元素
-void map_remove(Map *map, char *key) {
-    int i;
-    for (i = 0; i < map->size; i++) {
-        if (strcmp(map->keys[i], key) == 0) {
-            // 找到对应的key后，将它和末尾元素互换，然后删除末尾元素
-            free(map->keys[i]);
-            map->keys[i] = map->keys[map->size - 1];
-            map->values[i] = map->values[map->size - 1];
-            map->keys = (char **)realloc(map->keys, sizeof(char *) * (map->size - 1));
-            map->values = (int *)realloc(map->values, sizeof(int) * (map->size - 1));
+// 查找键
+int get(Map *map, const char *key, int *found)
+{
+    for (int i = 0; i < map->size; i++)
+    {
+        if (strcmp(map->entries[i].key, key) == 0)
+        {
+            *found = 1;
+            return map->entries[i].value;
+        }
+    }
+    *found = 0;
+    return -1; // 未找到
+}
+
+// 删除键
+void delete(Map *map, const char *key)
+{
+    for (int i = 0; i < map->size; i++)
+    {
+        if (strcmp(map->entries[i].key, key) == 0)
+        {
+            free(map->entries[i].key);
+            for (int j = i; j < map->size - 1; j++)
+            {
+                map->entries[j] = map->entries[j + 1];
+            }
             map->size--;
             return;
         }
     }
 }
 
-// 从Map中查找元素
-int map_get(Map *map, char *key) {
-    int i;
-    for (i = 0; i < map->size; i++) {
-        if (strcmp(map->keys[i], key) == 0) {
-            return map->values[i];
-        }
+// 释放 Map
+void freeMap(Map *map)
+{
+    for (int i = 0; i < map->size; i++)
+    {
+        free(map->entries[i].key);
     }
-    return -1;
+    free(map->entries);
 }
 
-// 清空Map
-void map_clear(Map *map) {
-    int i;
-    for (i = 0; i < map->size; i++) {
-        free(map->keys[i]);
-    }
-    free(map->keys);
-    free(map->values);
-    map->size = 0;
-}
-
-/* Test */
-
-// 测试Map的函数
-int main() {
+// 测试
+int main()
+{
     Map map;
-    map_init(&map);
-    map_put(&map, "apple", 1);
-    map_put(&map, "banana", 2);
-    map_put(&map, "cat", 3);
-    printf("apple: %d\n", map_get(&map, "apple"));
-    printf("banana: %d\n", map_get(&map, "banana"));
-    printf("cat: %d\n", map_get(&map, "cat"));
+    initMap(&map);
+
+    put(&map, "apple", 10);
+    put(&map, "banana", 20);
+    put(&map, "orange", 30);
+
+    int found;
+    printf("apple: %d\n", get(&map, "apple", &found));
+    printf("banana: %d\n", get(&map, "banana", &found));
+    printf("grape: %d (not found)\n", get(&map, "grape", &found));
+
+    delete (&map, "banana");
+    printf("banana after delete: %d\n", get(&map, "banana", &found));
+
+    freeMap(&map);
     return 0;
 }
 
-// result
-
-
+/*
+jarry@MacBook-Pro map % gcc map.c
+jarry@MacBook-Pro map % ./a.out
+apple: 10
+banana: 20
+grape: -1 (not found)
+banana after delete: -1
+*/

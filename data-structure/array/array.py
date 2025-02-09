@@ -12,3 +12,11 @@ print("Modified element at index 2:", arr[2])
 for i in arr:
     print(i, end=" ")
 print()
+
+"""jarry@MacBook-Pro array % python -V
+Python 3.9.6
+jarry@MacBook-Pro array % python array.py
+Element at index 2: 3
+Modified element at index 2: 10
+1 2 10 4 5 
+"""

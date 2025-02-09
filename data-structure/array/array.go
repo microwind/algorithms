@@ -19,3 +19,12 @@ func main() {
   }
   fmt.Println()
 }
+
+/*
+jarry@MacBook-Pro array % go version
+go version go1.23.5 darwin/arm64
+jarry@MacBook-Pro array % go run array.go
+Element at index 2: 3
+Modified element at index 2: 10
+1 2 10 4 5
+*/
