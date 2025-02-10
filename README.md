@@ -2,10 +2,12 @@
 
 根据不同编程语言来学习数据结构和算法，包括 `C` `Java` `Python` `JavaScript` `Go` `TypeScript` 等，提供充分注释说明。
    
-## 主要特点：
+## 本项目特点：
 1. 涵盖了数值计算、字符查找、树遍历、排序、动态规划等不同算法。
 2. 每个算法都有多种语言的实现，通过实际例子帮助理解不同语言的特点。
 3. 样例精心设计，适合学生或程序员学习和分析，提升编程水平。
+
+# 算法概览
 
 ## 常见的算法有哪些？
 - **文本查找**：包括线性搜索、二分搜索、树形搜索、最大公共子序列、回文计算等，主要针对字符串查找。
@@ -27,7 +29,7 @@
     
 ## 10大经典排序算法
 
-| 排序算法 | C语言版 | JavaScript版 | Python版 | Java版 | TypeScript版 | Go版 | 时间复杂度（平均/最坏） | 空间复杂度 | 稳定性 | 适用场景 |
+| 排序算法 | C语言版 | JS版 | Python版 | Java版 | TypeScript版 | Go版 | 时间复杂度（平均/最坏） | 空间复杂度 | 稳定性 | 适用场景 |
 |---------|--------|-------------|---------|-------|-------------|-----|--------------------|---------|------|--------|
 | [冒泡排序 bubble sort](./sorts/bubblesort/) | [C](./sorts/bubblesort/bubble_sort.c) | [JS](./sorts/bubblesort/bubble_sort.js) | [Python](./sorts/bubblesort/bubble_sort.py) | [Java](./sorts/bubblesort/BubbleSort.java) | [TS](./sorts/bubblesort/BubbleSort.ts) | [Go](./sorts/bubblesort/bubble_sort.go) | O(n²) / O(n²) | O(1) | ✅ | 适用于小规模数据排序，教学用途 |
 | [插入排序 insert sort](./sorts/insertsort/) | [C](./sorts/insertsort/insert_sort.c) | [JS](./sorts/insertsort/insert_sort.js) | [Python](./sorts/insertsort/insert_sort.py) | [Java](./sorts/insertsort/InsertSort.java) | [TS](./sorts/insertsort/InsertSort.ts) | [Go](./sorts/insertsort/insert_sort.go) | O(n²) / O(n²) | O(1) | ✅ | 适用于小规模数据，少量元素已基本有序的情况 |
@@ -43,7 +45,7 @@
 
 ## 字符串搜索与查找
 
-| 算法 | C语言版 | Go语言版 | JavaScript版 | Python版 | Java版 | TypeScript版 | 时间复杂度（平均/最坏） | 空间复杂度 | 适用场景 |
+| 算法 | C语言版 | Go语言版 | JS版 | Python版 | Java版 | TypeScript版 | 时间复杂度（平均/最坏） | 空间复杂度 | 适用场景 |
 |------|--------|---------|-------------|---------|-------|-------------|--------------------|---------|--------|
 | [朴素搜索](./string/nativesearch/) | [C](./string/nativesearch/string_search.c) | [Go](./string/nativesearch/string_search.go) | [JS](./string/nativesearch/string_search.js) | [Python](./string/nativesearch/string_search.py) | [Java](./string/nativesearch/StringSearch.java) | [TS](./string/nativesearch/StringSearch.ts) | O(mn) / O(mn) | O(1) | 适用于小规模文本搜索 |
 | [二分查找](./search/binarysearch/) | [C](./search/binarysearch/binary_search.c) | [Go](./search/binarysearch/binary_search.go) | [JS](./search/binarysearch/binary_search.js) | [Python](./search/binarysearch/binary_search.py) | [Java](./search/binarysearch/BinarySearch.java) | [TS](./search/binarysearch/BinarySearch.ts) | O(log n) / O(log n) | O(1) | 适用于已排序数组的查找 |
@@ -52,7 +54,7 @@
 
 ## 树搜索与遍历
 
-| 算法 | C语言版 | JavaScript版 | Python版 | Java版 | TypeScript版 | 时间复杂度（平均/最坏） | 空间复杂度 | 适用场景 |
+| 算法 | C语言版 | JS版 | Python版 | Java版 | TypeScript版 | 时间复杂度（平均/最坏） | 空间复杂度 | 适用场景 |
 |------|--------|-------------|---------|-------|-------------|--------------------|---------|--------|
 | [二叉树遍历](./tree/binarytree/) | [C](./tree/binarytree/binary_tree.c) | [JS](./tree/binarytree/binary_tree.js) | [Python](./tree/binarytree/binary_tree.py) | [Java](./tree/binarytree/BinaryTree.java) | [TS](./tree/binarytree/BinaryTree.ts) | O(n) / O(n) | O(n) | 适用于树结构数据的遍历，如 XML 解析、文件系统遍历 |
 
@@ -79,7 +81,7 @@
 |------|---------|--------|--------|
 | C | [unique.c](./unique/unique.c) | O(n log n) | 适用于嵌入式开发 |
 | Go | [unique.go](./unique/unique.go) | O(n log n) | 适用于高并发场景 |
-| JavaScript | [unique.js](./unique/unique.js) | O(n) | 适用于前端数据处理 |
+| JS | [unique.js](./unique/unique.js) | O(n) | 适用于前端数据处理 |
 | Python | [unique.py](./unique/unique.py) | O(n) | 适用于数据清洗、分析 |
 | Java | [UniqueArray.java](./unique/UniqueArray.java) | O(n log n) | 适用于企业级应用 |
 | TypeScript | [UniqueArray.ts](./unique/UniqueArray.ts) | O(n) | 适用于前端 TypeScript 项目 |
@@ -105,9 +107,9 @@
 |------|---------|------------|------------|--------|
 | [日期与日历](./date/) | [C](./date/) | O(1) | O(1) | 适用于日期计算、节假日推算、日期转换等 |
 
+---
 
-
-## 数据结构
+# 数据结构
   数据结构是数据的组织和存储的方式，也就是把数据聚合在一起，以便进行加工整理。不同的数据结构，对其访问、插入、删除等操作的效率不同。通过选择合适的数据结构，可以高效地处理数据。详见：[数据结构概述](./data-structure)
   
 | 数据结构 | 描述 | 结构特点 | 访问效率 | 插入/删除效率 |
@@ -122,6 +124,7 @@
 | [Hash (散列)](./data-structure/hash/) | 通过哈希函数将键映射到存储位置的数据结构，支持快速查找、插入和删除 | 线性结构，通过哈希键值映射 | O(1) (均摊) | O(1) (均摊) |
 | [Struct (结构体)](./data-structure/struct/) | 组合多种类型的数据，形成一个整体，常用于表示复杂对象 | 自定义结构，字段固定，包含多种数据类型 | O(1) | O(1) |
 
+---
 
 ## 相关链接
 - [推荐学习的编程语言](./recommand-learning-languages.md)
