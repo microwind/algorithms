@@ -248,6 +248,9 @@ class HashMap {
 
     put(key, value) {
         const index = this.hash(key);
+        if (!Array.isArray(this.table[index])) {
+            this.table[index] = [];
+        }
         for (let node of this.table[index]) {
             if (node.key === key) {
                 node.value = value;
