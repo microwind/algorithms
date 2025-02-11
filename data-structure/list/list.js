@@ -1,6 +1,7 @@
 class List {
   constructor() {
       this.capacity = 10;
+      // JS这里只是模拟，JS本身是动态数组，无需List结构
       this.data = new Array(this.capacity);
       this.size = 0;
   }

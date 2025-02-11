@@ -21,18 +21,27 @@ func NewList() *List {
   }
 }
 
-// 扩展 List 容量
+// 扩展 List 容量，用 Go 的切片机制来避免手动管理 capacity
 func (l *List) resize(newCapacity int) {
-  if newCapacity > l.capacity {
-    newData := make([]int, l.size, newCapacity)
-    copy(newData, l.data)
-    l.data = newData
+  if newCapacity > cap(l.data) {
+    l.data = append(make([]int, 0, newCapacity), l.data[:l.size]...)
     l.capacity = newCapacity
   }
 }
 
+// 手工扩展 List 容量
+// func (l *List) resize(newCapacity int) {
+//   if newCapacity > l.capacity {
+//     newData := make([]int, l.size, newCapacity)
+//     copy(newData, l.data)
+//     l.data = newData
+//     l.capacity = newCapacity
+//   }
+// }
+
 // 添加元素
 func (l *List) Add(value int) {
+  // Go 会自动扩容切片，而无需resize，这里只是模拟实现
   if l.size == l.capacity {
     l.resize(l.capacity * 2)
   }

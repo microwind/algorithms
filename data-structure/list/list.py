@@ -13,8 +13,10 @@ class List:
             self.capacity = new_capacity
 
     def add(self, value):
+        # Python 数组会自动扩容，实际无需resize，这里只是为了演示
         if self.size == self.capacity:
             self.resize(self.capacity * 2)
+        # self.data.append(value)
         self.data[self.size] = value
         self.size += 1
 

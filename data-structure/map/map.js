@@ -1,3 +1,5 @@
+// JS基于数组模拟内置Map对象，为了演示数据结构
+// 实际JS引擎采取使用 哈希表 + 链地址法 或用 红黑树
 class Map {
     constructor() {
         this.entries = [];
@@ -5,7 +7,7 @@ class Map {
         this.capacity = 10;
     }
 
-    // 重新分配容量
+    // 重新分配容量，JS动态数组，无需调整容量
     resizeMap(newCapacity) {
         this.capacity = newCapacity;
     }
@@ -21,6 +23,8 @@ class Map {
         if (this.size >= this.capacity) {
             this.resizeMap(this.capacity * 2);
         }
+        // 或push追加新键值对
+        // this.entries.push({ key, value });
         this.entries[this.size] = {
             key,
             value
@@ -47,6 +51,29 @@ class Map {
                 return;
             }
         }
+    }
+
+    // 判断键是否存在
+    has(key) {
+        return this.entries.some(entry => entry.key === key);
+    }
+
+    // 获取键值对个数
+    getSize() {
+        return this.entries.length;
+    }
+
+    // 清空所有数据
+    clear() {
+        this.entries = [];
+    }
+
+    // 遍历所有键值对
+    forEach(callback) {
+        this.entries.forEach(({
+            key,
+            value
+        }) => callback(value, key, this));
     }
 }
 

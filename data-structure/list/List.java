@@ -7,6 +7,7 @@ class List {
 
   public List() {
     capacity = 10;
+    // 这里采取数组来模拟List，与ArrayList类似
     data = new int[capacity];
     size = 0;
   }
