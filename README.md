@@ -45,7 +45,7 @@
 
 ## 字符串搜索与查找
 
-| 算法 | C语言版 | Go语言版 | JS版 | Python版 | Java版 | TypeScript版 | 时间复杂度（平均/最坏） | 空间复杂度 | 适用场景 |
+| 算法 | C语言版 | Go语言版 | JS版 | Python版 | Java版 | TS版 | 时间复杂度（平均/最坏） | 空间复杂度 | 适用场景 |
 |------|--------|---------|-------------|---------|-------|-------------|--------------------|---------|--------|
 | [朴素搜索](./string/nativesearch/) | [C](./string/nativesearch/string_search.c) | [Go](./string/nativesearch/string_search.go) | [JS](./string/nativesearch/string_search.js) | [Python](./string/nativesearch/string_search.py) | [Java](./string/nativesearch/StringSearch.java) | [TS](./string/nativesearch/StringSearch.ts) | O(mn) / O(mn) | O(1) | 适用于小规模文本搜索 |
 | [二分查找](./search/binarysearch/) | [C](./search/binarysearch/binary_search.c) | [Go](./search/binarysearch/binary_search.go) | [JS](./search/binarysearch/binary_search.js) | [Python](./search/binarysearch/binary_search.py) | [Java](./search/binarysearch/BinarySearch.java) | [TS](./search/binarysearch/BinarySearch.ts) | O(log n) / O(log n) | O(1) | 适用于已排序数组的查找 |
