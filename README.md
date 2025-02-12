@@ -4,8 +4,8 @@
    
 ## 本项目特点：
 1. 涵盖了数值计算、字符查找、树遍历、排序、动态规划等不同算法。
-2. 每个算法都有多种语言的实现，通过实际例子帮助理解不同语言的特点。
-3. 样例精心设计，适合学生或程序员学习和分析，提升编程水平。
+2. 每个算法都有多种语言的实现，通过算法与数据结构理解不同语言的特色。
+3. 例子逐一，适合学生或程序员学习和分析，提升编程水平。
 
 # 算法概览
 
@@ -29,7 +29,7 @@
     
 ## 10大经典排序算法
 
-| 排序算法 | C语言版 | JS版 | Python版 | Java版 | TypeScript版 | Go版 | 时间复杂度（平均/最坏） | 空间复杂度 | 稳定性 | 适用场景 |
+| 排序算法 | C语言版 | JS版 | Python版 | Java版 | TS版 | Go版 | 时间复杂度（平均/最坏） | 空间复杂度 | 稳定性 | 适用场景 |
 |---------|--------|-------------|---------|-------|-------------|-----|--------------------|---------|------|--------|
 | [冒泡排序 bubble sort](./sorts/bubblesort/) | [C](./sorts/bubblesort/bubble_sort.c) | [JS](./sorts/bubblesort/bubble_sort.js) | [Python](./sorts/bubblesort/bubble_sort.py) | [Java](./sorts/bubblesort/BubbleSort.java) | [TS](./sorts/bubblesort/BubbleSort.ts) | [Go](./sorts/bubblesort/bubble_sort.go) | O(n²) / O(n²) | O(1) | ✅ | 适用于小规模数据排序，教学用途 |
 | [插入排序 insert sort](./sorts/insertsort/) | [C](./sorts/insertsort/insert_sort.c) | [JS](./sorts/insertsort/insert_sort.js) | [Python](./sorts/insertsort/insert_sort.py) | [Java](./sorts/insertsort/InsertSort.java) | [TS](./sorts/insertsort/InsertSort.ts) | [Go](./sorts/insertsort/insert_sort.go) | O(n²) / O(n²) | O(1) | ✅ | 适用于小规模数据，少量元素已基本有序的情况 |
@@ -54,7 +54,7 @@
 
 ## 树搜索与遍历
 
-| 算法 | C语言版 | JS版 | Python版 | Java版 | TypeScript版 | 时间复杂度（平均/最坏） | 空间复杂度 | 适用场景 |
+| 算法 | C语言版 | JS版 | Python版 | Java版 | TS版 | 时间复杂度（平均/最坏） | 空间复杂度 | 适用场景 |
 |------|--------|-------------|---------|-------|-------------|--------------------|---------|--------|
 | [二叉树遍历](./tree/binarytree/) | [C](./tree/binarytree/binary_tree.c) | [JS](./tree/binarytree/binary_tree.js) | [Python](./tree/binarytree/binary_tree.py) | [Java](./tree/binarytree/BinaryTree.java) | [TS](./tree/binarytree/BinaryTree.ts) | O(n) / O(n) | O(n) | 适用于树结构数据的遍历，如 XML 解析、文件系统遍历 |
 
@@ -123,6 +123,9 @@
 | [Graph (图)](./data-structure/graph/) | 由节点（顶点）和边组成的图形数据结构，常见存储方式为邻接表或邻接矩阵 | 非线性结构，节点间可多对多连接 | O(1) (邻接矩阵) / O(n) (邻接表) | O(1) (邻接矩阵) / O(n) (邻接表) |
 | [Hash (散列)](./data-structure/hash/) | 通过哈希函数将键映射到存储位置的数据结构，支持快速查找、插入和删除 | 线性结构，通过哈希键值映射 | O(1) (均摊) | O(1) (均摊) |
 | [Struct (结构体)](./data-structure/struct/) | 组合多种类型的数据，形成一个整体，常用于表示复杂对象 | 自定义结构，字段固定，包含多种数据类型 | O(1) | O(1) |
+| [List (列表)](./data-structure/list/) | 有序集合，允许重复元素，支持索引访问 | 线性结构，元素按插入顺序存储 | O(1) (末尾插入)，O(n) (中间插入/删除) | O(1) (索引访问)，O(n) (查找) |  
+| [Set (集合)](./data-structure/set/) | 无序集合，不允许重复元素，支持高效查找 | 线性结构，基于哈希或树实现 | O(1) (哈希实现)，O(log n) (树实现) | O(1) (哈希实现)，O(log n) (树实现) |  
+| [Map (映射)](./data-structure/map/) | 存储键值对的数据结构，支持快速查找、插入和删除 | 关联数组，基于哈希或平衡树实现 | O(1) (哈希实现)，O(log n) (树实现) | O(1) (哈希实现)，O(log n) (树实现) |  
 
 ---
 
@@ -133,8 +136,8 @@
   
 ## 欢迎加入共建
 
-`本文链接
-`[https://github.com/microwind/algorithms](https://github.com/microwind/algorithms)
+`仓库：` [https://github.com/microwind/algorithms](https://github.com/microwind/algorithms)
+`站点：` [https://microwind.github.io/algorithms](https://microwind.github.io/algorithms)
 
 如果您对本项目感兴趣请加我，欢迎一起共建！ 
 If you are interested in this project, please add me. I welcome you to build it together!
