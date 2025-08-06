@@ -5,7 +5,7 @@
  */
 #include <stdio.h>
 
-int factorial(x)
+int factorial(int x)
 {
   printf("\nx=%d", x);
   if (x < 1)
@@ -15,7 +15,7 @@ int factorial(x)
   return x * factorial(x - 1);
 }
 
-int factorial2(x)
+int factorial2(int x)
 {
   printf("\nx=%d", x);
   if (x <= 1)
@@ -45,7 +45,7 @@ x= 0
 factorial(5) 120
  */
 
-int recursion(n)
+int recursion(int n)
 {
   printf("\nbegin: n=%d", n);
   if (n >= 15)
@@ -54,6 +54,13 @@ int recursion(n)
   return recursion(n + 1) + recursion(n * 2);
 }
 
+// 将上面的recursion递归改为尾递归示例（单一递归调用，无后续操作）
+int tail_recursion(int n, int accumulator)
+{
+  if (n >= 15)
+    return accumulator + n;                      // 终止时直接返回结果
+  return tail_recursion(n * 3 + 1, accumulator); // 最后一步仅递归调用
+}
 
 /**
 
@@ -68,7 +75,7 @@ int recursion(n)
 
       total = 40 + 78 + 24 + 19 + 36 = 197
 
-// output 
+// output
 begin: n= 1
 begin: n= 4
 begin: n= 13
@@ -81,7 +88,7 @@ begin: n= 36
 recursion(1)= 197
  */
 
-int recursion2(n)
+int recursion2(int n)
 {
   printf("\nbegin: n=%d", n);
   if (n >= 15)
@@ -103,7 +110,7 @@ int recursion2(n)
 
       total = (40 - 78) - (24) - (19 - 36) = -45
 
-// output 
+// output
 begin: n= 1
 begin: n= 4
 begin: n= 13
