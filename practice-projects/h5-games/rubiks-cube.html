@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D魔方游戏</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #canvas-container {
+            position: relative;
+            width: 90vmin;
+            height: 70vmin;
+            max-width: 800px;
+            max-height: 600px;
+        }
+
+        canvas {
+            display: block;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        #controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 0 20px;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        #info {
+            color: white;
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            padding: 0 20px;
+        }
+
+        #title {
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        #moves {
+            color: white;
+            font-size: 18px;
+            margin-top: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 600px) {
+            button {
+                padding: 10px 18px;
+                font-size: 14px;
+            }
+
+            #title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1 id="title">🎮 3D魔方游戏</h1>
+        <div id="canvas-container"></div>
+        <div id="controls">
+            <button onclick="shuffleCube()">🎲 打乱</button>
+            <button onclick="resetCube()">🔄 重置</button>
+            <button onclick="autoRotate = !autoRotate">⏸️ 自动旋转</button>
+        </div>
+        <div id="moves">步数: 0</div>
+        <div id="info">
+            💡 拖动鼠标旋转魔方 | 点击方块旋转该层
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // 基础设置
+        let scene, camera, renderer, cubeGroup;
+        let isDragging = false;
+        let previousMousePosition = { x: 0, y: 0 };
+        let autoRotate = true;
+        let moveCount = 0;
+        let cubelets = [];
+        let isAnimating = false;
+
+        // 魔方颜色配置
+        const colors = {
+            front: 0xff0000,   // 红色
+            back: 0xff8c00,    // 橙色
+            top: 0xffffff,     // 白色
+            bottom: 0xffff00,  // 黄色
+            left: 0x00ff00,    // 绿色
+            right: 0x0000ff    // 蓝色
+        };
+
+        // 初始化场景
+        function init() {
+            const container = document.getElementById('canvas-container');
+
+            // 创建场景
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x1a1a2e);
+
+            // 创建相机
+            camera = new THREE.PerspectiveCamera(
+                45,
+                container.clientWidth / container.clientHeight,
+                0.1,
+                1000
+            );
+            camera.position.set(6, 6, 6);
+            camera.lookAt(0, 0, 0);
+
+            // 创建渲染器
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            container.appendChild(renderer.domElement);
+
+            // 添加光源
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+            directionalLight.position.set(5, 5, 5);
+            scene.add(directionalLight);
+
+            // 创建魔方
+            createCube();
+
+            // 添加事件监听
+            renderer.domElement.addEventListener('mousedown', onMouseDown);
+            renderer.domElement.addEventListener('mousemove', onMouseMove);
+            renderer.domElement.addEventListener('mouseup', onMouseUp);
+            renderer.domElement.addEventListener('click', onCubeClick);
+            window.addEventListener('resize', onWindowResize);
+
+            // 开始动画
+            animate();
+        }
+
+        // 创建单个小方块
+        function createCubelet(x, y, z) {
+            const geometry = new THREE.BoxGeometry(0.95, 0.95, 0.95);
+
+            // 为每个面创建不同的材质
+            const materials = [
+                new THREE.MeshLambertMaterial({ color: x === 1 ? colors.right : 0x000000 }),  // 右
+                new THREE.MeshLambertMaterial({ color: x === -1 ? colors.left : 0x000000 }),  // 左
+                new THREE.MeshLambertMaterial({ color: y === 1 ? colors.top : 0x000000 }),    // 上
+                new THREE.MeshLambertMaterial({ color: y === -1 ? colors.bottom : 0x000000 }), // 下
+                new THREE.MeshLambertMaterial({ color: z === 1 ? colors.front : 0x000000 }),  // 前
+                new THREE.MeshLambertMaterial({ color: z === -1 ? colors.back : 0x000000 })   // 后
+            ];
+
+            const cubelet = new THREE.Mesh(geometry, materials);
+            cubelet.position.set(x, y, z);
+
+            // 添加边框
+            const edges = new THREE.EdgesGeometry(geometry);
+            const line = new THREE.LineSegments(
+                edges,
+                new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 2 })
+            );
+            cubelet.add(line);
+
+            // 存储初始位置
+            cubelet.userData.initialPosition = { x, y, z };
+            cubelet.userData.position = { x, y, z };
+
+            return cubelet;
+        }
+
+        // 创建完整魔方
+        function createCube() {
+            cubeGroup = new THREE.Group();
+            cubelets = [];
+
+            for (let x = -1; x <= 1; x++) {
+                for (let y = -1; y <= 1; y++) {
+                    for (let z = -1; z <= 1; z++) {
+                        if (x === 0 && y === 0 && z === 0) continue; // 跳过中心
+
+                        const cubelet = createCubelet(x, y, z);
+                        cubeGroup.add(cubelet);
+                        cubelets.push(cubelet);
+                    }
+                }
+            }
+
+            scene.add(cubeGroup);
+        }
+
+        // 旋转一层
+        function rotateLayer(axis, layer, direction = 1) {
+            if (isAnimating) return;
+            isAnimating = true;
+            moveCount++;
+            updateMoveCount();
+
+            const affectedCubelets = cubelets.filter(cubelet => {
+                const pos = cubelet.userData.position;
+                return Math.abs(pos[axis] - layer) < 0.1;
+            });
+
+            const group = new THREE.Group();
+            scene.add(group);
+
+            // 将受影响的方块添加到临时组
+            affectedCubelets.forEach(cubelet => {
+                cubeGroup.remove(cubelet);
+                group.add(cubelet);
+            });
+
+            // 动画旋转
+            const targetRotation = direction * Math.PI / 2;
+            let currentRotation = 0;
+            const rotationSpeed = 0.15;
+
+            function animateRotation() {
+                currentRotation += rotationSpeed;
+
+                if (currentRotation >= Math.abs(targetRotation)) {
+                    group.rotation[axis] = targetRotation;
+
+                    // 将方块移回主组
+                    affectedCubelets.forEach(cubelet => {
+                        const worldPos = new THREE.Vector3();
+                        cubelet.getWorldPosition(worldPos);
+
+                        const worldQuaternion = new THREE.Quaternion();
+                        cubelet.getWorldQuaternion(worldQuaternion);
+
+                        group.remove(cubelet);
+                        cubeGroup.add(cubelet);
+
+                        cubelet.position.copy(worldPos);
+                        cubelet.quaternion.copy(worldQuaternion);
+
+                        // 更新逻辑位置
+                        cubelet.userData.position = {
+                            x: Math.round(cubelet.position.x),
+                            y: Math.round(cubelet.position.y),
+                            z: Math.round(cubelet.position.z)
+                        };
+                    });
+
+                    scene.remove(group);
+                    isAnimating = false;
+                } else {
+                    group.rotation[axis] = direction * currentRotation;
+                    requestAnimationFrame(animateRotation);
+                }
+            }
+
+            animateRotation();
+        }
+
+        // 打乱魔方
+        function shuffleCube() {
+            if (isAnimating) return;
+
+            const moves = 20;
+            const axes = ['x', 'y', 'z'];
+            const layers = [-1, 0, 1];
+
+            let count = 0;
+
+            function doMove() {
+                if (count >= moves) return;
+
+                const axis = axes[Math.floor(Math.random() * axes.length)];
+                const layer = layers[Math.floor(Math.random() * layers.length)];
+                const direction = Math.random() > 0.5 ? 1 : -1;
+
+                rotateLayer(axis, layer, direction);
+
+                count++;
+                setTimeout(doMove, 200);
+            }
+
+            moveCount = 0;
+            updateMoveCount();
+            doMove();
+        }
+
+        // 重置魔方
+        function resetCube() {
+            if (isAnimating) return;
+
+            scene.remove(cubeGroup);
+            createCube();
+            moveCount = 0;
+            updateMoveCount();
+        }
+
+        // 更新步数显示
+        function updateMoveCount() {
+            document.getElementById('moves').textContent = `步数: ${moveCount}`;
+        }
+
+        // 鼠标事件处理
+        function onMouseDown(event) {
+            isDragging = true;
+            autoRotate = false;
+        }
+
+        function onMouseMove(event) {
+            if (!isDragging) return;
+
+            const deltaX = event.offsetX - previousMousePosition.x;
+            const deltaY = event.offsetY - previousMousePosition.y;
+
+            cubeGroup.rotation.y += deltaX * 0.01;
+            cubeGroup.rotation.x += deltaY * 0.01;
+
+            previousMousePosition = {
+                x: event.offsetX,
+                y: event.offsetY
+            };
+        }
+
+        function onMouseUp(event) {
+            isDragging = false;
+        }
+
+        // 点击魔方旋转层
+        function onCubeClick(event) {
+            if (isAnimating || isDragging) return;
+
+            const raycaster = new THREE.Raycaster();
+            const mouse = new THREE.Vector2();
+
+            const rect = renderer.domElement.getBoundingClientRect();
+            mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+            mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(cubelets);
+
+            if (intersects.length > 0) {
+                const cubelet = intersects[0].object;
+                const pos = cubelet.userData.position;
+
+                // 根据点击的方块位置决定旋转哪一层
+                const absX = Math.abs(pos.x);
+                const absY = Math.abs(pos.y);
+                const absZ = Math.abs(pos.z);
+
+                if (absY >= absX && absY >= absZ) {
+                    rotateLayer('y', pos.y, 1);
+                } else if (absX >= absZ) {
+                    rotateLayer('x', pos.x, 1);
+                } else {
+                    rotateLayer('z', pos.z, 1);
+                }
+            }
+        }
+
+        // 窗口大小调整
+        function onWindowResize() {
+            const container = document.getElementById('canvas-container');
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        }
+
+        // 动画循环
+        function animate() {
+            requestAnimationFrame(animate);
+
+            if (autoRotate && !isDragging) {
+                cubeGroup.rotation.y += 0.005;
+                cubeGroup.rotation.x += 0.002;
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        // 启动
+        init();
+    </script>
+</body>
+</html>

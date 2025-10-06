@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中国历史地图时间线 - 互动学习工具</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', 'SimSun', serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            overflow-x: hidden;
+            color: #333;
+        }
+
+        #app {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            min-height: 1200px;
+            flex-direction: column;
+        }
+
+        /* 顶部标题栏 */
+        #header {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        #header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+            color: #ffd700;
+        }
+
+        #header p {
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        /* 主要内容区 */
+        #main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        /* 当前信息显示区 */
+        #info-panel {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        .info-card {
+            padding: 15px;
+            border-left: 4px solid #1e3c72;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .info-card h3 {
+            color: #1e3c72;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .info-card p {
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 5px 0;
+        }
+
+        .info-card .highlight {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+
+        /* 地图区域 */
+        #map-container {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #map-svg {
+            width: 100%;
+            /*height: 100%;*/
+            max-width: 1000px;
+            max-height: 600px;
+        }
+
+        /* 时间轴区域 */
+        #timeline-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        #timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        #current-year {
+            font-size: 24px;
+            font-weight: bold;
+            color: #d32f2f;
+        }
+
+        #timeline-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .control-btn {
+            padding: 8px 16px;
+            background: #1e3c72;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .control-btn:hover {
+            background: #2a5298;
+            transform: translateY(-2px);
+        }
+
+        #timeline-slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #ddd;
+            outline: none;
+            -webkit-appearance: none;
+            margin-bottom: 10px;
+        }
+
+        #timeline-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #d32f2f;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        #timeline-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #d32f2f;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            border: none;
+        }
+
+        #dynasty-timeline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+            position: relative;
+            margin-top: 10px;
+        }
+
+        .dynasty-marker {
+            position: absolute;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dynasty-marker .marker-dot {
+            width: 12px;
+            height: 12px;
+            background: #1e3c72;
+            border-radius: 50%;
+            margin: 0 auto 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .dynasty-marker .marker-label {
+            font-size: 12px;
+            color: #1e3c72;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .dynasty-marker:hover {
+            transform: scale(1.1);
+        }
+
+        .dynasty-marker.active .marker-dot {
+            background: #d32f2f;
+            width: 16px;
+            height: 16px;
+        }
+
+        .dynasty-marker.active .marker-label {
+            color: #d32f2f;
+            font-size: 14px;
+        }
+
+        /* 事件列表 */
+        #events-list {
+            margin-top: 15px;
+            max-height: 150px;
+            overflow-y: auto;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .event-item {
+            padding: 8px;
+            margin-bottom: 8px;
+            background: white;
+            border-left: 3px solid #1e3c72;
+            border-radius: 3px;
+            font-size: 13px;
+        }
+
+        .event-item .event-year {
+            color: #d32f2f;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            #info-panel {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            #header h1 {
+                font-size: 20px;
+            }
+
+            #current-year {
+                font-size: 18px;
+            }
+        }
+
+        /* 地图样式 */
+        .territory {
+            fill: #ffeb3b;
+            fill-opacity: 0.6;
+            stroke: #f57c00;
+            stroke-width: 2;
+            transition: all 0.3s;
+        }
+
+        .territory:hover {
+            fill-opacity: 0.8;
+        }
+
+        .territory-label {
+            font-size: 20px;
+            font-weight: bold;
+            fill: #d32f2f;
+            text-anchor: middle;
+            pointer-events: none;
+        }
+
+        .border-line {
+            stroke: #f57c00;
+            stroke-width: 3;
+            fill: none;
+            stroke-dasharray: 5, 5;
+        }
+
+        /* 滚动条样式 */
+        #events-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #events-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        #events-list::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+
+        #events-list::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div id="header">
+            <h1>📜 中国历史地图时间线</h1>
+            <p>从夏朝到现代 | 互动式历史学习工具</p>
+        </div>
+
+        <div id="main-content">
+            <!-- 信息面板 -->
+            <div id="info-panel">
+                <div class="info-card">
+                    <h3>📅 朝代信息</h3>
+                    <p><span class="highlight" id="dynasty-name">夏朝</span></p>
+                    <p id="dynasty-period">约公元前2070年 - 约公元前1600年</p>
+                    <p id="dynasty-capital"></p>
+                </div>
+                <div class="info-card">
+                    <h3>👑 帝王信息</h3>
+                    <p id="emperor-name">启（夏朝开国君主）</p>
+                    <p id="emperor-reign"></p>
+                    <p id="emperor-info"></p>
+                </div>
+                <div class="info-card">
+                    <h3>🗺️ 疆域概况</h3>
+                    <p id="territory-info">主要在黄河中下游地区</p>
+                    <p id="territory-extent"></p>
+                </div>
+            </div>
+
+            <!-- 地图显示区 -->
+            <div id="map-container">
+                <svg id="map-svg" viewBox="0 0 1000 700"></svg>
+            </div>
+
+            <!-- 时间轴控制区 -->
+            <div id="timeline-container">
+                <div id="timeline-header">
+                    <div id="current-year">公元前 2070年</div>
+                    <div id="timeline-controls">
+                        <button class="control-btn" onclick="previousDynasty()">⏮ 上一朝代</button>
+                        <button class="control-btn" onclick="playTimeline()">▶️ 自动播放</button>
+                        <button class="control-btn" onclick="nextDynasty()">下一朝代 ⏭</button>
+                    </div>
+                </div>
+
+                <input type="range" id="timeline-slider" min="-2070" max="2024" value="-2070" step="1">
+
+                <div id="dynasty-timeline"></div>
+
+                <div id="events-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 历史数据库
+        const historyData = {
+            dynasties: [
+                {
+                    name: "夏朝",
+                    startYear: -2070,
+                    endYear: -1600,
+                    capital: "阳城（今河南登封）",
+                    founder: "禹",
+                    territory: "黄河中下游地区",
+                    extent: "北至河北南部，南至河南、山西南部",
+                    color: "#FFD700",
+                    emperors: [
+                        { name: "禹", reign: "约前2070-前2061", info: "夏朝开国君主，治水英雄" },
+                        { name: "启", reign: "约前2061-前2033", info: "禹之子，确立世袭制" },
+                        { name: "太康", reign: "约前2033-前2015", info: "启之子，失国" },
+                        { name: "仲康", reign: "约前2015-前2003", info: "太康弟" },
+                        { name: "相", reign: "约前2003-前1983", info: "仲康之子" },
+                        { name: "少康", reign: "约前1983-前1963", info: "中兴之主" },
+                        { name: "杼", reign: "约前1963-前1946", info: "少康之子" },
+                        { name: "槐", reign: "约前1946-前1916", info: "杼之子" },
+                        { name: "芒", reign: "约前1916-前1875", info: "槐之子" },
+                        { name: "泄", reign: "约前1875-前1850", info: "芒之子" },
+                        { name: "不降", reign: "约前1850-前1832", info: "泄之子" },
+                        { name: "扃", reign: "约前1832-前1810", info: "不降弟" },
+                        { name: "廑", reign: "约前1810-前1789", info: "扃之子" },
+                        { name: "孔甲", reign: "约前1789-前1758", info: "不降之子" },
+                        { name: "皋", reign: "约前1758-前1747", info: "孔甲之子" },
+                        { name: "发", reign: "约前1747-前1728", info: "皋之子" },
+                        { name: "履癸（桀）", reign: "约前1728-前1600", info: "夏朝末代君主，暴君" }
+                    ],
+                    events: [
+                        { year: -2070, event: "禹建立夏朝，定都阳城" },
+                        { year: -2061, event: "启继位，确立王位世袭制" },
+                        { year: -1983, event: "少康中兴，夏朝复兴" },
+                        { year: -1600, event: "商汤灭夏，夏朝灭亡" }
+                    ]
+                },
+                {
+                    name: "商朝",
+                    startYear: -1600,
+                    endYear: -1046,
+                    capital: "亳（今河南商丘）、殷（今河南安阳）",
+                    founder: "汤",
+                    territory: "黄河中下游，东至海滨",
+                    extent: "东至大海，西至陕西，南至长江，北至辽宁",
+                    color: "#FF8C00",
+                    emperors: [
+                        { name: "成汤", reign: "约前1600-前1588", info: "商朝开国君主，灭夏建商" },
+                        { name: "太甲", reign: "约前1588-前1574", info: "汤之孙，伊尹辅政" },
+                        { name: "盘庚", reign: "约前1300", info: "迁都至殷" },
+                        { name: "武丁", reign: "约前1250-前1192", info: "盛世君主，商朝中兴" },
+                        { name: "帝辛（纣王）", reign: "约前1075-前1046", info: "商朝末代君主，暴君" }
+                    ],
+                    events: [
+                        { year: -1600, event: "商汤灭夏，建立商朝" },
+                        { year: -1300, event: "盘庚迁殷，商朝进入稳定期" },
+                        { year: -1250, event: "武丁即位，开创盛世" },
+                        { year: -1046, event: "周武王灭商，商朝灭亡" }
+                    ]
+                },
+                {
+                    name: "西周",
+                    startYear: -1046,
+                    endYear: -771,
+                    capital: "镐京（今陕西西安）",
+                    founder: "周武王",
+                    territory: "黄河流域及长江中游",
+                    extent: "东至大海，西至甘肃，南至长江，北至辽宁",
+                    color: "#4169E1",
+                    emperors: [
+                        { name: "周武王", reign: "约前1046-前1043", info: "灭商建周，分封诸侯" },
+                        { name: "周成王", reign: "约前1043-前1021", info: "周公辅政，制礼作乐" },
+                        { name: "周康王", reign: "约前1021-前996", info: "成康之治" },
+                        { name: "周昭王", reign: "约前996-前977", info: "南征荆楚" },
+                        { name: "周穆王", reign: "约前977-前922", info: "西征犬戎" },
+                        { name: "周幽王", reign: "约前781-前771", info: "烽火戏诸侯，西周灭亡" }
+                    ],
+                    events: [
+                        { year: -1046, event: "牧野之战，周武王灭商" },
+                        { year: -1043, event: "周公摄政，制礼作乐" },
+                        { year: -1000, event: "成康之治，西周盛世" },
+                        { year: -841, event: "国人暴动，共和行政" },
+                        { year: -771, event: "犬戎攻破镐京，西周灭亡" }
+                    ]
+                },
+                {
+                    name: "东周（春秋）",
+                    startYear: -770,
+                    endYear: -476,
+                    capital: "洛邑（今河南洛阳）",
+                    founder: "周平王",
+                    territory: "诸侯割据，周王室衰微",
+                    extent: "名义上仍为天下共主，实际控制范围缩小",
+                    color: "#32CD32",
+                    emperors: [
+                        { name: "周平王", reign: "前770-前720", info: "东迁洛邑，开启东周" },
+                        { name: "周桓王", reign: "前720-前697", info: "与郑国交恶" },
+                        { name: "周庄王", reign: "前697-前682", info: "王室衰微" },
+                        { name: "周僖王", reign: "前682-前677", info: "齐桓公尊王攘夷" }
+                    ],
+                    events: [
+                        { year: -770, event: "周平王东迁洛邑，东周开始" },
+                        { year: -685, event: "齐桓公即位，称霸春秋" },
+                        { year: -656, event: "齐桓公尊王攘夷" },
+                        { year: -636, event: "晋文公称霸" },
+                        { year: -597, event: "楚庄王问鼎中原" },
+                        { year: -551, event: "孔子诞生" },
+                        { year: -506, event: "吴王阖闾攻破楚国郢都" }
+                    ]
+                },
+                {
+                    name: "东周（战国）",
+                    startYear: -475,
+                    endYear: -221,
+                    capital: "洛邑（今河南洛阳）",
+                    founder: "承春秋",
+                    territory: "七雄割据，周王室名存实亡",
+                    extent: "战国七雄：齐、楚、燕、韩、赵、魏、秦",
+                    color: "#FF6347",
+                    emperors: [
+                        { name: "周威烈王", reign: "前425-前402", info: "三家分晋" },
+                        { name: "周显王", reign: "前368-前321", info: "战国中期" },
+                        { name: "周赧王", reign: "前314-前256", info: "东周末代君主" }
+                    ],
+                    events: [
+                        { year: -475, event: "战国时代开始" },
+                        { year: -403, event: "三家分晋，韩赵魏立国" },
+                        { year: -356, event: "商鞅变法" },
+                        { year: -341, event: "马陵之战，孙膑大破魏军" },
+                        { year: -318, event: "五国伐秦" },
+                        { year: -307, event: "赵武灵王胡服骑射" },
+                        { year: -260, event: "长平之战，秦国大胜" },
+                        { year: -256, event: "秦灭东周" }
+                    ]
+                },
+                {
+                    name: "秦朝",
+                    startYear: -221,
+                    endYear: -207,
+                    capital: "咸阳（今陕西咸阳）",
+                    founder: "秦始皇",
+                    territory: "中国首个大一统王朝",
+                    extent: "东至大海，西至陇西，南至岭南，北至长城",
+                    color: "#000000",
+                    emperors: [
+                        { name: "秦始皇（嬴政）", reign: "前221-前210", info: "首位皇帝，统一六国" },
+                        { name: "秦二世（胡亥）", reign: "前210-前207", info: "秦朝末代皇帝" },
+                        { name: "秦王子婴", reign: "前207", info: "在位46天，秦朝灭亡" }
+                    ],
+                    events: [
+                        { year: -230, event: "秦灭韩" },
+                        { year: -228, event: "秦灭赵" },
+                        { year: -225, event: "秦灭魏" },
+                        { year: -223, event: "秦灭楚" },
+                        { year: -222, event: "秦灭燕" },
+                        { year: -221, event: "秦灭齐，统一天下，建立秦朝" },
+                        { year: -220, event: "统一文字、货币、度量衡" },
+                        { year: -214, event: "修筑长城，开灵渠" },
+                        { year: -213, event: "焚书坑儒" },
+                        { year: -210, event: "秦始皇驾崩" },
+                        { year: -209, event: "陈胜吴广起义" },
+                        { year: -207, event: "刘邦入咸阳，秦朝灭亡" }
+                    ]
+                },
+                {
+                    name: "汉朝（西汉）",
+                    startYear: -202,
+                    endYear: 9,
+                    capital: "长安（今陕西西安）",
+                    founder: "汉高祖刘邦",
+                    territory: "继承秦朝疆域并扩张",
+                    extent: "东至大海，西至西域，南至越南，北至漠北",
+                    color: "#DC143C",
+                    emperors: [
+                        { name: "汉高祖（刘邦）", reign: "前202-前195", info: "建立汉朝" },
+                        { name: "汉惠帝（刘盈）", reign: "前195-前188", info: "高祖之子" },
+                        { name: "汉文帝（刘恒）", reign: "前180-前157", info: "文景之治" },
+                        { name: "汉景帝（刘启）", reign: "前157-前141", info: "文景之治" },
+                        { name: "汉武帝（刘彻）", reign: "前141-前87", info: "开疆拓土，独尊儒术" },
+                        { name: "汉昭帝（刘弗陵）", reign: "前87-前74", info: "霍光辅政" },
+                        { name: "汉宣帝（刘询）", reign: "前74-前49", info: "昭宣中兴" },
+                        { name: "汉元帝（刘奭）", reign: "前49-前33", info: "昭君出塞" },
+                        { name: "汉成帝（刘骜）", reign: "前33-前7", info: "外戚专权" },
+                        { name: "汉哀帝（刘欣）", reign: "前7-前1", info: "外戚专权" },
+                        { name: "汉平帝（刘衎）", reign: "前1-6", info: "王莽摄政" }
+                    ],
+                    events: [
+                        { year: -202, event: "刘邦称帝，建立汉朝" },
+                        { year: -200, event: "白登之围" },
+                        { year: -154, event: "七国之乱" },
+                        { year: -141, event: "汉武帝即位" },
+                        { year: -138, event: "张骞出使西域" },
+                        { year: -134, event: "罢黜百家，独尊儒术" },
+                        { year: -119, event: "漠北之战，大破匈奴" },
+                        { year: -104, event: "太初改历" },
+                        { year: -33, event: "王昭君出塞和亲" },
+                        { year: 9, event: "王莽篡汉，建立新朝" }
+                    ]
+                },
+                {
+                    name: "新朝",
+                    startYear: 9,
+                    endYear: 23,
+                    capital: "长安（今陕西西安）",
+                    founder: "王莽",
+                    territory: "与西汉相似",
+                    extent: "名义上与西汉相同，实际控制力减弱",
+                    color: "#8B4513",
+                    emperors: [
+                        { name: "王莽", reign: "9-23", info: "篡汉建新，改制失败" }
+                    ],
+                    events: [
+                        { year: 9, event: "王莽建立新朝" },
+                        { year: 17, event: "绿林起义" },
+                        { year: 18, event: "赤眉起义" },
+                        { year: 23, event: "新朝灭亡，王莽被杀" }
+                    ]
+                },
+                {
+                    name: "汉朝（东汉）",
+                    startYear: 25,
+                    endYear: 220,
+                    capital: "洛阳（今河南洛阳）",
+                    founder: "汉光武帝刘秀",
+                    territory: "恢复西汉疆域",
+                    extent: "东至大海，西至西域，南至越南，北至漠南",
+                    color: "#DC143C",
+                    emperors: [
+                        { name: "光武帝（刘秀）", reign: "25-57", info: "中兴汉室" },
+                        { name: "汉明帝（刘庄）", reign: "57-75", info: "明章之治" },
+                        { name: "汉章帝（刘炟）", reign: "75-88", info: "明章之治" },
+                        { name: "汉和帝（刘肇）", reign: "88-105", info: "外戚宦官专权" },
+                        { name: "汉安帝（刘祜）", reign: "106-125", info: "宦官专权" },
+                        { name: "汉顺帝（刘保）", reign: "125-144", info: "宦官专权" },
+                        { name: "汉桓帝（刘志）", reign: "146-168", info: "党锢之祸" },
+                        { name: "汉灵帝（刘宏）", reign: "168-189", info: "卖官鬻爵" },
+                        { name: "汉献帝（刘协）", reign: "189-220", info: "东汉末代皇帝，被迫禅让" }
+                    ],
+                    events: [
+                        { year: 25, event: "刘秀称帝，建立东汉" },
+                        { year: 36, event: "统一全国" },
+                        { year: 73, event: "班超出使西域" },
+                        { year: 105, event: "蔡伦改进造纸术" },
+                        { year: 166, event: "党锢之祸" },
+                        { year: 184, event: "黄巾起义" },
+                        { year: 189, event: "董卓之乱" },
+                        { year: 200, event: "官渡之战" },
+                        { year: 208, event: "赤壁之战" },
+                        { year: 220, event: "曹丕篡汉，东汉灭亡" }
+                    ]
+                },
+                {
+                    name: "三国时期",
+                    startYear: 220,
+                    endYear: 280,
+                    capital: "魏：洛阳；蜀：成都；吴：建业",
+                    founder: "曹丕、刘备、孙权",
+                    territory: "三国鼎立",
+                    extent: "魏占北方，蜀占西南，吴占东南",
+                    color: "#9370DB",
+                    emperors: [
+                        { name: "魏文帝（曹丕）", reign: "220-226", info: "魏国开国皇帝" },
+                        { name: "魏明帝（曹叡）", reign: "226-239", info: "魏国盛世" },
+                        { name: "蜀汉昭烈帝（刘备）", reign: "221-223", info: "蜀汉开国皇帝" },
+                        { name: "蜀汉后主（刘禅）", reign: "223-263", info: "蜀汉末代皇帝" },
+                        { name: "吴大帝（孙权）", reign: "229-252", info: "吴国开国皇帝" },
+                        { name: "吴景帝（孙休）", reign: "258-264", info: "吴国中期" },
+                        { name: "吴末帝（孙皓）", reign: "264-280", info: "吴国末代皇帝" }
+                    ],
+                    events: [
+                        { year: 220, event: "曹丕称帝，建立曹魏" },
+                        { year: 221, event: "刘备称帝，建立蜀汉" },
+                        { year: 222, event: "夷陵之战，吴国大胜" },
+                        { year: 229, event: "孙权称帝，建立东吴" },
+                        { year: 234, event: "诸葛亮病逝五丈原" },
+                        { year: 249, event: "高平陵之变，司马懿夺权" },
+                        { year: 263, event: "魏灭蜀汉" },
+                        { year: 265, event: "司马炎篡魏，建立晋朝" },
+                        { year: 280, event: "晋灭吴，三国归晋" }
+                    ]
+                },
+                {
+                    name: "晋朝（西晋）",
+                    startYear: 265,
+                    endYear: 316,
+                    capital: "洛阳（今河南洛阳）",
+                    founder: "晋武帝司马炎",
+                    territory: "统一三国",
+                    extent: "东至大海，西至甘肃，南至越南，北至辽河",
+                    color: "#B8860B",
+                    emperors: [
+                        { name: "晋武帝（司马炎）", reign: "265-290", info: "统一三国" },
+                        { name: "晋惠帝（司马衷）", reign: "290-306", info: "八王之乱" },
+                        { name: "晋怀帝（司马炽）", reign: "306-311", info: "永嘉之乱" },
+                        { name: "晋愍帝（司马邺）", reign: "313-316", info: "西晋末代皇帝" }
+                    ],
+                    events: [
+                        { year: 265, event: "司马炎建立西晋" },
+                        { year: 280, event: "灭吴，统一全国" },
+                        { year: 291, event: "八王之乱开始" },
+                        { year: 304, event: "匈奴建立汉赵，五胡乱华开始" },
+                        { year: 311, event: "永嘉之乱，洛阳陷落" },
+                        { year: 316, event: "西晋灭亡" }
+                    ]
+                },
+                {
+                    name: "晋朝（东晋）",
+                    startYear: 317,
+                    endYear: 420,
+                    capital: "建康（今江苏南京）",
+                    founder: "晋元帝司马睿",
+                    territory: "偏安江南",
+                    extent: "淮河以南，长江流域",
+                    color: "#B8860B",
+                    emperors: [
+                        { name: "晋元帝（司马睿）", reign: "317-322", info: "东晋开国皇帝" },
+                        { name: "晋明帝（司马绍）", reign: "322-325", info: "平定王敦之乱" },
+                        { name: "晋成帝（司马衍）", reign: "325-342", info: "庾氏专权" },
+                        { name: "晋孝武帝（司马曜）", reign: "372-396", info: "淝水之战" },
+                        { name: "晋安帝（司马德宗）", reign: "396-418", info: "桓玄篡位" },
+                        { name: "晋恭帝（司马德文）", reign: "418-420", info: "东晋末代皇帝" }
+                    ],
+                    events: [
+                        { year: 317, event: "司马睿建立东晋" },
+                        { year: 383, event: "淝水之战，东晋大胜前秦" },
+                        { year: 399, event: "法显西行求法" },
+                        { year: 420, event: "刘裕篡晋，东晋灭亡" }
+                    ]
+                },
+                {
+                    name: "南北朝（南朝）",
+                    startYear: 420,
+                    endYear: 589,
+                    capital: "建康（今江苏南京）",
+                    founder: "宋武帝刘裕",
+                    territory: "偏安江南",
+                    extent: "淮河以南，长江流域",
+                    color: "#FF69B4",
+                    emperors: [
+                        { name: "宋武帝（刘裕）", reign: "420-422", info: "南朝宋开国皇帝" },
+                        { name: "宋文帝（刘义隆）", reign: "424-453", info: "元嘉之治" },
+                        { name: "齐高帝（萧道成）", reign: "479-482", info: "南齐开国皇帝" },
+                        { name: "梁武帝（萧衍）", reign: "502-549", info: "南梁开国皇帝，佛教大兴" },
+                        { name: "陈武帝（陈霸先）", reign: "557-559", info: "南陈开国皇帝" },
+                        { name: "陈后主（陈叔宝）", reign: "583-589", info: "南陈末代皇帝" }
+                    ],
+                    events: [
+                        { year: 420, event: "刘裕建立南朝宋" },
+                        { year: 479, event: "萧道成建立南齐" },
+                        { year: 502, event: "萧衍建立南梁" },
+                        { year: 557, event: "陈霸先建立南陈" },
+                        { year: 589, event: "隋灭陈，南北朝结束" }
+                    ]
+                },
+                {
+                    name: "南北朝（北朝）",
+                    startYear: 386,
+                    endYear: 581,
+                    capital: "平城、洛阳、邺城等",
+                    founder: "北魏道武帝拓跋珪",
+                    territory: "北方中原地区",
+                    extent: "淮河以北，长城以南",
+                    color: "#4682B4",
+                    emperors: [
+                        { name: "北魏道武帝（拓跋珪）", reign: "386-409", info: "北魏开国皇帝" },
+                        { name: "北魏孝文帝（元宏）", reign: "471-499", info: "汉化改革，迁都洛阳" },
+                        { name: "北齐文宣帝（高洋）", reign: "550-559", info: "北齐开国皇帝" },
+                        { name: "北周武帝（宇文邕）", reign: "560-578", info: "灭北齐" },
+                        { name: "北周静帝（宇文阐）", reign: "579-581", info: "北周末代皇帝" }
+                    ],
+                    events: [
+                        { year: 386, event: "拓跋珪建立北魏" },
+                        { year: 439, event: "北魏统一北方" },
+                        { year: 493, event: "孝文帝迁都洛阳" },
+                        { year: 534, event: "北魏分裂为东魏、西魏" },
+                        { year: 550, event: "高洋建立北齐" },
+                        { year: 557, event: "宇文觉建立北周" },
+                        { year: 577, event: "北周灭北齐" },
+                        { year: 581, event: "杨坚篡周，建立隋朝" }
+                    ]
+                },
+                {
+                    name: "隋朝",
+                    startYear: 581,
+                    endYear: 618,
+                    capital: "大兴（今陕西西安）、洛阳",
+                    founder: "隋文帝杨坚",
+                    territory: "统一南北",
+                    extent: "东至大海，西至新疆，南至越南，北至漠北",
+                    color: "#FFD700",
+                    emperors: [
+                        { name: "隋文帝（杨坚）", reign: "581-604", info: "统一南北，开皇之治" },
+                        { name: "隋炀帝（杨广）", reign: "604-618", info: "开凿大运河，三征高丽" },
+                        { name: "隋恭帝（杨侑）", reign: "617-618", info: "隋朝末代皇帝" }
+                    ],
+                    events: [
+                        { year: 581, event: "杨坚建立隋朝" },
+                        { year: 589, event: "灭陈，统一全国" },
+                        { year: 605, event: "开凿大运河" },
+                        { year: 611, event: "第一次征高丽" },
+                        { year: 613, event: "第二次征高丽" },
+                        { year: 614, event: "第三次征高丽" },
+                        { year: 617, event: "李渊起兵太原" },
+                        { year: 618, event: "隋朝灭亡，唐朝建立" }
+                    ]
+                },
+                {
+                    name: "唐朝",
+                    startYear: 618,
+                    endYear: 907,
+                    capital: "长安（今陕西西安）、洛阳",
+                    founder: "唐高祖李渊",
+                    territory: "中国历史上最强盛的朝代之一",
+                    extent: "东至大海，西至咸海，南至越南，北至西伯利亚",
+                    color: "#FF4500",
+                    emperors: [
+                        { name: "唐高祖（李渊）", reign: "618-626", info: "唐朝开国皇帝" },
+                        { name: "唐太宗（李世民）", reign: "626-649", info: "贞观之治" },
+                        { name: "唐高宗（李治）", reign: "649-683", info: "武则天专权" },
+                        { name: "武则天", reign: "690-705", info: "中国历史上唯一的女皇帝" },
+                        { name: "唐玄宗（李隆基）", reign: "712-756", info: "开元盛世，安史之乱" },
+                        { name: "唐肃宗（李亨）", reign: "756-762", info: "平定安史之乱" },
+                        { name: "唐宪宗（李纯）", reign: "805-820", info: "元和中兴" },
+                        { name: "唐昭宗（李晔）", reign: "888-904", info: "唐朝倒数第二位皇帝" },
+                        { name: "唐哀帝（李柷）", reign: "904-907", info: "唐朝末代皇帝" }
+                    ],
+                    events: [
+                        { year: 618, event: "李渊建立唐朝" },
+                        { year: 626, event: "玄武门之变，李世民即位" },
+                        { year: 630, event: "李靖灭东突厥" },
+                        { year: 645, event: "唐太宗征高丽" },
+                        { year: 690, event: "武则天称帝，建立武周" },
+                        { year: 705, event: "神龙政变，武周灭亡" },
+                        { year: 712, event: "唐玄宗即位" },
+                        { year: 713, event: "开元盛世开始" },
+                        { year: 751, event: "怛罗斯之战" },
+                        { year: 755, event: "安史之乱爆发" },
+                        { year: 763, event: "安史之乱平定" },
+                        { year: 875, event: "黄巢起义" },
+                        { year: 907, event: "朱温篡唐，唐朝灭亡" }
+                    ]
+                },
+                {
+                    name: "五代十国",
+                    startYear: 907,
+                    endYear: 960,
+                    capital: "开封、洛阳等",
+                    founder: "后梁太祖朱温",
+                    territory: "分裂割据",
+                    extent: "五代：后梁、后唐、后晋、后汉、后周；十国分布南方",
+                    color: "#9932CC",
+                    emperors: [
+                        { name: "后梁太祖（朱温）", reign: "907-912", info: "后梁开国皇帝" },
+                        { name: "后唐庄宗（李存勖）", reign: "923-926", info: "后唐开国皇帝" },
+                        { name: "后晋高祖（石敬瑭）", reign: "936-942", info: "割让燕云十六州" },
+                        { name: "后汉高祖（刘知远）", reign: "947-948", info: "后汉开国皇帝" },
+                        { name: "后周太祖（郭威）", reign: "951-954", info: "后周开国皇帝" },
+                        { name: "后周世宗（柴荣）", reign: "954-959", info: "后周盛世" }
+                    ],
+                    events: [
+                        { year: 907, event: "朱温建立后梁" },
+                        { year: 923, event: "李存勖灭后梁，建立后唐" },
+                        { year: 936, event: "石敬瑭建立后晋，割让燕云十六州" },
+                        { year: 947, event: "刘知远建立后汉" },
+                        { year: 951, event: "郭威建立后周" },
+                        { year: 960, event: "赵匡胤陈桥兵变，建立宋朝" }
+                    ]
+                },
+                {
+                    name: "宋朝（北宋）",
+                    startYear: 960,
+                    endYear: 1127,
+                    capital: "东京（今河南开封）",
+                    founder: "宋太祖赵匡胤",
+                    territory: "统一中国大部",
+                    extent: "东至大海，西至甘肃，南至越南，北至河北（失燕云十六州）",
+                    color: "#00CED1",
+                    emperors: [
+                        { name: "宋太祖（赵匡胤）", reign: "960-976", info: "陈桥兵变，建立宋朝" },
+                        { name: "宋太宗（赵光义）", reign: "976-997", info: "统一南方" },
+                        { name: "宋真宗（赵恒）", reign: "997-1022", info: "澶渊之盟" },
+                        { name: "宋仁宗（赵祯）", reign: "1022-1063", info: "仁宗盛治" },
+                        { name: "宋神宗（赵顼）", reign: "1067-1085", info: "王安石变法" },
+                        { name: "宋哲宗（赵煦）", reign: "1085-1100", info: "新旧党争" },
+                        { name: "宋徽宗（赵佶）", reign: "1100-1125", info: "艺术大家，靖康之耻" },
+                        { name: "宋钦宗（赵桓）", reign: "1125-1127", info: "北宋末代皇帝，靖康之耻" }
+                    ],
+                    events: [
+                        { year: 960, event: "赵匡胤陈桥兵变，建立宋朝" },
+                        { year: 976, event: "杯酒释兵权" },
+                        { year: 979, event: "统一全国（除燕云十六州）" },
+                        { year: 1004, event: "澶渊之盟" },
+                        { year: 1038, event: "西夏建国" },
+                        { year: 1069, event: "王安石变法" },
+                        { year: 1086, event: "司马光废新法" },
+                        { year: 1115, event: "金朝建立" },
+                        { year: 1120, event: "海上之盟" },
+                        { year: 1125, event: "金灭辽" },
+                        { year: 1127, event: "靖康之耻，北宋灭亡" }
+                    ]
+                },
+                {
+                    name: "宋朝（南宋）",
+                    startYear: 1127,
+                    endYear: 1279,
+                    capital: "临安（今浙江杭州）",
+                    founder: "宋高宗赵构",
+                    territory: "偏安江南",
+                    extent: "淮河、秦岭以南",
+                    color: "#00CED1",
+                    emperors: [
+                        { name: "宋高宗（赵构）", reign: "1127-1162", info: "南宋开国皇帝" },
+                        { name: "宋孝宗（赵昚）", reign: "1162-1189", info: "南宋中兴" },
+                        { name: "宋光宗（赵惇）", reign: "1189-1194", info: "南宋中期" },
+                        { name: "宋宁宗（赵扩）", reign: "1194-1224", info: "开禧北伐" },
+                        { name: "宋理宗（赵昀）", reign: "1224-1264", info: "端平入洛" },
+                        { name: "宋度宗（赵禥）", reign: "1264-1274", info: "南宋后期" },
+                        { name: "宋恭帝（赵显）", reign: "1274-1276", info: "被俘" },
+                        { name: "宋端宗（赵昰）", reign: "1276-1278", info: "流亡朝廷" },
+                        { name: "宋幼主（赵昺）", reign: "1278-1279", info: "南宋末代皇帝，崖山海战" }
+                    ],
+                    events: [
+                        { year: 1127, event: "赵构建立南宋" },
+                        { year: 1130, event: "岳飞抗金" },
+                        { year: 1140, event: "郾城之战，岳飞大捷" },
+                        { year: 1142, event: "岳飞被害，绍兴和议" },
+                        { year: 1206, event: "成吉思汗统一蒙古" },
+                        { year: 1234, event: "蒙宋联合灭金" },
+                        { year: 1271, event: "忽必烈建立元朝" },
+                        { year: 1276, event: "元军攻陷临安" },
+                        { year: 1279, event: "崖山海战，南宋灭亡" }
+                    ]
+                },
+                {
+                    name: "元朝",
+                    startYear: 1271,
+                    endYear: 1368,
+                    capital: "大都（今北京）",
+                    founder: "元世祖忽必烈",
+                    territory: "中国历史上疆域最大的朝代",
+                    extent: "东至大海，西至欧洲，南至越南，北至西伯利亚",
+                    color: "#A0522D",
+                    emperors: [
+                        { name: "元世祖（忽必烈）", reign: "1271-1294", info: "建立元朝，统一中国" },
+                        { name: "元成宗（铁穆耳）", reign: "1294-1307", info: "守成之君" },
+                        { name: "元武宗（海山）", reign: "1307-1311", info: "元朝中期" },
+                        { name: "元仁宗（爱育黎拔力八达）", reign: "1311-1320", info: "推行汉化" },
+                        { name: "元文宗（图帖睦尔）", reign: "1328-1332", info: "重视文治" },
+                        { name: "元顺帝（妥欢帖睦尔）", reign: "1333-1368", info: "元朝末代皇帝" }
+                    ],
+                    events: [
+                        { year: 1271, event: "忽必烈建立元朝" },
+                        { year: 1276, event: "元军攻陷临安" },
+                        { year: 1279, event: "崖山海战，灭南宋，统一中国" },
+                        { year: 1281, event: "元军征日本失败" },
+                        { year: 1351, event: "红巾军起义" },
+                        { year: 1356, event: "朱元璋攻占集庆（南京）" },
+                        { year: 1368, event: "朱元璋建立明朝，元朝灭亡" }
+                    ]
+                },
+                {
+                    name: "明朝",
+                    startYear: 1368,
+                    endYear: 1644,
+                    capital: "应天府（今南京）、北京",
+                    founder: "明太祖朱元璋",
+                    territory: "恢复汉地",
+                    extent: "东至大海，西至新疆，南至越南，北至长城外",
+                    color: "#FF0000",
+                    emperors: [
+                        { name: "明太祖（朱元璋）", reign: "1368-1398", info: "建立明朝" },
+                        { name: "明惠帝（朱允炆）", reign: "1398-1402", info: "靖难之役" },
+                        { name: "明成祖（朱棣）", reign: "1402-1424", info: "永乐盛世，迁都北京" },
+                        { name: "明仁宗（朱高炽）", reign: "1424-1425", info: "仁宣之治" },
+                        { name: "明宣宗（朱瞻基）", reign: "1425-1435", info: "仁宣之治" },
+                        { name: "明英宗（朱祁镇）", reign: "1435-1449, 1457-1464", info: "土木堡之变" },
+                        { name: "明代宗（朱祁钰）", reign: "1449-1457", info: "北京保卫战" },
+                        { name: "明宪宗（朱见深）", reign: "1464-1487", info: "成化年间" },
+                        { name: "明孝宗（朱祐樘）", reign: "1487-1505", info: "弘治中兴" },
+                        { name: "明武宗（朱厚照）", reign: "1505-1521", info: "正德年间" },
+                        { name: "明世宗（朱厚熜）", reign: "1521-1567", info: "嘉靖大礼议" },
+                        { name: "明穆宗（朱载坖）", reign: "1567-1572", info: "隆庆开关" },
+                        { name: "明神宗（朱翊钧）", reign: "1572-1620", info: "万历中兴，万历怠政" },
+                        { name: "明光宗（朱常洛）", reign: "1620", info: "在位一个月" },
+                        { name: "明熹宗（朱由校）", reign: "1620-1627", info: "魏忠贤专权" },
+                        { name: "明思宗（朱由检）", reign: "1627-1644", info: "崇祯皇帝，明朝末代皇帝" }
+                    ],
+                    events: [
+                        { year: 1368, event: "朱元璋建立明朝" },
+                        { year: 1398, event: "朱允炆即位" },
+                        { year: 1402, event: "靖难之役，朱棣夺位" },
+                        { year: 1405, event: "郑和下西洋" },
+                        { year: 1421, event: "迁都北京" },
+                        { year: 1449, event: "土木堡之变" },
+                        { year: 1457, event: "夺门之变" },
+                        { year: 1566, event: "嘉靖帝驾崩" },
+                        { year: 1572, event: "张居正改革" },
+                        { year: 1592, event: "万历朝鲜之役" },
+                        { year: 1616, event: "努尔哈赤建立后金" },
+                        { year: 1627, event: "袁崇焕守宁远" },
+                        { year: 1636, event: "皇太极改国号为清" },
+                        { year: 1644, event: "李自成攻陷北京，明朝灭亡" }
+                    ]
+                },
+                {
+                    name: "清朝",
+                    startYear: 1636,
+                    endYear: 1912,
+                    capital: "盛京（今沈阳）、北京",
+                    founder: "清太宗皇太极",
+                    territory: "中国最后一个封建王朝",
+                    extent: "东至大海，西至中亚，南至南海诸岛，北至西伯利亚",
+                    color: "#FFFF00",
+                    emperors: [
+                        { name: "清太祖（努尔哈赤）", reign: "1616-1626", info: "建立后金" },
+                        { name: "清太宗（皇太极）", reign: "1626-1643", info: "改国号为清" },
+                        { name: "清世祖（福临）", reign: "1643-1661", info: "顺治皇帝，入关" },
+                        { name: "清圣祖（玄烨）", reign: "1661-1722", info: "康熙皇帝，康熙盛世" },
+                        { name: "清世宗（胤禛）", reign: "1722-1735", info: "雍正皇帝，雍正新政" },
+                        { name: "清高宗（弘历）", reign: "1735-1796", info: "乾隆皇帝，康乾盛世" },
+                        { name: "清仁宗（颙琰）", reign: "1796-1820", info: "嘉庆皇帝" },
+                        { name: "清宣宗（旻宁）", reign: "1820-1850", info: "道光皇帝，鸦片战争" },
+                        { name: "清文宗（奕詝）", reign: "1850-1861", info: "咸丰皇帝，太平天国" },
+                        { name: "清穆宗（载淳）", reign: "1861-1875", info: "同治皇帝，同治中兴" },
+                        { name: "清德宗（载湉）", reign: "1875-1908", info: "光绪皇帝，戊戌变法" },
+                        { name: "清逊帝（溥仪）", reign: "1908-1912", info: "宣统皇帝，清朝末代皇帝" }
+                    ],
+                    events: [
+                        { year: 1616, event: "努尔哈赤建立后金" },
+                        { year: 1636, event: "皇太极改国号为清" },
+                        { year: 1644, event: "清军入关" },
+                        { year: 1661, event: "康熙帝即位" },
+                        { year: 1673, event: "三藩之乱" },
+                        { year: 1683, event: "收复台湾" },
+                        { year: 1689, event: "《尼布楚条约》" },
+                        { year: 1722, event: "雍正帝即位" },
+                        { year: 1735, event: "乾隆帝即位" },
+                        { year: 1840, event: "第一次鸦片战争" },
+                        { year: 1842, event: "《南京条约》" },
+                        { year: 1851, event: "太平天国运动" },
+                        { year: 1856, event: "第二次鸦片战争" },
+                        { year: 1860, event: "英法联军火烧圆明园" },
+                        { year: 1864, event: "太平天国运动失败" },
+                        { year: 1894, event: "甲午中日战争" },
+                        { year: 1895, event: "《马关条约》" },
+                        { year: 1898, event: "戊戌变法" },
+                        { year: 1900, event: "八国联军侵华" },
+                        { year: 1901, event: "《辛丑条约》" },
+                        { year: 1911, event: "辛亥革命" },
+                        { year: 1912, event: "清朝灭亡，中华民国成立" }
+                    ]
+                },
+                {
+                    name: "中华民国",
+                    startYear: 1912,
+                    endYear: 1949,
+                    capital: "南京、北京、重庆等",
+                    founder: "孙中山",
+                    territory: "继承清朝",
+                    extent: "与清朝末期相似，逐渐丧失外蒙古等领土",
+                    color: "#0000FF",
+                    emperors: [
+                        { name: "孙中山", reign: "1912", info: "临时大总统" },
+                        { name: "袁世凯", reign: "1912-1916", info: "中华民国大总统" },
+                        { name: "蒋介石", reign: "1928-1949", info: "国民政府主席" }
+                    ],
+                    events: [
+                        { year: 1912, event: "中华民国成立" },
+                        { year: 1915, event: "袁世凯称帝" },
+                        { year: 1916, event: "袁世凯去世" },
+                        { year: 1919, event: "五四运动" },
+                        { year: 1921, event: "中国共产党成立" },
+                        { year: 1927, event: "南京国民政府成立" },
+                        { year: 1931, event: "九一八事变" },
+                        { year: 1937, event: "七七事变，抗日战争全面爆发" },
+                        { year: 1945, event: "抗日战争胜利" },
+                        { year: 1946, event: "国共内战爆发" },
+                        { year: 1949, event: "中华人民共和国成立" }
+                    ]
+                },
+                {
+                    name: "中华人民共和国",
+                    startYear: 1949,
+                    endYear: 2024,
+                    capital: "北京",
+                    founder: "毛泽东",
+                    territory: "现代中国",
+                    extent: "约960万平方公里",
+                    color: "#FF0000",
+                    emperors: [
+                        { name: "毛泽东", reign: "1949-1976", info: "中华人民共和国开国领袖" },
+                        { name: "邓小平", reign: "1978-1989", info: "改革开放总设计师" },
+                        { name: "江泽民", reign: "1989-2002", info: "第三代领导核心" },
+                        { name: "胡锦涛", reign: "2002-2012", info: "第四代领导核心" },
+                        { name: "习近平", reign: "2012-至今", info: "第五代领导核心" }
+                    ],
+                    events: [
+                        { year: 1949, event: "中华人民共和国成立" },
+                        { year: 1950, event: "抗美援朝" },
+                        { year: 1966, event: "文化大革命开始" },
+                        { year: 1976, event: "文化大革命结束" },
+                        { year: 1978, event: "改革开放" },
+                        { year: 1997, event: "香港回归" },
+                        { year: 1999, event: "澳门回归" },
+                        { year: 2001, event: "加入世界贸易组织" },
+                        { year: 2008, event: "北京奥运会" },
+                        { year: 2021, event: "全面建成小康社会" }
+                    ]
+                }
+            ]
+        };
+
+        // 当前状态
+        let currentYear = -2070;
+        let currentDynasty = null;
+        let isPlaying = false;
+        let playInterval = null;
+
+        // 初始化应用
+        function init() {
+            createTimelineMarkers();
+            updateDisplay(-2070);
+            drawMap();
+
+            // 绑定滑块事件
+            document.getElementById('timeline-slider').addEventListener('input', function(e) {
+                const year = parseInt(e.target.value);
+                updateDisplay(year);
+            });
+        }
+
+        // 创建朝代标记
+        function createTimelineMarkers() {
+            const timelineDiv = document.getElementById('dynasty-timeline');
+            const minYear = -2070;
+            const maxYear = 2024;
+            const totalYears = maxYear - minYear;
+
+            historyData.dynasties.forEach(dynasty => {
+                const marker = document.createElement('div');
+                marker.className = 'dynasty-marker';
+
+                const leftPercent = ((dynasty.startYear - minYear) / totalYears) * 100;
+                marker.style.left = leftPercent + '%';
+
+                marker.innerHTML = `
+                    <div class="marker-dot"></div>
+                    <div class="marker-label">${dynasty.name}</div>
+                `;
+
+                marker.onclick = () => {
+                    updateDisplay(dynasty.startYear);
+                    document.getElementById('timeline-slider').value = dynasty.startYear;
+                };
+
+                timelineDiv.appendChild(marker);
+            });
+        }
+
+        // 更新显示
+        function updateDisplay(year) {
+            currentYear = year;
+
+            // 查找对应的朝代
+            const dynasty = historyData.dynasties.find(d =>
+                year >= d.startYear && year <= d.endYear
+            );
+
+            if (!dynasty) return;
+
+            currentDynasty = dynasty;
+
+            // 更新年份显示
+            const yearStr = year < 0 ? `公元前 ${Math.abs(year)}年` : `公元 ${year}年`;
+            document.getElementById('current-year').textContent = yearStr;
+
+            // 更新朝代信息
+            document.getElementById('dynasty-name').textContent = dynasty.name;
+            document.getElementById('dynasty-period').textContent =
+                `${dynasty.startYear < 0 ? '公元前' + Math.abs(dynasty.startYear) : '公元' + dynasty.startYear}年 - ${dynasty.endYear < 0 ? '公元前' + Math.abs(dynasty.endYear) : '公元' + dynasty.endYear}年`;
+            document.getElementById('dynasty-capital').textContent = `都城：${dynasty.capital}`;
+
+            // 更新帝王信息
+            const emperor = findEmperor(dynasty, year);
+            if (emperor) {
+                document.getElementById('emperor-name').textContent = emperor.name;
+                document.getElementById('emperor-reign').textContent = `在位：${emperor.reign}`;
+                document.getElementById('emperor-info').textContent = emperor.info;
+            } else {
+                document.getElementById('emperor-name').textContent = dynasty.founder;
+                document.getElementById('emperor-reign').textContent = '';
+                document.getElementById('emperor-info').textContent = '';
+            }
+
+            // 更新疆域信息
+            document.getElementById('territory-info').textContent = dynasty.territory;
+            document.getElementById('territory-extent').textContent = `范围：${dynasty.extent}`;
+
+            // 更新事件列表
+            updateEventsList(dynasty, year);
+
+            // 更新地图
+            drawMap();
+
+            // 更新标记状态
+            updateMarkerStates();
+        }
+
+        // 查找对应的帝王
+        function findEmperor(dynasty, year) {
+            if (!dynasty.emperors || dynasty.emperors.length === 0) return null;
+
+            // 简化处理：根据年份区间估算
+            const dynastyDuration = dynasty.endYear - dynasty.startYear;
+            const yearsSinceStart = year - dynasty.startYear;
+            const emperorIndex = Math.floor((yearsSinceStart / dynastyDuration) * dynasty.emperors.length);
+
+            return dynasty.emperors[Math.min(emperorIndex, dynasty.emperors.length - 1)];
+        }
+
+        // 更新事件列表
+        function updateEventsList(dynasty, year) {
+            const eventsDiv = document.getElementById('events-list');
+            eventsDiv.innerHTML = '';
+
+            if (!dynasty.events) return;
+
+            // 显示当前年份前后的事件
+            const relevantEvents = dynasty.events.filter(event =>
+                Math.abs(event.year - year) <= 50
+            ).sort((a, b) => a.year - b.year);
+
+            relevantEvents.forEach(event => {
+                const eventDiv = document.createElement('div');
+                eventDiv.className = 'event-item';
+                const eventYearStr = event.year < 0 ?
+                    `公元前${Math.abs(event.year)}年` : `公元${event.year}年`;
+                eventDiv.innerHTML = `
+                    <span class="event-year">${eventYearStr}</span>
+                    ${event.event}
+                `;
+                eventsDiv.appendChild(eventDiv);
+            });
+
+            if (relevantEvents.length === 0) {
+                eventsDiv.innerHTML = '<div class="event-item">暂无重大事件记录</div>';
+            }
+        }
+
+        // 绘制地图
+        function drawMap() {
+            const svg = document.getElementById('map-svg');
+            svg.innerHTML = '';
+
+            if (!currentDynasty) return;
+
+            // 根据朝代绘制不同的疆域
+            const territoryPath = getTerritoryPath(currentDynasty.name);
+
+            const territory = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            territory.setAttribute('class', 'territory');
+            territory.setAttribute('d', territoryPath);
+            territory.setAttribute('fill', currentDynasty.color);
+            svg.appendChild(territory);
+
+            // 添加朝代名称标签
+            const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            label.setAttribute('class', 'territory-label');
+            label.setAttribute('x', '500');
+            label.setAttribute('y', '350');
+            label.textContent = currentDynasty.name;
+            svg.appendChild(label);
+
+            // 添加都城标记
+            const capital = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            const capitalPos = getCapitalPosition(currentDynasty.capital);
+            capital.setAttribute('cx', capitalPos.x);
+            capital.setAttribute('cy', capitalPos.y);
+            capital.setAttribute('r', '8');
+            capital.setAttribute('fill', '#d32f2f');
+            capital.setAttribute('stroke', 'white');
+            capital.setAttribute('stroke-width', '2');
+            svg.appendChild(capital);
+
+            const capitalLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            capitalLabel.setAttribute('x', capitalPos.x + 15);
+            capitalLabel.setAttribute('y', capitalPos.y + 5);
+            capitalLabel.setAttribute('font-size', '14');
+            capitalLabel.setAttribute('fill', '#d32f2f');
+            capitalLabel.setAttribute('font-weight', 'bold');
+            capitalLabel.textContent = '★ ' + currentDynasty.capital.split('（')[0];
+            svg.appendChild(capitalLabel);
+        }
+
+        // 获取疆域路径（简化的中国地图轮廓）
+        function getTerritoryPath(dynastyName) {
+            // 基础中国地图轮廓
+            const basePath = `
+                M 200,150 L 250,120 L 300,110 L 350,100 L 400,95 L 450,90
+                L 500,85 L 550,90 L 600,100 L 650,120 L 700,150 L 750,200
+                L 780,250 L 800,300 L 810,350 L 800,400 L 780,450 L 750,500
+                L 700,540 L 650,560 L 600,570 L 550,575 L 500,580 L 450,575
+                L 400,570 L 350,560 L 300,540 L 250,500 L 220,450 L 200,400
+                L 190,350 L 185,300 L 190,250 L 200,200 Z
+            `;
+
+            // 根据朝代调整疆域大小（简化处理）
+            if (dynastyName.includes('夏') || dynastyName.includes('商')) {
+                // 夏商疆域较小
+                return `M 350,250 L 400,230 L 450,220 L 500,215 L 550,220
+                        L 600,230 L 650,250 L 670,300 L 660,350 L 640,380
+                        L 600,400 L 550,410 L 500,415 L 450,410 L 400,400
+                        L 360,380 L 340,350 L 330,300 Z`;
+            } else if (dynastyName.includes('元')) {
+                // 元朝疆域最大
+                return `M 150,100 L 250,70 L 350,50 L 450,40 L 550,35
+                        L 650,40 L 750,60 L 820,100 L 860,160 L 880,220
+                        L 890,280 L 890,340 L 880,400 L 850,460 L 800,520
+                        L 730,570 L 650,600 L 550,620 L 450,625 L 350,620
+                        L 250,600 L 170,560 L 130,500 L 110,440 L 100,380
+                        L 105,320 L 120,260 L 140,200 Z`;
+            } else {
+                return basePath;
+            }
+        }
+
+        // 获取都城位置
+        function getCapitalPosition(capital) {
+            const positions = {
+                '阳城': { x: 480, y: 320 },
+                '亳': { x: 500, y: 310 },
+                '殷': { x: 510, y: 300 },
+                '镐京': { x: 420, y: 340 },
+                '洛邑': { x: 490, y: 330 },
+                '洛阳': { x: 490, y: 330 },
+                '咸阳': { x: 410, y: 340 },
+                '长安': { x: 410, y: 345 },
+                '大兴': { x: 410, y: 345 },
+                '建康': { x: 590, y: 380 },
+                '建业': { x: 590, y: 380 },
+                '临安': { x: 620, y: 400 },
+                '大都': { x: 530, y: 240 },
+                '应天府': { x: 590, y: 380 },
+                '北京': { x: 530, y: 240 },
+                '盛京': { x: 610, y: 200 },
+                '南京': { x: 590, y: 380 },
+                '开封': { x: 510, y: 320 }
+            };
+
+            for (let key in positions) {
+                if (capital.includes(key)) {
+                    return positions[key];
+                }
+            }
+
+            return { x: 500, y: 350 }; // 默认位置
+        }
+
+        // 更新标记状态
+        function updateMarkerStates() {
+            const markers = document.querySelectorAll('.dynasty-marker');
+            markers.forEach((marker, index) => {
+                const dynasty = historyData.dynasties[index];
+                if (currentYear >= dynasty.startYear && currentYear <= dynasty.endYear) {
+                    marker.classList.add('active');
+                } else {
+                    marker.classList.remove('active');
+                }
+            });
+        }
+
+        // 上一朝代
+        function previousDynasty() {
+            const currentIndex = historyData.dynasties.findIndex(d =>
+                currentYear >= d.startYear && currentYear <= d.endYear
+            );
+
+            if (currentIndex > 0) {
+                const prevDynasty = historyData.dynasties[currentIndex - 1];
+                updateDisplay(prevDynasty.startYear);
+                document.getElementById('timeline-slider').value = prevDynasty.startYear;
+            }
+        }
+
+        // 下一朝代
+        function nextDynasty() {
+            const currentIndex = historyData.dynasties.findIndex(d =>
+                currentYear >= d.startYear && currentYear <= d.endYear
+            );
+
+            if (currentIndex < historyData.dynasties.length - 1) {
+                const nextDyn = historyData.dynasties[currentIndex + 1];
+                updateDisplay(nextDyn.startYear);
+                document.getElementById('timeline-slider').value = nextDyn.startYear;
+            }
+        }
+
+        // 自动播放
+        function playTimeline() {
+            if (isPlaying) {
+                clearInterval(playInterval);
+                isPlaying = false;
+                document.querySelector('#timeline-controls .control-btn:nth-child(2)').textContent = '▶️ 自动播放';
+            } else {
+                isPlaying = true;
+                document.querySelector('#timeline-controls .control-btn:nth-child(2)').textContent = '⏸️ 暂停';
+
+                playInterval = setInterval(() => {
+                    let newYear = currentYear + 10; // 每次前进10年
+
+                    if (newYear > 2024) {
+                        newYear = -2070;
+                    }
+
+                    document.getElementById('timeline-slider').value = newYear;
+                    updateDisplay(newYear);
+                }, 200); // 200ms更新一次
+            }
+        }
+
+        // 启动应用
+        window.onload = init;
+    </script>
+</body>
+</html>
