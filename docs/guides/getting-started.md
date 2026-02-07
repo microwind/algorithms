@@ -41,13 +41,17 @@ ls -la
 
 ```
 algorithms/
-├── sorts/          # 排序算法
-├── search/         # 搜索算法
-├── data-structure/ # 数据结构
-├── string/         # 字符串算法
-├── tree/           # 树相关算法
-├── graph/          # 图算法
-└── docs/           # 文档
+├── 00-start-here/           # 入门与学习路径
+├── 01-data-structures/      # 数据结构
+├── 02-algorithmic-thinking/ # 算法思想
+├── 03-classic-algorithms/   # 经典算法
+├── 04-problem-sets/         # 练习题
+├── 05-projects/             # 实战项目
+├── 06-examples/             # 示例代码
+├── 07-resources/            # 资源与图片
+├── 08-tools/                # 工具脚本
+├── 09-tests/                # 测试
+└── docs/                    # 文档
 ```
 
 ### Step 3: 运行你的第一个算法
@@ -56,39 +60,39 @@ algorithms/
 
 #### Python 示例
 ```bash
-cd sorts/bubblesort
+cd 03-classic-algorithms/sorting/bubblesort
 python bubble_sort.py
 ```
 
 #### JavaScript 示例
 ```bash
-cd sorts/bubblesort
+cd 03-classic-algorithms/sorting/bubblesort
 node bubble_sort.js
 ```
 
 #### Java 示例
 ```bash
-cd sorts/bubblesort
+cd 03-classic-algorithms/sorting/bubblesort
 javac BubbleSort.java
 java BubbleSort
 ```
 
 #### C 示例
 ```bash
-cd sorts/bubblesort
+cd 03-classic-algorithms/sorting/bubblesort
 gcc bubble_sort.c -o bubble_sort
 ./bubble_sort
 ```
 
 #### Go 示例
 ```bash
-cd sorts/bubblesort
+cd 03-classic-algorithms/sorting/bubblesort
 go run bubble_sort.go
 ```
 
 #### TypeScript 示例
 ```bash
-cd sorts/bubblesort
+cd 03-classic-algorithms/sorting/bubblesort
 # 需要先安装 TypeScript: npm install -g typescript
 tsc BubbleSort.ts
 node BubbleSort.js

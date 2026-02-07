@@ -3,143 +3,90 @@
 ## 🎯 项目定位
 为程序员和大学生提供的多语言算法学习平台，支持 C、Java、Python、JavaScript、Go、TypeScript 六种主流编程语言。
 
-## 📁 推荐目录结构
+## 📁 推荐目录结构（循序渐进）
 
 ```
 algorithms/
 │
-├── docs/                           # 📚 文档中心
-│   ├── guides/                     # 学习指南
-│   │   ├── getting-started.md      # 快速开始
-│   │   ├── learning-path.md        # 学习路径
-│   │   ├── algorithm-complexity.md # 算法复杂度教程
-│   │   └── best-practices.md       # 最佳实践
-│   ├── languages/                  # 语言指南
-│   │   ├── c-setup.md             # C 环境搭建
-│   │   ├── java-setup.md          # Java 环境搭建
-│   │   ├── python-setup.md        # Python 环境搭建
-│   │   ├── javascript-setup.md    # JavaScript 环境搭建
-│   │   ├── go-setup.md            # Go 环境搭建
-│   │   └── typescript-setup.md    # TypeScript 环境搭建
-│   ├── tutorials/                  # 教程系列
-│   │   ├── beginner/              # 初级教程
-│   │   ├── intermediate/          # 中级教程
-│   │   └── advanced/              # 高级教程
-│   └── references/                 # 参考资料
-│       ├── time-complexity.md     # 时间复杂度速查
-│       ├── space-complexity.md    # 空间复杂度速查
-│       └── cheat-sheet.md         # 算法速查表
+├── 00-start-here/                 # 入门与学习路径
+│   ├── algorithmic_thinking.md    # 算法思想
+│   ├── what-is-programming.md     # 编程入门
+│   └── recommand-learning-languages.md # 入门语言推荐
 │
-├── algorithms/                     # 🧮 算法实现
-│   ├── sorting/                   # 排序算法
-│   │   ├── bubble-sort/
-│   │   ├── quick-sort/
-│   │   ├── merge-sort/
-│   │   └── ...
-│   ├── searching/                 # 搜索算法
-│   │   ├── binary-search/
-│   │   ├── linear-search/
-│   │   └── ...
-│   ├── dynamic-programming/       # 动态规划
-│   │   ├── fibonacci/
-│   │   ├── knapsack/
-│   │   ├── lcs/                   # 最长公共子序列
-│   │   └── ...
-│   ├── greedy/                    # 贪心算法
-│   ├── backtracking/              # 回溯算法
-│   ├── divide-conquer/            # 分治算法
-│   ├── graph/                     # 图算法
-│   │   ├── bfs/                   # 广度优先搜索
-│   │   ├── dfs/                   # 深度优先搜索
-│   │   ├── dijkstra/              # 最短路径
-│   │   └── ...
-│   ├── string/                    # 字符串算法
-│   │   ├── kmp/
-│   │   ├── rabin-karp/
-│   │   └── ...
-│   ├── math/                      # 数学算法
-│   │   ├── prime/                 # 质数
-│   │   ├── gcd/                   # 最大公约数
-│   │   └── ...
-│   └── others/                    # 其他算法
+├── 01-data-structures/            # 📊 数据结构
+│   ├── array/
+│   ├── linked/
+│   ├── stack/
+│   ├── queue/
+│   ├── tree/
+│   ├── heap/
+│   ├── graph/
+│   ├── hash/
+│   ├── map/
+│   ├── set/
+│   ├── list/
+│   └── struct/
 │
-├── data-structures/               # 📊 数据结构
-│   ├── array/                     # 数组
-│   ├── linked-list/               # 链表
-│   ├── stack/                     # 栈
-│   ├── queue/                     # 队列
-│   ├── tree/                      # 树
-│   │   ├── binary-tree/
-│   │   ├── bst/                   # 二叉搜索树
-│   │   ├── avl/                   # AVL树
-│   │   ├── red-black/             # 红黑树
-│   │   └── ...
-│   ├── heap/                      # 堆
-│   ├── graph/                     # 图
-│   ├── hash-table/                # 哈希表
-│   ├── trie/                      # 字典树
-│   └── ...
+├── 02-algorithmic-thinking/       # 🧠 算法思想与基础技巧
+│   └── recursion/
 │
-├── problems/                      # 💡 练习题库
-│   ├── easy/                      # 简单题
-│   ├── medium/                    # 中等题
-│   ├── hard/                      # 困难题
-│   └── interview/                 # 面试题精选
-│       ├── array-problems/
-│       ├── string-problems/
-│       ├── tree-problems/
-│       └── ...
+├── 03-classic-algorithms/         # 🧮 经典算法
+│   ├── sorting/
+│   ├── searching/
+│   ├── string/
+│   ├── array/
+│   │   ├── reverse/
+│   │   ├── rotate/
+│   │   └── unique/
+│   ├── graph/
+│   ├── tree/
+│   ├── math/
+│   │   ├── number/
+│   │   └── factor/
+│   └── date-time/
 │
-├── projects/                      # 🚀 实战项目
-│   ├── mini-projects/             # 迷你项目
-│   │   ├── calculator/            # 计算器
-│   │   ├── todo-list/             # 待办事项
-│   │   └── ...
-│   ├── intermediate/              # 中级项目
-│   │   ├── search-engine/         # 搜索引擎
-│   │   ├── cache-system/          # 缓存系统
-│   │   └── ...
-│   └── advanced/                  # 高级项目
-│       ├── compiler/              # 编译器
-│       ├── database/              # 数据库
-│       └── ...
+├── 04-problem-sets/               # 💡 练习题库
+│   ├── easy/
+│   ├── medium/
+│   ├── hard/
+│   └── interview/
 │
-├── tests/                         # 🧪 测试用例
-│   ├── unit/                      # 单元测试
-│   ├── integration/               # 集成测试
-│   └── benchmarks/                # 性能测试
+├── 05-projects/                   # 🚀 实战项目
+│   ├── mini-projects/
+│   ├── intermediate/
+│   ├── advanced/
+│   └── practice/
 │
-├── tools/                         # 🔧 工具脚本
-│   ├── generators/                # 代码生成器
-│   │   ├── algorithm-template.sh  # 算法模板生成
-│   │   └── ...
-│   ├── validators/                # 验证工具
-│   └── benchmarks/                # 性能测试工具
+├── 06-examples/                   # 📝 示例代码
+│   ├── basic/
+│   ├── advanced/
+│   └── real-world/
 │
-├── examples/                      # 📝 示例代码
-│   ├── basic/                     # 基础示例
-│   ├── advanced/                  # 高级示例
-│   └── real-world/                # 实际应用示例
+├── 07-resources/                  # 📦 资源文件
+│   ├── images/
+│   ├── books/
+│   └── websites/
 │
-├── resources/                     # 📦 资源文件
-│   ├── images/                    # 图片资源
-│   ├── videos/                    # 视频教程链接
-│   ├── books/                     # 推荐书籍列表
-│   └── websites/                  # 推荐网站列表
+├── 08-tools/                      # 🔧 工具脚本
+│   ├── generators/
+│   ├── validators/
+│   └── benchmarks/
+│
+├── 09-tests/                      # 🧪 测试用例
+│   ├── unit/
+│   ├── integration/
+│   └── benchmarks/
+│
+├── docs/                          # 📚 文档中心
+│   ├── guides/                    # 学习指南
+│   ├── languages/                 # 语言指南
+│   └── references/                # 参考资料
 │
 ├── .github/                       # GitHub 配置
-│   ├── workflows/                 # CI/CD
-│   │   ├── test.yml              # 自动测试
-│   │   └── deploy.yml            # 自动部署
-│   ├── ISSUE_TEMPLATE/           # Issue 模板
-│   └── PULL_REQUEST_TEMPLATE.md  # PR 模板
-│
 ├── README.md                      # 项目说明
 ├── README_en.md                   # 英文说明
 ├── CONTRIBUTING.md                # 贡献指南
-├── CODE_OF_CONDUCT.md            # 行为准则
-├── LICENSE                        # 开源协议
-└── .gitignore                     # Git 忽略文件
+└── LICENSE                        # 开源协议
 ```
 
 ## 📂 每个算法的标准结构

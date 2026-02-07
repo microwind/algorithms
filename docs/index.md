@@ -7,16 +7,16 @@
 [https://github.com/microwind/algorithms](https://github.com/microwind/algorithms)
 
 ## 基础数据结构详解
-[https://github.com/microwind/algorithms/tree/main/data-structure](https://github.com/microwind/algorithms/tree/main/data-structure)
+[https://github.com/microwind/algorithms/tree/main/01-data-structures](https://github.com/microwind/algorithms/tree/main/01-data-structures)
 
 ## 字符串经典算法
-[https://github.com/microwind/algorithms/tree/main/string](https://github.com/microwind/algorithms/tree/main/string)
+[https://github.com/microwind/algorithms/tree/main/03-classic-algorithms/string](https://github.com/microwind/algorithms/tree/main/03-classic-algorithms/string)
 
 ## 数值经典算法
-[https://github.com/microwind/algorithms/tree/main/number](https://github.com/microwind/algorithms/tree/main/number)
+[https://github.com/microwind/algorithms/tree/main/03-classic-algorithms/math/number](https://github.com/microwind/algorithms/tree/main/03-classic-algorithms/math/number)
 
 ## 递归经典算法
-[https://github.com/microwind/algorithms/tree/main/recursion](https://github.com/microwind/algorithms/tree/main/recursion)
+[https://github.com/microwind/algorithms/tree/main/02-algorithmic-thinking/recursion](https://github.com/microwind/algorithms/tree/main/02-algorithmic-thinking/recursion)
 
 ## 树形经典算法
-[https://github.com/microwind/algorithms/tree/main/tree](https://github.com/microwind/algorithms/tree/main/tree)
+[https://github.com/microwind/algorithms/tree/main/03-classic-algorithms/tree](https://github.com/microwind/algorithms/tree/main/03-classic-algorithms/tree)

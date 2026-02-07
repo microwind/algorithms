@@ -54,8 +54,8 @@
 - [ ] 滑动窗口
 
 **实现算法**：
-- [数组反转](../../array/reverse/)
-- [数组去重](../../unique/)
+- [数组反转](../../03-classic-algorithms/array/reverse/)
+- [数组去重](../../03-classic-algorithms/array/unique/)
 - 字符串反转
 - 回文判断
 
@@ -73,9 +73,9 @@
 - [ ] 时间复杂度分析
 
 **实现算法**：
-- [冒泡排序](../../sorts/bubblesort/)
-- [选择排序](../../sorts/selectionsort/)
-- [插入排序](../../sorts/insertsort/)
+- [冒泡排序](../../03-classic-algorithms/sorting/bubblesort/)
+- [选择排序](../../03-classic-algorithms/sorting/selectionsort/)
+- [插入排序](../../03-classic-algorithms/sorting/insertsort/)
 
 **练习题**：
 - 实现各种排序的变体
@@ -90,8 +90,8 @@
 - [ ] 搜索优化技巧
 
 **实现算法**：
-- [朴素搜索](../../string/nativesearch/)
-- [二分查找](../../search/binarysearch/)
+- [朴素搜索](../../03-classic-algorithms/string/nativesearch/)
+- [二分查找](../../03-classic-algorithms/searching/binarysearch/)
 
 **练习题**：
 - LeetCode Easy: Binary Search
@@ -109,7 +109,7 @@
 - [ ] 链表常见操作
 
 **实现算法**：
-- [链表实现](../../data-structure/linked/)
+- [链表实现](../../01-data-structures/linked/)
 - 链表反转
 - 链表合并
 - 检测环
@@ -128,8 +128,8 @@
 - [ ] 优先队列
 
 **实现算法**：
-- [栈实现](../../data-structure/stack/)
-- [队列实现](../../data-structure/queue/)
+- [栈实现](../../01-data-structures/stack/)
+- [队列实现](../../01-data-structures/queue/)
 - 用栈实现队列
 - 用队列实现栈
 
@@ -147,8 +147,8 @@
 - [ ] 树的基本操作
 
 **实现算法**：
-- [二叉树](../../tree/binarytree/)
-- [树遍历](../../data-structure/tree/)
+- [二叉树](../../03-classic-algorithms/tree/binarytree/)
+- [树遍历](../../01-data-structures/tree/)
 - 二叉搜索树的插入和删除
 
 **练习题**：
@@ -165,9 +165,9 @@
 - [ ] 排序算法的选择
 
 **实现算法**：
-- [快速排序](../../sorts/quicksort/)
-- [归并排序](../../sorts/mergesort/)
-- [堆排序](../../sorts/heapsort/)
+- [快速排序](../../03-classic-algorithms/sorting/quicksort/)
+- [归并排序](../../03-classic-algorithms/sorting/mergesort/)
+- [堆排序](../../03-classic-algorithms/sorting/heapsort/)
 
 **练习题**：
 - 实现三路快排
@@ -185,9 +185,9 @@
 - [ ] 集合和映射
 
 **实现算法**：
-- [哈希表实现](../../data-structure/hash/)
-- [集合实现](../../data-structure/set/)
-- [映射实现](../../data-structure/map/)
+- [哈希表实现](../../01-data-structures/hash/)
+- [集合实现](../../01-data-structures/set/)
+- [映射实现](../../01-data-structures/map/)
 
 **练习题**：
 - LeetCode: Two Sum, Group Anagrams
@@ -204,7 +204,7 @@
 
 **实现算法**：
 - 斐波那契数列
-- [最长公共子序列](../../string/LCS/)
+- [最长公共子序列](../../03-classic-algorithms/string/LCS/)
 - 背包问题
 - 最长递增子序列
 
@@ -223,7 +223,7 @@
 - [ ] 最小生成树
 
 **实现算法**：
-- [图实现](../../data-structure/graph/)
+- [图实现](../../01-data-structures/graph/)
 - DFS 和 BFS
 - Dijkstra 算法
 - Kruskal 算法
@@ -243,7 +243,7 @@
 - [ ] 回溯算法
 
 **实现算法**：
-- [KMP 搜索](../../string/KMPsearch/)
+- [KMP 搜索](../../03-classic-algorithms/string/KMPsearch/)
 - AVL 树
 - Trie 树
 - 背包问题的变体
