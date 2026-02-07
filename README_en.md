@@ -1,139 +1,156 @@
 # Understanding Algorithms and Data Structures, Learning Different Programming Languages [中文](./README.md)
 
-Learn data structures and algorithms based on different programming languages, including `C`, `Java`, `Python`, `JavaScript`, `Go`, `TypeScript`, etc., with ample comments and explanations.
+This repository helps you learn data structures and algorithms with different programming languages, including `C` `Java` `Python` `JavaScript` `Go` `TypeScript`, with rich comments and explanations.
 
-## Project Features:
-1. Covers a variety of algorithms such as numerical calculations, string search, tree traversal, sorting, dynamic programming, etc.
-2. Each algorithm is implemented in multiple languages to help understand the features of different programming languages.
-3. Examples are carefully designed for students or programmers to learn and analyze, improving programming skills.
+In the AI era, AI can replace a lot of basic coding tasks, but it cannot replace human thinking and understanding. Only by deeply understanding the core of programming (data structures + algorithms) can we truly harness AI and make it produce high-value results.
 
-# Overview of Algorithms
+Surface-level APIs, frameworks, and application solutions change rapidly, while data structures, algorithms, and fundamental logic endure. Surface technologies require fast learning and constant updates; fundamental principles require repeated study and reflection to continuously improve understanding.
+
+## Project Highlights
+1. Covers numerical computation, string search, tree traversal, sorting, dynamic programming, and more.
+2. Each algorithm has multiple language implementations, helping you understand language features through algorithms and data structures.
+3. Examples are rich and progressive, suitable for students and programmers to learn, analyze, and continuously improve their coding skills.
+
+## Learning Value for Students and Engineers
+This project connects "concept understanding -> code implementation -> language comparison -> practice and progression" into a clear path, making it a long-term resource for coursework, self-study, interviews, and engineering skill development.
+
+You will gain:
+- A systematic learning path: from fundamentals to classic algorithms, then to problem sets and projects, step by step.
+- Multi-language comparison: the same algorithm implemented in multiple languages to reveal differences and engineering practices.
+- Practical and reusable materials: most directories include runnable code and explanations, useful for coursework, interviews, and real projects.
+- Stronger foundations and thinking: emphasis on complexity analysis and algorithmic ideas to improve efficiency and correctness.
+
+# Algorithm Overview
 
 ## What are common algorithms?
-- **Text Search**: Includes linear search, binary search, tree search, longest common subsequence, palindrome computation, etc., mainly for string searching.
-- **Mathematical Computations**: Includes base conversion, square roots, Fibonacci sequence, prime factorization, Pascal’s triangle, etc., mainly for numerical calculations.
-- **Sorting Algorithms**: Includes bubble, selection, insertion, shell, merge, quick, heap, counting, bucket, radix, etc., for ordering data.
-- **Other Algorithms**: Includes dynamic programming, greedy algorithms, divide and conquer, backtracking, graph algorithms (e.g., breadth-first search, depth-first search, Dijkstra’s algorithm, Kruskal’s algorithm, etc.), and machine learning and artificial intelligence algorithms such as classification, clustering, deep learning, reinforcement learning, etc.
+- **Text search**: linear search, binary search, tree-based search, longest common subsequence, palindrome computation, mainly for string search.
+- **Mathematical computation**: base conversion, square roots, Fibonacci sequence, prime factorization, numeric triangles, mainly for numerical computation.
+- **Sorting algorithms**: bubble, selection, insertion, shell, merge, quick, heap, counting, bucket, radix, used to order data.
+- **Other algorithms**: dynamic programming, greedy algorithms, divide and conquer, backtracking, graph algorithms (e.g., BFS, DFS, Dijkstra, Kruskal), plus machine learning and AI algorithms like classification, clustering, deep learning, and reinforcement learning.
 
-![Algorithm Overview](https://pic4.zhimg.com/80/v2-43fde0d41df8fba377333a318f428317_1440w.webp)
+![Algorithm Overview](./07-resources/images/algorithm-structure.png)
 
-## Common Algorithm Ideas
-- **Greedy Algorithm**: A method that expects to find the global optimum by selecting the local optimum at each step.
-- **Divide and Conquer**: Breaks a problem into smaller subproblems, solves them independently, and then combines the results.
-- **Dynamic Programming**: Solves complex problems by breaking them down into simpler overlapping subproblems.
-- **Backtracking**: Solves problems by incrementally building candidate solutions and abandoning those that fail to meet the criteria.
-- **Graph Algorithms**: Includes breadth-first search, depth-first search, Dijkstra’s algorithm, Kruskal’s algorithm, etc., for solving graph-related problems.
-- **Branch and Bound**: A method for solving combinatorial optimization problems by systematically exploring the branches of the search tree.
+## Common algorithmic paradigms
+- **Greedy**: chooses the local optimum at each step to reach a global optimum.
+- **Divide and conquer**: splits a problem into smaller subproblems, solves them independently, then combines results.
+- **Dynamic programming**: breaks a complex problem into overlapping subproblems and solves them with memoization or tabulation.
+- **Backtracking**: builds solutions incrementally and abandons those that violate constraints.
+- **Graph algorithms**: BFS, DFS, Dijkstra, Kruskal, etc., for graph-related problems.
+- **Branch and bound**: explores a search tree with bounds to prune unnecessary branches.
 
-For detailed information, see: [10 Classic Algorithm Ideas](./00-start-here/algorithmic_thinking.md)
+For details, see: [10 Classic Algorithm Ideas](./00-start-here/algorithmic_thinking.md)
 
 ## 10 Classic Sorting Algorithms
 
-| Sorting Algorithm | C | JavaScript | Python | Java | TypeScript | Go | Time Complexity (Average/Worst) | Space Complexity | Stability | Suitable Scenarios |
-|-------------------|-----------|---------------------|----------------|--------------|---------------------|------------|--------------------------------|------------------|-----------|-------------------|
-| [Bubble Sort](./03-classic-algorithms/sorting/bubblesort/) | [C](./03-classic-algorithms/sorting/bubblesort/bubble_sort.c) | [JS](./03-classic-algorithms/sorting/bubblesort/bubble_sort.js) | [Python](./03-classic-algorithms/sorting/bubblesort/bubble_sort.py) | [Java](./03-classic-algorithms/sorting/bubblesort/BubbleSort.java) | [TS](./03-classic-algorithms/sorting/bubblesort/BubbleSort.ts) | [Go](./03-classic-algorithms/sorting/bubblesort/bubble_sort.go) | O(n²) / O(n²) | O(1) | ✅ | Suitable for small-scale data sorting, educational purposes |
-| [Insertion Sort](./03-classic-algorithms/sorting/insertsort/) | [C](./03-classic-algorithms/sorting/insertsort/insert_sort.c) | [JS](./03-classic-algorithms/sorting/insertsort/insert_sort.js) | [Python](./03-classic-algorithms/sorting/insertsort/insert_sort.py) | [Java](./03-classic-algorithms/sorting/insertsort/InsertSort.java) | [TS](./03-classic-algorithms/sorting/insertsort/InsertSort.ts) | [Go](./03-classic-algorithms/sorting/insertsort/insert_sort.go) | O(n²) / O(n²) | O(1) | ✅ | Suitable for small-scale data or nearly sorted elements |
-| [Selection Sort](./03-classic-algorithms/sorting/selectionsort/) | [C](./03-classic-algorithms/sorting/selectionsort/selection_sort.c) | [JS](./03-classic-algorithms/sorting/selectionsort/selection_sort.js) | [Python](./03-classic-algorithms/sorting/selectionsort/selection_sort.py) | [Java](./03-classic-algorithms/sorting/selectionsort/SelectionSort.java) | [TS](./03-classic-algorithms/sorting/selectionsort/SelectionSort.ts) | [Go](./03-classic-algorithms/sorting/selectionsort/selection_sort.go) | O(n²) / O(n²) | O(1) | ❌ | Suitable for small-scale data with fewer swaps |
-| [Heap Sort](./03-classic-algorithms/sorting/heapsort/) | [C](./03-classic-algorithms/sorting/heapsort/heap_sort.c) | [JS](./03-classic-algorithms/sorting/heapsort/heap_sort.js) | [Python](./03-classic-algorithms/sorting/heapsort/heap_sort.py) | [Java](./03-classic-algorithms/sorting/heapsort/HeapSort.java) | [TS](./03-classic-algorithms/sorting/heapsort/HeapSort.ts) | [Go](./03-classic-algorithms/sorting/heapsort/heap_sort.go) | O(n log n) / O(n log n) | O(1) | ❌ | Suitable for priority queues, TOP K problems |
-| [Quick Sort](./03-classic-algorithms/sorting/quicksort/) | [C](./03-classic-algorithms/sorting/quicksort/quick_sort.c) | [JS](./03-classic-algorithms/sorting/quicksort/quick_sort.js) | [Python](./03-classic-algorithms/sorting/quicksort/quick_sort.py) | [Java](./03-classic-algorithms/sorting/quicksort/QuickSort.java) | [TS](./03-classic-algorithms/sorting/quicksort/QuickSort.ts) | [Go](./03-classic-algorithms/sorting/quicksort/quick_sort.go) | O(n log n) / O(n²) | O(log n) | ❌ | Suitable for general sorting scenarios, efficient but unstable |
-| [Merge Sort](./03-classic-algorithms/sorting/mergesort/) | [C](./03-classic-algorithms/sorting/mergesort/merge_sort.c) | [JS](./03-classic-algorithms/sorting/mergesort/merge_sort.js) | [Python](./03-classic-algorithms/sorting/mergesort/merge_sort.py) | [Java](./03-classic-algorithms/sorting/mergesort/MergeSort.java) | [TS](./03-classic-algorithms/sorting/mergesort/MergeSort.ts) | [Go](./03-classic-algorithms/sorting/mergesort/merge_sort.go) | O(n log n) / O(n log n) | O(n) | ✅ | Suitable for large-scale data sorting, external sorting |
-| [Counting Sort](./03-classic-algorithms/sorting/countingsort/) | [C](./03-classic-algorithms/sorting/countingsort/counting_sort.c) | [JS](./03-classic-algorithms/sorting/countingsort/counting_sort.js) | [Python](./03-classic-algorithms/sorting/countingsort/counting_sort.py) | [Java](./03-classic-algorithms/sorting/countingsort/CountingSort.java) | [TS](./03-classic-algorithms/sorting/countingsort/CountingSort.ts) | [Go](./03-classic-algorithms/sorting/countingsort/counting_sort.go) | O(n + k) / O(n + k) | O(k) | ✅ | Suitable for sorting integers with limited range |
-| [Radix Sort](./03-classic-algorithms/sorting/radixsort/) | [C](./03-classic-algorithms/sorting/radixsort/radix_sort.c) | [JS](./03-classic-algorithms/sorting/radixsort/radix_sort.js) | [Python](./03-classic-algorithms/sorting/radixsort/radix_sort.py) | [Java](./03-classic-algorithms/sorting/radixsort/RadixSort.java) | [TS](./03-classic-algorithms/sorting/radixsort/RadixSort.ts) | [Go](./03-classic-algorithms/sorting/radixsort/radix_sort.go) | O(nk) / O(nk) | O(n + k) | ✅ | Suitable for large-scale integer sorting, such as ID numbers, phone numbers |
-| [Bucket Sort](./03-classic-algorithms/sorting/bucketsort/) | [C](./03-classic-algorithms/sorting/bucketsort/bucket_sort.c) | [JS](./03-classic-algorithms/sorting/bucketsort/bucket_sort.js) | [Python](./03-classic-algorithms/sorting/bucketsort/bucket_sort.py) | [Java](./03-classic-algorithms/sorting/bucketsort/BuketSort.java) | [TS](./03-classic-algorithms/sorting/bucketsort/BuketSort.ts) | [Go](./03-classic-algorithms/sorting/bucketsort/bucket_sort.go) | O(n + k) / O(n²) | O(n + k) | ✅ | Suitable for uniformly distributed data range |
-| [Shell Sort](./03-classic-algorithms/sorting/shellsort/) | [C](./03-classic-algorithms/sorting/shellsort/shell_sort.c) | [JS](./03-classic-algorithms/sorting/shellsort/shell_sort.js) | [Python](./03-classic-algorithms/sorting/shellsort/shell_sort.py) | [Java](./03-classic-algorithms/sorting/shellsort/ShellSort.java) | [TS](./03-classic-algorithms/sorting/shellsort/ShellSort.ts) | [Go](./03-classic-algorithms/sorting/shellsort/shell_sort.go) | O(n log n) / O(n²) | O(1) | ❌ | Suitable for medium-scale data sorting, semi-ordered data |
+| Sorting Algorithm | C | JS | Python | Java | TS | Go | Time Complexity (Avg/Worst) | Space Complexity | Stable | Use Cases |
+|---------|--------|-------------|---------|-------|-------------|-----|--------------------|---------|------|--------|
+| [Bubble Sort](./03-classic-algorithms/sorting/bubblesort/) | [C](./03-classic-algorithms/sorting/bubblesort/bubble_sort.c) | [JS](./03-classic-algorithms/sorting/bubblesort/bubble_sort.js) | [Python](./03-classic-algorithms/sorting/bubblesort/bubble_sort.py) | [Java](./03-classic-algorithms/sorting/bubblesort/BubbleSort.java) | [TS](./03-classic-algorithms/sorting/bubblesort/BubbleSort.ts) | [Go](./03-classic-algorithms/sorting/bubblesort/bubble_sort.go) | O(n^2) / O(n^2) | O(1) | Yes | Suitable for small datasets, educational use |
+| [Insertion Sort](./03-classic-algorithms/sorting/insertsort/) | [C](./03-classic-algorithms/sorting/insertsort/insert_sort.c) | [JS](./03-classic-algorithms/sorting/insertsort/insert_sort.js) | [Python](./03-classic-algorithms/sorting/insertsort/insert_sort.py) | [Java](./03-classic-algorithms/sorting/insertsort/InsertSort.java) | [TS](./03-classic-algorithms/sorting/insertsort/InsertSort.ts) | [Go](./03-classic-algorithms/sorting/insertsort/insert_sort.go) | O(n^2) / O(n^2) | O(1) | Yes | Suitable for small datasets or nearly sorted data |
+| [Selection Sort](./03-classic-algorithms/sorting/selectionsort/) | [C](./03-classic-algorithms/sorting/selectionsort/selection_sort.c) | [JS](./03-classic-algorithms/sorting/selectionsort/selection_sort.js) | [Python](./03-classic-algorithms/sorting/selectionsort/selection_sort.py) | [Java](./03-classic-algorithms/sorting/selectionsort/SelectionSort.java) | [TS](./03-classic-algorithms/sorting/selectionsort/SelectionSort.ts) | [Go](./03-classic-algorithms/sorting/selectionsort/selection_sort.go) | O(n^2) / O(n^2) | O(1) | No | Suitable for small datasets, fewer swaps |
+| [Heap Sort](./03-classic-algorithms/sorting/heapsort/) | [C](./03-classic-algorithms/sorting/heapsort/heap_sort.c) | [JS](./03-classic-algorithms/sorting/heapsort/heap_sort.js) | [Python](./03-classic-algorithms/sorting/heapsort/heap_sort.py) | [Java](./03-classic-algorithms/sorting/heapsort/HeapSort.java) | [TS](./03-classic-algorithms/sorting/heapsort/HeapSort.ts) | [Go](./03-classic-algorithms/sorting/heapsort/heap_sort.go) | O(n log n) / O(n log n) | O(1) | No | Suitable for priority queues and Top K |
+| [Quick Sort](./03-classic-algorithms/sorting/quicksort/) | [C](./03-classic-algorithms/sorting/quicksort/quick_sort.c) | [JS](./03-classic-algorithms/sorting/quicksort/quick_sort.js) | [Python](./03-classic-algorithms/sorting/quicksort/quick_sort.py) | [Java](./03-classic-algorithms/sorting/quicksort/QuickSort.java) | [TS](./03-classic-algorithms/sorting/quicksort/QuickSort.ts) | [Go](./03-classic-algorithms/sorting/quicksort/quick_sort.go) | O(n log n) / O(n^2) | O(log n) | No | Suitable for general sorting, fast but unstable |
+| [Merge Sort](./03-classic-algorithms/sorting/mergesort/) | [C](./03-classic-algorithms/sorting/mergesort/merge_sort.c) | [JS](./03-classic-algorithms/sorting/mergesort/merge_sort.js) | [Python](./03-classic-algorithms/sorting/mergesort/merge_sort.py) | [Java](./03-classic-algorithms/sorting/mergesort/MergeSort.java) | [TS](./03-classic-algorithms/sorting/mergesort/MergeSort.ts) | [Go](./03-classic-algorithms/sorting/mergesort/merge_sort.go) | O(n log n) / O(n log n) | O(n) | Yes | Suitable for large datasets and external sorting |
+| [Counting Sort](./03-classic-algorithms/sorting/countingsort/) | [C](./03-classic-algorithms/sorting/countingsort/counting_sort.c) | [JS](./03-classic-algorithms/sorting/countingsort/counting_sort.js) | [Python](./03-classic-algorithms/sorting/countingsort/counting_sort.py) | [Java](./03-classic-algorithms/sorting/countingsort/CountingSort.java) | [TS](./03-classic-algorithms/sorting/countingsort/CountingSort.ts) | [Go](./03-classic-algorithms/sorting/countingsort/counting_sort.go) | O(n + k) / O(n + k) | O(k) | Yes | Suitable for integers with limited range |
+| [Radix Sort](./03-classic-algorithms/sorting/radixsort/) | [C](./03-classic-algorithms/sorting/radixsort/radix_sort.c) | [JS](./03-classic-algorithms/sorting/radixsort/radix_sort.js) | [Python](./03-classic-algorithms/sorting/radixsort/radix_sort.py) | [Java](./03-classic-algorithms/sorting/radixsort/RadixSort.java) | [TS](./03-classic-algorithms/sorting/radixsort/RadixSort.ts) | [Go](./03-classic-algorithms/sorting/radixsort/radix_sort.go) | O(nk) / O(nk) | O(n + k) | Yes | Suitable for large-scale integer sorting, IDs, phone numbers |
+| [Bucket Sort](./03-classic-algorithms/sorting/bucketsort/) | [C](./03-classic-algorithms/sorting/bucketsort/bucket_sort.c) | [JS](./03-classic-algorithms/sorting/bucketsort/bucket_sort.js) | [Python](./03-classic-algorithms/sorting/bucketsort/bucket_sort.py) | [Java](./03-classic-algorithms/sorting/bucketsort/BuketSort.java) | [TS](./03-classic-algorithms/sorting/bucketsort/BuketSort.ts) | [Go](./03-classic-algorithms/sorting/bucketsort/bucket_sort.go) | O(n + k) / O(n^2) | O(n + k) | Yes | Suitable for uniformly distributed data |
+| [Shell Sort](./03-classic-algorithms/sorting/shellsort/) | [C](./03-classic-algorithms/sorting/shellsort/shell_sort.c) | [JS](./03-classic-algorithms/sorting/shellsort/shell_sort.js) | [Python](./03-classic-algorithms/sorting/shellsort/shell_sort.py) | [Java](./03-classic-algorithms/sorting/shellsort/ShellSort.java) | [TS](./03-classic-algorithms/sorting/shellsort/ShellSort.ts) | [Go](./03-classic-algorithms/sorting/shellsort/shell_sort.go) | O(n log n) / O(n^2) | O(1) | No | Suitable for medium datasets, partially sorted data |
 
 ## String Search and Lookup
 
-| Algorithm | C Language | Go Language | JS Version | Python Version | Java Version | TypeScript Version | Time Complexity (Average/Worst) | Space Complexity | Suitable Scenarios |
-|-----------|------------|-------------|------------|----------------|--------------|--------------------|-------------------------------|------------------|--------------------|
+| Algorithm | C | Go | JS | Python | Java | TS | Time Complexity (Avg/Worst) | Space Complexity | Use Cases |
+|------|--------|---------|-------------|---------|-------|-------------|--------------------|---------|--------|
 | [Naive Search](./03-classic-algorithms/string/nativesearch/) | [C](./03-classic-algorithms/string/nativesearch/string_search.c) | [Go](./03-classic-algorithms/string/nativesearch/string_search.go) | [JS](./03-classic-algorithms/string/nativesearch/string_search.js) | [Python](./03-classic-algorithms/string/nativesearch/string_search.py) | [Java](./03-classic-algorithms/string/nativesearch/StringSearch.java) | [TS](./03-classic-algorithms/string/nativesearch/StringSearch.ts) | O(mn) / O(mn) | O(1) | Suitable for small-scale text search |
 | [Binary Search](./03-classic-algorithms/searching/binarysearch/) | [C](./03-classic-algorithms/searching/binarysearch/binary_search.c) | [Go](./03-classic-algorithms/searching/binarysearch/binary_search.go) | [JS](./03-classic-algorithms/searching/binarysearch/binary_search.js) | [Python](./03-classic-algorithms/searching/binarysearch/binary_search.py) | [Java](./03-classic-algorithms/searching/binarysearch/BinarySearch.java) | [TS](./03-classic-algorithms/searching/binarysearch/BinarySearch.ts) | O(log n) / O(log n) | O(1) | Suitable for searching in sorted arrays |
 | [KMP Search](./03-classic-algorithms/string/KMPsearch/) | [C](./03-classic-algorithms/string/KMPsearch/kmp_search.c) | [Go](./03-classic-algorithms/string/KMPsearch/kmp_search.go) | [JS](./03-classic-algorithms/string/KMPsearch/kmp_search.js) | [Python](./03-classic-algorithms/string/KMPsearch/kmp_search.py) | [Java](./03-classic-algorithms/string/KMPsearch/KMPSearch.java) | [TS](./03-classic-algorithms/string/KMPsearch/KMPSearch.ts) | O(n + m) / O(n + m) | O(m) | Suitable for large-scale text search |
 
 ## Tree Search and Traversal
 
-| Algorithm | C Language | JS Version | Python Version | Java Version | TypeScript Version | Time Complexity (Average/Worst) | Space Complexity | Suitable Scenarios |
-|-----------|------------|-------------|----------------|--------------|--------------------|-------------------------------|------------------|--------------------|
-| [Binary Tree Traversal](./03-classic-algorithms/tree/binarytree/) | [C](./03-classic-algorithms/tree/binarytree/binary_tree.c) | [JS](./03-classic-algorithms/tree/binarytree/binary_tree.js) | [Python](./03-classic-algorithms/tree/binarytree/binary_tree.py) | [Java](./03-classic-algorithms/tree/binarytree/BinaryTree.java) | [TS](./03-classic-algorithms/tree/binarytree/BinaryTree.ts) | O(n) / O(n) | O(n) | Suitable for tree structure data traversal, such as XML parsing, file system traversal |
+| Algorithm | C | JS | Python | Java | TS | Time Complexity (Avg/Worst) | Space Complexity | Use Cases |
+|------|--------|-------------|---------|-------|-------------|--------------------|---------|--------|
+| [Binary Tree Traversal](./03-classic-algorithms/tree/binarytree/) | [C](./03-classic-algorithms/tree/binarytree/binary_tree.c) | [JS](./03-classic-algorithms/tree/binarytree/binary_tree.js) | [Python](./03-classic-algorithms/tree/binarytree/binary_tree.py) | [Java](./03-classic-algorithms/tree/binarytree/BinaryTree.java) | [TS](./03-classic-algorithms/tree/binarytree/BinaryTree.ts) | O(n) / O(n) | O(n) | Suitable for tree traversal, e.g., XML parsing or file system traversal |
 
 ## Prime Factorization
 
-| Language | Code Link | Complexity | Suitable Scenarios |
-|----------|-----------|------------|--------------------|
-| C | [factor.c](./03-classic-algorithms/math/factor/factor.c) | O(√n) | For calculating prime factorization of large integers |
-| C++ | [factor.cpp](./03-classic-algorithms/math/factor/factor.cpp) | O(√n) | Suitable for efficient mathematical calculations |
-| JavaScript | [factor.js](./03-classic-algorithms/math/factor/factor.js) | O(√n) | For number theory calculations on the web |
-| TypeScript | [PrimeFactor.ts](./03-classic-algorithms/math/factor/PrimeFactor.ts) | O(√n) | Suitable for front-end or Node.js calculations |
-| Go | [factor.go](./03-classic-algorithms/math/factor/factor.go) | O(√n) | Suitable for backend service calculations |
-| Python | [factor.py](./03-classic-algorithms/math/factor/factor.py) | O(√n) | Suitable for scientific computations and data analysis |
-| Java | [Factor.java](./03-classic-algorithms/math/factor/Factor.java) | O(√n) | Suitable for enterprise-level application calculations |
-| Kotlin | [factor.kt](./03-classic-algorithms/math/factor/factor.kt) | O(√n) | Suitable for Android and backend calculations |
-| Dart | [factor.dart](./03-classic-algorithms/math/factor/factor.dart) | O(√n) | Suitable for Flutter applications |
-| Swift | [factor.swift](./03-classic-algorithms/math/factor/factor.swift) | O(√n) | Suitable for iOS/macOS development |
-| Objective-C | [factor.m](./03-classic-algorithms/math/factor/factor.m) | O(√n) | Suitable for older versions of iOS/macOS |
-| Rust | [factor.rs](./03-classic-algorithms/math/factor/factor.rs) | O(√n) | Suitable for high-performance computing |
+| Language | Code Link | Complexity | Use Cases |
+|------|---------|--------|--------|
+| C | [factor.c](./03-classic-algorithms/math/factor/factor.c) | O(sqrt(n)) | Prime factorization of large integers |
+| C++ | [factor.cpp](./03-classic-algorithms/math/factor/factor.cpp) | O(sqrt(n)) | Efficient mathematical computation |
+| JavaScript | [factor.js](./03-classic-algorithms/math/factor/factor.js) | O(sqrt(n)) | Number theory on the web |
+| TypeScript | [PrimeFactor.ts](./03-classic-algorithms/math/factor/PrimeFactor.ts) | O(sqrt(n)) | Front-end or Node.js computation |
+| Go | [factor.go](./03-classic-algorithms/math/factor/factor.go) | O(sqrt(n)) | Backend service computation |
+| Python | [factor.py](./03-classic-algorithms/math/factor/factor.py) | O(sqrt(n)) | Scientific computing and data analysis |
+| Java | [Factor.java](./03-classic-algorithms/math/factor/Factor.java) | O(sqrt(n)) | Enterprise application computation |
+| Kotlin | [factor.kt](./03-classic-algorithms/math/factor/factor.kt) | O(sqrt(n)) | Android and backend computation |
+| Dart | [factor.dart](./03-classic-algorithms/math/factor/factor.dart) | O(sqrt(n)) | Flutter applications |
+| Swift | [factor.swift](./03-classic-algorithms/math/factor/factor.swift) | O(sqrt(n)) | iOS/macOS development |
+| Objective-C | [factor.m](./03-classic-algorithms/math/factor/factor.m) | O(sqrt(n)) | Legacy iOS/macOS development |
+| Rust | [factor.rs](./03-classic-algorithms/math/factor/factor.rs) | O(sqrt(n)) | High-performance computation |
 
 ## Removing Duplicate Items from Arrays and Lists
 
-| Language | Code Link | Time Complexity | Suitable Scenarios |
-|----------|-----------|-----------------|--------------------|
-| C | [unique.c](./03-classic-algorithms/array/unique/unique.c) | O(n log n) | Suitable for embedded development |
-| Go | [unique.go](./03-classic-algorithms/array/unique/unique.go) | O(n log n) | Suitable for high-concurrency scenarios |
-| JS | [unique.js](./03-classic-algorithms/array/unique/unique.js) | O(n) | Suitable for front-end data processing |
-| Python | [unique.py](./03-classic-algorithms/array/unique/unique.py) | O(n) | Suitable for data cleaning and analysis |
-| Java | [UniqueArray.java](./03-classic-algorithms/array/unique/UniqueArray.java) | O(n log n) | Suitable for enterprise-level applications |
-| TypeScript | [UniqueArray.ts](./03-classic-algorithms/array/unique/UniqueArray.ts) | O(n) | Suitable for front-end TypeScript projects |
-| Dart | [unique.dart](./03-classic-algorithms/array/unique/unique.dart) | O(n) | Suitable for Flutter applications |
-| Rust | [unique.rs](./03-classic-algorithms/array/unique/unique.rs) | O(n) | Suitable for high-performance computing |
+| Language | Code Link | Time Complexity | Use Cases |
+|------|---------|--------|--------|
+| C | [unique.c](./03-classic-algorithms/array/unique/unique.c) | O(n log n) | Embedded development |
+| Go | [unique.go](./03-classic-algorithms/array/unique/unique.go) | O(n log n) | High-concurrency scenarios |
+| JS | [unique.js](./03-classic-algorithms/array/unique/unique.js) | O(n) | Front-end data processing |
+| Python | [unique.py](./03-classic-algorithms/array/unique/unique.py) | O(n) | Data cleaning and analysis |
+| Java | [UniqueArray.java](./03-classic-algorithms/array/unique/UniqueArray.java) | O(n log n) | Enterprise applications |
+| TypeScript | [UniqueArray.ts](./03-classic-algorithms/array/unique/UniqueArray.ts) | O(n) | Front-end TypeScript projects |
+| Dart | [unique.dart](./03-classic-algorithms/array/unique/unique.dart) | O(n) | Flutter applications |
+| Rust | [unique.rs](./03-classic-algorithms/array/unique/unique.rs) | O(n) | High-performance computation |
 
 ## Recursion
 
-| Algorithm | Code Link | Time Complexity | Space Complexity | Suitable Scenarios |
-|-----------|-----------|-----------------|------------------|--------------------|
-| [Simple Recursion](./02-algorithmic-thinking/recursion/) | [C](./02-algorithmic-thinking/recursion/) | O(2^n) | O(n) | Suitable for divide-and-conquer algorithms, tree and graph traversal, backtracking problems |
+| Algorithm | Code Link | Time Complexity | Space Complexity | Use Cases |
+|------|---------|------------|------------|--------|
+| [Basic Recursion](./02-algorithmic-thinking/recursion/) | [C](./02-algorithmic-thinking/recursion/) | O(2^n) | O(n) | Divide and conquer, tree/graph traversal, backtracking |
 
 ## Mathematical Computation
 
-| Algorithm | Code Link | Time Complexity | Space Complexity | Suitable Scenarios |
-|-----------|-----------|-----------------|------------------|--------------------|
-| [Mathematical Computation](./03-classic-algorithms/math/number/) | [C](./03-classic-algorithms/math/number/) | O(n) | O(1) | Suitable for number theory, addition, multiplication, large integer computations, etc. |
+| Algorithm | Code Link | Time Complexity | Space Complexity | Use Cases |
+|------|---------|------------|------------|--------|
+| [Mathematical Computation](./03-classic-algorithms/math/number/) | [C](./03-classic-algorithms/math/number/) | O(n) | O(1) | Number theory, addition, multiplication, big integer computation |
 
 ## Date and Calendar
 
-| Algorithm | Code Link | Time Complexity | Space Complexity | Suitable Scenarios |
-|-----------|-----------|-----------------|------------------|--------------------|
-| [Date and Calendar](./03-classic-algorithms/date-time/) | [C](./03-classic-algorithms/date-time/) | O(1) | O(1) | Suitable for date calculations, holiday predictions, date conversions, etc. |
+| Algorithm | Code Link | Time Complexity | Space Complexity | Use Cases |
+|------|---------|------------|------------|--------|
+| [Date and Calendar](./03-classic-algorithms/date-time/) | [C](./03-classic-algorithms/date-time/) | O(1) | O(1) | Date calculation, holiday estimation, date conversion |
 
 ---
 
 # Data Structures
-Data structures refer to the ways data is organized and stored, aggregating data together for processing and organization. Different data structures have different efficiency for access, insertion, deletion, etc. By selecting the appropriate data structure, data can be processed efficiently. See also: [Overview of Data Structures](./01-data-structures)
+Data structures organize and store data, enabling efficient processing. Different data structures have different efficiency for access, insertion, and deletion. Choosing the right structure improves performance. See: [Overview of Data Structures](./01-data-structures)
 
-| Data Structure | Description | Structural Features | Access Efficiency | Insertion/Deletion Efficiency |
-|----------------|-------------|---------------------|-------------------|------------------------------|
-| [Array](./01-data-structures/array/) | A collection of elements of the same data type, supports random access by index | Continuous memory storage, supports linear or non-linear | O(1) | O(n) |
-| [Linked List](./01-data-structures/linked/) | Data stored in a chain structure, connected by pointers, including singly linked list, doubly linked list, and circular linked list | Linear structure, non-contiguous memory | O(n) | O(1) (head) / O(n) (middle) |
-| [Tree](./01-data-structures/tree/) | A tree-like data structure, nodes are organized in hierarchical relationships, common types include binary tree, binary search tree, balanced tree, etc. | Non-linear structure, one root node, unlimited number of child nodes | O(log n) | O(log n) |
-| [Heap](./01-data-structures/heap/) | A special type of complete binary tree that satisfies the heap property (max-heap or min-heap), often used in priority queues | Non-linear structure, supports efficient operations on extreme values | O(1) (extract top) | O(log n) |
-| [Stack](./01-data-structures/stack/) | A Last-In-First-Out (LIFO) collection of data | Linear structure, sequential or chain storage, only operations at the top of the stack | O(1) | O(1) |
-| [Queue](./01-data-structures/queue/) | A First-In-First-Out (FIFO) collection of data | Linear structure, sequential or chain storage, supports insertion at the rear and deletion at the front | O(1) | O(1) |
-| [Graph](./01-data-structures/graph/) | A data structure consisting of nodes (vertices) and edges, common storage methods include adjacency lists and adjacency matrices | Non-linear structure, nodes can be connected many-to-many | O(1) (adjacency matrix) / O(n) (adjacency list) | O(1) (adjacency matrix) / O(n) (adjacency list) |
-| [Hash](./01-data-structures/hash/) | A data structure that maps keys to storage locations using hash functions, supporting fast lookups, insertions, and deletions | Linear structure, key-value mapping | O(1) (amortized) | O(1) (amortized) |
-| [Struct](./01-data-structures/struct/) | Combines multiple types of data into a whole, often used to represent complex objects | Custom structure, fields fixed, containing various data types | O(1) | O(1) |
+| Data Structure | Description | Characteristics | Access Complexity | Insert/Delete Complexity |
+|---------|------|---------|---------|-------------|
+| [Array](./01-data-structures/array/) | A collection of elements of the same type, supports random access by index | Contiguous memory, linear or non-linear | O(1) | O(n) |
+| [Linked List](./01-data-structures/linked/) | Nodes connected by pointers; includes singly, doubly, and circular lists | Linear, non-contiguous memory | O(n) | O(1) (head) / O(n) (middle) |
+| [Tree](./01-data-structures/tree/) | Hierarchical data; includes binary tree, BST, balanced trees | Non-linear, one root node, multiple children | O(log n) | O(log n) |
+| [Heap](./01-data-structures/heap/) | Special complete binary tree with heap property | Non-linear, efficient for extremes | O(1) (peek) | O(log n) |
+| [Stack](./01-data-structures/stack/) | LIFO structure | Linear, only top operations | O(1) | O(1) |
+| [Queue](./01-data-structures/queue/) | FIFO structure | Linear, enqueue at tail, dequeue at head | O(1) | O(1) |
+| [Graph](./01-data-structures/graph/) | Nodes (vertices) and edges; adjacency list or matrix | Non-linear, many-to-many | O(1) (matrix) / O(n) (list) | O(1) (matrix) / O(n) (list) |
+| [Hash](./01-data-structures/hash/) | Maps keys to positions via hash functions | Linear, key-value mapping | O(1) (amortized) | O(1) (amortized) |
+| [Struct](./01-data-structures/struct/) | Combines multiple fields into one object | Custom, fixed fields, multiple types | O(1) | O(1) |
+| [List](./01-data-structures/list/) | Ordered collection allowing duplicates | Linear, insertion order | O(1) (append), O(n) (middle ops) | O(1) (index), O(n) (search) |
+| [Set](./01-data-structures/set/) | Unordered collection without duplicates | Linear, based on hash or tree | O(1) (hash) / O(log n) (tree) | O(1) (hash) / O(log n) (tree) |
+| [Map](./01-data-structures/map/) | Stores key-value pairs | Associative array, hash or balanced tree | O(1) (hash) / O(log n) (tree) | O(1) (hash) / O(log n) (tree) |
 
 ---
 
 ## Related Links
-- [Recommended Programming Languages to Learn](./00-start-here/recommand-learning-languages.md)
-- [What are the Differences Between Programming Languages? How to Choose the Right One for Beginners?](https://www.toutiao.com/article/7122744261904450063)
-- [How to Learn Programming? A Complete Guide](https://zhuanlan.zhihu.com/p/582174773)
+- [Recommended Programming Languages](./00-start-here/recommand-learning-languages.md)
+- [Differences Between Programming Languages and How to Choose](https://www.toutiao.com/article/7122744261904450063)
+- [How to Learn Programming Well](https://zhuanlan.zhihu.com/p/582174773)
 
-## Join Us in Co-Building
+## Welcome to Contribute
 
-[Link to this document](https://github.com/microwind/algorithms)
+`Repository:` [https://github.com/microwind/algorithms](https://github.com/microwind/algorithms)
+`Site:` [https://microwind.github.io/algorithms](https://microwind.github.io/algorithms)
 
-If you're interested in this project, please add me. I welcome you to build it together!
+If you are interested in this project, please add me. I welcome you to build it together.
 
-**WeChat:** `springbuild`
+**wechat:** `springbuild`
 
 **Email:** `jarryli@gmail.com` or `lichunping@buaa.edu.cn`
