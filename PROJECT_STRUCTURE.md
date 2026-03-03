@@ -8,12 +8,12 @@
 ```
 algorithms/
 │
-├── 00-start-here/                 # 入门与学习路径
+├── start-here/                    # 入门与学习路径
 │   ├── algorithmic_thinking.md    # 算法思想
 │   ├── what-is-programming.md     # 编程入门
 │   └── recommand-learning-languages.md # 入门语言推荐
 │
-├── 01-data-structures/            # 📊 数据结构
+├── data-structures/               # 📊 数据结构
 │   ├── array/
 │   ├── linked/
 │   ├── stack/
@@ -27,55 +27,65 @@ algorithms/
 │   ├── list/
 │   └── struct/
 │
-├── 02-algorithmic-thinking/       # 🧠 算法思想与基础技巧
+├── algorithmic-thinking/          # 🧠 算法思想与基础技巧
 │   └── recursion/
 │
-├── 03-classic-algorithms/         # 🧮 经典算法
-│   ├── sorting/
-│   ├── searching/
-│   ├── string/
-│   ├── array/
-│   │   ├── reverse/
-│   │   ├── rotate/
-│   │   └── unique/
-│   ├── graph/
-│   ├── tree/
-│   ├── math/
-│   │   ├── number/
-│   │   └── factor/
-│   └── date-time/
+├── sorting/                       # 🧮 排序算法
+│   ├── bubblesort/
+│   ├── selectionsort/
+│   ├── insertsort/
+│   ├── shellsort/
+│   ├── mergesort/
+│   ├── quicksort/
+│   ├── heapsort/
+│   ├── countingsort/
+│   ├── radixsort/
+│   └── bucketsort/
 │
-├── 04-problem-sets/               # 💡 练习题库
+├── searching/                     # 🔍 搜索算法
+│   └── binarysearch/
+│
+├── string/                        # 📝 字符串算法
+│   ├── nativesearch/
+│   └── KMPsearch/
+│
+├── array/                         # 📊 数组专题
+│   ├── reverse/
+│   ├── rotate/
+│   └── unique/
+│
+├── graph/                         # 🌐 图算法
+│
+├── tree/                          # 🌳 树算法
+│   └── binarytree/
+│
+├── math/                          # 🔢 数学算法
+│   ├── number/
+│   └── factor/
+│
+├── date-time/                     # ⏰ 日期与时间
+│
+├── problem-sets/                 # 💡 练习题库
 │   ├── easy/
 │   ├── medium/
 │   ├── hard/
 │   └── interview/
 │
-├── 05-projects/                   # 🚀 实战项目
+├── projects/                      # 🚀 实战项目
 │   ├── mini-projects/
 │   ├── intermediate/
 │   ├── advanced/
 │   └── practice/
 │
-├── 06-examples/                   # 📝 示例代码
+├── examples/                     # 📝 示例代码
 │   ├── basic/
 │   ├── advanced/
 │   └── real-world/
 │
-├── 07-resources/                  # 📦 资源文件
+├── resources/                   # 📦 资源文件
 │   ├── images/
 │   ├── books/
 │   └── websites/
-│
-├── 08-tools/                      # 🔧 工具脚本
-│   ├── generators/
-│   ├── validators/
-│   └── benchmarks/
-│
-├── 09-tests/                      # 🧪 测试用例
-│   ├── unit/
-│   ├── integration/
-│   └── benchmarks/
 │
 ├── docs/                          # 📚 文档中心
 │   ├── guides/                    # 学习指南

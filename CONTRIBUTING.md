@@ -1,6 +1,6 @@
 # 贡献指南 Contributing Guide
 
-感谢你对本项目的关注！我们欢迎所有形式的贡献。
+感谢你对本项目的关注！我是 Jarry，来自中国的软件工程师。
 
 Thank you for your interest in this project! We welcome all forms of contributions.
 
@@ -256,3 +256,5 @@ if __name__ == '__main__':
 所有贡献者都将被列入项目的贡献者名单。
 
 Thank you for contributing! 感谢你的贡献！
+
+please concat jarryli@gmail.com or lichunping@buaa.edu.cn if you have any question.
