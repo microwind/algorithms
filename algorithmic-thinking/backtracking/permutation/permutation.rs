@@ -98,7 +98,7 @@ fn main() {
     // 测试用例 1: [1, 2, 3]
     println!("测试 1: permute(vec![1, 2, 3])");
     let result1 = permute(vec![1, 2, 3]);
-    println!("结果 (\u5171{}\u4e2a):", result1.len());
+    println!("结果 (共{}个):", result1.len());
     for perm in &result1 {
         println!("  {:?}", perm);
     }
@@ -107,7 +107,7 @@ fn main() {
     // 测试用例 2: [1, 2]
     println!("测试 2: permute(vec![1, 2])");
     let result2 = permute(vec![1, 2]);
-    println!("结果 (\u5171{}\u4e2a):", result2.len());
+    println!("结果 (共{}个):", result2.len());
     for perm in &result2 {
         println!("  {:?}", perm);
     }
@@ -116,7 +116,7 @@ fn main() {
     // 测试用例 3: [1]
     println!("测试 3: permute(vec![1])");
     let result3 = permute(vec![1]);
-    println!("结果 (\u5171{}\u4e2a):", result3.len());
+    println!("结果 (共{}个):", result3.len());
     for perm in &result3 {
         println!("  {:?}", perm);
     }
@@ -125,7 +125,7 @@ fn main() {
     // 测试用例 4: 优化版本 [1, 2, 3, 4]
     println!("测试 4: permute_optimized(vec![1, 2, 3, 4])");
     let result4 = permute_optimized(vec![1, 2, 3, 4]);
-    println!("结果 (\u5171{}\u4e2a):", result4.len());
+    println!("结果 (共{}个):", result4.len());
     println!("前 3 个排列:");
     for i in 0..3 {
         println!("  {:?}", result4[i]);
@@ -139,8 +139,49 @@ fn main() {
     // 测试用例 5: [10, 20, 30]
     println!("测试 5: permute_optimized(vec![10, 20, 30])");
     let result5 = permute_optimized(vec![10, 20, 30]);
-    println!("结果 (\u5171{}\u4e2a):", result5.len());
+    println!("结果 (共{}个):", result5.len());
     for perm in &result5 {
         println!("  {:?}", perm);
     }
 }
+
+// jarry@Mac permutation % rustc permutation.rs
+// jarry@Mac permutation % ./permutation 
+// === 排列回溯测试用例 ===
+// 测试 1: permute(vec![1, 2, 3])
+// 结果 (共6个):
+//   [1, 2, 3]
+//   [1, 3, 2]
+//   [2, 1, 3]
+//   [2, 3, 1]
+//   [3, 1, 2]
+//   [3, 2, 1]
+
+// 测试 2: permute(vec![1, 2])
+// 结果 (共2个):
+//   [1, 2]
+//   [2, 1]
+
+// 测试 3: permute(vec![1])
+// 结果 (共1个):
+//   [1]
+
+// 测试 4: permute_optimized(vec![1, 2, 3, 4])
+// 结果 (共24个):
+// 前 3 个排列:
+//   [1, 2, 3, 4]
+//   [1, 2, 4, 3]
+//   [1, 3, 2, 4]
+// 后 3 个排列:
+//   [4, 3, 1, 2]
+//   [4, 1, 3, 2]
+//   [4, 1, 2, 3]
+
+// 测试 5: permute_optimized(vec![10, 20, 30])
+// 结果 (共6个):
+//   [10, 20, 30]
+//   [10, 30, 20]
+//   [20, 10, 30]
+//   [20, 30, 10]
+//   [30, 20, 10]
+//   [30, 10, 20]

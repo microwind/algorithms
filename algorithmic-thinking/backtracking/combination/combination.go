@@ -146,3 +146,67 @@ func main() {
 		fmt.Printf("  %v\n", combo)
 	}
 }
+
+/**
+jarry@Mac combination % go build -o combination.out combination.go
+jarry@Mac combination % ./combination.out
+=== Combination Backtracking Test Cases ===
+
+Test 1: Combine(4, 2)
+Result (count=6):
+  [1 2]
+  [1 3]
+  [1 4]
+  [2 3]
+  [2 4]
+  [3 4]
+
+Test 2: Combine(3, 1)
+Result (count=3):
+  [1]
+  [2]
+  [3]
+
+Test 3: Combine(3, 3)
+Result (count=1):
+  [1 2 3]
+
+Test 4: Combine(5, 3)
+Result (count=10):
+  [1 2 3]
+  [1 2 4]
+  [1 2 5]
+  [1 3 4]
+  [1 3 5]
+  [1 4 5]
+  [2 3 4]
+  [2 3 5]
+  [2 4 5]
+  [3 4 5]
+
+Test 5: CombineOptimized(6, 2)
+Result (count=15):
+  [1 2]
+  [1 3]
+  [1 4]
+  [1 5]
+  [1 6]
+  [2 3]
+  [2 4]
+  [2 5]
+  [2 6]
+  [3 4]
+  [3 5]
+  [3 6]
+  [4 5]
+  [4 6]
+  [5 6]
+
+Test 6: CombineOptimized(5, 4)
+Result (count=5):
+  [1 2 3 4]
+  [1 2 3 5]
+  [1 2 4 5]
+  [1 3 4 5]
+  [2 3 4 5]
+*/

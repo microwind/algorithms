@@ -1,133 +1,141 @@
-package knapsackoptimization
+// 0-1背包分支限界法
+
 package main
 
 import (
-	"fmt"
-	"math"
+  "fmt"
+  "sort"
 )
 
-// KnapsackOptimization solves 0-1 knapsack using branch and bound
-type KnapsackOptimization struct {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}	fmt.Printf("Selected Item Indices: %v\n", solver.GetSelectedItems())	fmt.Printf("\nMaximum Profit: %d\n", solver.GetBestProfit())	solver.BranchAndBound()	solver := NewKnapsackOptimization(weights, values, capacity)	fmt.Println("Values:", values)	fmt.Println("Weights:", weights)	fmt.Printf("Capacity: %d\n", capacity)	fmt.Printf("\nItems: %d\n", len(weights))	capacity := 8	values := []int{3, 4, 5, 6}	weights := []int{2, 3, 4, 5}	// Test case	fmt.Println("=" + string([]byte{61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61}) + "=")	fmt.Println("0-1 Knapsack Optimization - Branch and Bound")	fmt.Println("=" + string([]byte{61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61}) + "=")func main() {}	return result	}		}			result = append(result, i)		if selected {	for i, selected := range k.bestItems {	var result []intfunc (k *KnapsackOptimization) GetSelectedItems() []int {// GetSelectedItems returns which items to select}	return k.maxProfitfunc (k *KnapsackOptimization) GetBestProfit() int {// GetBestProfit returns the maximum profit}	k.boundHelper(idx+1, weight, profit)	// Branch 2: exclude current item	}		k.currentItems[idx] = false		k.boundHelper(idx+1, weight+k.weights[idx], profit+k.values[idx])		k.currentItems[idx] = true	if weight+k.weights[idx] <= k.capacity {	// Branch 1: include current item	}		return		}			copy(k.bestItems, k.currentItems)			k.bestItems = make([]bool, k.n)			k.maxProfit = profit		if profit > k.maxProfit {	if idx == k.n {	// Base case: processed all items	}		return	if k.upperBound(idx, weight, profit) <= k.maxProfit {	// Pruning: if upper bound <= current best profit, skipfunc (k *KnapsackOptimization) boundHelper(idx, weight, profit int) {}	k.boundHelper(0, 0, 0)func (k *KnapsackOptimization) BranchAndBound() {// BranchAndBound solves using branch and bound algorithm}	return bound	}		}			break			bound += int(float64(k.values[i]) * float64(remainCapacity) / float64(k.weights[i]))			// Fractional weight		} else {			remainCapacity -= k.weights[i]			bound += k.values[i]		if k.weights[i] <= remainCapacity {	for i := idx; i < k.n; i++ {	// Simple sorting simulation - use greedy approach	}		items = append(items, struct{idx, val, w int; ratio float64}{i, k.values[i], k.weights[i], ratio})		ratio := float64(k.values[i]) / float64(k.weights[i])	for i := idx; i < k.n; i++ {	items := make([]struct{idx, val, w int; ratio float64}, 0)	// Greedy selection of items by value/weight ratio	remainCapacity := k.capacity - weight	bound := profit	}		return profit	if weight >= k.capacity {func (k *KnapsackOptimization) upperBound(idx, weight, profit int) int {// UpperBound calculates upper bound using fractional knapsack relaxation}	}		currentItems: make([]bool, len(weights)),		bestItems:  []bool{},		maxProfit:  0,		n:          len(weights),		capacity:   capacity,		values:     values,		weights:    weights,	return &KnapsackOptimization{func NewKnapsackOptimization(weights, values []int, capacity int) *KnapsackOptimization {// NewKnapsackOptimization creates a new solver}	currentItems []bool	bestItems  []int	maxProfit  int	n          int	capacity   int	values     []int	weights    []int
+type Item struct {
+  weight int
+  value  int
+  idx    int
+  ratio  float64
+}
+
+type KnapsackSolver struct {
+  items     []Item
+  n         int
+  capacity  int
+  maxProfit int
+  bestItems []bool
+  curItems  []bool
+}
+
+func NewKnapsackSolver(weights, values []int, capacity int) *KnapsackSolver {
+  n := len(weights)
+  items := make([]Item, n)
+  for i := 0; i < n; i++ {
+    items[i] = Item{weights[i], values[i], i, float64(values[i]) / float64(weights[i])}
+  }
+  // 按价值/重量比降序排序
+  sort.Slice(items, func(i, j int) bool {
+    return items[i].ratio > items[j].ratio
+  })
+  return &KnapsackSolver{
+    items:     items,
+    n:         n,
+    capacity:  capacity,
+    maxProfit: 0,
+    bestItems: make([]bool, n),
+    curItems:  make([]bool, n),
+  }
+}
+
+// 上界估计（分数背包）
+func (k *KnapsackSolver) upperBound(idx, weight, profit int) int {
+  if weight >= k.capacity {
+    return profit
+  }
+  bound := float64(profit)
+  remain := k.capacity - weight
+  // 计算分数背包的上界
+  for i := idx; i < k.n; i++ {
+    item := k.items[i]
+    // 若物品重量小于等于剩余容量，则直接加入
+    if item.weight <= remain {
+      bound += float64(item.value)
+      remain -= item.weight
+    } else {
+      // 否则加入剩余容量的分数部分
+      bound += float64(item.value) * float64(remain) / float64(item.weight)
+      break
+    }
+  }
+  return int(bound)
+}
+
+func (k *KnapsackSolver) branchAndBound(idx, weight, profit int) {
+  if k.upperBound(idx, weight, profit) <= k.maxProfit {
+    return
+  }
+  // 基础情况：到达物品列表末尾
+  if idx == k.n {
+    if profit > k.maxProfit {
+      k.maxProfit = profit
+      copy(k.bestItems, k.curItems)
+    }
+    return
+  }
+  item := k.items[idx]
+  // 分支1：选当前物品
+  if weight+item.weight <= k.capacity {
+    k.curItems[item.idx] = true
+    k.branchAndBound(idx+1, weight+item.weight, profit+item.value)
+    k.curItems[item.idx] = false
+  }
+  // 分支2：不选当前物品
+  k.branchAndBound(idx+1, weight, profit)
+}
+
+func (k *KnapsackSolver) Solve() (int, []int) {
+  k.branchAndBound(0, 0, 0)
+  selected := []int{}
+  // 收集选中的物品索引
+  for i, chosen := range k.bestItems {
+    if chosen {
+      selected = append(selected, i)
+    }
+  }
+  return k.maxProfit, selected
+}
+
+func main() {
+  fmt.Println("==============================")
+  fmt.Println("0-1 Knapsack Optimization (Go)")
+  fmt.Println("==============================\n")
+  weights := []int{2, 3, 4, 5}
+  values := []int{3, 4, 5, 6}
+  capacity := 8
+  fmt.Println("Test Case 1:")
+  fmt.Println("Weights:", weights)
+  fmt.Println("Values:", values)
+  fmt.Println("Capacity:", capacity)
+  solver := NewKnapsackSolver(weights, values, capacity)
+  maxProfit, selected := solver.Solve()
+  fmt.Println("Maximum Profit:", maxProfit)
+  fmt.Println("Selected Items:", selected)
+  wSum := 0
+  for _, i := range selected {
+    wSum += weights[i]
+  }
+  fmt.Println("Total Weight:", wSum)
+  fmt.Println("\n==============================")
+  weights2 := []int{5, 4, 3, 4, 2}
+  values2 := []int{10, 40, 30, 50, 35}
+  capacity2 := 10
+  fmt.Println("Test Case 2:")
+  fmt.Println("Weights:", weights2)
+  fmt.Println("Values:", values2)
+  fmt.Println("Capacity:", capacity2)
+  solver2 := NewKnapsackSolver(weights2, values2, capacity2)
+  maxProfit2, selected2 := solver2.Solve()
+  fmt.Println("Maximum Profit:", maxProfit2)
+  fmt.Println("Selected Items:", selected2)
+  wSum2 := 0
+  for _, i := range selected2 {
+    wSum2 += weights2[i]
+  }
+  fmt.Println("Total Weight:", wSum2)
+}

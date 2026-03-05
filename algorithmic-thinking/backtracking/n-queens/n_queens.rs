@@ -206,3 +206,49 @@ fn main() {
         println!("  {}", row);
     }
 }
+
+/**
+jarry@Mac n-queens % rustc n_queens.rs 
+jarry@Mac n-queens % ./n_queens 
+=== N-Queens Problem using Backtracking ===
+
+Test 1: solve_n_queens(4)
+Found 2 solutions:
+
+Solution 1:
+  .Q..
+  ...Q
+  Q...
+  ..Q.
+
+Solution 2:
+  ..Q.
+  Q...
+  ...Q
+  .Q..
+
+Test 2: solve_n_queens(1)
+Found 1 solution(s):
+
+Solution 1:
+  Q
+
+Test 3: Solution counts for various N:
+  N=1: 1 solutions
+  N=2: 0 solutions
+  N=3: 0 solutions
+  N=4: 2 solutions
+  N=5: 10 solutions
+  N=6: 4 solutions
+  N=7: 40 solutions
+  N=8: 92 solutions
+
+Test 4: solve_n_queens(5)
+Found 10 solutions for 5-Queens
+First solution:
+  Q....
+  ..Q..
+  ....Q
+  .Q...
+  ...Q.
+  */

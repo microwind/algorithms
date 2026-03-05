@@ -107,4 +107,70 @@ def branch_and_bound(node, bound):
 
 ---
 
-**相关推荐**：用于求解NP困难问题的最优解，需要与特定问题紧密结合
+## 典型分支限界代码模板（Python）
+
+以任务分配/旅行商/背包等问题为例，分支限界法的核心结构如下：
+
+```python
+# 以任务分配问题为例
+
+def branch_and_bound(task_idx, current_cost):
+    # 剪枝：当前成本+下界 >= 当前最优解，直接返回
+    if current_cost + lower_bound(task_idx) >= min_cost[0]:
+        return
+    # 基础情况：所有任务已分配
+    if task_idx == n:
+        min_cost[0] = min(min_cost[0], current_cost)
+        return
+    # 分支：尝试将当前任务分配给每个可用工人
+    for worker in range(n):
+        if not assigned[worker]:
+            assigned[worker] = True
+            branch_and_bound(task_idx + 1, current_cost + cost[task_idx][worker])
+            assigned[worker] = False
+
+# 下界估计函数示例
+
+def lower_bound(task_idx):
+    bound = 0
+    for i in range(task_idx, n):
+        min_c = min(cost[i][j] for j in range(n) if not assigned[j])
+        bound += min_c
+    return bound
+```
+
+**说明：**
+- 递归每次分配一个任务，尝试所有可用工人
+- 剪枝条件依赖于 lower_bound 的估计
+- min_cost[0] 用于全局记录最优解
+- lower_bound 采用贪心法估计剩余最小成本
+
+---
+
+## 旅行商问题（TSP）分支限界伪代码
+
+```python
+def tsp_branch_and_bound(node, level, cost):
+    # 剪枝：下界 >= 当前最优解
+    if lower_bound(node, level, cost) >= min_cost[0]:
+        return
+    # 基础情况：所有城市访问完毕
+    if level == n:
+        total_cost = cost + dist[node][0]
+        if total_cost < min_cost[0]:
+            min_cost[0] = total_cost
+        return
+    # 分支：访问下一个未访问城市
+    for next_city in range(n):
+        if not visited[next_city]:
+            visited[next_city] = True
+            tsp_branch_and_bound(next_city, level + 1, cost + dist[node][next_city])
+            visited[next_city] = False
+```
+
+**说明：**
+- 剪枝依赖于 lower_bound 的估计
+- 递归深度等于城市数
+- 适用于 TSP、作业调度、背包等优化问题
+
+---

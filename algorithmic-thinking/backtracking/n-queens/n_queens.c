@@ -61,16 +61,49 @@ void add_solution(SolutionResult* result, int n, int* col_placement) {
     result->count++;
 }
 
-bool is_safe(int row, int col, int* col_placement) {
-    for (int r = 0; r < row; r++) {
-        int c = col_placement[r];
-        // Check same column
-        if (c == col) return false;
-        // Check diagonals
-        if (abs(r - row) == abs(c - col)) return false;
+/**
+ * @brief 
+ * 判断在 (row, col) 放皇后是否安全
+ * 
+ * @param row 要检查的行
+ * @param col 要检查的列
+ * @param col_placement 已放置的皇后列数组
+ * @return true 安全
+ * @return false 不安全
+ */
+// bool is_safe(int row, int col, int* col_placement) {
+//     for (int r = 0; r < row; r++) {
+//         int c = col_placement[r];
+//         // Check same column
+//         if (c == col) return false;
+//         // Check diagonals
+//         if (abs(r - row) == abs(c - col)) return false;
+//     }
+//     return true;
+// }
+
+/**
+ * @brief 
+ * 判断在 (row, col) 放皇后是否安全
+ * 
+ * @param row 要检查的行
+ * @param col 要检查的列
+ * @param col_placement 已放置的皇后列数组
+ * @return int 安全返回1，不安全返回0
+ */
+int is_safe(int row, int col, int col_placement[]) {
+    for (int i = 0; i < row; i++) {
+        int placed_col = col_placement[i];
+
+        if (placed_col == col)           // 同列冲突
+            return 0;
+
+        if (abs(placed_col - col) == row - i) // 对角线冲突
+            return 0;
     }
-    return true;
+    return 1;
 }
+
 
 void backtrack(int n, int row, int* col_placement, SolutionResult* result) {
     if (row == n) {
@@ -99,25 +132,27 @@ SolutionResult* solve_n_queens(int n) {
     return result;
 }
 
+// 回溯统计解的数量
+void backtrack_count(int row, int n, int col_placement[], int *count) {
+    if (row == n) {        // 找到一种合法摆放
+        (*count)++;
+        return;
+    }
+
+    for (int col = 0; col < n; col++) {   // 尝试当前行的每一列
+        if (is_safe(row, col, col_placement)) {
+            col_placement[row] = col;     // 放置皇后
+            backtrack_count(row + 1, n, col_placement, count); // 递归下一行
+        }
+    }
+}
+
 int count_n_queens(int n) {
     int count = 0;
     int* col_placement = (int*)malloc(n * sizeof(int));
 
-    void backtrack_count(int row) {
-        if (row == n) {
-            count++;
-            return;
-        }
+    backtrack_count(0, n, col_placement, &count);
 
-        for (int col = 0; col < n; col++) {
-            if (is_safe(row, col, col_placement)) {
-                col_placement[row] = col;
-                backtrack_count(row + 1);
-            }
-        }
-    }
-
-    backtrack_count(0);
     free(col_placement);
     return count;
 }

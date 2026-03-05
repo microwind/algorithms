@@ -108,3 +108,17 @@ public class KnapsackOptimization {
         System.out.println();
     }
 }
+
+/**
+jarry@Mac knapsack-optimization % java KnapsackOptimization.java
+============================================================
+0-1 Knapsack Optimization - Branch and Bound (Java)
+============================================================
+
+Capacity: 8
+Weights: 2 3 4 5 
+Values: 3 4 5 6 
+
+Maximum Profit: 10
+Selected Items: 1 3 
+ */

@@ -19,12 +19,14 @@ class KnapsackOptimization {
         let bound = profit;
         let remainCapacity = this.capacity - weight;
 
-        // 贪心选择
+        // 贪心选择，选择价值/重量比最高的物品
         for (let i = idx; i < this.n; i++) {
+            // 物品 i 可以完全放入背包
             if (this.weights[i] <= remainCapacity) {
                 bound += this.values[i];
                 remainCapacity -= this.weights[i];
             } else {
+                // 物品 i 只能部分放入背包，加入剩余容量的分数部分价值
                 bound += Math.floor(this.values[i] * remainCapacity / this.weights[i]);
                 break;
             }
@@ -34,12 +36,12 @@ class KnapsackOptimization {
     }
 
     branchAndBound(idx = 0, weight = 0, profit = 0) {
-        // 剪枝
+        // 剪枝,如果当前上界不超过最大利润，则无需继续搜索
         if (this.upperBound(idx, weight, profit) <= this.maxProfit) {
             return;
         }
 
-        // 基础情况
+        // 基础情况, 处理所有物品
         if (idx === this.n) {
             if (profit > this.maxProfit) {
                 this.maxProfit = profit;
@@ -48,7 +50,7 @@ class KnapsackOptimization {
             return;
         }
 
-        // 包含当前物品
+        // 包含当前物品, 递归处理下一个物品
         if (weight + this.weights[idx] <= this.capacity) {
             this.currentItems[idx] = true;
             this.branchAndBound(idx + 1, weight + this.weights[idx], profit + this.values[idx]);

@@ -54,16 +54,16 @@ class TSPSolver:
         Branch and bound recursion with pruning
         Time: Exponential with pruning, Space: O(n) recursion depth
         """
-        # 剪枝：下界 >= 当前最优，跳过此分支
-        if self.lower_bound(node, level, cost) >= self.min_cost:
-            return
-        
-        # 基础情况：找到完整路径
-        if level == self.n - 1:
+        # 基础情况：找到完整路径（访问了所有城市）
+        if level == self.n:
             total_cost = cost + self.dist[node][0]
             if total_cost < self.min_cost:
                 self.min_cost = total_cost
                 self.best_path = self.current_path[:]
+            return
+        
+        # 剪枝：下界 >= 当前最优，跳过此分支
+        if self.lower_bound(node, level, cost) >= self.min_cost:
             return
         
         # 分支：探索未访问的城市

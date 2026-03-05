@@ -10,11 +10,12 @@ class TSPSolver {
         this.visited[0] = true;
     }
 
-    lowerBound(node, level) {
-        let bound = 0;
+    lowerBound(node, level, currentCost) {
+        let bound = currentCost;
         let minEdge = Infinity;
 
         // 从当前节点到未访问城市找最小边
+        for (let i = 0; i < this.n; i++) {
             if (!this.visited[i]) {
                 minEdge = Math.min(minEdge, this.dist[node][i]);
             }
@@ -24,7 +25,7 @@ class TSPSolver {
             bound += minEdge;
         }
 
-        // 估计剩余城市的但最小成本
+        // 估计剩余城市的最小成本
         for (let i = 0; i < this.n; i++) {
             if (!this.visited[i]) {
                 let min1 = Infinity, min2 = Infinity;
@@ -48,18 +49,18 @@ class TSPSolver {
     }
 
     branchAndBound(node, level, cost) {
-        // 剪枝
-        if (this.lowerBound(node, level) >= this.minCost) {
-            return;
-        }
-
-        // 基础情况
-        if (level === this.n - 1) {
+        // 基础情况：找到完整路径
+        if (level === this.n) {
             const totalCost = cost + this.dist[node][0];
             if (totalCost < this.minCost) {
                 this.minCost = totalCost;
                 this.bestPath = [...this.currentPath];
             }
+            return;
+        }
+
+        // 剪枝
+        if (this.lowerBound(node, level, cost) >= this.minCost) {
             return;
         }
 
@@ -95,11 +96,35 @@ const graph = [
 ];
 
 console.log("TSP - Traveling Salesman Problem (JavaScript)");
+console.log("=============================================\n");
+
+console.log("Test Case 1:");
+console.log("Distance Matrix:");
+graph.forEach(row => console.log(row.map(x => x.toString().padStart(3)).join(' ')));
+
 const solver = new TSPSolver(graph);
 const result = solver.solve();
 
-console.log("\nDistance Matrix:");
-graph.forEach(row => console.log(row.map(x => x.toString().padStart(3)).join(' ')));
-
 console.log(`\nMinimum Tour Cost: ${result.cost}`);
 console.log(`Tour: ${result.path.join(' -> ')}`);
+
+// Test Case 2
+console.log("\n" + "=============================================");
+console.log("\nTest Case 2: 5 Cities\n");
+
+const graph2 = [
+    [0, 29, 20, 32, 23],
+    [29, 0, 21, 37, 18],
+    [20, 21, 0, 28, 23],
+    [32, 37, 28, 0, 34],
+    [23, 18, 23, 34, 0]
+];
+
+console.log("Distance Matrix:");
+graph2.forEach(row => console.log(row.map(x => x.toString().padStart(3)).join(' ')));
+
+const solver2 = new TSPSolver(graph2);
+const result2 = solver2.solve();
+
+console.log(`\nMinimum Tour Cost: ${result2.cost}`);
+console.log(`Tour: ${result2.path.join(' -> ')}`);
