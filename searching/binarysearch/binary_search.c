@@ -16,8 +16,10 @@ int binary_search1(int *arr, int len, int item)
   int right = len - 1;
   int mid_index;
   int middle;
+  // 注意：当 left == right 时，仍然需要继续循环判断
   while (left <= right)
   {
+    // 计算中间位置索引
     mid_index = (left + right) / 2;
     middle = arr[mid_index];
     if (item > middle)
@@ -29,6 +31,7 @@ int binary_search1(int *arr, int len, int item)
       right = mid_index - 1;
     }
   }
+  // 循环结束时，left 指向第一个大于 item 的元素位置
   if (left < len && arr[left] == item)
     return left;
   return -1;
@@ -39,15 +42,18 @@ int binary_search2(int *arr, int item, int left, int right)
 {
   int mid_index = (left + right) / 2;
   int middle = arr[mid_index];
+  // 注意：当 left == right 时，仍然需要继续循环判断
   if (middle == item)
   {
     if (arr[left] == item)
       return left;
     return mid_index;
   }
+  // 递归出口：当 left >= right 时，说明没有找到
   if (left >= right)
     return -1;
 
+  // 递归调用，移动左右区间指针
   if (item > middle)
     return binary_search2(arr, item, mid_index + 1, right);
   else

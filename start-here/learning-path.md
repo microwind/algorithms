@@ -27,7 +27,7 @@
    - 根据兴趣和目标选择语言
    - 推荐：Python（易上手）、JavaScript（应用广）、Java（企业级）
 
-3. [算法思想简介](./algorithmic_thinking.md) - 了解常见的 10 大算法思想
+3. [算法思想简介](./algorithmic-thinking.md) - 了解常见的 10 大算法思想
    - 贪心、分治、动态规划、回溯等
    - 掌握思想，应用无穷
 
@@ -224,7 +224,7 @@ A: 根据目标不同：
 
 ## 📖 相关资源
 
-- [算法思想详解](./algorithmic_thinking.md)
+- [算法思想详解](./algorithmic-thinking.md)
 - [编程语言对比](./recommand-learning-languages.md)
 - 本仓库的算法目录：`sorting/`、`searching/`、`string/`、`array/`、`graph/`、`tree/`、`math/`、`date-time/`
 - [项目结构说明](../PROJECT_STRUCTURE.md)

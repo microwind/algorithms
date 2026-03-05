@@ -15,7 +15,7 @@
    - 如何学好编程
    - 初学者必懂概念
 
-3. **[算法思想](./algorithmic_thinking.md)** - 💡 10 大算法思想概览
+3. **[算法思想](./algorithmic-thinking.md)** - 💡 10 大算法思想概览
    - 贪心、分治、动态规划等
    - 掌握思想，应用无穷
 
@@ -42,7 +42,7 @@
 | 你的情况 | 阅读建议 |
 |---------|--------|
 | **完全新手，不知道从哪开始** | 从 [学习路线](./learning-path.md) 开始，按顺序阅读 |
-| **已经会编程，想学算法** | 直接读 [算法思想](./algorithmic_thinking.md)，然后进入算法目录（`sorting/`、`searching/` 等） |
+| **已经会编程，想学算法** | 直接读 [算法思想](./algorithmic-thinking.md)，然后进入算法目录（`sorting/`、`searching/` 等） |
 | **想搭建编程环境** | 看 [环境搭建指南](./environment-setup.md) |
 | **遇到学习困难或问题** | 查阅 [常见问题解答](./faq.md) |
 | **想理解编程的本质** | 读 [什么是编程](./what-is-programming.md) |

@@ -38,7 +38,7 @@ You will gain:
 - **Graph algorithms**: BFS, DFS, Dijkstra, Kruskal, etc., for graph-related problems.
 - **Branch and bound**: explores a search tree with bounds to prune unnecessary branches.
 
-For details, see: [10 Classic Algorithm Ideas](./start-here/algorithmic_thinking.md)
+For details, see: [10 Classic Algorithm Ideas](./start-here/algorithmic-thinking.md)
 
 ## 10 Classic Sorting Algorithms
 
@@ -103,7 +103,7 @@ For details, see: [10 Classic Algorithm Ideas](./start-here/algorithmic_thinking
 
 | Algorithm | Code Link | Time Complexity | Space Complexity | Use Cases |
 |------|---------|------------|------------|--------|
-| [Basic Recursion](./algorithmic-thinking/recursion/) | [C](./algorithmic-thinking/recursion/) | O(2^n) | O(n) | Divide and conquer, tree/graph traversal, backtracking |
+| [Basic Recursion](./recursion/) | [C](./recursion/) | O(2^n) | O(n) | Divide and conquer, tree/graph traversal, backtracking |
 
 ## Mathematical Computation
 

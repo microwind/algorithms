@@ -9,7 +9,7 @@
 algorithms/
 │
 ├── start-here/                    # 入门与学习路径
-│   ├── algorithmic_thinking.md    # 算法思想
+│   ├── algorithmic-thinking.md    # 算法思想
 │   ├── what-is-programming.md     # 编程入门
 │   └── recommand-learning-languages.md # 入门语言推荐
 │

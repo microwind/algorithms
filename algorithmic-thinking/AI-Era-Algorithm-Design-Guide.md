@@ -295,20 +295,37 @@ AI生成代码的问题：
 - 快速排序、归并排序
 
 **工程应用**：
-```python
-# 实际应用案例：权限树遍历
-def traverse_permission_tree(node, user_perms):
-    """递归遍历权限树，收集用户权限"""
-    if node is None:
-        return
+```c
+#include <stdio.h>
+#include <stdbool.h>
 
-    if node.id in user_perms:
-        # 基本情况：找到权限
-        print(f"User has permission: {node.name}")
+typedef struct TreeNode {
+    int id;
+    char name[50];
+    struct TreeNode* children[10];
+    int child_count;
+} TreeNode;
 
-    # 递归情况：遍历子节点
-    for child in node.children:
-        traverse_permission_tree(child, user_perms)
+// 递归遍历权限树，收集用户权限
+void traverse_permission_tree(TreeNode* node, int* user_perms, int perm_count) {
+    if (node == NULL) return;
+
+    for (int i = 0; i < perm_count; i++) {
+        // 检查当前节点权限是否在用户权限列表中
+        if (user_perms[i] == node->id) {
+            // 找到权限则打印
+            printf("User has permission: %s\n", node->name);
+            // 找到后跳出循环
+            break;
+        }
+    }
+
+    // 递归情况：遍历子节点
+    for (int i = 0; i < node->child_count; i++) {
+        // 递归处理每个子节点
+        traverse_permission_tree(node->children[i], user_perms, perm_count);
+    }
+}
 ```
 
 ---
@@ -336,25 +353,56 @@ def traverse_permission_tree(node, user_perms):
 - 快速幂运算
 
 **工程应用**：
-```python
-# 实际应用案例：大数据集合并排序
-def merge_sort(arr):
-    """分治法排序：分 → 治 → 合"""
-    if len(arr) <= 1:
-        return arr
+```c
+#include <stdio.h>
+#include <string.h>
 
-    # Divide：分解
-    mid = len(arr) // 2
-    left = merge_sort(arr[:mid])
-    right = merge_sort(arr[mid:])
+// 合并两个已排序的数组
+void merge(int* arr, int left, int mid, int right, int* temp) {
+    int i = left, j = mid + 1, k = left;
+    
+    // 比较两个有序子数组的元素，选择较小的放入temp
+    while (i <= mid && j <= right) {
+        if (arr[i] <= arr[j]) {  // 左子数组元素 ≤ 右子数组元素
+            temp[k++] = arr[i++];  // 取左子数组元素
+        } else {
+            temp[k++] = arr[j++];  // 取右子数组元素
+        }
+    }
+    
+    // 复制左子数组的剩余元素
+    while (i <= mid) {
+        temp[k++] = arr[i++];  // 左子数组还有剩余
+    }
+    
+    // 复制右子数组的剩余元素
+    while (j <= right) {
+        temp[k++] = arr[j++];  // 右子数组还有剩余
+    }
+    
+    // 将排序好的结果复制回原数组
+    for (i = left; i <= right; i++) {
+        arr[i] = temp[i];  // 更新原数组
+    }
+}
 
-    # Combine：合并
-    return merge(left, right)
+// 分治法排序：分 → 治 → 合
+void merge_sort(int* arr, int left, int right, int* temp) {
+    if (left >= right) return;  // 递归终止条件：只有一个元素时
+    
+    // Divide：分解
+    int mid = (left + right) / 2;  // 计算中点
+    merge_sort(arr, left, mid, temp);      // 排序左半部分（递归）
+    merge_sort(arr, mid + 1, right, temp); // 排序右半部分（递归）
+    
+    // Combine：合并两个已排序的子数组
+    merge(arr, left, mid, right, temp);  // 合并操作
+}
 
-# 应用场景：
-# 1. 外存排序（数据库排序大文件）
-# 2. 分布式排序（多台机器并行处理）
-# 3. 多核编程（分治天然支持并行）
+// 应用场景：
+// 1. 外存排序（数据库排序大文件）
+// 2. 分布式排序（多台机器并行处理）
+// 3. 多核编程（分治天然支持并行）
 ```
 
 ---
@@ -382,34 +430,97 @@ def merge_sort(arr):
 - 硬币兑换、爬楼梯
 
 **工程应用**：
-```python
-# 实际应用案例：LRU缓存淘汰策略
-from collections import OrderedDict
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-class LRUCache:
-    def __init__(self, capacity):
-        self.cache = OrderedDict()
-        self.capacity = capacity
+typedef struct CacheNode {
+    int key;
+    int value;
+    struct CacheNode* prev;
+    struct CacheNode* next;
+} CacheNode;
 
-    def get(self, key):
-        if key not in self.cache:
-            return -1
-        # 标记为最近使用
-        self.cache.move_to_end(key)
-        return self.cache[key]
+typedef struct {
+    int capacity;
+    int size;
+    CacheNode* head;  // 最近使用
+    CacheNode* tail;  // 最久未使用
+    CacheNode** cache;  // 哈希表 key -> node
+} LRUCache;
 
-    def put(self, key, value):
-        if key in self.cache:
-            self.cache.move_to_end(key)
-        self.cache[key] = value
-        if len(self.cache) > self.capacity:
-            # 淘汰最久未使用的（第一个）
-            self.cache.popitem(last=False)
+// 创建LRU缓存实例
+LRUCache* create_cache(int capacity) {
+    LRUCache* lru = (LRUCache*)malloc(sizeof(LRUCache));  // 分配缓存结构体内存
+    lru->capacity = capacity;  // 设置缓存容量
+    lru->size = 0;  // 初始化当前大小为0
+    lru->head = (CacheNode*)malloc(sizeof(CacheNode));  // 创建哨兵头节点
+    lru->tail = (CacheNode*)malloc(sizeof(CacheNode));  // 创建哨兵尾节点
+    lru->head->next = lru->tail;  // 链表初始化
+    lru->tail->prev = lru->head;
+    lru->cache = (CacheNode**)calloc(10007, sizeof(CacheNode*));  // 初始化哈希表
+    return lru;
+}
 
-# 应用场景：
-# 1. Redis缓存淘汰
-# 2. 操作系统页面置换
-# 3. CDN边缘缓存策略
+// 将节点移动到链表末尾（标记为最近使用）
+void move_to_end(LRUCache* lru, CacheNode* node) {
+    // 从当前位置移除
+    node->prev->next = node->next;  // 上一个节点指向下一个
+    node->next->prev = node->prev;  // 下一个节点指向上一个
+    
+    // 添加到尾部（标记为最近使用）
+    node->prev = lru->tail->prev;  // 新节点的前驱指向尾节点的前驱
+    node->next = lru->tail;  // 新节点的后继指向尾节点
+    lru->tail->prev->next = node;  // 尾节点前驱的后继指向新节点
+    lru->tail->prev = node;  // 尾节点的前驱指向新节点
+}
+
+// 从缓存获取值
+int get(LRUCache* lru, int key) {
+    if (lru->cache[key % 10007] == NULL) {  // 检查key是否在缓存中
+        return -1;  // 缓存未命中
+    }
+    CacheNode* node = lru->cache[key % 10007];  // 找到缓存节点
+    move_to_end(lru, node);  // 标记为最近使用（移到链表末尾）
+    return node->value;  // 返回缓存值
+}
+
+// 向缓存放入值
+void put(LRUCache* lru, int key, int value) {
+    if (lru->cache[key % 10007] != NULL) {  // key已存在于缓存中
+        CacheNode* node = lru->cache[key % 10007];  // 找到节点
+        node->value = value;  // 更新值
+        move_to_end(lru, node);  // 标记为最近使用
+    } else {  // key不存在，需要新建节点
+        CacheNode* new_node = (CacheNode*)malloc(sizeof(CacheNode));  // 创建新节点
+        new_node->key = key;  // 设置key
+        new_node->value = value;  // 设置value
+        lru->cache[key % 10007] = new_node;  // 加入哈希表
+        move_to_end(lru, new_node);  // 添加到链表末尾
+        lru->size++;  // 增加缓存大小
+        
+        if (lru->size > lru->capacity) {  // 缓存满，需要淘汰
+            // 贪心淘汰：移除最久未使用的（從head后面移除）
+            CacheNode* lru_node = lru->head->next;  // 获取最久未使用的节点
+            lru_node->prev->next = lru_node->next;  // 从链表中移除
+            lru_node->next->prev = lru_node->prev;
+            lru->cache[lru_node->key % 10007] = NULL;  // 从哈希表中移除
+            free(lru_node);  // 释放内存
+            lru->size--;  // 减少缓存大小
+        }
+    }
+}
+
+// 关键逻辑说明：
+// 1. 用哈希表实现O(1)的查找
+// 2. 用双向链表维护LRU顺序
+// 3. 访问时移到末尾表示最近使用
+// 4. 满容时删除头节点（最久未使用）
+// 应用场景：
+// 1. Redis缓存淘汰
+// 2. 操作系统页面置换
+// 3. CDN边缘缓存策略
 ```
 
 ---
@@ -443,29 +554,55 @@ class LRUCache:
 - Dijkstra最短路径
 
 **工程应用**：
-```python
-# 实际应用案例：负载均衡
-class LoadBalancer:
-    def __init__(self, servers):
-        self.servers = servers
+```c
+#include <stdio.h>
 
-    def assign_task(self, task):
-        """贪心：每次选择当前负载最低的服务器"""
-        # 贪心选择
-        best_server = min(self.servers, key=lambda s: s.current_load)
-        best_server.assign(task)
-        return best_server
+typedef struct {
+    int id;
+    int current_load;  // 当前负载
+} Server;
 
-    def balance(self, tasks):
-        """为所有任务分配服务器"""
-        for task in tasks:
-            self.assign_task(task)
+typedef struct {
+    Server** servers;
+    int server_count;
+} LoadBalancer;
 
-# 应用场景：
-# 1. Nginx/LB轮询算法
-# 2. 云服务器自动扩展
-# 3. 任务调度器
-# 4. 资源分配（CPU、内存）
+// 创建负载均衡器
+LoadBalancer* create_load_balancer(Server** servers, int count) {
+    LoadBalancer* lb = (LoadBalancer*)malloc(sizeof(LoadBalancer));
+    lb->servers = servers;  // 存储服务器列表
+    lb->server_count = count;  // 记录服务器数量
+    return lb;
+}
+
+// 分配任务：选择负载最低的服务器
+Server* assign_task(LoadBalancer* lb, int task) {
+    int best_idx = 0;  // 记录最优服务器索引
+    
+    // 遍历所有服务器，找负载最低的
+    for (int i = 1; i < lb->server_count; i++) {
+        if (lb->servers[i]->current_load < lb->servers[best_idx]->current_load) {  // 比较负载
+            best_idx = i;  // 更新最优服务器
+        }
+    }
+    
+    // 分配任务到选中服务器
+    lb->servers[best_idx]->current_load += task;  // 增加该服务器的负载
+    return lb->servers[best_idx];  // 返回选中的服务器
+}
+
+// 为所有任务分配服务器
+void balance(LoadBalancer* lb, int* tasks, int task_count) {
+    for (int i = 0; i < task_count; i++) {
+        assign_task(lb, tasks[i]);  // 逐个分配任务
+    }
+}
+
+// 应用场景：
+// 1. Nginx/LB轮询算法
+// 2. 云服务器自动扩展
+// 3. 任务调度器
+// 4. 资源分配（CPU、内存）
 ```
 
 ---
@@ -499,35 +636,56 @@ class LoadBalancer:
 - 单词搜索
 
 **工程应用**：
-```python
-# 实际应用案例：权限组合生成
-def generate_permission_combinations(permissions, target_count):
-    """回溯生成权限组合"""
-    result = []
+```c
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
-    def backtrack(start, current_combo):
-        # 找到一个完整解
-        if len(current_combo) == target_count:
-            result.append(current_combo[:])
-            return
+#define MAX_RESULTS 1000
+#define MAX_PERM_LEN 10
 
-        # 尝试选择每个权限
-        for i in range(start, len(permissions)):
-            # 选择
-            current_combo.append(permissions[i])
-            # 递归
-            backtrack(i + 1, current_combo)
-            # 回退
-            current_combo.pop()
+int result_count = 0;  // 结果数量
+int results[MAX_RESULTS][MAX_PERM_LEN];  // 存储所有组合
 
-    backtrack(0, [])
-    return result
+// 回溯核心函数：生成权限组合
+void backtrack(int* permissions, int perm_count, int target_count, 
+               int* current_combo, int combo_len, int start) {
+    // 找到一个完整解
+    if (combo_len == target_count) {  // 当前组合长度等于目标长度
+        // 保存这个组合
+        for (int i = 0; i < target_count; i++) {
+            results[result_count][i] = current_combo[i];  // 复制组合到结果
+        }
+        result_count++;  // 结果计数增加
+        return;  // 递归返回
+    }
+    
+    // 尝试选择每个权限
+    for (int i = start; i < perm_count; i++) {
+        // ===== 选择 =====
+        current_combo[combo_len] = permissions[i];  // 选择第i个权限
+        
+        // ===== 递归 =====
+        backtrack(permissions, perm_count, target_count, 
+                 current_combo, combo_len + 1, i + 1);  // 递归选择下一个
+        
+        // ===== 回退 =====
+        // 无需显式回退，下次迭代会覆盖该位置
+    }
+}
 
-# 应用场景：
-# 1. 角色权限组合
-# 2. 测试用例生成
-# 3. 配置选项生成
-# 4. 推荐系统的候选集合
+// 初始化并启动权限组合生成
+void generate_permission_combinations(int* permissions, int perm_count, int target_count) {
+    result_count = 0;  // 清零结果计数
+    int current_combo[MAX_PERM_LEN];  // 当前组合缓冲区
+    backtrack(permissions, perm_count, target_count, current_combo, 0, 0);  // 启动回溯
+}
+
+// 应用场景：
+// 1. 角色权限组合
+// 2. 测试用例生成
+// 3. 配置选项生成
+// 4. 推荐系统的候选集合
 ```
 
 ---
@@ -562,41 +720,81 @@ n & 1              # 检查是否为奇数
 - 汉明距离（Hamming Distance）
 
 **工程应用**：
-```python
-# 实际应用案例：权限管理（位标志）
-class PermissionManager:
-    # 用位表示权限
-    READ = 1 << 0     # 001
-    WRITE = 1 << 1    # 010
-    EXECUTE = 1 << 2  # 100
+```c
+#include <stdio.h>
+#include <stdbool.h>
 
-    def __init__(self):
-        self.user_perms = {}
+// 权限定义（用位表示）
+#define READ 1 << 0     // 001
+#define WRITE 1 << 1    // 010
+#define EXECUTE 1 << 2  // 100
 
-    def grant_permission(self, user, perm):
-        """授予权限"""
-        if user not in self.user_perms:
-            self.user_perms[user] = 0
-        self.user_perms[user] |= perm  # 位OR
+typedef struct {
+    int user_id;
+    int permissions;  // 权限位标志
+} UserPermission;
 
-    def revoke_permission(self, user, perm):
-        """撤销权限"""
-        self.user_perms[user] &= ~perm  # 位AND
+typedef struct {
+    UserPermission users[1000];
+    int user_count;
+} PermissionManager;
 
-    def has_permission(self, user, perm):
-        """检查权限"""
-        return (self.user_perms.get(user, 0) & perm) != 0
+// 初始化权限管理器
+PermissionManager* create_permission_manager() {
+    PermissionManager* pm = (PermissionManager*)malloc(sizeof(PermissionManager));
+    pm->user_count = 0;
+    return pm;
+}
 
-    def has_all_permissions(self, user, perms):
-        """检查是否拥有所有权限"""
-        user_perm = self.user_perms.get(user, 0)
-        return (user_perm & perms) == perms
+// 授予权限
+void grant_permission(PermissionManager* pm, int user_id, int perm) {
+    for (int i = 0; i < pm->user_count; i++) {
+        if (pm->users[i].user_id == user_id) {
+            pm->users[i].permissions |= perm;  // 位OR操作：添加权限位
+            return;
+        }
+    }
+    // 用户不存在，新增用户
+    pm->users[pm->user_count].user_id = user_id;  // 设置用户ID
+    pm->users[pm->user_count].permissions = perm;  // 初始化权限
+    pm->user_count++;  // 增加用户计数
+}
 
-# 应用场景：
-# 1. Unix文件权限（rwx）
-# 2. 特性开关（Feature flags）
-# 3. 网络子网掩码
-# 4. 缓存标志位
+// 撤销权限
+void revoke_permission(PermissionManager* pm, int user_id, int perm) {
+    for (int i = 0; i < pm->user_count; i++) {
+        if (pm->users[i].user_id == user_id) {
+            pm->users[i].permissions &= ~perm;  // 位AND操作：移除权限位
+            return;
+        }
+    }
+}
+
+// 检查单个权限
+bool has_permission(PermissionManager* pm, int user_id, int perm) {
+    for (int i = 0; i < pm->user_count; i++) {
+        if (pm->users[i].user_id == user_id) {
+            return (pm->users[i].permissions & perm) != 0;  // 位AND检查权限
+        }
+    }
+    return false;  // 用户不存在，无权限
+}
+
+// 检查所有权限
+bool has_all_permissions(PermissionManager* pm, int user_id, int perms) {
+    for (int i = 0; i < pm->user_count; i++) {
+        if (pm->users[i].user_id == user_id) {
+            return (pm->users[i].permissions & perms) == perms;  // 检查权限位集合
+        }
+    }
+    return false;  // 用户不存在
+}
+
+// 应用场景：
+// 1. Unix文件权限（rwx）
+// 2. 特性开关（Feature flags）
+// 3. 网络子网掩码
+// 4. 缓存标志位
 ```
 
 ### 学习路径与方法
@@ -927,7 +1125,7 @@ AI时代的优势：不用学语言的细节，专注算法思想
 
 **用算法思想指导AI**：
 
-```python
+```c
 # Prompt给AI的指导
 prompt = """
 设计一个LRU缓存实现，要求：
@@ -944,34 +1142,40 @@ prompt = """
 - 访问时要更新"最近使用"标记
 
 请提供：
-1. 完整的Python实现
+1. 完整的C实现
 2. 时间空间复杂度分析
 3. 测试用例
 """
 
-# AI会生成：
-class LRUCache:
-    def __init__(self, capacity):
-        self.cache = {}
-        self.lru_order = collections.OrderedDict()
-        self.capacity = capacity
-
-    def get(self, key):
-        if key not in self.cache:
-            return -1
-        # 更新最近使用（核心是贪心：每次使用都标记）
-        self.lru_order.move_to_end(key)
-        return self.cache[key]
-
-    def put(self, key, value):
-        if key in self.cache:
-            self.lru_order.move_to_end(key)
-        self.cache[key] = value
-        self.lru_order[key] = True
-        if len(self.cache) > self.capacity:
-            # 贪心淘汰：移除最久未使用的
-            oldest = self.lru_order.popitem(last=False)
-            del self.cache[oldest[0]]
+// AI会生成的C实现（简化示意）:
+// typedef struct { ... } LRUCache;  // 缓存结构
+// 
+// LRUCache* create_cache(int capacity) {
+//     // 初始化：分配内存、设置容量
+//     // O(1) 时间复杂度
+// }
+// 
+// int get(LRUCache* cache, int key) {
+//     if (key not in cache) return -1;  // 缓存未命中
+//     // 更新最近使用（核心是贪心：每次使用都标记）
+//     // 移动节点到链表末尾
+//     return cache->values[key];  // O(1) 时间
+// }
+// 
+// void put(LRUCache* cache, int key, int value) {
+//     if (key in cache) {
+//         update value;  // 更新值
+//         move_to_end(cache, key);  // 标记为最近使用
+//     } else {
+//         create new node;  // 创建新节点
+//         add to tail;  // 添加到链表末尾
+//         cache->size++;
+//         if (cache->size > cache->capacity) {
+//             // 贪心淘汰：移除最久未使用的（链表头）
+//             remove_head(cache);  // O(1) 摊销时间
+//         }
+//     }
+// }
 ```
 
 **你的职责**：
@@ -987,7 +1191,7 @@ class LRUCache:
 
 **用算法思想指导AI**：
 
-```python
+```c
 # Prompt思路
 prompt = """
 设计搜索结果排序算法，要求：
@@ -1014,26 +1218,31 @@ prompt = """
 3. 性能优化建议
 """
 
-# 伪代码（思想描述）
-def sort_search_results(results, weights, model):
-    # 分治：分别计算各维度得分
-    for result in results:
-        result['relevance_score'] = calculate_relevance(result, query)
-        result['popularity_score'] = get_popularity(result)
-        result['freshness_score'] = calculate_freshness(result)
+```c
+// 搜索结果排序（伪代码）
+// 思想：分治 + 动态规划 + 贪心
+void sort_search_results(SearchResult* results, int count, double* weights, Model* model) {
+    // 分治：分别计算各维度得分
+    for (int i = 0; i < count; i++) {
+        results[i].relevance_score = calculate_relevance(results[i]);  // 计算相关性得分
+        results[i].popularity_score = get_popularity(results[i]);      // 获取热度得分
+        results[i].freshness_score = calculate_freshness(results[i]);  // 计算时新性得分
+    }
 
-    # 动态规划：用学习模型调整权重
-    optimal_weights = model.predict(weights, results)
+    // 动态规划：用学习模型调整权重
+    double* optimal_weights = model_predict(model, weights, results, count);  // 学习最优权重
 
-    # 贪心：用最优权重排序
-    results.sort(key=lambda r:
-        optimal_weights[0] * r['relevance_score'] +
-        optimal_weights[1] * r['popularity_score'] +
-        optimal_weights[2] * r['freshness_score'],
-        reverse=True
-    )
-
-    return results
+    // 贪心：用最优权重排序
+    // 计算综合得分 = w1*相关性 + w2*热度 + w3*时新性
+    for (int i = 0; i < count; i++) {
+        results[i].final_score = optimal_weights[0] * results[i].relevance_score +  // 相关性权重
+                                 optimal_weights[1] * results[i].popularity_score +  // 热度权重
+                                 optimal_weights[2] * results[i].freshness_score;    // 时新性权重
+    }
+    
+    // 按综合得分从高到低排序
+    qsort(results, count, sizeof(SearchResult), compare_by_final_score);  // 排序
+}
 ```
 
 **你的职责**：
@@ -1049,7 +1258,7 @@ def sort_search_results(results, weights, model):
 
 **用算法思想指导AI**：
 
-```python
+```c
 # Prompt思路
 prompt = """
 设计负载均衡算法，要求：
@@ -1072,26 +1281,44 @@ prompt = """
 4. 一致性哈希实现（处理服务器变化）
 """
 
-# 核心实现（贪心）
-class LoadBalancer:
-    def __init__(self, servers):
-        self.servers = servers
-        self.heap = [(server.current_load, server) for server in servers]
-        heapq.heapify(self.heap)
+// 核心实现（贪心）
+// 使用最小堆维护服务器负载，实现O(log n)的快速分配
+typedef struct {
+    Server** servers;
+    int server_count;
+    // 注：简化实现，实际使用优先队列
+} LoadBalancerHeap;
 
-    def assign_task(self, task):
-        # 贪心：每次选择负载最低的
-        load, server = heapq.heappop(self.heap)
-        server.assign(task)
-        # 更新优先队列
-        heapq.heappush(self.heap, (server.current_load, server))
-        return server
+LoadBalancerHeap* create_load_balancer_heap(Server** servers, int count) {
+    LoadBalancerHeap* lb = (LoadBalancerHeap*)malloc(sizeof(LoadBalancerHeap));
+    lb->servers = servers;  // 存储服务器列表
+    lb->server_count = count;  // 记录服务器数量
+    // 初始化堆（省略堆化过程）
+    return lb;
+}
 
-    def remove_task(self, server, task):
-        server.remove(task)
-        # 重建堆（可优化为延迟更新）
-        self.heap = [(s.current_load, s) for s in self.servers]
-        heapq.heapify(self.heap)
+// 分配任务：贪心选择负载最低的服务器
+Server* assign_task_heap(LoadBalancerHeap* lb, int task) {
+    int best_idx = 0;  // 记录最优服务器索引
+    
+    // 找到负载最低的服务器
+    for (int i = 1; i < lb->server_count; i++) {
+        if (lb->servers[i]->current_load < lb->servers[best_idx]->current_load) {
+            best_idx = i;  // 更新最优服务器
+        }
+    }
+    
+    lb->servers[best_idx]->current_load += task;  // 分配任务，增加负载
+    // 更新堆（将该服务器的负载上升，重新堆化）
+    return lb->servers[best_idx];  // 返回选中的服务器
+}
+
+// 移除任务
+void remove_task_heap(LoadBalancerHeap* lb, Server* server, int task) {
+    server->current_load -= task;  // 减少服务器负载
+    // 重建堆（可优化为延迟更新以提高性能）
+    // heapify(lb); // 实际需要调用堆化函数
+}
 ```
 
 **你的职责**：
@@ -1107,7 +1334,7 @@ class LoadBalancer:
 
 **用算法思想指导AI**：
 
-```python
+```c
 # Prompt思路
 prompt = """
 设计推荐系统的召回和排序，要求：
@@ -1129,26 +1356,55 @@ prompt = """
 请提供完整的推荐链路
 """
 
-# 伪代码
-def recommend(user_id, num=10):
-    # 多路召回（分治：分别获取各路候选）
-    cf_candidates = collaborative_filtering(user_id, k=30)
-    content_candidates = content_based(user_id, k=30)
-    trending_candidates = trending_items(k=20)
-    candidates = cf_candidates + content_candidates + trending_candidates
+```c
+// 推荐系统（伪代码）
+// 思想：分治 + 贪心 + 动态规划
 
-    # 去重和基础排序
-    candidates = remove_duplicates(candidates)
+#define MAX_CANDIDATES 100
+#define MAX_SELECTED 10
 
-    # 多样性优化（贪心：选最优+不相似的）
-    selected = []
-    for _ in range(num):
-        best_item = max(candidates, key=lambda x:
-            score(x, user_id) - diversity_penalty(x, selected))
-        selected.append(best_item)
-        candidates.remove(best_item)
+typedef struct {
+    int item_id;
+    double score;
+} Item;
 
-    return selected
+// 推荐函数：从候选池选择最优项目
+void recommend(int user_id, Item* candidates, int cand_count, 
+               Item* selected, int* selected_count, int target_count) {
+    
+    // 多路召回（分治：分别从协同过滤、内容推荐等获取候选）
+    Item* cf_candidates = collaborative_filtering(user_id, 30);          // 协同过滤召回
+    Item* content_candidates = content_based(user_id, 30);              // 内容推荐召回
+    Item* trending_candidates = trending_items(20);                      // 趋势项目
+    // candidates = cf_candidates + content_candidates + trending_candidates
+    
+    // 去重和基础排序
+    int merged_count = merge_and_deduplicate(cf_candidates, content_candidates, 
+                                            trending_candidates, candidates);  // 合并并去重
+    
+    // 多样性优化（贪心：选最优且不相似的项目）
+    *selected_count = 0;
+    for (int i = 0; i < target_count && i < merged_count; i++) {
+        // 贪心：选择综合得分最高的项目（相关性 - 多样性惩罚）
+        int best_idx = 0;
+        double best_score = score(candidates[0], user_id) - 
+                           diversity_penalty(candidates[0], selected, *selected_count);
+        
+        for (int j = 1; j < merged_count; j++) {
+            double curr_score = score(candidates[j], user_id) - 
+                               diversity_penalty(candidates[j], selected, *selected_count);
+            if (curr_score > best_score) {  // 比较综合得分
+                best_score = curr_score;    // 更新最高得分
+                best_idx = j;               // 更新最优项目索引
+            }
+        }
+        
+        selected[*selected_count] = candidates[best_idx];  // 选中该项目
+        (*selected_count)++;                               // 增加选中计数
+        // 从候选集中移除该项目
+        remove_item(candidates, &merged_count, best_idx);  // 移除已选项目
+    }
+}
 ```
 
 **你的职责**：
@@ -1164,7 +1420,7 @@ def recommend(user_id, num=10):
 
 **用算法思想指导AI**：
 
-```python
+```c
 # Prompt思路
 prompt = """
 设计数据库查询优化器，要求：
@@ -1212,7 +1468,7 @@ ORDER BY o.created_at DESC
 
 **用算法思想指导AI**：
 
-```python
+```c
 # Prompt思路
 prompt = """
 设计权限系统，要求：
@@ -1238,37 +1494,64 @@ prompt = """
 3. 权限缓存策略
 """
 
-# 实现
-class PermissionSystem:
-    def __init__(self):
-        self.user_roles = {}  # user_id -> [role_ids]
-        self.role_perms = {}  # role_id -> permission_bits
-        self.perm_cache = {}  # user_id -> permission_bits
+// C实现示意：
+typedef struct {
+    int user_id;
+    int* role_ids;  // role_id数组
+    int role_count;  // 角色数量
+    int perm_bits;   // 缓存的权限位
+    int cache_valid; // 缓存是否有效
+} UserRoles;
 
-    def grant_role(self, user_id, role_id):
-        if user_id not in self.user_roles:
-            self.user_roles[user_id] = []
-        self.user_roles[user_id].append(role_id)
-        # 清除缓存，重新计算
-        if user_id in self.perm_cache:
-            del self.perm_cache[user_id]
+typedef struct {
+    UserRoles* users;
+    int user_count;
+    int* role_perms;  // role_id -> permission_bits 映射
+    int role_count;
+} PermissionSystem;
 
-    def get_permissions(self, user_id):
-        # 缓存：检查是否已计算
-        if user_id in self.perm_cache:
-            return self.perm_cache[user_id]
+// 授予角色
+void grant_role(PermissionSystem* sys, int user_id, int role_id) {
+    for (int i = 0; i < sys->user_count; i++) {
+        if (sys->users[i].user_id == user_id) {
+            // 添加角色到用户角色列表
+            sys->users[i].role_ids[sys->users[i].role_count++] = role_id;
+            sys->users[i].cache_valid = 0;  // 清除缓存标记
+            return;
+        }
+    }
+}
 
-        # 递归收集所有权限（递归思想）
-        perms = 0
-        for role_id in self.user_roles.get(user_id, []):
-            perms |= self.role_perms.get(role_id, 0)  # 位OR
+// 获取权限位
+int get_permissions(PermissionSystem* sys, int user_id) {
+    for (int i = 0; i < sys->user_count; i++) {
+        if (sys->users[i].user_id == user_id) {
+            // 缓存：检查是否已计算
+            if (sys->users[i].cache_valid) {
+                return sys->users[i].perm_bits;  // 返回缓存值
+            }
+            
+            // 递归收集所有权限（递归思想）
+            int perms = 0;
+            for (int j = 0; j < sys->users[i].role_count; j++) {
+                int role_id = sys->users[i].role_ids[j];
+                perms |= sys->role_perms[role_id];  // 位OR合并权限
+            }
+            
+            // 缓存计算结果
+            sys->users[i].perm_bits = perms;     // 存储权限位
+            sys->users[i].cache_valid = 1;       // 标记缓存有效
+            return perms;
+        }
+    }
+    return 0;
+}
 
-        self.perm_cache[user_id] = perms
-        return perms
-
-    def has_permission(self, user_id, perm):
-        # 位运算检查 O(1)
-        return (self.get_permissions(user_id) & perm) != 0
+// 快速权限检查（O(1)）
+int has_permission(PermissionSystem* sys, int user_id, int perm) {
+    int user_perms = get_permissions(sys, user_id);  // 获取用户权限
+    return (user_perms & perm) != 0;  // 位AND检查权限
+}
 ```
 
 **你的职责**：
@@ -1284,7 +1567,7 @@ class PermissionSystem:
 
 **用算法思想指导AI**：
 
-```python
+```c
 # Prompt思路
 prompt = """
 设计流处理系统，计算滑动窗口统计，要求：
@@ -1446,49 +1729,6 @@ AI可能出错的地方：
 3. 问题遇到瓶颈时 ← 考虑是否用错思想
 4. 指导AI设计时 ← 清晰表达你的想法
 ```
-
-### 30天实战计划
-
-#### **第1周：理论基础（2-3天每个思想）**
-- Day 1-2：递归基础 + 递归思想识别
-- Day 3-4：分治法 + 二分查找、归并排序
-- Day 5-6：动态规划 + 背包问题
-- Day 7：贪心算法 + 几个经典案例
-
-#### **第2周：进阶应用（深入一个思想一天）**
-- Day 1-2：回溯算法 + 组合问题
-- Day 3：位运算 + 权限系统
-- Day 4-5：思想组合 + 实际系统设计
-- Day 6-7：AI辅助设计 + 验证优化
-
-#### **第3周：项目实战（应用到实际项目）**
-- Day 1-2：系统中的搜索功能优化（分治）
-- Day 3-4：缓存系统设计（贪心+DP）
-- Day 5-6：推荐系统改进（多思想组合）
-- Day 7：性能分析和总结
-
-#### **第4周：深化和分享**
-- Day 1-5：深化弱项，强化实战能力
-- Day 6-7：写文章或做分享，教他人
-
-### 立即开始的行动
-
-**这周就可以做：**
-
-1. **选一个简单问题**（如二分查找）
-2. **写清楚的Prompt给AI**（明确指出用什么思想）
-3. **理解AI生成的代码**（为什么这样实现）
-4. **在项目中应用**（找一个类似的实际场景）
-5. **总结学到的东西**（写一个笔记）
-
-**这个月要做：**
-
-1. 掌握6种核心思想
-2. 完成至少3个实战案例
-3. 用AI辅助设计至少2个系统功能
-4. 写1篇技术文章或做1次分享
-
----
 
 ## 参考资源
 

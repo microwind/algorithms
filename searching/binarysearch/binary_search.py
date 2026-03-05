@@ -12,14 +12,16 @@ def binary_search1(arr, item):
     left = 0
     right = len(arr) - 1
 
+    # 注意：当 left == right 时，仍然需要继续循环判断   
     while left <= right:
+        # 注意：当 left + right 过大时，可能会导致整数溢出，导致 mid_index 计算错误
         mid_index = int((left + right) / 2)
         middle = arr[mid_index]
         if item > middle:
             left = mid_index + 1
         else:
             right = mid_index - 1
-
+    # 循环结束时，left 指向第一个大于 item 的元素位置
     if left < len(arr) and arr[left] == item:
         return left
     return -1
