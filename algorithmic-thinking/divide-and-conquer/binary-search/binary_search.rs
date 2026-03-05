@@ -15,10 +15,13 @@ pub fn binary_search(arr: &[i32], target: i32) -> i32 {
 
     while left <= right {
         let mid = left + (right - left) / 2;
-
+        // 检查中间元素是否是目标值
         match arr[mid as usize].cmp(&target) {
+            // 找到目标值，返回索引
             std::cmp::Ordering::Equal => return mid,
+            // 目标值在右半部分，更新左边界
             std::cmp::Ordering::Less => left = mid + 1,
+            // 目标值在左半部分，更新右边界
             std::cmp::Ordering::Greater => right = mid - 1,
         }
     }

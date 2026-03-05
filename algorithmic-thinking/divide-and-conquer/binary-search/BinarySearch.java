@@ -19,11 +19,13 @@ public class BinarySearch {
 
         while (left <= right) {
             int mid = left + (right - left) / 2;
-
+            // 检查中间元素是否是目标值
             if (arr[mid] == target) {
                 return mid;
+            // 如果目标值较大，继续在右半部分搜索
             } else if (arr[mid] < target) {
                 left = mid + 1;
+            // 如果目标值较小，继续在左半部分搜索
             } else {
                 right = mid - 1;
             }

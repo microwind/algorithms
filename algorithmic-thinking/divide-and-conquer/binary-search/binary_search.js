@@ -18,13 +18,16 @@
 function binarySearch(arr, target) {
     let left = 0, right = arr.length - 1;
 
+    // 循环直到左右指针相遇, 找到目标值或确定不存在
     while (left <= right) {
         const mid = Math.floor(left + (right - left) / 2);
-
+        // 检查中间元素是否是目标值
         if (arr[mid] === target) {
             return mid;
+        // 如果中间元素小于目标值, 继续在右半部分搜索
         } else if (arr[mid] < target) {
             left = mid + 1;
+        // 如果中间元素大于目标值, 继续在左半部分搜索
         } else {
             right = mid - 1;
         }
@@ -43,12 +46,14 @@ function binarySearchRecursive(arr, left, right, target) {
     }
 
     const mid = Math.floor(left + (right - left) / 2);
-
+    // 检查中间元素是否是目标值
     if (arr[mid] === target) {
         return mid;
     } else if (arr[mid] < target) {
+        // 如果中间元素小于目标值, 继续在右半部分搜索
         return binarySearchRecursive(arr, mid + 1, right, target);
     } else {
+        // 如果中间元素大于目标值, 继续在左半部分搜索
         return binarySearchRecursive(arr, left, mid - 1, target);
     }
 }

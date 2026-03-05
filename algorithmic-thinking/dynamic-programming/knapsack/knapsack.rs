@@ -13,7 +13,8 @@ pub fn knapsack(weights: &[i32], values: &[i32], capacity: usize) -> i32 {
     // dp[i][w] 表示前 i 件物品，容量为 w 时的最大价值
     let mut dp = vec![vec![0; capacity + 1]; n + 1];
 
-    // 填充 dp 表
+    // 填充 dp 表,处理每件物品
+    // 对于每个容量，选择是否包含当前物品
     for i in 1..=n {
         let weight = weights[i - 1] as usize;
         let value = values[i - 1];

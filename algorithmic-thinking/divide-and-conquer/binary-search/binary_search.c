@@ -27,13 +27,17 @@
 int binary_search(int *arr, int n, int target) {
     int left = 0, right = n - 1;
 
+    // 循环直到左右指针相遇
     while (left <= right) {
+        // 计算中间索引，避免溢出
         int mid = left + (right - left) / 2;
-
+        // 检查中间元素是否为目标值
         if (arr[mid] == target) {
             return mid;
+        // 如果中间元素小于目标值，继续在右半部分查找
         } else if (arr[mid] < target) {
             left = mid + 1;
+        // 如果中间元素大于目标值，继续在左半部分查找
         } else {
             right = mid - 1;
         }
@@ -51,13 +55,17 @@ int binary_search_recursive(int *arr, int left, int right, int target) {
         return -1;
     }
 
+    // 计算中间索引
     int mid = left + (right - left) / 2;
 
+    // 检查中间元素是否为目标值
     if (arr[mid] == target) {
         return mid;
     } else if (arr[mid] < target) {
+        // 如果中间元素小于目标值，继续在右半部分查找
         return binary_search_recursive(arr, mid + 1, right, target);
     } else {
+        // 如果中间元素大于目标值，继续在左半部分查找
         return binary_search_recursive(arr, left, mid - 1, target);
     }
 }
@@ -70,9 +78,11 @@ int binary_search_left(int *arr, int n, int target) {
     int left = 0, right = n - 1;
     int result = -1;
 
+    // 循环直到左右指针相遇
     while (left <= right) {
         int mid = left + (right - left) / 2;
 
+        // 如果中间元素大于等于目标值，更新结果并继续在左半部分查找
         if (arr[mid] >= target) {
             result = mid;
             right = mid - 1;

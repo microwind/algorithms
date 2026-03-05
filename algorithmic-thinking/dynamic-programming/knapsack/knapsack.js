@@ -16,14 +16,14 @@ function knapsack(weights, values, capacity) {
     // dp[i][w] 表示前 i 件物品，容量为 w 时的最大价值
     const dp = Array(n + 1).fill(null).map(() => Array(capacity + 1).fill(0));
 
-    // 填充 dp 表
+    // 填充 dp 表，处理每件物品
     for (let i = 1; i <= n; i++) {
         const weight = weights[i - 1];
         const value = values[i - 1];
-
+        // 对于每个容量，选择是否包含当前物品
         for (let w = 0; w <= capacity; w++) {
             if (weight <= w) {
-                // 选择或不选择
+                // 选择或不选择，取最大值
                 dp[i][w] = Math.max(
                     dp[i - 1][w],
                     dp[i - 1][w - weight] + value
@@ -75,9 +75,10 @@ function knapsackWithItems(weights, values, capacity) {
     for (let i = 1; i <= n; i++) {
         const weight = weights[i - 1];
         const value = values[i - 1];
-
+        // 从前向后遍历容量,更新 dp 表
         for (let w = 0; w <= capacity; w++) {
             if (weight <= w) {
+                // 选择或不选择，取最大值
                 dp[i][w] = Math.max(
                     dp[i - 1][w],
                     dp[i - 1][w - weight] + value

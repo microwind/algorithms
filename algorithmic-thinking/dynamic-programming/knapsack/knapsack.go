@@ -34,9 +34,10 @@ func Knapsack(weights []int, values []int, capacity int) int {
 		weight := weights[i-1]
 		value := values[i-1]
 
+		// 遍历所有容量 w，从 0 到 capacity
 		for w := 0; w <= capacity; w++ {
 			if weight <= w {
-				// 选择或不选择
+				// 选择或不选择,取最大值
 				dp[i][w] = max(
 					dp[i-1][w],
 					dp[i-1][w-weight]+value,

@@ -56,13 +56,17 @@ def binary_search_iterative(arr, target):
     """
     left, right = 0, len(arr) - 1
 
+    # 当搜索范围不为空时, 继续查找
     while left <= right:
         mid = (left + right) // 2
 
+        # 检查中间元素是否是目标值
         if arr[mid] == target:
             return mid
+        # 如果中间元素小于目标值, 目标在右半部分
         elif arr[mid] < target:
             left = mid + 1
+        # 如果中间元素大于目标值, 目标在左半部分
         else:
             right = mid - 1
 

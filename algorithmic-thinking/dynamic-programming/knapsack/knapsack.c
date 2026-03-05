@@ -40,14 +40,14 @@ int knapsack(int *weights, int *values, int n, int capacity) {
         memset(dp[i], 0, (capacity + 1) * sizeof(int));
     }
 
-    // 填充 dp 表
+    // 填充 dp 表，处理每件物品
     for (int i = 1; i <= n; i++) {
         int weight = weights[i - 1];
         int value = values[i - 1];
-
+        // 遍历所有容量 w，从 0 到 capacity
         for (int w = 0; w <= capacity; w++) {
             if (weight <= w) {
-                // 选择或不选择
+                // 选择或不选择，取最大值
                 dp[i][w] = MAX(
                     dp[i - 1][w],
                     dp[i - 1][w - weight] + value

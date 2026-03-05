@@ -40,9 +40,12 @@ void merge(int *arr, int left, int mid, int right) {
 
     // 比较两个子数组的元素
     while (i <= mid && j <= right) {
+        // 比较当前元素，将较小的元素复制到临时数组
         if (arr[i] <= arr[j]) {
+            // 左侧元素较小，复制到临时数组
             temp[k++] = arr[i++];
         } else {
+            // 右侧元素较小，复制到临时数组
             temp[k++] = arr[j++];
         }
     }

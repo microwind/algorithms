@@ -140,3 +140,27 @@ fn main() {
     println!("数组: {:?}", arr4);
     println!("LIS 长度: {}", longest_increasing_subsequence(&arr4));
 }
+
+/**
+jarry@Mac lis % rustc lis.rs
+jarry@Mac lis % ./lis       
+=== 最长递增子序列 ===
+
+1. 基本数组
+数组: [10, 9, 2, 5, 3, 7, 101, 18]
+LIS 长度（DP）: 4
+LIS 长度（优化）: 4
+
+2. 已排序数组
+数组: [1, 3, 6, 7, 9, 4, 10, 5, 8]
+LIS 长度: 6
+一个 LIS: [1, 3, 6, 7, 9, 10]
+
+3. 包含重复元素
+数组: [1, 3, 3, 4, 5]
+LIS 长度: 4
+
+4. 单调递减
+数组: [5, 4, 3, 2, 1]
+LIS 长度: 1
+*/

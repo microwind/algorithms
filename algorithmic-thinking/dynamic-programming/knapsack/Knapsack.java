@@ -18,7 +18,8 @@ public class Knapsack {
         // dp[i][w] 表示前 i 件物品，容量为 w 时的最大价值
         int[][] dp = new int[n + 1][capacity + 1];
 
-        // 填充 dp 表
+        // 填充 dp 表,处理每件物品
+        // 遍历所有容量 w，从 0 到 capacity
         for (int i = 1; i <= n; i++) {
             int weight = weights[i - 1];
             int value = values[i - 1];

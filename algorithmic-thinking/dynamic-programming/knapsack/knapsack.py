@@ -38,7 +38,7 @@ def knapsack(weights, values, capacity):
     # dp[i][w] 表示前 i 件物品，容量为 w 时的最大价值
     dp = [[0] * (capacity + 1) for _ in range(n + 1)]
 
-    # 填充 dp 表
+    # 填充 dp 表,处理每件物品
     for i in range(1, n + 1):
         for w in range(capacity + 1):
             # 第 i 件物品的重量和价值（索引为 i-1）
@@ -46,7 +46,7 @@ def knapsack(weights, values, capacity):
             value = values[i - 1]
 
             if weight <= w:
-                # 选择或不选择
+                # 选择或不选择,取最大值
                 dp[i][w] = max(
                     dp[i - 1][w],  # 不选
                     dp[i - 1][w - weight] + value  # 选

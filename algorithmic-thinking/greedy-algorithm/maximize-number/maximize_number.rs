@@ -41,7 +41,8 @@ fn remove_k_digits(num_str: &str, k: usize) -> String {
     }
 
     // Build result
-    let mut result: String = stack.iter().collect();
+    // let mut result: String = stack.iter().collect();
+    let result: String = stack.iter().collect();
 
     // Handle leading zeros
     let trimmed = result.trim_start_matches('0');

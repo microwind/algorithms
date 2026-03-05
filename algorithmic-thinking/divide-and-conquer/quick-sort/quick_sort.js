@@ -23,6 +23,7 @@ function partition(arr, low, high) {
     const pivot = arr[high];
     let i = low - 1;
 
+    // 遍历数组，将小于基准的元素放到左边, 大于基准的元素放到右边
     for (let j = low; j < high; j++) {
         if (arr[j] < pivot) {
             i++;

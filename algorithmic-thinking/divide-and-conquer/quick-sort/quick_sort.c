@@ -33,6 +33,7 @@ int partition(int *arr, int low, int high) {
     int pivot = arr[high];
     int i = low - 1;
 
+    // 将小于 pivot 的元素移动到左边, 大于 pivot 的元素移动到右边
     for (int j = low; j < high; j++) {
         if (arr[j] < pivot) {
             i++;

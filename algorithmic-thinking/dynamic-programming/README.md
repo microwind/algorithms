@@ -70,57 +70,66 @@
 
 ### 简单例子
 
-#### Python 示例 - 斐波那契
+---
+
+### 动态规划代码示例
+
+以下代码涵盖斐波那契数列、硬币兑换、最长递增子序列、0/1 背包、编辑距离等经典 DP 问题，含详细注释与测试：
+
 ```python
-# 方法1：朴素递归 - 低效，O(2^n)
-def fib_naive(n):
-    """低效的递归方式，会重复计算"""
+"""
+动态规划（Dynamic Programming）- 分治与记忆化的完美结合
+
+核心思路：
+1. 最优子结构：问题的最优解包含其子问题的最优解
+2. 重叠子问题：问题分解过程中会重复计算相同的子问题
+3. 记忆化存储：缓存子问题的结果避免重复计算
+
+DP 的两种实现方式：
+A. 自顶向下(Top-Down)：递归 + 记忆化
+B. 自底向上(Bottom-Up)：迭代 + 填表
+
+经典问题与实现：
+"""
+
+# 斐波那契数列 - DP
+def fibonacci_dp(n):
     if n <= 1:
         return n
-    return fib_naive(n - 1) + fib_naive(n - 2)
-
-# 方法2：记忆化（自顶向下）- 高效，O(n)
-def fib_memo(n, memo={}):
-    """用字典记录已计算的值，避免重复计算"""
-    if n in memo:
-        return memo[n]
-    if n <= 1:
-        return n
-
-    memo[n] = fib_memo(n - 1, memo) + fib_memo(n - 2, memo)
-    return memo[n]
-
-# 方法3：表格DP（自底向上）- 最高效，O(n)
-def fib_dp(n):
-    """用表格从底向上计算，避免递归开销"""
-    if n <= 1:
-        return n
-
+    # dp[i] 表示第i个斐波那契数
     dp = [0] * (n + 1)
-    dp[1] = 1
-
+    # 初始化：F(0) = 0, F(1) = 1
+    dp[0], dp[1] = 0, 1
+    # 状态转移：F(n) = F(n-1) + F(n-2)
     for i in range(2, n + 1):
         dp[i] = dp[i - 1] + dp[i - 2]
-
     return dp[n]
 
-# 方法4：空间优化 - O(n) 时间，O(1) 空间
-def fib_optimized(n):
-    """只需记录前两个值"""
-    if n <= 1:
-        return n
+# 钱币兑换 - 背包思想
+def coin_change(coins, amount):
+    dp = [float('inf')] * (amount + 1)
+    dp[0] = 0
+    # 遍历每个金额i，更新最小硬币数
+    for i in range(1, amount + 1):
+        for coin in coins:
+            if coin <= i:
+                dp[i] = min(dp[i], dp[i - coin] + 1)
+    return dp[amount] if dp[amount] != float('inf') else -1
 
-    prev, curr = 0, 1
-    for _ in range(2, n + 1):
-        prev, curr = curr, prev + curr
+# 最长递增子序列（LIS）
+def longest_increasing_subsequence(nums):
+    if not nums:
+        return 0
+    n = len(nums)
+    dp = [1] * n
+    # 状态转移：如果nums[j] < nums[i]，可以扩展以j结尾的子序列
+    for i in range(1, n):
+        # 遍历所有之前的元素，更新以i结尾的LIS
+        for j in range(i):
+            if nums[j] < nums[i]:
+                dp[i] = max(dp[i], dp[j] + 1)
+    return max(dp)
 
-    return curr
-
-print(fib_dp(10))  # 输出: 55
-```
-
-#### Python 示例 - 0/1背包
-```python
 # 0/1背包：在重量限制下，选择物品使价值最大
 def knapsack(weights, values, capacity):
     """
@@ -148,11 +157,28 @@ def knapsack(weights, values, capacity):
 
     return dp[n][capacity]
 
-# 使用
-weights = [2, 3, 4, 5]
-values = [3, 4, 5, 6]
-capacity = 8
-print(knapsack(weights, values, capacity))  # 输出: 13
+# 编辑距离
+def edit_distance(word1, word2):
+    m, n = len(word1), len(word2)
+    # dp[i][j] 表示 word1 的前 i 个字符转换为 word2 的前 j 个字符的最少操作数
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
+    # 初始化：将空字符串转换为另一个字符串需要的操作数
+    for j in range(n + 1):
+        dp[0][j] = j
+    # 初始化：将一个字符串转换为空字符串需要的操作数
+    for i in range(m + 1):
+        dp[i][0] = i
+    # 填充dp表：计算转换成本
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if word1[i - 1] == word2[j - 1]:
+                dp[i][j] = dp[i - 1][j - 1]
+            else:
+                delete_op = dp[i - 1][j] + 1
+                insert_op = dp[i][j - 1] + 1
+                replace_op = dp[i - 1][j - 1] + 1
+                dp[i][j] = min(delete_op, insert_op, replace_op)
+    return dp[m][n]
 ```
 
 #### Java 示例 - 硬币兑换
@@ -315,17 +341,18 @@ func main() {
    例：返回dp[n][capacity]
    ```
 
+
 ### 常见陷阱
-1. **状态定义不当**：状态不能完整表示子问题
-2. **转移方程错误**：状态转移关系推导有误
-3. **初始条件缺失**：基础情况处理不正确
-4. **计算顺序错误**：先计算依赖的状态，否则结果不对
-5. **空间浪费**：未进行空间优化
+1. **状态定义不清**：没有准确描述每个子问题的状态，导致无法正确递推。
+2. **状态转移方程推导错误**：递推关系写错，结果不符合预期。
+3. **初始条件遗漏或设置错误**：基础情况没处理好，导致后续状态出错。
+4. **计算顺序混乱**：依赖的状态还没算出来就被用到，顺序不对。
+5. **空间未优化**：明明可以用一维数组或滚动数组，结果用了多余空间。
 
 ### 学习建议
-1. 理解问题的最优子结构和重叠子问题
-2. 用文字清晰描述状态转移方程
-3. 从小规模例子手工推导过程
-4. 先实现朴素版本，再进行空间优化
-5. 对比记忆化和表格实现，理解优缺点
-6. 积累常见DP问题的解题模板
+1. 先判断问题是否具备“最优子结构”和“重叠子问题”两个特性。
+2. 用自己的话写出状态定义和状态转移方程，确保理解每一步。
+3. 多用小例子手算推导，画出状态表或递推过程。
+4. 先写出最基础的朴素实现，理解原理后再考虑空间优化。
+5. 多练习不同类型的DP题目，积累常见模型和模板。
+6. 对比递归记忆化和迭代表格法，体会两者的优缺点和适用场景。

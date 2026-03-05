@@ -80,9 +80,11 @@ def partition(arr, low, high):
     pivot = arr[high]
     i = low - 1
 
+    # 遍历数组，将小于基准的元素放到左边, 大于基准的元素放到右边
     for j in range(low, high):
         if arr[j] < pivot:
             i += 1
+            # 交换 arr[i] 和 arr[j]
             arr[i], arr[j] = arr[j], arr[i]
 
     arr[i + 1], arr[high] = arr[high], arr[i + 1]

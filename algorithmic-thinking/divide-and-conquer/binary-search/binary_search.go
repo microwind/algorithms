@@ -17,13 +17,17 @@ import (
 func BinarySearch(arr []int, target int) int {
 	left, right := 0, len(arr)-1
 
+	// 循环直到左右指针相遇
 	for left <= right {
 		mid := left + (right-left)/2
 
+		// 检查中间元素是否是目标值
 		if arr[mid] == target {
 			return mid
+			// 如果目标值较大，搜索右半部分
 		} else if arr[mid] < target {
 			left = mid + 1
+			// 如果目标值较小，搜索左半部分
 		} else {
 			right = mid - 1
 		}
@@ -40,11 +44,14 @@ func BinarySearchRecursive(arr []int, left, right, target int) int {
 
 	mid := left + (right-left)/2
 
+	// 检查中间元素是否是目标值
 	if arr[mid] == target {
 		return mid
 	} else if arr[mid] < target {
+		// 如果目标值较大，递归搜索右半部分
 		return BinarySearchRecursive(arr, mid+1, right, target)
 	} else {
+		// 如果目标值较小，递归搜索左半部分
 		return BinarySearchRecursive(arr, left, mid-1, target)
 	}
 }
@@ -54,13 +61,17 @@ func BinarySearchLeft(arr []int, target int) int {
 	left, right := 0, len(arr)-1
 	result := -1
 
+	// 循环直到左右指针相遇
 	for left <= right {
 		mid := left + (right-left)/2
 
+		// 如果中间元素 >= 目标值，记录位置并继续搜索左半部分
 		if arr[mid] >= target {
 			result = mid
+			// 继续搜索左半部分
 			right = mid - 1
 		} else {
+			// 如果中间元素 < 目标值，搜索右半部分
 			left = mid + 1
 		}
 	}

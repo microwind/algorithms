@@ -26,7 +26,7 @@ impl TSPSolver {
     }
 
     // 下界估计
-    fn lower_bound(&self, node: usize, level: usize, cost: i32) -> i32 {
+    fn lower_bound(&self, node: usize, _level: usize, cost: i32) -> i32 {
         let mut bound = cost;
         // 当前节点到未访问城市的最小边
         let mut min_edge = i32::MAX;

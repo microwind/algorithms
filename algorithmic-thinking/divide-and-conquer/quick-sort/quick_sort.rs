@@ -16,7 +16,9 @@ fn partition(arr: &mut [i32], low: usize, high: usize) -> usize {
     let pivot = arr[high];
     let mut i = (low as i32) - 1;
 
+    // 遍历数组，将小于基准的元素放到左边
     for j in low..high {
+        // 如果当前元素小于基准，交换它与 i 位置的元素
         if arr[j] < pivot {
             i += 1;
             arr.swap(i as usize, j);

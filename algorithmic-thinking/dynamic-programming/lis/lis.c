@@ -140,7 +140,7 @@ int main() {
 
     int *lis = (int *)malloc(n2 * sizeof(int));
     int length = longest_increasing_subsequence_with_sequence(arr2, n2, lis);
-    printf("LIS 长度: %d\n");
+     printf("LIS 长度: %d\n", length);
     printf("一个 LIS: ");
     for (int i = 0; i < length; i++) printf("%d ", lis[i]);
     printf("\n\n");

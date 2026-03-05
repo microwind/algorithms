@@ -21,6 +21,7 @@ func partition(arr []int, low, high int) int {
 	pivot := arr[high]
 	i := low - 1
 
+	// 将小于 pivot 的元素移动到左边, 大于 pivot 的元素移动到右边
 	for j := low; j < high; j++ {
 		if arr[j] < pivot {
 			i++
