@@ -1,21 +1,21 @@
 import java.util.*;
 
 /*
-*
- * Activity Selection Problem - Select maximum compatible activities
  *
- * Algorithm:
- * - Given activities with start and end times
- * - Select the maximum number of non-overlapping activities
- * - Strategy: Sort by end time, then greedily select activities
+ * 活动选择问题 - 选择最多数量的相容活动
  *
- * Time Complexity: O(n log n) - due to sorting
- * Space Complexity: O(n) - for storing results
+ * 算法：
+ * - 给定一组带有开始时间和结束时间的活动
+ * - 选择数量最多的互不重叠活动
+ * - 策略：按结束时间排序，然后贪心地选择活动
  *
- * Key Insight:
- * Always picking the activity that ends earliest leaves the most room
- * for other activities. This greedy choice leads to optimal solution.
-*/
+ * 时间复杂度：O(n log n)（排序）
+ * 空间复杂度：O(n)（存储结果）
+ *
+ * 关键思想：
+ * 总是优先选择结束时间最早的活动，可以为后续活动留下最多空间，
+ * 这一贪心选择可以得到最优解。
+ */
 
 class Activity implements Comparable<Activity> {
     int id;
@@ -41,25 +41,24 @@ class Activity implements Comparable<Activity> {
 
 public class ActivitySelection {
     /*
-*
-     * Select the maximum number of non-overlapping activities
+     * 选择最多数量的不重叠活动
      *
-     * @param activities List of activities
-     * @return List of selected activities
-*/
+     * @param activities 活动列表
+     * @return 选中的活动列表
+     */
     static List<Activity> selectActivities(List<Activity> activities) {
         if (activities.isEmpty()) {
             return new ArrayList<>();
         }
 
-        // Sort activities by end time (greedy choice)
+        // 按结束时间排序（贪心选择）
         Collections.sort(activities);
 
         List<Activity> selected = new ArrayList<>();
         selected.add(activities.get(0));
         int lastEndTime = activities.get(0).end;
 
-        // Greedily select remaining activities
+        // 贪心选择剩余的活动
         for (int i = 1; i < activities.size(); i++) {
             Activity current = activities.get(i);
             if (current.start >= lastEndTime) {

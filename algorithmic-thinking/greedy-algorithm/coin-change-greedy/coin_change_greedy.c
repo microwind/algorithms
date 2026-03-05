@@ -3,23 +3,23 @@
 #include <string.h>
 
 /*
-* Coin Change - Greedy Approach
+ * 零钱兑换问题 - 贪心算法
  *
- * Algorithm:
- * - Use greedy approach: always select the largest coin possible
- * - Keep subtracting the largest coin until amount is 0
- * - Does NOT always give optimal solution
+ * 算法：
+ * - 使用贪心策略：每次选择不超过剩余金额的最大面值硬币
+ * - 持续用最大面值硬币去抵扣，直到金额为 0
+ * - 注意：这种贪心解并不总是最优
  *
- * Time Complexity: O(n log n) - sorting + O(n) for the loop
- * Space Complexity: O(n) - for storing coins used
+ * 时间复杂度：O(n log n)（排序）+ O(n)（循环）
+ * 空间复杂度：O(n)（存储使用的硬币）
  *
- * Important: This greedy approach is NOT optimal for all coin systems!
+ * 重要说明：该贪心算法并不适用于所有硬币体系！
  *
- * 示例 where greedy fails:
+ * 贪心失败示例：
  * - coins = [1, 3, 4], amount = 6
- * - Greedy: 4 + 1 + 1 = 3 coins
- * - Optimal: 3 + 3 = 2 coins
-*/
+ * - 贪心：4 + 1 + 1 = 3 枚硬币
+ * - 最优：3 + 3 = 2 枚硬币
+ */
 
 typedef struct {
     int coin;
@@ -27,32 +27,32 @@ typedef struct {
 } CoinResult;
 
 /*
-Comparator for sorting coins in descending order
-*/
+ * 将硬币按面值从大到小排序的比较函数
+ */
 int compare_descending(const void *a, const void *b) {
     return *(int *)b - *(int *)a;
 }
 
 /*
-* Find minimum coins using greedy approach (not always optimal)
+ * 使用贪心算法求最少硬币数（不一定最优）
  *
- * 参数:
- *   coins: Array of coin denominations
- *   coin_count: Number of coin types
- *   amount: Target amount to make
- *   used_coins: Array to store coins used
+ * 参数：
+ *   coins: 硬币面值数组
+ *   coin_count: 硬币种类数
+ *   amount: 目标金额
+ *   used_coins: 用于存储使用到的硬币
  *
- * 返回:
- *   Number of coins used, or -1 if impossible
-*/
+ * 返回：
+ *   使用的硬币数量，如果无法凑成则返回 -1
+ */
 int coin_change_greedy(int *coins, int coin_count, int amount, int *used_coins) {
     if (amount == 0) {
         return 0;
     }
 
     /*
-Sort coins in descending order
-*/
+     * 将硬币按面值从大到小排序
+     */
     qsort(coins, coin_count, sizeof(int), compare_descending);
 
     int total_coins = 0;
@@ -69,8 +69,8 @@ Sort coins in descending order
     }
 
     /*
-If we couldn't make exact amount
-*/
+     * 如果无法刚好凑成目标金额
+     */
     if (remaining != 0) {
         return -1;
     }

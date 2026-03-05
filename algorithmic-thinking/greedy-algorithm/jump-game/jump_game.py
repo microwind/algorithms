@@ -1,35 +1,31 @@
+
 """
-Jump Game - Can reach the last index with greedy jumps
+跳跃游戏（贪心算法）
 
-Algorithm:
-- Given an array where each element is the maximum jump length from that position
-- Determine if you can reach the last index
-- Greedy approach: track the maximum index we can reach so far
-- If at any point current index exceeds max reachable, return False
+算法思路：
+- 给定一个数组，每个元素表示当前位置最大可跳跃步数
+- 判断能否到达最后一个位置
+- 贪心策略：每一步记录当前能到达的最远位置
+- 如果当前位置超过了最远可达位置，则无法到达
 
-Time Complexity: O(n) - single pass through array
-Space Complexity: O(1) - only using a single variable
+时间复杂度：O(n)
+空间复杂度：O(1)
 
-Key Insight:
-At each position i, we can reach up to position i + nums[i].
-We maintain the maximum position we can reach (max_reach).
-If we encounter a position we can't reach, it's impossible.
+关键：每一步都维护最远可达位置max_reach，如果某个位置无法到达则返回False
 
-Greedy Choice: We don't need to decide which jump to take from each position.
-We only need to know if the maximum reachable position allows us to progress.
+贪心选择：不需要决定每步跳多远，只需判断最远可达位置是否能继续前进
 
-示例:
-- nums = [2, 3, 1, 1, 4]
-  Position 0: can reach 0+2=2
-  Position 1: can reach 1+3=4 (updates max_reach)
-  We can reach position 4 (last index) → True
-
-- nums = [3, 2, 1, 0, 4]
-  Position 0: can reach 0+3=3
-  Position 1: can reach 1+2=3 (no update)
-  Position 2: can reach 2+1=3 (no update)
-  Position 3: can reach 3+0=3 (no update)
-  We cannot reach position 4 → False
+示例：
+nums = [2, 3, 1, 1, 4]
+    位置0: 可达2
+    位置1: 可达4（更新max_reach）
+    能到达最后一位 → True
+nums = [3, 2, 1, 0, 4]
+    位置0: 可达3
+    位置1: 可达3
+    位置2: 可达3
+    位置3: 可达3
+    无法到达最后一位 → False
 """
 
 from typing import List
@@ -37,13 +33,13 @@ from typing import List
 
 def can_jump(nums: List[int]) -> bool:
     """
-    Determine if we can reach the last index of the array.
+    判断能否到达最后一个位置
 
     参数:
-        nums: List where each element is max jump length from that position
+        nums: 每个元素为当前位置最大可跳跃步数的数组
 
     返回:
-        True if we can reach the last index, False otherwise
+        能到达返回True，否则返回False
 
     示例:
         >>> can_jump([2, 3, 1, 1, 4])
@@ -53,33 +49,28 @@ def can_jump(nums: List[int]) -> bool:
     """
     if not nums or len(nums) <= 1:
         return True
-
-    max_reach = 0
-
+    max_reach = 0  # 当前能到达的最远位置
     for i in range(len(nums)):
-        # If current position is beyond what we can reach, return False
+        # 如果当前位置超过了最远可达位置，则无法到达
         if i > max_reach:
             return False
-
-        # Update the maximum position we can reach
+        # 更新最远可达位置
         max_reach = max(max_reach, i + nums[i])
-
-        # Early termination: if we can reach the end, return True
+        # 如果已经能到达最后一位，提前返回True
         if max_reach >= len(nums) - 1:
             return True
-
     return max_reach >= len(nums) - 1
 
 
 def jump_game_steps(nums: List[int]) -> tuple:
     """
-    Return whether we can reach the end and the minimum jumps needed.
+    返回能否到达终点及最少跳跃次数
 
     参数:
-        nums: List where each element is max jump length from that position
+        nums: 每个元素为当前位置最大可跳跃步数的数组
 
     返回:
-        Tuple of (can_reach, min_jumps)
+        (能否到达终点, 最少跳跃次数)
     """
     if not nums or len(nums) <= 1:
         return (True, 0)
@@ -115,13 +106,13 @@ def jump_game_steps(nums: List[int]) -> tuple:
 
 def jump_game_path(nums: List[int]) -> List[int]:
     """
-    Return a path (sequence of indices) to reach the last index.
+    返回到达终点的跳跃路径（索引序列）
 
     参数:
-        nums: List where each element is max jump length from that position
+        nums: 每个元素为当前位置最大可跳跃步数的数组
 
     返回:
-        List of indices representing a valid path, or empty list if impossible
+        跳跃路径索引列表，无法到达则返回空列表
     """
     if not nums:
         return []
@@ -161,13 +152,13 @@ def jump_game_path(nums: List[int]) -> List[int]:
 
 def analyze_jump_game(nums: List[int]) -> dict:
     """
-    Analyze a jump game problem comprehensively.
+    综合分析跳跃游戏问题
 
     参数:
-        nums: List where each element is max jump length from that position
+        nums: 每个元素为当前位置最大可跳跃步数的数组
 
     返回:
-        Dictionary with analysis results
+        分析结果字典
     """
     can_reach, min_jumps = jump_game_steps(nums)
     path = jump_game_path(nums) if can_reach else []
@@ -180,89 +171,80 @@ def analyze_jump_game(nums: List[int]) -> dict:
     }
 
 
+
 if __name__ == "__main__":
     print("=" * 60)
-    print("JUMP GAME - Greedy Approach")
+    print("跳跃游戏 - 贪心算法")
     print("=" * 60)
-
-    # 测试用例 1: Basic reachable
-    print("\n[Test 1] Reachable - should return True")
+    # 测试用例 1: 可到达
+    print("\n[测试1] 可到达")
     nums1 = [2, 3, 1, 1, 4]
     result1 = can_jump(nums1)
-    print(f"Input: {nums1}")
-    print(f"Can reach end: {result1}")
+    print(f"输入: {nums1}")
+    print(f"能到达终点: {result1}")
     analysis1 = analyze_jump_game(nums1)
-    print(f"Min jumps: {analysis1['min_jumps']}, Path: {analysis1['path']}")
-
-    # 测试用例 2: Not reachable
-    print("\n[Test 2] Not reachable - should return False")
+    print(f"最少跳跃次数: {analysis1['min_jumps']}, 路径: {analysis1['path']}")
+    # 测试用例 2: 不可到达
+    print("\n[测试2] 不可到达")
     nums2 = [3, 2, 1, 0, 4]
     result2 = can_jump(nums2)
-    print(f"Input: {nums2}")
-    print(f"Can reach end: {result2}")
-
-    # 测试用例 3: Single element
-    print("\n[Test 3] Single element")
+    print(f"输入: {nums2}")
+    print(f"能到达终点: {result2}")
+    # 测试用例 3: 单元素
+    print("\n[测试3] 单元素")
     nums3 = [0]
     result3 = can_jump(nums3)
-    print(f"Input: {nums3}")
-    print(f"Can reach end: {result3}")
-
-    # 测试用例 4: All zeros except last
-    print("\n[Test 4] All zeros except last")
+    print(f"输入: {nums3}")
+    print(f"能到达终点: {result3}")
+    # 测试用例 4: 除最后一位外全为零
+    print("\n[测试4] 除最后一位外全为零")
     nums4 = [0, 1]
     result4 = can_jump(nums4)
-    print(f"Input: {nums4}")
-    print(f"Can reach end: {result4}")
-
-    # 测试用例 5: Large jumps
-    print("\n[Test 5] Large jumps available")
+    print(f"输入: {nums4}")
+    print(f"能到达终点: {result4}")
+    # 测试用例 5: 跳跃步数很大
+    print("\n[测试5] 跳跃步数很大")
     nums5 = [10, 0, 0, 0, 0]
     result5 = can_jump(nums5)
-    print(f"Input: {nums5}")
-    print(f"Can reach end: {result5}")
+    print(f"输入: {nums5}")
+    print(f"能到达终点: {result5}")
     analysis5 = analyze_jump_game(nums5)
-    print(f"Min jumps: {analysis5['min_jumps']}, Path: {analysis5['path']}")
-
-    # 测试用例 6: Minimum jumps needed
-    print("\n[Test 6] Requires multiple jumps")
+    print(f"最少跳跃次数: {analysis5['min_jumps']}, 路径: {analysis5['path']}")
+    # 测试用例 6: 需要多次跳跃
+    print("\n[测试6] 需要多次跳跃")
     nums6 = [2, 3, 1, 1, 1]
     result6 = can_jump(nums6)
-    print(f"Input: {nums6}")
-    print(f"Can reach end: {result6}")
+    print(f"输入: {nums6}")
+    print(f"能到达终点: {result6}")
     analysis6 = analyze_jump_game(nums6)
-    print(f"Min jumps: {analysis6['min_jumps']}, Path: {analysis6['path']}")
-
-    # 测试用例 7: Blocked at last jump point
-    print("\n[Test 7] Blocked at second-to-last")
+    print(f"最少跳跃次数: {analysis6['min_jumps']}, 路径: {analysis6['path']}")
+    # 测试用例 7: 倒数第二步被阻断
+    print("\n[测试7] 倒数第二步被阻断")
     nums7 = [1, 0, 1, 0]
     result7 = can_jump(nums7)
-    print(f"Input: {nums7}")
-    print(f"Can reach end: {result7}")
-
-    # 测试用例 8: Two element array
-    print("\n[Test 8] Two element array")
+    print(f"输入: {nums7}")
+    print(f"能到达终点: {result7}")
+    # 测试用例 8: 两元素数组
+    print("\n[测试8] 两元素数组")
     nums8 = [2, 3]
     result8 = can_jump(nums8)
-    print(f"Input: {nums8}")
-    print(f"Can reach end: {result8}")
+    print(f"输入: {nums8}")
+    print(f"能到达终点: {result8}")
     analysis8 = analyze_jump_game(nums8)
-    print(f"Min jumps: {analysis8['min_jumps']}, Path: {analysis8['path']}")
-
-    # 测试用例 9: Large array all reachable
-    print("\n[Test 9] Large array with decreasing values")
+    print(f"最少跳跃次数: {analysis8['min_jumps']}, 路径: {analysis8['path']}")
+    # 测试用例 9: 大数组递减
+    print("\n[测试9] 大数组递减")
     nums9 = [5, 4, 3, 2, 1, 0]
     result9 = can_jump(nums9)
-    print(f"Input: {nums9}")
-    print(f"Can reach end: {result9}")
+    print(f"输入: {nums9}")
+    print(f"能到达终点: {result9}")
     analysis9 = analyze_jump_game(nums9)
-    print(f"Min jumps: {analysis9['min_jumps']}, Path: {analysis9['path']}")
-
-    # 测试用例 10: Complex reachable
-    print("\n[Test 10] Complex reachable scenario")
+    print(f"最少跳跃次数: {analysis9['min_jumps']}, 路径: {analysis9['path']}")
+    # 测试用例 10: 复杂可达场景
+    print("\n[测试10] 复杂可达场景")
     nums10 = [2, 5, 0, 0]
     result10 = can_jump(nums10)
-    print(f"Input: {nums10}")
-    print(f"Can reach end: {result10}")
+    print(f"输入: {nums10}")
+    print(f"能到达终点: {result10}")
     analysis10 = analyze_jump_game(nums10)
-    print(f"Min jumps: {analysis10['min_jumps']}, Path: {analysis10['path']}")
+    print(f"最少跳跃次数: {analysis10['min_jumps']}, 路径: {analysis10['path']}")

@@ -109,17 +109,23 @@ def three_way_partition(arr, left, right):
     i = left
     gt = right + 1
     
+    # 遍历数组，三路分区
     while i < gt:
+        # 如果当前元素小于枢轴，则将当前元素移到左边
         if arr[i] < pivot:
+            # 将小于枢轴的元素移到左边
             arr[lt], arr[i] = arr[i], arr[lt]
             lt += 1
             i += 1
+        # 将大于枢轴的元素移到右边
         elif arr[i] > pivot:
             gt -= 1
+            # 将大于枢轴的元素移到右边
             arr[i], arr[gt] = arr[gt], arr[i]
+        # 将等于枢轴的元素移到中间
         else:  # arr[i] == pivot
             i += 1
-    
+    # 返回左右两部分的边界
     return lt, gt
 
 def randomized_quicksort_3way(arr, left=None, right=None):

@@ -1,14 +1,14 @@
 /*
-* Activity Selection Problem - Select maximum compatible activities
+ * 活动选择问题 - 选择最多数量的相容活动
  *
- * Algorithm:
- * - Given activities with start and end times
- * - Select the maximum number of non-overlapping activities
- * - Strategy: Sort by end time, then greedily select activities
+ * 算法：
+ * - 给定一组带有开始时间和结束时间的活动
+ * - 选择数量最多的互不重叠活动
+ * - 策略：按结束时间排序，然后贪心地选择活动
  *
- * Time Complexity: O(n log n) - due to sorting
- * Space Complexity: O(n) - for storing results
-*/
+ * 时间复杂度：O(n log n)（排序）
+ * 空间复杂度：O(n)（存储结果）
+ */
 
 #[derive(Clone, Debug, Eq, PartialEq, Ord, PartialOrd)]
 struct Activity {
@@ -23,19 +23,19 @@ impl Activity {
     }
 }
 
-// / Select the maximum number of non-overlapping activities
+// 选择最多数量的不重叠活动
 fn select_activities(mut activities: Vec<Activity>) -> Vec<Activity> {
     if activities.is_empty() {
         return vec![];
     }
 
-    // Sort by end time
+    // 按结束时间排序
     activities.sort_by_key(|a| a.end);
 
     let mut selected = vec![activities[0].clone()];
     let mut last_end_time = activities[0].end;
 
-    // Greedily select remaining activities
+    // 贪心选择剩余的活动
     for activity in &activities[1..] {
         if activity.start >= last_end_time {
             selected.push(activity.clone());

@@ -33,8 +33,11 @@
   console.time('time')
   const arr = ['a', 'a', 1, 1, 2, 2, 'b', 'b', 2, '1']
   const newArr = []
+  // 遍历数组，逐项比较添加到新数组中去
   for (let i = 0, l = arr.length; i < l; i++) {
+    // 检查新数组是否已存在要添加的项
     if (newArr.indexOf(arr[i]) < 0) {
+      // 如果新数组中不存在要添加的项，则添加到新数组中
       newArr.push(arr[i])
     }
   }

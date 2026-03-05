@@ -5,15 +5,15 @@ import (
 )
 
 /*
-* Jump Game - Can reach the last index with greedy jumps
+* 跳跃游戏（贪心算法）
  *
- * Algorithm:
- * - Given an array where each element is the maximum jump length from that position
- * - Determine if you can reach the last index
- * - Greedy approach: track the maximum index we can reach so far
+ * 算法思路：
+ * - 给定一个数组，每个元素表示当前位置最大可跳跃步数
+ * - 判断能否到达最后一个位置
+ * - 贪心策略：每一步记录当前能到达的最远位置
 */
 
-// CanJump determines if we can reach the last index of the array
+// CanJump 判断能否到达最后一个位置
 func CanJump(nums []int) bool {
 	if len(nums) == 0 || len(nums) == 1 {
 		return true
@@ -22,17 +22,17 @@ func CanJump(nums []int) bool {
 	maxReach := 0
 
 	for i := 0; i < len(nums); i++ {
-		// If current position is beyond what we can reach, return false
+		// 如果当前位置超过了最远可达位置，则无法到达
 		if i > maxReach {
 			return false
 		}
 
-		// Update the maximum position we can reach
+		// 更新最远可达位置
 		if i+nums[i] > maxReach {
 			maxReach = i + nums[i]
 		}
 
-		// Early termination: if we can reach the end, return true
+		// 如果已经能到达最后一位，提前返回true
 		if maxReach >= len(nums)-1 {
 			return true
 		}
@@ -41,13 +41,13 @@ func CanJump(nums []int) bool {
 	return maxReach >= len(nums)-1
 }
 
-// MinJumps finds the minimum number of jumps needed to reach the last index
+// MinJumps 返回到达最后一位所需的最少跳跃次数
 func MinJumps(nums []int) int {
 	if len(nums) == 0 || len(nums) == 1 {
 		return 0
 	}
 
-	// Check if reachable
+	// 检查是否可达
 	maxReach := 0
 	for i := 0; i < len(nums)-1; i++ {
 		if i > maxReach {
@@ -62,7 +62,7 @@ func MinJumps(nums []int) int {
 		return -1
 	}
 
-	// Find minimum jumps using greedy
+	// 贪心法计算最少跳跃次数
 	jumps := 0
 	currentEnd := 0
 	farthest := 0
@@ -81,7 +81,7 @@ func MinJumps(nums []int) int {
 	return jumps
 }
 
-// JumpPath finds a path from start to end
+// JumpPath 返回到达终点的跳跃路径（索引序列）
 func JumpPath(nums []int) []int {
 	path := []int{}
 
@@ -93,7 +93,7 @@ func JumpPath(nums []int) []int {
 		return []int{0}
 	}
 
-	// Check if reachable
+	// 检查是否可达
 	maxReach := 0
 	for i := 0; i < len(nums); i++ {
 		if i > maxReach {
@@ -111,7 +111,7 @@ func JumpPath(nums []int) []int {
 		return []int{}
 	}
 
-	// Greedy path construction
+	// 贪心构造跳跃路径
 	path = append(path, 0)
 	currentPos := 0
 
@@ -119,7 +119,9 @@ func JumpPath(nums []int) []int {
 		nextPos := currentPos
 		maxNextReach := currentPos + nums[currentPos]
 
+		// 遍历当前位置能到达的范围内，找到能到达的最远位置
 		for i := currentPos + 1; i <= currentPos+nums[currentPos] && i < len(nums); i++ {
+			// 如果当前位置能到达的最远位置小于当前位置能到达的最远位置，则更新当前位置能到达的最远位置
 			if i+nums[i] > maxNextReach {
 				maxNextReach = i + nums[i]
 				nextPos = i
@@ -137,14 +139,14 @@ func JumpPath(nums []int) []int {
 	return path
 }
 
-// JumpGameAnalysis holds the analysis results
+// JumpGameAnalysis 保存跳跃游戏分析结果
 type JumpGameAnalysis struct {
 	CanReach bool
 	MinJumps int
 	Path     []int
 }
 
-// AnalyzeJumpGame analyzes a jump game problem comprehensively
+// AnalyzeJumpGame 综合分析跳跃游戏问题
 func AnalyzeJumpGame(nums []int) JumpGameAnalysis {
 	canReach := CanJump(nums)
 	minJumps := MinJumps(nums)
@@ -158,7 +160,7 @@ func AnalyzeJumpGame(nums []int) JumpGameAnalysis {
 }
 
 func testBasicReachable() {
-	fmt.Println("\n[Test 1] Reachable - should return true")
+	fmt.Println("\n[测试1] 可到达")
 
 	nums := []int{2, 3, 1, 1, 4}
 	analysis := AnalyzeJumpGame(nums)
@@ -170,7 +172,7 @@ func testBasicReachable() {
 }
 
 func testNotReachable() {
-	fmt.Println("\n[Test 2] Not reachable - should return false")
+	fmt.Println("\n[测试2] 不可到达")
 
 	nums := []int{3, 2, 1, 0, 4}
 	result := CanJump(nums)
@@ -180,7 +182,7 @@ func testNotReachable() {
 }
 
 func testSingleElement() {
-	fmt.Println("\n[Test 3] Single element")
+	fmt.Println("\n[测试3] 单元素")
 
 	nums := []int{0}
 	result := CanJump(nums)
@@ -190,7 +192,7 @@ func testSingleElement() {
 }
 
 func testZeroJump() {
-	fmt.Println("\n[Test 4] All zeros except last")
+	fmt.Println("\n[测试4] 除最后一位外全为零")
 
 	nums := []int{0, 1}
 	result := CanJump(nums)
@@ -200,7 +202,7 @@ func testZeroJump() {
 }
 
 func testLargeJumps() {
-	fmt.Println("\n[Test 5] Large jumps available")
+	fmt.Println("\n[测试5] 跳跃步数很大")
 
 	nums := []int{10, 0, 0, 0, 0}
 	analysis := AnalyzeJumpGame(nums)
@@ -212,7 +214,7 @@ func testLargeJumps() {
 }
 
 func testMultipleJumps() {
-	fmt.Println("\n[Test 6] Requires multiple jumps")
+	fmt.Println("\n[测试6] 需要多次跳跃")
 
 	nums := []int{2, 3, 1, 1, 1}
 	analysis := AnalyzeJumpGame(nums)
@@ -224,7 +226,7 @@ func testMultipleJumps() {
 }
 
 func testBlocked() {
-	fmt.Println("\n[Test 7] Blocked at second-to-last")
+	fmt.Println("\n[测试7] 倒数第二步被阻断")
 
 	nums := []int{1, 0, 1, 0}
 	result := CanJump(nums)
@@ -234,7 +236,7 @@ func testBlocked() {
 }
 
 func testTwoElement() {
-	fmt.Println("\n[Test 8] Two element array")
+	fmt.Println("\n[测试8] 两元素数组")
 
 	nums := []int{2, 3}
 	analysis := AnalyzeJumpGame(nums)
@@ -246,7 +248,7 @@ func testTwoElement() {
 }
 
 func testDecreasing() {
-	fmt.Println("\n[Test 9] Large array with decreasing values")
+	fmt.Println("\n[测试9] 大数组递减")
 
 	nums := []int{5, 4, 3, 2, 1, 0}
 	analysis := AnalyzeJumpGame(nums)
@@ -258,7 +260,7 @@ func testDecreasing() {
 }
 
 func testComplex() {
-	fmt.Println("\n[Test 10] Complex reachable scenario")
+	fmt.Println("\n[测试10] 复杂可达场景")
 
 	nums := []int{2, 5, 0, 0}
 	analysis := AnalyzeJumpGame(nums)
@@ -271,7 +273,7 @@ func testComplex() {
 
 func main() {
 	fmt.Println("==================================================")
-	fmt.Println("JUMP GAME - Greedy Approach (Go)")
+	fmt.Println("跳跃游戏 - 贪心算法 (Go)")
 	fmt.Println("==================================================")
 
 	testBasicReachable()

@@ -6,15 +6,15 @@ import (
 )
 
 /*
-* Activity Selection Problem - Select maximum compatible activities
+* 活动选择问题 - 贪心选择最多不重叠活动
  *
- * Algorithm:
- * - Given activities with start and end times
- * - Select the maximum number of non-overlapping activities
- * - Strategy: Sort by end time, then greedily select activities
+ * 算法思路：
+ * - 给定一组活动，每个活动有开始和结束时间
+ * - 选择最多数量的互不重叠活动
+ * - 策略：按结束时间排序，贪心选择结束最早的活动
  *
- * Time Complexity: O(n log n) - due to sorting
- * Space Complexity: O(n) - for storing results
+ * 时间复杂度：O(n log n)（排序）
+ * 空间复杂度：O(n)（存储结果）
 */
 
 type Activity struct {
@@ -23,26 +23,26 @@ type Activity struct {
 	End   int
 }
 
-// ActivityByEndTime implements sort.Interface for sorting by end time
+// ActivityByEndTime 实现按结束时间排序的接口
 type ActivityByEndTime []Activity
 
 func (a ActivityByEndTime) Len() int           { return len(a) }
 func (a ActivityByEndTime) Less(i, j int) bool { return a[i].End < a[j].End }
 func (a ActivityByEndTime) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 
-// SelectActivities selects the maximum number of non-overlapping activities
+// SelectActivities 选择最多数量的不重叠活动（贪心算法）
 func SelectActivities(activities []Activity) []Activity {
 	if len(activities) == 0 {
 		return []Activity{}
 	}
 
-	// Sort by end time
+	// 按结束时间排序
 	sort.Sort(ActivityByEndTime(activities))
 
 	selected := []Activity{activities[0]}
 	lastEndTime := activities[0].End
 
-	// Greedily select remaining activities
+	// 贪心选择剩余活动
 	for i := 1; i < len(activities); i++ {
 		if activities[i].Start >= lastEndTime {
 			selected = append(selected, activities[i])
@@ -54,7 +54,7 @@ func SelectActivities(activities []Activity) []Activity {
 }
 
 func testBasicExample() {
-	fmt.Println("\n[Test 1] Basic example with overlapping activities")
+	fmt.Println("\n[测试1] 基本重叠活动")
 
 	activities := []Activity{
 		{1, 1, 3},
@@ -73,7 +73,7 @@ func testBasicExample() {
 }
 
 func testAllCompatible() {
-	fmt.Println("\n[Test 2] All activities compatible (non-overlapping)")
+	fmt.Println("\n[测试2] 全部活动不重叠")
 
 	activities := []Activity{
 		{1, 1, 2},
@@ -89,7 +89,7 @@ func testAllCompatible() {
 }
 
 func testAllOverlapping() {
-	fmt.Println("\n[Test 3] All activities overlapping")
+	fmt.Println("\n[测试3] 全部活动重叠")
 
 	activities := []Activity{
 		{1, 1, 10},
@@ -105,7 +105,7 @@ func testAllOverlapping() {
 }
 
 func testSingleActivity() {
-	fmt.Println("\n[Test 4] Single activity")
+	fmt.Println("\n[测试4] 单个活动")
 
 	activities := []Activity{{1, 5, 10}}
 	selected := SelectActivities(activities)
@@ -115,7 +115,7 @@ func testSingleActivity() {
 }
 
 func testEmpty() {
-	fmt.Println("\n[Test 5] Empty input")
+	fmt.Println("\n[测试5] 空输入")
 
 	activities := []Activity{}
 	selected := SelectActivities(activities)
@@ -125,7 +125,7 @@ func testEmpty() {
 }
 
 func testComplexScheduling() {
-	fmt.Println("\n[Test 6] Complex scheduling scenario")
+	fmt.Println("\n[测试6] 复杂调度场景")
 
 	activities := []Activity{
 		{1, 0, 6},
@@ -144,7 +144,7 @@ func testComplexScheduling() {
 
 func main() {
 	fmt.Println("==================================================")
-	fmt.Println("ACTIVITY SELECTION - Greedy Algorithm (Go)")
+	fmt.Println("活动选择问题 - 贪心算法 (Go)")
 	fmt.Println("==================================================")
 
 	testBasicExample()

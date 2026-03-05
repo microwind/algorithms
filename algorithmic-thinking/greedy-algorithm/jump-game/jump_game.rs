@@ -1,14 +1,14 @@
 /*
-* Jump Game - Can reach the last index with greedy jumps
+ * 跳跃游戏 - 使用贪心判断能否到达最后一个下标
  *
- * Algorithm:
- * - Given an array where each element is the maximum jump length from that position
- * - Determine if you can reach the last index
- * - Greedy approach: track the maximum index we can reach so far
+ * 算法：
+ * - 给定一个数组，每个元素表示当前位置最大可跳跃步数
+ * - 判断是否可以到达最后一个下标
+ * - 贪心策略：维护当前能到达的最远位置
  *
- * Time Complexity: O(n) - single pass through array
- * Space Complexity: O(1) - excluding output
-*/
+ * 时间复杂度：O(n)（单次遍历）
+ * 空间复杂度：O(1)（不计输出）
+ */
 
 #[derive(Debug)]
 struct JumpGameAnalysis {
@@ -27,7 +27,7 @@ impl std::fmt::Display for JumpGameAnalysis {
     }
 }
 
-// / Determine if we can reach the last index of the array
+// 判断是否能到达数组的最后一个下标
 fn can_jump(nums: &[usize]) -> bool {
     if nums.is_empty() || nums.len() == 1 {
         return true;
@@ -36,15 +36,15 @@ fn can_jump(nums: &[usize]) -> bool {
     let mut max_reach = 0;
 
     for (i, &num) in nums.iter().enumerate() {
-        // If current position is beyond what we can reach, return false
+        // 如果当前位置超过了最远可达位置，则无法继续前进，返回 false
         if i > max_reach {
             return false;
         }
 
-        // Update the maximum position we can reach
+        // 更新当前能到达的最远位置
         max_reach = max_reach.max(i + num);
 
-        // Early termination: if we can reach the end, return true
+        // 提前结束：一旦可以到达末尾，立刻返回 true
         if max_reach >= nums.len() - 1 {
             return true;
         }
@@ -53,13 +53,13 @@ fn can_jump(nums: &[usize]) -> bool {
     max_reach >= nums.len() - 1
 }
 
-// / Find the minimum number of jumps needed to reach the last index
+// 计算到达最后一个下标所需的最少跳跃次数
 fn min_jumps(nums: &[usize]) -> i32 {
     if nums.is_empty() || nums.len() == 1 {
         return 0;
     }
 
-    // Check if reachable
+    // 先检查是否可以到达终点
     let mut max_reach = 0;
     for (i, &num) in nums[..nums.len() - 1].iter().enumerate() {
         if i > max_reach {
@@ -72,13 +72,16 @@ fn min_jumps(nums: &[usize]) -> i32 {
         return -1;
     }
 
-    // Find minimum jumps using greedy
+    // 使用贪心策略计算最少跳跃次数
     let mut jumps = 0;
     let mut current_end = 0;
     let mut farthest = 0;
 
+    // 遍历数组，计算最少跳跃次数
     for (i, &num) in nums[..nums.len() - 1].iter().enumerate() {
+        // 更新当前能到达的最远位置
         farthest = farthest.max(i + num);
+        // 如果当前位置等于当前结束位置，则跳跃次数加1，并更新当前结束位置
 
         if i == current_end {
             jumps += 1;
@@ -89,7 +92,7 @@ fn min_jumps(nums: &[usize]) -> i32 {
     jumps
 }
 
-// / Find a path from start to end
+// 构造从起点到终点的一条跳跃路径
 fn jump_path(nums: &[usize]) -> Vec<usize> {
     if nums.is_empty() {
         return vec![];
@@ -99,7 +102,7 @@ fn jump_path(nums: &[usize]) -> Vec<usize> {
         return vec![0];
     }
 
-    // Check if reachable
+    // 先检查是否可以到达终点
     let mut max_reach = 0;
     for (i, &num) in nums.iter().enumerate() {
         if i > max_reach {
@@ -115,15 +118,18 @@ fn jump_path(nums: &[usize]) -> Vec<usize> {
         return vec![];
     }
 
-    // Greedy path construction
+    // 贪心构造路径
     let mut path = vec![0];
     let mut current_pos = 0;
-
+    // 遍历数组，构造跳跃路径
     while current_pos < nums.len() - 1 {
+        // 初始化下一个位置为当前位置
         let mut next_pos = current_pos;
+        // 初始化下一个位置能到达的最远位置为当前位置能到达的最远位置
         let mut max_next_reach = current_pos + nums[current_pos];
-
+        // 遍历当前位置能到达的范围内，找到能到达的最远位置
         for i in (current_pos + 1)..=(current_pos + nums[current_pos]).min(nums.len() - 1) {
+            // 如果当前位置能到达的最远位置小于当前位置能到达的最远位置，则更新当前位置能到达的最远位置
             if i + nums[i] > max_next_reach {
                 max_next_reach = i + nums[i];
                 next_pos = i;
@@ -141,7 +147,7 @@ fn jump_path(nums: &[usize]) -> Vec<usize> {
     path
 }
 
-// / Analyze a jump game problem comprehensively
+// 综合分析跳跃游戏问题
 fn analyze_jump_game(nums: &[usize]) -> JumpGameAnalysis {
     JumpGameAnalysis {
         can_reach: can_jump(nums),

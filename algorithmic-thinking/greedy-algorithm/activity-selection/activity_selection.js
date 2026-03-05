@@ -1,14 +1,14 @@
 /*
 *
- * Activity Selection Problem - Select maximum compatible activities
+ * 活动选择问题 - 贪心选择最多不重叠活动
  *
- * Algorithm:
- * - Given activities with start and end times
- * - Select the maximum number of non-overlapping activities
- * - Strategy: Sort by end time, then greedily select activities
+ * 算法思路：
+ * - 给定一组活动，每个活动有开始和结束时间
+ * - 选择最多数量的互不重叠活动
+ * - 策略：按结束时间排序，贪心选择结束最早的活动
  *
- * Time Complexity: O(n log n) - due to sorting
- * Space Complexity: O(n) - for storing results
+ * 时间复杂度：O(n log n)（排序）
+ * 空间复杂度：O(n)（存储结果）
 */
 
 class Activity {
@@ -25,22 +25,22 @@ class Activity {
 
 /*
 *
- * Select the maximum number of non-overlapping activities
- * @param {Activity[]} activities - Array of activities
- * @returns {Activity[]} Selected activities
+ * 选择最多数量的不重叠活动（贪心算法）
+ * @param {Activity[]} activities - 活动数组
+ * @returns {Activity[]} 选中的活动数组
 */
 function selectActivities(activities) {
   if (activities.length === 0) {
     return [];
   }
 
-  // Sort by end time
+  // 按结束时间排序
   const sorted = [...activities].sort((a, b) => a.end - b.end);
 
   const selected = [sorted[0]];
   let lastEndTime = sorted[0].end;
 
-  // Greedily select remaining activities
+  // 贪心选择剩余活动
   for (let i = 1; i < sorted.length; i++) {
     if (sorted[i].start >= lastEndTime) {
       selected.push(sorted[i]);
@@ -52,7 +52,7 @@ function selectActivities(activities) {
 }
 
 function testBasicExample() {
-  console.log("\n[Test 1] Basic example with overlapping activities");
+  console.log("\n[测试1] 基本重叠活动");
 
   const activities = [
     new Activity(1, 1, 3),
@@ -71,7 +71,7 @@ function testBasicExample() {
 }
 
 function testAllCompatible() {
-  console.log("\n[Test 2] All activities compatible (non-overlapping)");
+  console.log("\n[测试2] 全部活动不重叠");
 
   const activities = [
     new Activity(1, 1, 2),
@@ -87,7 +87,7 @@ function testAllCompatible() {
 }
 
 function testAllOverlapping() {
-  console.log("\n[Test 3] All activities overlapping");
+  console.log("\n[测试3] 全部活动重叠");
 
   const activities = [
     new Activity(1, 1, 10),
@@ -103,7 +103,7 @@ function testAllOverlapping() {
 }
 
 function testSingleActivity() {
-  console.log("\n[Test 4] Single activity");
+  console.log("\n[测试4] 单个活动");
 
   const activities = [new Activity(1, 5, 10)];
   const selected = selectActivities(activities);
@@ -113,7 +113,7 @@ function testSingleActivity() {
 }
 
 function testEmpty() {
-  console.log("\n[Test 5] Empty input");
+  console.log("\n[测试5] 空输入");
 
   const activities = [];
   const selected = selectActivities(activities);
@@ -123,7 +123,7 @@ function testEmpty() {
 }
 
 function testComplexScheduling() {
-  console.log("\n[Test 6] Complex scheduling scenario");
+  console.log("\n[测试6] 复杂调度场景");
 
   const activities = [
     new Activity(1, 0, 6),
@@ -142,7 +142,7 @@ function testComplexScheduling() {
 
 if (require.main === module) {
   console.log("==================================================");
-  console.log("ACTIVITY SELECTION - Greedy Algorithm (JavaScript)");
+  console.log("活动选择问题 - 贪心算法 (JavaScript)");
   console.log("==================================================");
 
   testBasicExample();

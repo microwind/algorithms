@@ -105,7 +105,3 @@ python struct/struct.py
 2. **进阶** → 二叉树 → 堆
 3. **应用** → 哈希表 → 图
 
----
-**总计**: 37个文件 (JavaScript 19 + Python 18)
-**语言**: JavaScript + Python
-**用途**: 学习和参考数据结构实现

@@ -31,7 +31,7 @@
 
 ## 伪代码
 
-```
+```c
 RandomizedQuickSort(arr, left, right):
     if left >= right:
         return

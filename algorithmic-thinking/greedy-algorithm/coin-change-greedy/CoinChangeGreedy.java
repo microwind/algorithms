@@ -1,24 +1,24 @@
 import java.util.*;
 
 /*
-*
- * Coin Change - Greedy Approach
  *
- * Algorithm:
- * - Use greedy approach: always select the largest coin possible
- * - Keep subtracting the largest coin until amount is 0
- * - Does NOT always give optimal solution
+ * 零钱兑换问题 - 贪心算法
  *
- * Time Complexity: O(n log n) - sorting + O(n) for the loop
- * Space Complexity: O(n) - for storing coins used
+ * 算法：
+ * - 使用贪心策略：每次选择不超过剩余金额的最大面值硬币
+ * - 持续用最大面值硬币去抵扣，直到金额为 0
+ * - 注意：这种贪心解并不总是最优
  *
- * Important: This greedy approach is NOT optimal for all coin systems!
+ * 时间复杂度：O(n log n)（排序）+ O(n)（循环）
+ * 空间复杂度：O(n)（存储使用的硬币）
  *
- * 示例 where greedy fails:
+ * 重要说明：该贪心算法并不适用于所有硬币体系！
+ *
+ * 贪心失败示例：
  * - coins = [1, 3, 4], amount = 6
- * - Greedy: 4 + 1 + 1 = 3 coins
- * - Optimal: 3 + 3 = 2 coins
-*/
+ * - 贪心：4 + 1 + 1 = 3 枚硬币
+ * - 最优：3 + 3 = 2 枚硬币
+ */
 
 class CoinChangeResult {
     int count;
@@ -40,19 +40,18 @@ class CoinChangeResult {
 
 public class CoinChangeGreedy {
     /*
-*
-     * Find minimum coins using greedy approach (not always optimal)
+     * 使用贪心算法求最少硬币数（不一定最优）
      *
-     * @param coins Array of coin denominations
-     * @param amount Target amount to make
-     * @return CoinChangeResult with count and coins used
-*/
+     * @param coins 硬币面值数组
+     * @param amount 目标金额
+     * @return 包含硬币数量和具体硬币列表的结果
+     */
     static CoinChangeResult coinChangeGreedy(int[] coins, int amount) {
         if (amount == 0) {
             return new CoinChangeResult(0, new ArrayList<>());
         }
 
-        // Sort coins in descending order
+        // 将硬币面值按降序排序
         Integer[] boxedCoins = Arrays.stream(coins).boxed().toArray(Integer[]::new);
         Arrays.sort(boxedCoins, Collections.reverseOrder());
 
@@ -68,7 +67,7 @@ public class CoinChangeGreedy {
             }
         }
 
-        // If we couldn't make exact amount
+        // 如果无法刚好凑成目标金额
         if (remaining != 0) {
             return new CoinChangeResult(-1, new ArrayList<>());
         }
@@ -77,14 +76,12 @@ public class CoinChangeGreedy {
     }
 
     /*
-*
-     * Find minimum coins using Dynamic Programming (always optimal)
-     * Provided for comparison with greedy approach
+     * 使用动态规划求最少硬币数（一定最优，用于和贪心对比）
      *
-     * @param coins Array of coin denominations
-     * @param amount Target amount
-     * @return CoinChangeResult with count and coins used
-*/
+     * @param coins 硬币面值数组
+     * @param amount 目标金额
+     * @return 包含硬币数量和具体硬币列表的结果
+     */
     static CoinChangeResult coinChangeDP(int[] coins, int amount) {
         if (amount == 0) {
             return new CoinChangeResult(0, new ArrayList<>());
@@ -96,10 +93,11 @@ public class CoinChangeGreedy {
 
         int[] parent = new int[amount + 1];
         Arrays.fill(parent, -1);
-
+        // 对每个金额进行处理, 尝试使用每枚硬币
         for (int currAmount = 1; currAmount <= amount; currAmount++) {
             for (int coin : coins) {
                 if (coin <= currAmount && dp[currAmount - coin] != Integer.MAX_VALUE) {
+                    // 如果当前金额减去当前硬币面额的值的最少硬币数加1小于当前金额的最少硬币数，则更新当前金额的最少硬币数
                     if (dp[currAmount - coin] + 1 < dp[currAmount]) {
                         dp[currAmount] = dp[currAmount - coin] + 1;
                         parent[currAmount] = coin;
@@ -112,7 +110,7 @@ public class CoinChangeGreedy {
             return new CoinChangeResult(-1, new ArrayList<>());
         }
 
-        // Reconstruct the solution
+        // 还原一组最优解中使用的硬币
         List<Integer> coinsUsed = new ArrayList<>();
         int curr = amount;
         while (curr > 0) {

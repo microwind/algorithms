@@ -31,7 +31,7 @@
 
 ## 伪代码
 
-```
+```c
 BFS(graph, start):
     queue = Queue()
     queue.enqueue(start)

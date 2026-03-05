@@ -5,27 +5,27 @@ import (
 	"sort"
 )
 
+
 /*
-* Coin Change - Greedy Approach
+* 零钱兑换问题（贪心算法）
  *
- * Algorithm:
- * - Use greedy approach: always select the largest coin possible
- * - Keep subtracting the largest coin until amount is 0
- * - Does NOT always give optimal solution
+ * 算法思路：
+ * - 贪心策略：每次选择不超过剩余金额的最大面值硬币
+ * - 不断用最大面值硬币减去剩余金额，直到为0
+ * - 注意：贪心算法并不总是最优
 */
 
-type CoinChangeResult struct {
-	Count int
-	Coins []int
+	Count int   // 最少硬币数
+	Coins []int // 使用的硬币列表
 }
 
-// CoinChangeGreedy finds minimum coins using greedy approach (not always optimal)
+// CoinChangeGreedy 贪心法求凑成目标金额的最少硬币数（不一定最优）
 func CoinChangeGreedy(coins []int, amount int) CoinChangeResult {
 	if amount == 0 {
 		return CoinChangeResult{Count: 0, Coins: []int{}}
 	}
 
-	// Sort coins in descending order
+	// 降序排序硬币面值
 	sorted := make([]int, len(coins))
 	copy(sorted, coins)
 	sort.Sort(sort.Reverse(sort.IntSlice(sorted)))
@@ -49,7 +49,7 @@ func CoinChangeGreedy(coins []int, amount int) CoinChangeResult {
 	return CoinChangeResult{Count: count, Coins: coinsUsed}
 }
 
-// CoinChangeDP finds minimum coins using Dynamic Programming (always optimal)
+// CoinChangeDP 动态规划法求最少硬币数（一定最优，供对比）
 func CoinChangeDP(coins []int, amount int) CoinChangeResult {
 	if amount == 0 {
 		return CoinChangeResult{Count: 0, Coins: []int{}}
@@ -77,7 +77,7 @@ func CoinChangeDP(coins []int, amount int) CoinChangeResult {
 		return CoinChangeResult{Count: -1, Coins: []int{}}
 	}
 
-	// Reconstruct the solution
+	// 构造最优解
 	coinsUsed := []int{}
 	curr := amount
 	for curr > 0 {
@@ -93,83 +93,83 @@ func compareGreedyVsDP(coins []int, amount int) {
 	greedy := CoinChangeGreedy(coins, amount)
 	dp := CoinChangeDP(coins, amount)
 
-	fmt.Printf("Coins: %v, Amount: %d\n", coins, amount)
-	fmt.Printf("Greedy: %d coins - %v\n", greedy.Count, greedy.Coins)
-	fmt.Printf("DP:     %d coins - %v\n", dp.Count, dp.Coins)
+	fmt.Printf("硬币面值: %v, 金额: %d\n", coins, amount)
+	fmt.Printf("贪心: %d 枚 - %v\n", greedy.Count, greedy.Coins)
+	fmt.Printf("DP:   %d 枚 - %v\n", dp.Count, dp.Coins)
 	if greedy.Count != -1 && dp.Count != -1 {
 		if greedy.Count == dp.Count {
-			fmt.Println("✓ Greedy is optimal for this input")
+			fmt.Println("✓ 贪心在本例最优")
 		} else {
-			fmt.Printf("✗ Greedy is suboptimal (difference: %d)\n", greedy.Count-dp.Count)
+			fmt.Printf("✗ 贪心非最优（差值: %d）\n", greedy.Count-dp.Count)
 		}
 	}
 	fmt.Println()
 }
 
 func testStandardCoins() {
-	fmt.Println("\n[Test 1] US Coins (greedy optimal)")
+	fmt.Println("\n[测试1] 美元硬币（贪心最优）")
 	result := CoinChangeGreedy([]int{1, 5, 10, 25}, 41)
-	fmt.Printf("Coins: [1, 5, 10, 25], Amount: 41\n")
-	fmt.Printf("Result: %d coins - %v\n", result.Count, result.Coins)
+	fmt.Printf("硬币面值: [1, 5, 10, 25], 金额: 41\n")
+	fmt.Printf("结果: %d 枚 - %v\n", result.Count, result.Coins)
 }
 
 func testGreedyFails1() {
-	fmt.Println("\n[Test 2] Greedy fails case")
+	fmt.Println("\n[测试2] 贪心失败案例")
 	compareGreedyVsDP([]int{1, 3, 4}, 6)
 }
 
 func testGreedyFails2() {
-	fmt.Println("\n[Test 3] Another greedy fails case")
+	fmt.Println("\n[测试3] 另一个贪心失败案例")
 	compareGreedyVsDP([]int{1, 7, 10}, 11)
 }
 
 func testGreedyOptimal() {
-	fmt.Println("\n[Test 4] Greedy optimal case")
+	fmt.Println("\n[测试4] 贪心最优案例")
 	compareGreedyVsDP([]int{1, 5, 10, 25}, 30)
 }
 
 func testImpossibleAmount() {
-	fmt.Println("\n[Test 5] Impossible amount (no 1-cent coin)")
+	fmt.Println("\n[测试5] 无法凑成（无1分硬币）")
 	result := CoinChangeGreedy([]int{5, 10, 25}, 11)
-	fmt.Printf("Coins: [5, 10, 25], Amount: 11\n")
-	fmt.Printf("Result: %d (impossible)\n", result.Count)
+	fmt.Printf("硬币面值: [5, 10, 25], 金额: 11\n")
+	fmt.Printf("结果: %d（无法凑成）\n", result.Count)
 }
 
 func testZeroAmount() {
-	fmt.Println("\n[Test 6] Zero amount")
+	fmt.Println("\n[测试6] 金额为0")
 	result := CoinChangeGreedy([]int{1, 5, 10}, 0)
-	fmt.Printf("Coins: [1, 5, 10], Amount: 0\n")
-	fmt.Printf("Result: %d coins\n", result.Count)
+	fmt.Printf("硬币面值: [1, 5, 10], 金额: 0\n")
+	fmt.Printf("结果: %d 枚\n", result.Count)
 }
 
 func testSingleCoinType() {
-	fmt.Println("\n[Test 7] Single coin type")
+	fmt.Println("\n[测试7] 单一硬币类型")
 	compareGreedyVsDP([]int{7}, 21)
 }
 
 func testLargeAmount() {
-	fmt.Println("\n[Test 8] Large amount")
+	fmt.Println("\n[测试8] 大金额")
 	result := CoinChangeGreedy([]int{1, 5, 10, 25, 50}, 158)
-	fmt.Printf("Coins: [1, 5, 10, 25, 50], Amount: 158\n")
-	fmt.Printf("Result: %d coins\n", result.Count)
+	fmt.Printf("硬币面值: [1, 5, 10, 25, 50], 金额: 158\n")
+	fmt.Printf("结果: %d 枚\n", result.Count)
 	if result.Count > 0 && result.Count <= 10 {
-		fmt.Printf("Coins used: %v\n", result.Coins)
+		fmt.Printf("使用的硬币: %v\n", result.Coins)
 	}
 }
 
 func testNonStandardCoins() {
-	fmt.Println("\n[Test 9] Non-standard coins where greedy fails")
+	fmt.Println("\n[测试9] 非标准硬币体系贪心失败")
 	compareGreedyVsDP([]int{1, 3, 4, 5}, 13)
 }
 
 func testEdgeCase() {
-	fmt.Println("\n[Test 10] Larger denomination problem")
+	fmt.Println("\n[测试10] 更大面值问题")
 	compareGreedyVsDP([]int{2, 5, 10}, 11)
 }
 
 func main() {
 	fmt.Println("==================================================")
-	fmt.Println("COIN CHANGE - Greedy vs DP Comparison (Go)")
+	fmt.Println("零钱兑换问题 - 贪心与动态规划对比 (Go)")
 	fmt.Println("==================================================")
 
 	testStandardCoins()

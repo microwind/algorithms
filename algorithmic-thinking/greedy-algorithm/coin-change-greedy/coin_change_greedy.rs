@@ -1,11 +1,11 @@
 /*
-* Coin Change - Greedy Approach
+ * 零钱兑换问题 - 贪心算法
  *
- * Algorithm:
- * - Use greedy approach: always select the largest coin possible
- * - Keep subtracting the largest coin until amount is 0
- * - Does NOT always give optimal solution
-*/
+ * 算法：
+ * - 使用贪心策略：每次选择不超过剩余金额的最大面值硬币
+ * - 持续用最大面值硬币去抵扣，直到金额为 0
+ * - 注意：这种贪心解并不总是最优
+ */
 
 #[derive(Debug)]
 struct CoinChangeResult {
@@ -23,7 +23,7 @@ impl std::fmt::Display for CoinChangeResult {
     }
 }
 
-// / Find minimum coins using greedy approach (not always optimal)
+// 使用贪心算法求最少硬币数（不一定最优）
 fn coin_change_greedy(coins: &[i32], amount: i32) -> CoinChangeResult {
     if amount == 0 {
         return CoinChangeResult {
@@ -32,7 +32,7 @@ fn coin_change_greedy(coins: &[i32], amount: i32) -> CoinChangeResult {
         };
     }
 
-    // Sort coins in descending order
+    // 将硬币面值按降序排序
     let mut sorted_coins = coins.to_vec();
     sorted_coins.sort_by(|a, b| b.cmp(a));
 
@@ -40,6 +40,7 @@ fn coin_change_greedy(coins: &[i32], amount: i32) -> CoinChangeResult {
     let mut coins_used = vec![];
     let mut remaining = amount;
 
+    // 尽量多用当前面额的硬币，直到剩余金额小于当前面额
     for coin in sorted_coins {
         while remaining >= coin {
             remaining -= coin;
@@ -61,7 +62,7 @@ fn coin_change_greedy(coins: &[i32], amount: i32) -> CoinChangeResult {
     }
 }
 
-// / Find minimum coins using Dynamic Programming (always optimal)
+// 使用动态规划求最少硬币数（一定最优）
 fn coin_change_dp(coins: &[i32], amount: i32) -> CoinChangeResult {
     if amount == 0 {
         return CoinChangeResult {
@@ -75,9 +76,12 @@ fn coin_change_dp(coins: &[i32], amount: i32) -> CoinChangeResult {
     dp[0] = 0;
     let mut parent = vec![-1; n];
 
+    // 对每个金额进行处理, 尝试使用每枚硬币
     for curr_amount in 1..=amount as usize {
         for &coin in coins {
+            // 如果当前硬币面额小于等于当前金额，并且当前金额减去当前硬币面额的值不为最大值，则更新当前金额的最少硬币数
             if coin as usize <= curr_amount && dp[curr_amount - coin as usize] != i32::MAX {
+                // 如果当前金额减去当前硬币面额的值的最少硬币数加1小于当前金额的最少硬币数，则更新当前金额的最少硬币数
                 if dp[curr_amount - coin as usize] + 1 < dp[curr_amount] {
                     dp[curr_amount] = dp[curr_amount - coin as usize] + 1;
                     parent[curr_amount] = coin;
@@ -93,7 +97,7 @@ fn coin_change_dp(coins: &[i32], amount: i32) -> CoinChangeResult {
         };
     }
 
-    // Reconstruct the solution
+    // 还原一组最优解中使用的硬币
     let mut coins_used = vec![];
     let mut curr = amount as usize;
     while curr > 0 {

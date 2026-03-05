@@ -1,14 +1,14 @@
 /*
-*
- * Coin Change - Greedy Approach
  *
- * Algorithm:
- * - Use greedy approach: always select the largest coin possible
- * - Keep subtracting the largest coin until amount is 0
- * - Does NOT always give optimal solution
+ * 零钱兑换问题 - 贪心算法
  *
- * Important: This greedy approach is NOT optimal for all coin systems!
-*/
+ * 算法：
+ * - 使用贪心策略：每次选择不超过剩余金额的最大面值硬币
+ * - 持续用最大面值硬币去抵扣，直到金额为 0
+ * - 注意：这种贪心解并不总是最优
+ *
+ * 重要说明：该贪心算法并不适用于所有硬币体系！
+ */
 
 class CoinChangeResult {
   constructor(count, coins) {
@@ -25,18 +25,18 @@ class CoinChangeResult {
 }
 
 /*
-*
- * Find minimum coins using greedy approach (not always optimal)
- * @param {number[]} coins - Array of coin denominations
- * @param {number} amount - Target amount
- * @returns {CoinChangeResult} Result with count and coins used
-*/
+ *
+ * 使用贪心算法求最少硬币数（不一定最优）
+ * @param {number[]} coins - 硬币面值数组
+ * @param {number} amount - 目标金额
+ * @returns {CoinChangeResult} 结果（硬币数量和具体硬币列表）
+ */
 function coinChangeGreedy(coins, amount) {
   if (amount === 0) {
     return new CoinChangeResult(0, []);
   }
 
-  // Sort coins in descending order
+  // 将硬币面值按降序排序
   const sorted = [...coins].sort((a, b) => b - a);
 
   let count = 0;
@@ -59,12 +59,12 @@ function coinChangeGreedy(coins, amount) {
 }
 
 /*
-*
- * Find minimum coins using Dynamic Programming (always optimal)
- * @param {number[]} coins - Array of coin denominations
- * @param {number} amount - Target amount
- * @returns {CoinChangeResult} Result with count and coins used
-*/
+ *
+ * 使用动态规划求最少硬币数（一定最优）
+ * @param {number[]} coins - 硬币面值数组
+ * @param {number} amount - 目标金额
+ * @returns {CoinChangeResult} 结果（硬币数量和具体硬币列表）
+ */
 function coinChangeDP(coins, amount) {
   if (amount === 0) {
     return new CoinChangeResult(0, []);
@@ -89,7 +89,7 @@ function coinChangeDP(coins, amount) {
     return new CoinChangeResult(-1, []);
   }
 
-  // Reconstruct the solution
+  // 还原一组最优解中使用的硬币
   const coinsUsed = [];
   let curr = amount;
   while (curr > 0) {

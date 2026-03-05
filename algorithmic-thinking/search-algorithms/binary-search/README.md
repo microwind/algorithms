@@ -32,7 +32,7 @@
 
 ## 伪代码（迭代版）
 
-```
+```c
 BinarySearch(arr, target):
     left = 0
     right = length(arr) - 1

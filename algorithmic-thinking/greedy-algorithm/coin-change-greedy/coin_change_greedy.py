@@ -1,27 +1,27 @@
+
 """
-Coin Change - Greedy Approach
+零钱兑换问题（贪心算法）
 
-Algorithm:
-- Use greedy approach: always select the largest coin possible
-- Keep subtracting the largest coin until amount is 0
-- Does NOT always give optimal solution
+算法思路：
+- 贪心策略：每次选择不超过剩余金额的最大面值硬币
+- 不断用最大面值硬币减去剩余金额，直到为0
+- 注意：贪心算法并不总是最优
 
-Time Complexity: O(n log n) - sorting + O(n) for the loop
-Space Complexity: O(1) - excluding output
+时间复杂度：O(n log n)（排序）+ O(n)（循环）
+空间复杂度：O(1)
 
-Important: This greedy approach is NOT optimal for all coin systems!
+重要：贪心算法并不适用于所有硬币体系！
 
-示例 where greedy fails:
-- coins = [1, 3, 4], amount = 6
-- Greedy: 4 + 1 + 1 = 3 coins
-- Optimal: 3 + 3 = 2 coins
+反例：
+coins = [1, 3, 4], amount = 6
+贪心：4 + 1 + 1 = 3枚
+最优：3 + 3 = 2枚
 
-This is why DP (coin_change_dp) should be used for optimal results.
-However, for real currencies (like USD coins), greedy works.
+因此对于最优解应使用动态规划（coin_change_dp），但对于实际货币（如美元）贪心有效。
 
-Comparison with DP:
-- Greedy: O(n log n) time, but may not be optimal
-- DP: O(n * amount) time, but always optimal
+与DP对比：
+- 贪心：O(n log n)，但不一定最优
+- DP：O(n * amount)，一定最优
 """
 
 from typing import List, Tuple
@@ -29,15 +29,14 @@ from typing import List, Tuple
 
 def coin_change_greedy(coins: List[int], amount: int) -> Tuple[int, List[int]]:
     """
-    Find minimum coins using greedy approach (not always optimal).
+    贪心法求凑成目标金额的最少硬币数（不一定最优）
 
     参数:
-        coins: List of coin denominations
-        amount: Target amount to make
+        coins: 硬币面值列表
+        amount: 目标金额
 
     返回:
-        Tuple of (count, list of coins used)
-        返回 (-1, []) if amount cannot be made
+        (最少硬币数, 使用的硬币列表)，无法凑成则返回(-1, [])
 
     示例:
         >>> coin_change_greedy([1, 7, 10], 11)
@@ -45,36 +44,33 @@ def coin_change_greedy(coins: List[int], amount: int) -> Tuple[int, List[int]]:
     """
     if amount == 0:
         return (0, [])
-
-    # Sort coins in descending order
+    # 降序排序硬币面值
     sorted_coins = sorted(coins, reverse=True)
     count = 0
     coins_used = []
     remaining = amount
-
     for coin in sorted_coins:
         while remaining >= coin:
             remaining -= coin
             coins_used.append(coin)
             count += 1
 
-    # If we couldn't make exact amount
+    # 如果无法凑成目标金额
     if remaining != 0:
         return (-1, [])
-
     return (count, coins_used)
 
 
 def coin_change_greedy_count_only(coins: List[int], amount: int) -> int:
     """
-    Return only the count of coins (simplified version).
+    只返回最少硬币数（简化版）
 
     参数:
-        coins: List of coin denominations
-        amount: Target amount
+        coins: 硬币面值列表
+        amount: 目标金额
 
     返回:
-        Count of coins, or -1 if impossible
+        最少硬币数，无法凑成则返回-1
     """
     count, _ = coin_change_greedy(coins, amount)
     return count
@@ -82,12 +78,10 @@ def coin_change_greedy_count_only(coins: List[int], amount: int) -> int:
 
 def coin_change_dp(coins: List[int], amount: int) -> Tuple[int, List[int]]:
     """
-    Find minimum coins using Dynamic Programming (always optimal).
+    动态规划法求最少硬币数（一定最优，供对比）
 
-    This is provided for comparison with greedy approach.
-
-    Time Complexity: O(n * amount)
-    Space Complexity: O(amount)
+    时间复杂度：O(n * amount)
+    空间复杂度：O(amount)
     """
     if amount == 0:
         return (0, [])
@@ -119,7 +113,7 @@ def coin_change_dp(coins: List[int], amount: int) -> Tuple[int, List[int]]:
 
 def compare_greedy_vs_dp(coins: List[int], amount: int) -> None:
     """
-    Compare greedy and DP solutions for a given problem.
+    对比贪心与动态规划解法
     """
     greedy_count, greedy_coins = coin_change_greedy(coins, amount)
     dp_count, dp_coins = coin_change_dp(coins, amount)
@@ -135,55 +129,46 @@ def compare_greedy_vs_dp(coins: List[int], amount: int) -> None:
     print()
 
 
+
 if __name__ == "__main__":
     print("=" * 60)
-    print("COIN CHANGE - Greedy vs DP Comparison")
+    print("零钱兑换问题 - 贪心与动态规划对比")
     print("=" * 60)
-
-    # 测试用例 1: Standard coins (greedy works)
-    print("\n[Test 1] US Coins (greedy optimal)")
+    # 测试用例 1: 美元硬币（贪心最优）
+    print("\n[测试1] 美元硬币（贪心最优）")
     count, coins_used = coin_change_greedy([1, 5, 10, 25], 41)
-    print(f"Coins: [1, 5, 10, 25], Amount: 41")
-    print(f"Greedy Result: {count} coins - {sorted(coins_used, reverse=True)}")
-
-    # 测试用例 2: Where greedy fails
-    print("\n[Test 2] Greedy fails case")
+    print(f"硬币面值: [1, 5, 10, 25], 金额: 41")
+    print(f"贪心结果: {count} 枚 - {sorted(coins_used, reverse=True)}")
+    # 测试用例 2: 贪心失败
+    print("\n[测试2] 贪心失败案例")
     compare_greedy_vs_dp([1, 3, 4], 6)
-
-    # 测试用例 3: Another greedy fails case
-    print("\n[Test 3] Another greedy fails case")
+    # 测试用例 3: 另一个贪心失败案例
+    print("\n[测试3] 另一个贪心失败案例")
     compare_greedy_vs_dp([1, 7, 10], 11)
-
-    # 测试用例 4: Greedy optimal case
-    print("\n[Test 4] Greedy optimal case")
+    # 测试用例 4: 贪心最优案例
+    print("\n[测试4] 贪心最优案例")
     compare_greedy_vs_dp([1, 5, 10, 25], 30)
-
-    # 测试用例 5: Impossible amount
-    print("\n[Test 5] Impossible amount (no 1-cent coin)")
+    # 测试用例 5: 无法凑成（无1分硬币）
+    print("\n[测试5] 无法凑成（无1分硬币）")
     count, coins_used = coin_change_greedy([5, 10, 25], 11)
-    print(f"Coins: [5, 10, 25], Amount: 11")
-    print(f"Result: {count} (impossible without 1-cent coin)")
-
-    # 测试用例 6: Zero amount
-    print("\n[Test 6] Zero amount")
+    print(f"硬币面值: [5, 10, 25], 金额: 11")
+    print(f"结果: {count}（无法凑成，无1分硬币）")
+    # 测试用例 6: 金额为0
+    print("\n[测试6] 金额为0")
     count, coins_used = coin_change_greedy([1, 5, 10], 0)
-    print(f"Coins: [1, 5, 10], Amount: 0")
-    print(f"Result: {count} coins")
-
-    # 测试用例 7: Single coin
-    print("\n[Test 7] Single coin type")
+    print(f"硬币面值: [1, 5, 10], 金额: 0")
+    print(f"结果: {count} 枚")
+    # 测试用例 7: 单一硬币类型
+    print("\n[测试7] 单一硬币类型")
     compare_greedy_vs_dp([7], 21)
-
-    # 测试用例 8: Large amount
-    print("\n[Test 8] Large amount")
+    # 测试用例 8: 大金额
+    print("\n[测试8] 大金额")
     count, coins_used = coin_change_greedy([1, 5, 10, 25, 50], 158)
-    print(f"Coins: [1, 5, 10, 25, 50], Amount: 158")
-    print(f"Greedy Result: {count} coins - {sorted(coins_used, reverse=True)}")
-
-    # 测试用例 9: Complex non-standard coins
-    print("\n[Test 9] Non-standard coins where greedy fails")
+    print(f"硬币面值: [1, 5, 10, 25, 50], 金额: 158")
+    print(f"贪心结果: {count} 枚 - {sorted(coins_used, reverse=True)}")
+    # 测试用例 9: 非标准硬币体系贪心失败
+    print("\n[测试9] 非标准硬币体系贪心失败")
     compare_greedy_vs_dp([1, 3, 4, 5], 13)
-
-    # 测试用例 10: Larger denomination problem
-    print("\n[Test 10] Larger problem")
+    # 测试用例 10: 更大面值问题
+    print("\n[测试10] 更大面值问题")
     compare_greedy_vs_dp([2, 5, 10], 11)

@@ -3,20 +3,20 @@
 #include <string.h>
 
 /*
-* Activity Selection Problem - Select maximum compatible activities
+ * 活动选择问题 - 选择最多数量的相容活动
  *
- * Algorithm:
- * - Given activities with start and end times
- * - Select the maximum number of non-overlapping activities
- * - Strategy: Sort by end time, then greedily select activities
+ * 算法：
+ * - 给定一组带有开始时间和结束时间的活动
+ * - 选择数量最多的互不重叠活动
+ * - 策略：按结束时间排序，然后贪心地选择活动
  *
- * Time Complexity: O(n log n) - due to sorting
- * Space Complexity: O(n) - for storing results
+ * 时间复杂度：O(n log n)（排序）
+ * 空间复杂度：O(n)（存储结果）
  *
- * Key Insight:
- * Always picking the activity that ends earliest leaves the most room
- * for other activities. This greedy choice leads to optimal solution.
-*/
+ * 关键思想：
+ * 总是优先选择结束时间最早的活动，可以为后续活动留下最多空间，
+ * 这一贪心选择可以得到最优解。
+ */
 
 typedef struct {
     int start;
@@ -25,8 +25,8 @@ typedef struct {
 } Activity;
 
 /*
-Comparator for sorting by end time
-*/
+ * 按结束时间排序的比较函数
+ */
 int compare_by_end_time(const void *a, const void *b) {
     Activity *act_a = (Activity *)a;
     Activity *act_b = (Activity *)b;
@@ -34,41 +34,41 @@ int compare_by_end_time(const void *a, const void *b) {
 }
 
 /*
-* Select the maximum number of non-overlapping activities
+ * 选择最多数量的不重叠活动
  *
- * 参数:
- *   activities: Array of activities
- *   n: Number of activities
- *   selected: Array to store selected activities
+ * 参数：
+ *   activities: 活动数组
+ *   n: 活动数量
+ *   selected: 用于存放被选中活动的数组
  *
- * 返回:
- *   Count of selected activities
-*/
+ * 返回：
+ *   选中活动的数量
+ */
 int activity_selection(Activity *activities, int n, Activity *selected) {
     if (n == 0) {
         return 0;
     }
 
     /*
-Sort activities by end time
-*/
+     * 按结束时间对活动进行排序
+     */
     qsort(activities, n, sizeof(Activity), compare_by_end_time);
 
     /*
-Always select the first activity (ends earliest)
-*/
+     * 总是先选择结束时间最早的第一个活动
+     */
     int count = 1;
     selected[0] = activities[0];
     int last_end_time = activities[0].end;
 
     /*
-Greedily select remaining activities
-*/
+     * 贪心选择剩余的活动
+     */
     for (int i = 1; i < n; i++) {
         /*
-If this activity starts after the last selected activity ends,
-         * it's compatible and we select it
-*/
+         * 如果当前活动的开始时间不早于上一个已选活动的结束时间，
+         * 则视为相容，可以选择该活动
+         */
         if (activities[i].start >= last_end_time) {
             selected[count] = activities[i];
             last_end_time = activities[i].end;

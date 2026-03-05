@@ -1,22 +1,22 @@
 /*
-*
- * Jump Game - Can reach the last index with greedy jumps
  *
- * Algorithm:
- * - Given an array where each element is the maximum jump length from that position
- * - Determine if you can reach the last index
- * - Greedy approach: track the maximum index we can reach so far
+ * 跳跃游戏 - 使用贪心判断能否到达最后一个下标
  *
- * Time Complexity: O(n) - single pass through array
- * Space Complexity: O(1) - excluding output
-*/
+ * 算法：
+ * - 给定一个数组，每个元素表示当前位置最大可跳跃步数
+ * - 判断是否可以到达最后一个下标
+ * - 贪心策略：始终维护当前能到达的最远位置
+ *
+ * 时间复杂度：O(n)（单次遍历）
+ * 空间复杂度：O(1)（不计输出）
+ */
 
 /*
-*
- * Determine if we can reach the last index of the array
- * @param {number[]} nums - Array where each element is max jump length
- * @returns {boolean} True if we can reach the last index
-*/
+ *
+ * 判断是否能到达数组的最后一个下标
+ * @param {number[]} nums - 数组，每个元素是当前位置最大可跳跃步数
+ * @returns {boolean} 若能到达最后一个下标则为 true
+ */
 function canJump(nums) {
   if (!nums || nums.length <= 1) {
     return true;
@@ -25,15 +25,15 @@ function canJump(nums) {
   let maxReach = 0;
 
   for (let i = 0; i < nums.length; i++) {
-    // If current position is beyond what we can reach, return false
+    // 如果当前位置超过了最远可达位置，则无法继续前进，返回 false
     if (i > maxReach) {
       return false;
     }
 
-    // Update the maximum position we can reach
+    // 更新当前能到达的最远位置
     maxReach = Math.max(maxReach, i + nums[i]);
 
-    // Early termination: if we can reach the end, return true
+    // 提前结束：一旦可以到达末尾，立刻返回 true
     if (maxReach >= nums.length - 1) {
       return true;
     }
@@ -43,17 +43,17 @@ function canJump(nums) {
 }
 
 /*
-*
- * Find the minimum number of jumps needed to reach the last index
- * @param {number[]} nums - Array where each element is max jump length
- * @returns {number} Minimum jumps needed, or -1 if unreachable
-*/
+ *
+ * 计算到达最后一个下标所需的最少跳跃次数
+ * @param {number[]} nums - 数组，每个元素是当前位置最大可跳跃步数
+ * @returns {number} 最少跳跃次数，若不可达则为 -1
+ */
 function minJumps(nums) {
   if (!nums || nums.length <= 1) {
     return 0;
   }
 
-  // Check if reachable
+  // 先检查是否可以到达终点
   let maxReach = 0;
   for (let i = 0; i < nums.length - 1; i++) {
     if (i > maxReach) {
@@ -66,7 +66,7 @@ function minJumps(nums) {
     return -1;
   }
 
-  // Find minimum jumps using greedy
+  // 使用贪心策略计算最少跳跃次数
   let jumps = 0;
   let currentEnd = 0;
   let farthest = 0;
@@ -84,11 +84,11 @@ function minJumps(nums) {
 }
 
 /*
-*
- * Find a path from start to end
- * @param {number[]} nums - Array where each element is max jump length
- * @returns {number[]} Path indices, or empty array if unreachable
-*/
+ *
+ * 构造从起点到终点的一条跳跃路径
+ * @param {number[]} nums - 数组，每个元素是当前位置最大可跳跃步数
+ * @returns {number[]} 路径下标序列，不可达则返回空数组
+ */
 function jumpPath(nums) {
   if (!nums || nums.length === 0) {
     return [];
@@ -98,7 +98,7 @@ function jumpPath(nums) {
     return [0];
   }
 
-  // Check if reachable
+  // 先检查是否可以到达终点
   let maxReach = 0;
   for (let i = 0; i < nums.length; i++) {
     if (i > maxReach) {
@@ -114,15 +114,20 @@ function jumpPath(nums) {
     return [];
   }
 
-  // Greedy path construction
+  // 贪心构造路径
   const path = [0];
   let currentPos = 0;
 
+  // 遍历数组，构造跳跃路径
   while (currentPos < nums.length - 1) {
+    // 初始化下一个位置为当前位置
     let nextPos = currentPos;
+    // 初始化下一个位置能到达的最远位置为当前位置能到达的最远位置
     let maxNextReach = currentPos + nums[currentPos];
 
+    // 遍历当前位置能到达的范围内，找到能到达的最远位置
     for (let i = currentPos + 1; i <= currentPos + nums[currentPos] && i < nums.length; i++) {
+      // 如果当前位置能到达的最远位置小于当前位置能到达的最远位置，则更新当前位置能到达的最远位置
       if (i + nums[i] > maxNextReach) {
         maxNextReach = i + nums[i];
         nextPos = i;
@@ -141,11 +146,11 @@ function jumpPath(nums) {
 }
 
 /*
-*
- * Analyze a jump game problem comprehensively
- * @param {number[]} nums - Array where each element is max jump length
- * @returns {Object} Analysis with canReach, minJumps, and path
-*/
+ *
+ * 综合分析跳跃游戏问题
+ * @param {number[]} nums - 数组，每个元素是当前位置最大可跳跃步数
+ * @returns {Object} 分析结果对象，包含 canReach、minJumps 和 path
+ */
 function analyzeJumpGame(nums) {
   return {
     canReach: canJump(nums),

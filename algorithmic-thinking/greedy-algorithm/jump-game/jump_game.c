@@ -3,32 +3,32 @@
 #include <stdbool.h>
 
 /*
-* Jump Game - Can reach the last index with greedy jumps
+ * 跳跃游戏 - 使用贪心判断能否到达最后一个位置
  *
- * Algorithm:
- * - Given an array where each element is the maximum jump length from that position
- * - Determine if you can reach the last index
- * - Greedy approach: track the maximum index we can reach so far
- * - If at any point current index exceeds max reachable, return false
+ * 算法：
+ * - 给定一个数组，每个元素表示从当前位置最多能跳的步数
+ * - 判断是否可以从起点跳到最后一个下标
+ * - 贪心思路：维护当前能到达的最远下标 max_reach
+ * - 一旦当前位置超过 max_reach，则说明无法继续前进，返回 false
  *
- * Time Complexity: O(n) - single pass through array
- * Space Complexity: O(1) - only using variables
+ * 时间复杂度：O(n)（单次遍历数组）
+ * 空间复杂度：O(1)（只使用常数额外变量）
  *
- * Key Insight:
- * At each position i, we can reach up to position i + nums[i].
- * We maintain the maximum position we can reach (max_reach).
- * If we encounter a position we can't reach, it's impossible.
-*/
+ * 关键思想：
+ * 在位置 i 处，最多可以到达 i + nums[i]。
+ * 始终维护我们能到达的最远位置 max_reach。
+ * 如果出现某个位置无法到达，则整体不可达。
+ */
 
 /*
-* Determine if we can reach the last index of the array
+* 判断是否能到达数组的最后一个下标
  *
  * 参数:
- *   nums: Array where each element is max jump length from that position
- *   n: Length of the array
+ *   nums: 数组，每个元素表示当前位置最大可跳跃步数
+ *   n: 数组长度
  *
  * 返回:
- *   true if we can reach the last index, false otherwise
+ *   若能到达最后一个下标返回 true，否则返回 false
 */
 bool can_jump(int *nums, int n) {
     if (n == 0 || n == 1) {
@@ -39,22 +39,22 @@ bool can_jump(int *nums, int n) {
 
     for (int i = 0; i < n; i++) {
         /*
-If current position is beyond what we can reach, return false
-*/
+         * 如果当前位置已经超过最远可达位置，则无法继续前进，返回 false
+         */
         if (i > max_reach) {
             return false;
         }
 
         /*
-Update the maximum position we can reach
-*/
+         * 更新当前能到达的最远位置
+         */
         if (i + nums[i] > max_reach) {
             max_reach = i + nums[i];
         }
 
         /*
-Early termination: if we can reach the end, return true
-*/
+         * 提前结束：一旦最远可达位置已经到达或超过末尾，直接返回 true
+         */
         if (max_reach >= n - 1) {
             return true;
         }
@@ -64,15 +64,15 @@ Early termination: if we can reach the end, return true
 }
 
 /*
-* Find the minimum number of jumps needed to reach the last index
+* 计算到达数组最后一个下标所需的最少跳跃次数
  *
  * 参数:
- *   nums: Array where each element is max jump length from that position
- *   n: Length of the array
- *   jumps: Pointer to store the number of jumps
+ *   nums: 数组，每个元素表示当前位置最大可跳跃步数
+ *   n: 数组长度
+ *   jumps: 用于存储最少跳跃次数的指针
  *
  * 返回:
- *   true if reachable, false otherwise
+ *   若可达返回 true 并在 jumps 中写入次数；否则返回 false，jumps 置为 -1
 */
 bool min_jumps(int *nums, int n, int *jumps) {
     if (n == 0 || n == 1) {
@@ -81,8 +81,8 @@ bool min_jumps(int *nums, int n, int *jumps) {
     }
 
     /*
-First check if reachable
-*/
+     * 首先检查是否可以到达终点
+     */
     int max_reach = 0;
     for (int i = 0; i < n - 1; i++) {
         if (i > max_reach) {
@@ -100,8 +100,8 @@ First check if reachable
     }
 
     /*
-Find minimum jumps using greedy
-*/
+     * 使用贪心策略计算最少跳跃次数
+     */
     int jump_count = 0;
     int current_end = 0;
     int farthest = 0;
@@ -122,16 +122,16 @@ Find minimum jumps using greedy
 }
 
 /*
-* Find a path from start to end
+* 构造从起点到终点的一条跳跃路径
  *
  * 参数:
- *   nums: Array where each element is max jump length from that position
- *   n: Length of the array
- *   path: Array to store the path
- *   path_size: Pointer to store the path length
+ *   nums: 数组，每个元素表示当前位置最大可跳跃步数
+ *   n: 数组长度
+ *   path: 用于存储路径下标序列的数组
+ *   path_size: 用于存储路径长度的指针
  *
  * 返回:
- *   true if path found, false otherwise
+ *   若找到路径返回 true，否则返回 false
 */
 bool jump_path(int *nums, int n, int *path, int *path_size) {
     if (n == 0) {
@@ -145,16 +145,20 @@ bool jump_path(int *nums, int n, int *path, int *path_size) {
     }
 
     /*
-Check if reachable
-*/
+     * 先检查是否可以到达终点
+     */
     int max_reach = 0;
+    // 遍历数组，更新当前能到达的最远位置
     for (int i = 0; i < n; i++) {
+        // 如果当前位置已经超过最远可达位置，则无法继续前进，返回 false
         if (i > max_reach) {
             return false;
         }
+        // 更新当前能到达的最远位置
         if (i + nums[i] > max_reach) {
             max_reach = i + nums[i];
         }
+        // 如果已经能到达最后一位，提前返回 true
         if (max_reach >= n - 1) {
             break;
         }
@@ -165,17 +169,19 @@ Check if reachable
     }
 
     /*
-Greedy path construction
-*/
+     * 使用贪心策略构造一条跳跃路径
+     */
     path[0] = 0;
     int path_len = 1;
     int current_pos = 0;
 
+    // 遍历数组，构造跳跃路径
     while (current_pos < n - 1) {
         int next_pos = current_pos;
         int max_next_reach = current_pos + nums[current_pos];
-
+        // 遍历当前位置能到达的范围内，找到能到达的最远位置
         for (int i = current_pos + 1; i <= current_pos + nums[current_pos] && i < n; i++) {
+            // 如果当前位置能到达的最远位置小于当前位置能到达的最远位置，则更新当前位置能到达的最远位置
             if (i + nums[i] > max_next_reach) {
                 max_next_reach = i + nums[i];
                 next_pos = i;

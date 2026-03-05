@@ -1,23 +1,23 @@
 import java.util.*;
 
 /*
-*
- * Jump Game - Can reach the last index with greedy jumps
  *
- * Algorithm:
- * - Given an array where each element is the maximum jump length from that position
- * - Determine if you can reach the last index
- * - Greedy approach: track the maximum index we can reach so far
- * - If at any point current index exceeds max reachable, return false
+ * 跳跃游戏 - 使用贪心判断能否到达最后一个下标
  *
- * Time Complexity: O(n) - single pass through array
- * Space Complexity: O(1) - only using variables
+ * 算法：
+ * - 给定一个数组，每个元素表示从当前位置最多能跳的步数
+ * - 判断是否可以从起点到达最后一个下标
+ * - 贪心策略：维护当前能到达的最远位置 maxReach
+ * - 一旦当前位置超过 maxReach，则说明不可达
  *
- * Key Insight:
- * At each position i, we can reach up to position i + nums[i].
- * We maintain the maximum position we can reach (maxReach).
- * If we encounter a position we can't reach, it's impossible.
-*/
+ * 时间复杂度：O(n)（单次遍历数组）
+ * 空间复杂度：O(1)（仅使用常数个变量）
+ *
+ * 关键思想：
+ * 在下标 i 处，最多可以到达 i + nums[i]。
+ * 始终更新我们能到达的最远下标 maxReach。
+ * 若出现某个下标无法到达，则整体不可达。
+ */
 
 class JumpGameAnalysis {
     boolean canReach;
@@ -38,12 +38,11 @@ class JumpGameAnalysis {
 
 public class JumpGame {
     /*
-*
-     * Determine if we can reach the last index of the array
+     * 判断是否能到达数组的最后一个下标
      *
-     * @param nums Array where each element is max jump length from that position
-     * @return true if we can reach the last index, false otherwise
-*/
+     * @param nums 每个元素为当前位置最大可跳跃步数的数组
+     * @return 若能到达最后一个下标则为 true，否则为 false
+     */
     static boolean canJump(int[] nums) {
         if (nums == null || nums.length <= 1) {
             return true;
@@ -52,15 +51,15 @@ public class JumpGame {
         int maxReach = 0;
 
         for (int i = 0; i < nums.length; i++) {
-            // If current position is beyond what we can reach, return false
+            // 如果当前位置超过了最远可达位置，则无法继续前进，返回 false
             if (i > maxReach) {
                 return false;
             }
 
-            // Update the maximum position we can reach
+            // 更新当前能到达的最远位置
             maxReach = Math.max(maxReach, i + nums[i]);
 
-            // Early termination: if we can reach the end, return true
+            // 提前结束：一旦可以到达末尾，立刻返回 true
             if (maxReach >= nums.length - 1) {
                 return true;
             }
@@ -70,18 +69,17 @@ public class JumpGame {
     }
 
     /*
-*
-     * Find the minimum number of jumps needed to reach the last index
+     * 计算到达最后一个下标所需的最少跳跃次数
      *
-     * @param nums Array where each element is max jump length from that position
-     * @return Minimum jumps, or -1 if unreachable
-*/
+     * @param nums 每个元素为当前位置最大可跳跃步数的数组
+     * @return 最少跳跃次数，若不可达则返回 -1
+     */
     static int minJumps(int[] nums) {
         if (nums == null || nums.length <= 1) {
             return 0;
         }
 
-        // Check if reachable
+        // 先检查是否可以到达终点
         int maxReach = 0;
         for (int i = 0; i < nums.length - 1; i++) {
             if (i > maxReach) {
@@ -89,19 +87,20 @@ public class JumpGame {
             }
             maxReach = Math.max(maxReach, i + nums[i]);
         }
-
+        // 如果当前能到达的最远位置小于数组长度减1，则返回-1
         if (maxReach < nums.length - 1) {
             return -1;
         }
 
-        // Find minimum jumps using greedy
+        // 使用贪心策略计算最少跳跃次数
         int jumps = 0;
         int currentEnd = 0;
         int farthest = 0;
-
+        // 遍历数组，计算最少跳跃次数
         for (int i = 0; i < nums.length - 1; i++) {
+            // 更新当前能到达的最远位置
             farthest = Math.max(farthest, i + nums[i]);
-
+            // 如果当前位置等于当前结束位置，则跳跃次数加1，并更新当前结束位置
             if (i == currentEnd) {
                 jumps++;
                 currentEnd = farthest;
@@ -112,12 +111,11 @@ public class JumpGame {
     }
 
     /*
-*
-     * Find a path from start to end
+     * 构造从起点到终点的一条跳跃路径
      *
-     * @param nums Array where each element is max jump length from that position
-     * @return List representing the path indices, or empty if unreachable
-*/
+     * @param nums 每个元素为当前位置最大可跳跃步数的数组
+     * @return 路径下标序列，不可达则返回空列表
+     */
     static List<Integer> jumpPath(int[] nums) {
         List<Integer> path = new ArrayList<>();
 
@@ -130,7 +128,7 @@ public class JumpGame {
             return path;
         }
 
-        // Check if reachable
+        // 先检查是否可以到达终点
         int maxReach = 0;
         for (int i = 0; i < nums.length; i++) {
             if (i > maxReach) {
@@ -146,15 +144,18 @@ public class JumpGame {
             return new ArrayList<>();
         }
 
-        // Greedy path construction
+        // 贪心构造路径
         path.add(0);
         int currentPos = 0;
-
+        // 遍历数组，构造跳跃路径
         while (currentPos < nums.length - 1) {
+            // 初始化下一个位置为当前位置
             int nextPos = currentPos;
+            // 初始化下一个位置能到达的最远位置为当前位置能到达的最远位置
             int maxNextReach = currentPos + nums[currentPos];
-
+            // 遍历当前位置能到达的范围内，找到能到达的最远位置
             for (int i = currentPos + 1; i <= currentPos + nums[currentPos] && i < nums.length; i++) {
+                // 如果当前位置能到达的最远位置小于当前位置能到达的最远位置，则更新当前位置能到达的最远位置
                 if (i + nums[i] > maxNextReach) {
                     maxNextReach = i + nums[i];
                     nextPos = i;
@@ -173,12 +174,11 @@ public class JumpGame {
     }
 
     /*
-*
-     * Analyze a jump game problem comprehensively
+     * 综合分析跳跃游戏问题
      *
-     * @param nums Array where each element is max jump length from that position
-     * @return JumpGameAnalysis with complete results
-*/
+     * @param nums 每个元素为当前位置最大可跳跃步数的数组
+     * @return 包含完整分析结果的 JumpGameAnalysis 对象
+     */
     static JumpGameAnalysis analyzeJumpGame(int[] nums) {
         boolean canReach = canJump(nums);
         int minJumpsCount = minJumps(nums);
