@@ -1,6 +1,7 @@
 # 理解算法与数据结构，学习不同编程语言 [English](./README_en.md)
 
-![License](https://img.shields.io/badge/License-MIT-blue.svg) ![Last Updated](https://img.shields.io/badge/Last%20Updated-2026%2F03-green.svg) ![Status](https://img.shields.io/badge/Status-Active-brightgreen.svg) ![Contributors](https://img.shields.io/badge/Contributors-Welcome-orange.svg) [![GitHub stars](https://img.shields.io/github/stars/microwind/algorithms.svg?style=social&label=Star)](https://github.com/microwind/algorithms) [![GitHub forks](https://img.shields.io/github/forks/microwind/algorithms.svg?style=social&label=Fork)](https://github.com/microwind/algorithms/fork)
+
+![License](https://img.shields.io/badge/License-MIT-blue.svg) ![Last Updated](https://img.shields.io/github/last-commit/microwind/design-patterns) ![Build Status](https://img.shields.io/badge/build-passing-brightgreen) [![GitHub stars](https://img.shields.io/github/stars/microwind/algorithms.svg?style=social&label=Star)](https://github.com/microwind/algorithms) [![GitHub forks](https://img.shields.io/github/forks/microwind/algorithms.svg?style=social&label=Fork)](https://github.com/microwind/algorithms/fork)
 
 本仓库帮助你用**不同编程语言来学习数据结构和算法**，包括 `C`、`Java`、`Python`、`JavaScript`、`Go`、`TypeScript`、`Rust` 等，提供充分注释说明。让你既能理解算法与数据结构原理，又能掌握不用语言的特点。
 
