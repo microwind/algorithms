@@ -158,7 +158,7 @@ AI时代：  需求 → 理解问题 → 指导AI → 验证算法 → 上线
 
 ## 三、算法思想有什么作用？
 
-### 对程序员的核心价值
+### 对程序员的核心价值有以下几种
 
 #### 1. **快速问题识别与方案选择**
 ```
@@ -250,273 +250,128 @@ AI生成代码的问题：
 
 ---
 
-## 四、算法思想的大全与学习指南
+## 四、算法思想的5大思想与2大策略详解
 
 ### 算法思想全景图
 
-<!--
-```
-算法思想
-├── 问题分解
-│   ├── 递归
-│   │   ├── 阶乘
-│   │   ├── 斐波那契
-│   │   ├── 汉诺塔
-│   │   └── 树递归
-│   └── 分治
-│       ├── 二分查找
-│       ├── 归并排序
-│       └── 快速排序
-├── 优化思想
-│   ├── 动态规划
-│   │   ├── 背包问题
-│   │   ├── 编辑距离
-│   │   ├── 硬币兑换
-│   │   ├── 最长递增子序列 LIS
-│   │   └── 最长公共子序列 LCS
-│   └── 贪心
-│       ├── 活动选择
-│       ├── 哈夫曼编码
-│       ├── 最小生成树
-│       └── 跳跃游戏
-└── 穷举搜索
-    ├── 回溯
-    │   ├── N皇后问题
-    │   ├── 排列组合
-    │   ├── 迷宫求解
-    │   └── 子集生成
-    └── 位运算
-        ├── 位掩码枚举
-        ├── 汉明重量
-        └── 状态压缩
-```
--->
-
 ```mermaid
 graph TD
-    A[算法思想] --> B[问题分解]
-    A --> C[优化思想]
-    A --> D[穷举搜索]
-
-    B --> B1[递归]
-    B --> B2[分治]
-
-    B1 --> B11[阶乘]
-    B1 --> B12[斐波那契]
-    B1 --> B13[汉诺塔]
-    B1 --> B14[树递归]
-
-    B2 --> B21[二分查找]
-    B2 --> B22[归并排序]
-    B2 --> B23[快速排序]
-
-    C --> C1[动态规划]
-    C --> C2[贪心]
-
-    C1 --> C11[背包问题]
-    C1 --> C12[编辑距离]
-    C1 --> C13[硬币兑换]
-    C1 --> C14[最长递增子序列 LIS]
-    C1 --> C15[最长公共子序列 LCS]
-
-    C2 --> C21[活动选择]
-    C2 --> C22[哈夫曼编码]
-    C2 --> C23[最小生成树]
-    C2 --> C24[跳跃游戏]
-
-    D --> D1[回溯]
-    D --> D2[位运算]
-
-    D1 --> D11[N皇后问题]
-    D1 --> D12[排列组合]
-    D1 --> D13[迷宫求解]
-    D1 --> D14[子集生成]
-
-    D2 --> D21[位掩码枚举]
-    D2 --> D22[汉明重量]
-    D2 --> D23[状态压缩]
-```
-
-### 核心算法思想详解
-
-#### **1. 递归 (Recursion) - 问题分解的基础**
-
-**核心思想**：把大问题分解成相同的小问题，通过函数自身调用来解决
-
-**三要素**：基本情况 + 递归关系 + 向基本情况发展
-
-**典型特征**：
-- 自相似性：大问题和小问题的结构完全相同
-- 递归深度可控：要有明确的递推终止条件
-- 调用栈可用：不能深度太大（栈溢出）
-
-**适用场景**：
-```
-✓ 树和图的遍历（天然递归结构）
-✓ 分治法的基础（很多分治都用递归实现）
-✓ 动态规划的初始版本（记忆化递归）
-✓ 回溯算法的核心（递归 + 回退）
-```
-
-**经典算法**：
-- 阶乘、斐波那契数列
-- 汉诺塔、树的遍历（DFS）
-- 快速排序、归并排序
-
-**工程应用**：
-```python
-class TreeNode:
-    def __init__(self, id, name):
-        self.id = id
-        self.name = name
-        self.children = []
-
-def traverse_permission_tree(node, user_perms):
-    """递归遍历权限树，收集用户权限"""
-    if not node:
-        return
+    A[算法思想] --> B[5大核心思想]
+    A --> C[2大核心策略]
     
-    if node.id in user_perms:
-        print(f"User has permission: {node.name}")
+    B --> B1[贪心 Greedy]
+    B --> B2[分治 Divide and Conquer]
+    B --> B3[动态规划 Dynamic Programming]
+    B --> B4[回溯 Backtracking]
+    B --> B5[分支限界 Branch and Bound]
     
-    # 递归遍历子节点
-    for child in node.children:
-        traverse_permission_tree(child, user_perms)
-
-# 使用示例
-root = TreeNode(1, "系统管理")
-root.children = [
-    TreeNode(2, "用户管理"),
-    TreeNode(3, "数据管理")
-]
-user_permissions = {1, 2, 3}
-traverse_permission_tree(root, user_permissions)
+    C --> C1[随机化 Randomized Algorithms]
+    C --> C2[搜索策略 Search Strategies]
+    
+    C2 --> C21[BFS 广度优先搜索]
+    C2 --> C22[DFS 深度优先搜索]
+    C2 --> C23[A* 启发式搜索]
+    C2 --> C24[IDDFS 迭代加深DFS]
 ```
 
 ---
 
-#### **2. 分治法 (Divide & Conquer) - 大问题的分解**
+## #1 贪心算法 (Greedy)
 
-**核心思想**：分解问题 → 递归求解子问题 → 合并子问题的结果
+### 核心思想
+每一步都选择当前状态下的最优选择，期望得到全局最优解。
 
-**三个阶段**：
-1. **Divide**：把问题分解成若干个规模较小的相同问题
-2. **Conquer**：递归求解这些子问题
-3. **Combine**：合并子问题的解成原问题的解
+### 算法特征
+- **贪心选择性**：全局最优解可以通过一系列局部最优的贪心选择得到
+- **最优子结构**：某个问题的最优解包含其子问题的最优解
+- **无后效性**：前面的选择不影响后面的决策
 
-**适用条件**：
-- 问题具有最优子结构（子问题的最优解 = 整体最优解的组成部分）
-- 子问题相互独立（解决一个不影响另一个）
-- 可以有效地合并结果
-
-**典型复杂度**：O(n log n)
-
-**经典算法**：
-- 二分查找、三分查找
-- 归并排序、快速排序
-- 最大子数组问题（Maximum Subarray）
-- 快速幂运算
-
-**工程应用**：
-```python
-def merge(arr, left, mid, right):
-    """合并两个已排序的数组"""
-    left_part = arr[left:mid+1]
-    right_part = arr[mid+1:right+1]
+### 伪代码模板
+```
+function greedy_algorithm(items):
+    result = empty_set
+    sort items by greedy_criteria  # 按贪心标准排序
     
-    i = j = 0
-    k = left
-    
-    # 合并两个有序数组
-    while i < len(left_part) and j < len(right_part):
-        if left_part[i] <= right_part[j]:
-            arr[k] = left_part[i]
-            i += 1
-        else:
-            arr[k] = right_part[j]
-            j += 1
-        k += 1
-    
-    # 复制剩余元素
-    while i < len(left_part):
-        arr[k] = left_part[i]
-        i += 1
-        k += 1
-    
-    while j < len(right_part):
-        arr[k] = right_part[j]
-        j += 1
-        k += 1
-
-def merge_sort(arr, left, right):
-    """分治法排序：分 → 治 → 合"""
-    if left >= right:
-        return
-    
-    # Divide：分解
-    mid = (left + right) // 2
-    merge_sort(arr, left, mid)        # 排序左半部分
-    merge_sort(arr, mid + 1, right)   # 排序右半部分
-    
-    # Combine：合并
-    merge(arr, left, mid, right)
-
-# 使用示例
-arr = [64, 34, 25, 12, 22, 11, 90]
-merge_sort(arr, 0, len(arr) - 1)
-print(f"排序结果: {arr}")
+    for item in items:
+        if item is feasible(result):  # 检查是否可行
+            add item to result       # 贪心选择
+            
+    return result
 ```
 
----
+### 经典算法实现
 
-#### **3. 动态规划 (Dynamic Programming) - 优化递归**
+#### 1. 活动选择问题
+```python
+def activity_selection(activities):
+    """
+    贪心解决活动选择问题
+    选择最多互不重叠的活动
+    """
+    # 按结束时间排序（贪心标准）
+    activities.sort(key=lambda x: x.end_time)
+    
+    selected = []
+    last_end = -infinity
+    
+    for activity in activities:
+        if activity.start_time >= last_end:  # 可行性检查
+            selected.append(activity)         # 贪心选择
+            last_end = activity.end_time      # 更新状态
+    
+    return selected
+```
 
-**核心思想**：自底向上或自顶向下，用前面的计算结果来优化后面的计算
+#### 2. 哈夫曼编码
+```python
+def huffman_encoding(characters):
+    """
+    贪心构建最优前缀码
+    每次选择频率最低的两个节点合并
+    """
+    import heapq
+    
+    # 初始化优先队列
+    heap = []
+    for char, freq in characters.items():
+        heapq.heappush(heap, (freq, char))
+    
+    while len(heap) > 1:
+        # 贪心选择：频率最低的两个节点
+        freq1, char1 = heapq.heappop(heap)
+        freq2, char2 = heapq.heappop(heap)
+        
+        # 合并节点
+        merged_freq = freq1 + freq2
+        merged_char = f"({char1}+{char2})"
+        heapq.heappush(heap, (merged_freq, merged_char))
+    
+    return heap[0]  # 哈夫曼树根节点
+```
 
-**本质**：以空间换时间，用记忆化消除重复计算
-
-**必要条件**：
-- **最优子结构**：大问题的最优解 = 子问题最优解的组合
-- **重叠子问题**：不同的子问题有重复计算（否则分治就够了）
-
-**两种实现方式**：
-1. **自顶向下**（记忆化递归）：从大问题递归到小问题，用缓存存储
-2. **自底向上**（递推表格）：从小问题开始，迭代计算到大问题
-
-**典型复杂度**：从指数级O(2^n) 优化到多项式级O(n) 或 O(n²)
-
-**经典算法**：
-- 背包问题（0/1背包、完全背包、多重背包）
-- 最长递增子序列（LIS）、最长公共子序列（LCS）
-- 编辑距离（Edit Distance）
-- 硬币兑换、爬楼梯
-
-**工程应用**：
+### 项目实践：LRU缓存系统
 ```python
 class LRUCache:
-    """LRU缓存实现 - 贪心算法应用"""
+    """贪心算法应用：LRU缓存淘汰策略"""
     
     def __init__(self, capacity):
         self.capacity = capacity
-        self.cache = {}  # 哈希表存储键值对
-        self.order = []  # 列表维护使用顺序
+        self.cache = {}      # 哈希表：O(1)查找
+        self.order = []      # 双向链表：维护访问顺序
     
     def get(self, key):
-        """获取缓存值，O(1)时间复杂度"""
         if key not in self.cache:
             return -1
         
-        # 移动到末尾（标记为最近使用）
+        # 贪心：标记为最近使用
         self.order.remove(key)
         self.order.append(key)
         return self.cache[key]
     
     def put(self, key, value):
-        """放入缓存值，O(1)时间复杂度"""
         if key in self.cache:
             # 更新现有值
             self.cache[key] = value
-            # 移动到末尾
             self.order.remove(key)
             self.order.append(key)
         else:
@@ -528,238 +383,1244 @@ class LRUCache:
             if len(self.cache) > self.capacity:
                 oldest = self.order.pop(0)
                 del self.cache[oldest]
-
-# 使用示例
-lru = LRUCache(3)
-lru.put(1, "A")
-lru.put(2, "B")
-lru.put(3, "C")
-print(lru.get(2))  # 输出: B
-lru.put(4, "D")    # 淘汰A
-print(lru.get(1))  # 输出: -1 (已被淘汰)
 ```
+
+### 适用场景
+- ✅ 最小生成树（Prim、Kruskal）
+- ✅ 单源最短路径（Dijkstra）
+- ✅ 数据压缩（哈夫曼编码）
+- ✅ 任务调度、资源分配
+- ✅ 缓存淘汰策略
 
 ---
 
-#### **4. 贪心算法 (Greedy) - 局部最优的艺术**
+## #2 分治算法 (Divide and Conquer)
 
-**核心思想**：每一步都选择当前状态下的最优选择，期望得到全局最优解
+### 核心思想
+分解问题 → 递归求解子问题 → 合并子问题的结果
 
-**关键特征**：
-- **贪心选择性**：全局最优解可以通过一系列局部最优的贪心选择得到
-- **最优子结构**：某个问题的最优解包含其子问题的最优解
-- **无后效性**：前面的选择不影响后面的决策
+### 三个阶段
+1. **Divide**：把问题分解成若干个规模较小的相同问题
+2. **Conquer**：递归求解这些子问题
+3. **Combine**：合并子问题的解成原问题的解
 
-**适用与不适用**：
+### 伪代码模板
 ```
-✓ 适用：有贪心选择性质的问题
-  - 最小生成树
-  - 哈夫曼编码
-  - 活动选择问题
-
-❌ 不适用：需要全局权衡的问题
-  - 背包问题（需要DP）
-  - TSP旅行商问题（需要更复杂的方法）
+function divide_and_conquer(problem):
+    if problem is small enough:
+        return solve_directly(problem)  # 基础情况
+    
+    # Divide：分解问题
+    subproblems = divide(problem)
+    
+    # Conquer：递归求解子问题
+    results = []
+    for subproblem in subproblems:
+        results.append(divide_and_conquer(subproblem))
+    
+    # Combine：合并结果
+    return combine(results)
 ```
 
-**经典算法**：
-- 活动选择问题（Activity Selection）
-- 哈夫曼编码（数据压缩）
-- 最小生成树（Prim、Kruskal算法）
-- 跳跃游戏（Jump Game）
-- Dijkstra最短路径
+### 经典算法实现
 
-**工程应用**：
+#### 1. 归并排序
 ```python
-class Server:
-    def __init__(self, id, current_load=0):
-        self.id = id
-        self.current_load = current_load
-
-class LoadBalancer:
-    def __init__(self, servers):
-        self.servers = servers
+def merge_sort(arr):
+    """分治排序：分 → 治 → 合"""
+    if len(arr) <= 1:
+        return arr  # 基础情况
     
-    def assign_task(self, task_load):
-        """贪心选择：选择负载最低的服务器"""
-        best_server = min(self.servers, key=lambda s: s.current_load)
-        best_server.current_load += task_load
-        return best_server
+    # Divide：分解
+    mid = len(arr) // 2
+    left = merge_sort(arr[:mid])      # 递归排序左半
+    right = merge_sort(arr[mid:])     # 递归排序右半
     
-    def balance_tasks(self, tasks):
-        """为所有任务分配服务器"""
-        assigned_servers = []
-        for task in tasks:
-            server = self.assign_task(task)
-            assigned_servers.append(server)
-        return assigned_servers
+    # Combine：合并
+    return merge(left, right)
 
-# 使用示例
-servers = [Server(i, 0) for i in range(3)]
-balancer = LoadBalancer(servers)
-tasks = [5, 3, 8, 2, 7]
-
-assigned = balancer.balance_tasks(tasks)
-print(f"分配结果: {[s.id for s in assigned]}")
-print(f"服务器负载: {[s.current_load for s in servers]}")
+def merge(left, right):
+    """合并两个有序数组"""
+    result = []
+    i = j = 0
+    
+    # 合并过程
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+    
+    # 处理剩余元素
+    result.extend(left[i:])
+    result.extend(right[j:])
+    return result
 ```
+
+#### 2. 快速排序
+```python
+def quick_sort(arr, low, high):
+    """分治快速排序"""
+    if low < high:
+        # Divide：分区操作
+        pivot_index = partition(arr, low, high)
+        
+        # Conquer：递归排序子数组
+        quick_sort(arr, low, pivot_index - 1)
+        quick_sort(arr, pivot_index + 1, high)
+
+def partition(arr, low, high):
+    """分区：选择基准，重新排列数组"""
+    pivot = arr[high]  # 选择最后一个元素作为基准
+    i = low - 1        # 小于基准的元素的边界
+    
+    for j in range(low, high):
+        if arr[j] <= pivot:      # 当前元素小于等于基准
+            i += 1
+            arr[i], arr[j] = arr[j], arr[i]  # 交换
+    
+    # 将基准放到正确位置
+    arr[i + 1], arr[high] = arr[high], arr[i + 1]
+    return i + 1
+```
+
+### 项目实践：分布式数据处理
+```python
+class DistributedProcessor:
+    """分治思想：大数据分布式处理"""
+    
+    def process_large_dataset(self, data, num_workers):
+        """分治处理大数据集"""
+        # Divide：数据分片
+        chunks = self.split_data(data, num_workers)
+        
+        # Conquer：并行处理
+        results = []
+        for chunk in chunks:
+            result = self.process_chunk_async(chunk)
+            results.append(result)
+        
+        # Combine：合并结果
+        final_result = self.merge_results(results)
+        return final_result
+    
+    def split_data(self, data, num_chunks):
+        """数据分片"""
+        chunk_size = len(data) // num_chunks
+        return [data[i:i+chunk_size] for i in range(0, len(data), chunk_size)]
+    
+    def merge_results(self, results):
+        """合并处理结果"""
+        # 根据具体需求实现合并逻辑
+        merged = {}
+        for result in results:
+            merged.update(result)
+        return merged
+```
+
+### 适用场景
+- ✅ 排序算法（归并排序、快速排序）
+- ✅ 搜索算法（二分查找）
+- ✅ 大数运算（快速幂）
+- ✅ 图算法（最近公共祖先）
+- ✅ 分布式计算、并行处理
 
 ---
 
-#### **5. 回溯算法 (Backtracking) - 穷举的艺术**
+## #3 动态规划 (Dynamic Programming)
 
-**核心思想**：尝试 → 探索 → 回退，系统地尝试所有可能性直到找到解
+### 核心思想
+以空间换时间，用记忆化消除重复计算
 
-**本质**：带约束的深度优先搜索（DFS）
+### 必要条件
+- **最优子结构**：大问题的最优解 = 子问题最优解的组合
+- **重叠子问题**：不同的子问题有重复计算
 
-**关键步骤**：
+### 两种实现方式
+1. **自顶向下**（记忆化递归）
+2. **自底向上**（递推表格）
+
+### 伪代码模板
+```
+# 自底向上实现
+function dynamic_programming(problem):
+    # 初始化DP表
+    dp = create_table(problem_size)
+    
+    # 填充基础情况
+    dp[0] = base_case_value
+    
+    # 递推计算
+    for i from 1 to problem_size:
+        dp[i] = compute_optimal(dp, i)
+    
+    return dp[problem_size]
+
+# 自顶向下实现
+function memoization(problem):
+    memo = {}  # 记忆化缓存
+    
+    def solve(subproblem):
+        if subproblem in memo:
+            return memo[subproblem]
+        
+        if subproblem is base_case:
+            return base_value
+        
+        result = recurrence(solve, subproblem)
+        memo[subproblem] = result
+        return result
+    
+    return solve(problem)
+```
+
+### 经典算法实现
+
+#### 1. 背包问题
+```python
+def knapsack_01(weights, values, capacity):
+    """0-1背包问题：动态规划求解"""
+    n = len(weights)
+    dp = [[0] * (capacity + 1) for _ in range(n + 1)]
+    
+    # 填充DP表
+    for i in range(1, n + 1):
+        for w in range(capacity + 1):
+            if weights[i-1] <= w:
+                # 选择第i个物品或不选择
+                dp[i][w] = max(
+                    values[i-1] + dp[i-1][w - weights[i-1]],  # 选择
+                    dp[i-1][w]  # 不选择
+                )
+            else:
+                dp[i][w] = dp[i-1][w]  # 不能选择
+    
+    return dp[n][capacity]  # 最大价值
+```
+
+#### 2. 编辑距离
+```python
+def edit_distance(word1, word2):
+    """编辑距离：Levenshtein距离"""
+    m, n = len(word1), len(word2)
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
+    
+    # 基础情况
+    for i in range(m + 1):
+        dp[i][0] = i  # 删除所有字符
+    for j in range(n + 1):
+        dp[0][j] = j  # 插入所有字符
+    
+    # 递推计算
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if word1[i-1] == word2[j-1]:
+                dp[i][j] = dp[i-1][j-1]  # 字符相同，无需操作
+            else:
+                dp[i][j] = 1 + min(
+                    dp[i-1][j],    # 删除
+                    dp[i][j-1],    # 插入
+                    dp[i-1][j-1]   # 替换
+                )
+    
+    return dp[m][n]  # 最小编辑距离
+```
+
+### 项目实践：推荐系统优化
+```python
+class RecommendationOptimizer:
+    """动态规划优化推荐系统"""
+    
+    def optimize_recommendations(self, items, constraints):
+        """
+        动态规划优化推荐结果
+        在满足约束条件下最大化推荐效果
+        """
+        n = len(items)
+        max_time = constraints['max_time']
+        max_memory = constraints['max_memory']
+        
+        # 3维DP表：[物品数][时间][内存]
+        dp = [[[0] * (max_memory + 1) for _ in range(max_time + 1)] 
+             for _ in range(n + 1)]
+        
+        # 填充DP表
+        for i in range(1, n + 1):
+            item = items[i-1]
+            for t in range(max_time + 1):
+                for m in range(max_memory + 1):
+                    # 不选择当前物品
+                    dp[i][t][m] = dp[i-1][t][m]
+                    
+                    # 选择当前物品（如果满足约束）
+                    if (item.time <= t and item.memory <= m):
+                        dp[i][t][m] = max(
+                            dp[i][t][m],
+                            item.value + dp[i-1][t-item.time][m-item.memory]
+                        )
+        
+        # 回溯找到最优推荐
+        return self.backtrack_solution(dp, items, constraints)
+    
+    def backtrack_solution(self, dp, items, constraints):
+        """回溯找到最优解"""
+        solution = []
+        i, t, m = len(items), constraints['max_time'], constraints['max_memory']
+        
+        while i > 0 and (t > 0 or m > 0):
+            if dp[i][t][m] != dp[i-1][t][m]:
+                # 选择了第i个物品
+                item = items[i-1]
+                solution.append(item)
+                t -= item.time
+                m -= item.memory
+            i -= 1
+        
+        return list(reversed(solution))
+```
+
+### 适用场景
+- ✅ 资源分配问题
+- ✅ 路径规划问题
+- ✅ 序列匹配问题
+- ✅ 优化决策问题
+- ✅ 机器学习算法
+
+---
+
+## #4 回溯算法 (Backtracking)
+
+### 核心思想
+尝试 → 探索 → 回退，系统地尝试所有可能性直到找到解
+
+### 本质
+带约束的深度优先搜索（DFS）
+
+### 关键步骤
 1. 做出选择
 2. 在这个选择上进行递归
 3. 撤销选择（回退）
 4. 尝试其他选择
 
-**适用场景**：
+### 伪代码模板
 ```
-✓ 求所有解的问题
-✓ 约束满足问题（CSP）
-✓ 组合问题（排列、组合、子集）
-✓ 路径查找问题
-✓ 游戏AI（象棋、围棋）
-```
-
-**经典算法**：
-- N皇后问题
-- 全排列、组合生成、子集生成
-- 迷宫求解、岛屿问题
-- 电话号码字母组合
-- 单词搜索
-
-**工程应用**：
-```python
-def generate_permission_combinations(permissions, target_count):
-    """回溯生成权限组合"""
-    results = []
-    current_combo = []
+function backtrack(current_state, path):
+    if is_solution(current_state):
+        add path to solutions
+        return
     
-    def backtrack(start):
-        # 找到一个完整解
-        if len(current_combo) == target_count:
-            results.append(current_combo.copy())
+    for choice in available_choices(current_state):
+        if is_valid(choice):
+            # 做出选择
+            make_choice(current_state, choice)
+            path.append(choice)
+            
+            # 递归探索
+            backtrack(current_state, path)
+            
+            # 撤销选择（回退）
+            undo_choice(current_state, choice)
+            path.pop()
+```
+
+### 经典算法实现
+
+#### 1. N皇后问题
+```python
+def solve_n_queens(n):
+    """回溯解决N皇后问题"""
+    solutions = []
+    board = [[0] * n for _ in range(n)]
+    
+    def backtrack(row):
+        if row == n:
+            # 找到一个解
+            solutions.append([row[:] for row in board])
             return
         
-        # 尝试选择每个权限
-        for i in range(start, len(permissions)):
-            # 选择
-            current_combo.append(permissions[i])
-            # 递归
-            backtrack(i + 1)
-            # 回退
-            current_combo.pop()
+        for col in range(n):
+            if is_safe(board, row, col):
+                # 做出选择
+                board[row][col] = 1
+                
+                # 递归探索
+                backtrack(row + 1)
+                
+                # 撤销选择（回退）
+                board[row][col] = 0
     
     backtrack(0)
-    return results
+    return solutions
 
-# 使用示例
-permissions = [1, 2, 3, 4, 5]  # 权限ID列表
-combinations = generate_permission_combinations(permissions, 3)
-print(f"生成的权限组合数量: {len(combinations)}")
-print(f"前5个组合: {combinations[:5]}")
+def is_safe(board, row, col):
+    """检查在(row, col)放置皇后是否安全"""
+    n = len(board)
+    
+    # 检查列
+    for i in range(row):
+        if board[i][col] == 1:
+            return False
+    
+    # 检查左对角线
+    for i, j in zip(range(row-1, -1, -1), range(col-1, -1, -1)):
+        if board[i][j] == 1:
+            return False
+    
+    # 检查右对角线
+    for i, j in zip(range(row-1, -1, -1), range(col+1, n)):
+        if board[i][j] == 1:
+            return False
+    
+    return True
 ```
+
+#### 2. 全排列生成
+```python
+def generate_permutations(nums):
+    """回溯生成全排列"""
+    permutations = []
+    used = [False] * len(nums)
+    current = []
+    
+    def backtrack():
+        if len(current) == len(nums):
+            permutations.append(current.copy())
+            return
+        
+        for i in range(len(nums)):
+            if not used[i]:
+                # 做出选择
+                used[i] = True
+                current.append(nums[i])
+                
+                # 递归探索
+                backtrack()
+                
+                # 撤销选择（回退）
+                used[i] = False
+                current.pop()
+    
+    backtrack()
+    return permutations
+```
+
+### 项目实践：权限系统配置
+```python
+class PermissionConfigurator:
+    """回溯生成权限配置方案"""
+    
+    def generate_permission_schemes(self, roles, permissions, constraints):
+        """回溯生成满足约束的权限配置"""
+        schemes = []
+        current_scheme = {}
+        
+        def backtrack(role_index):
+            if role_index == len(roles):
+                # 检查方案是否满足所有约束
+                if self.validate_scheme(current_scheme, constraints):
+                    schemes.append(current_scheme.copy())
+                return
+            
+            role = roles[role_index]
+            # 为当前角色生成可能的权限组合
+            possible_perms = self.generate_permission_combinations(
+                role, permissions, constraints
+            )
+            
+            for perm_set in possible_perms:
+                # 做出选择：为角色分配权限
+                current_scheme[role] = perm_set
+                
+                # 递归探索下一个角色
+                backtrack(role_index + 1)
+                
+                # 撤销选择（回退）
+                del current_scheme[role]
+        
+        backtrack(0)
+        return schemes
+    
+    def generate_permission_combinations(self, role, permissions, constraints):
+        """为角色生成可能的权限组合"""
+        combinations = []
+        
+        def generate_perms(index, current_perms):
+            if index == len(permissions):
+                if self.validate_role_permissions(role, current_perms, constraints):
+                    combinations.append(set(current_perms))
+                return
+            
+            perm = permissions[index]
+            
+            # 选择不包含该权限
+            generate_perms(index + 1, current_perms)
+            
+            # 选择包含该权限
+            current_perms.append(perm)
+            generate_perms(index + 1, current_perms)
+            current_perms.pop()
+        
+        generate_perms(0, [])
+        return combinations
+```
+
+### 适用场景
+- ✅ 约束满足问题
+- ✅ 组合优化问题
+- ✅ 路径查找问题
+- ✅ 游戏AI算法
+- ✅ 配置生成问题
 
 ---
 
-#### **6. 位运算 (Bit Manipulation) - 底层优化的秘密**
+## #5 分支限界算法 (Branch and Bound)
 
-**核心思想**：利用二进制位操作进行高效计算和优化
+### 核心思想
+通过剪枝来减少搜索空间，在回溯的基础上加入界限函数
 
-**常见操作**：
+### 算法特点
+- **分支**：将问题分解为子问题
+- **限界**：计算子问题的界限，剪枝不可能产生最优解的分支
+- **剪枝**：提前终止不可能产生最优解的搜索路径
+
+### 伪代码模板
 ```
-& (AND)    ：与运算，取交集
-| (OR)     ：或运算，取并集
-^ (XOR)    ：异或运算，找不同
-<< (左移)  ：乘以2的幂
->> (右移)  ：除以2的幂
-~ (取反)   ：所有位反转
+function branch_and_bound(problem):
+    best_solution = None
+    best_value = -infinity
+    
+    # 优先队列（按界限值排序）
+    queue = PriorityQueue()
+    queue.push(initial_state, calculate_bound(initial_state))
+    
+    while not queue.is_empty():
+        current_state = queue.pop()
+        current_bound = current_state.bound
+        
+        # 剪枝：如果界限不如当前最优解
+        if current_bound <= best_value:
+            continue
+        
+        if is_solution(current_state):
+            if current_state.value > best_value:
+                best_solution = current_state
+                best_value = current_state.value
+        else:
+            # 分支：生成子状态
+            for child_state in branch(current_state):
+                child_bound = calculate_bound(child_state)
+                if child_bound > best_value:
+                    queue.push(child_state, child_bound)
+    
+    return best_solution
 ```
 
-**性质和技巧**：
-```
-a ^ a = 0          # 相同数的XOR为0
-a ^ 0 = a          # 与0的XOR为原值
-a & (a-1) = 0      # 消除最后一个1
-(a & -a)           # 提取最后一个1
-n & 1              # 检查是否为奇数
-```
+### 经典算法实现
 
-**经典算法**：
-- 检查2的幂次（Power of Two）
-- 位计数（Count Bits/Population Count）
-- 单独的数字（Single Number）
-- 汉明距离（Hamming Distance）
-
-**工程应用**：
+#### 1. 0-1背包问题（分支限界）
 ```python
-# 权限定义（用位表示）
-READ = 1 << 0     # 001
-WRITE = 1 << 1    # 010
-EXECUTE = 1 << 2  # 100
+import heapq
 
-class PermissionManager:
-    def __init__(self):
-        self.users = {}  # user_id -> permissions
-    
-    def grant_permission(self, user_id, perm):
-        """授予权限 - 位OR操作"""
-        if user_id not in self.users:
-            self.users[user_id] = 0
-        self.users[user_id] |= perm  # 位OR：添加权限位
-    
-    def revoke_permission(self, user_id, perm):
-        """撤销权限 - 位AND操作"""
-        if user_id in self.users:
-            self.users[user_id] &= ~perm  # 位AND：移除权限位
-    
-    def has_permission(self, user_id, perm):
-        """检查权限 - 位AND检查"""
-        return (self.users.get(user_id, 0) & perm) != 0
-    
-    def has_all_permissions(self, user_id, perms):
-        """检查权限集合"""
-        return (self.users.get(user_id, 0) & perms) == perms
+class Item:
+    def __init__(self, weight, value, index):
+        self.weight = weight
+        self.value = value
+        self.ratio = value / weight
+        self.index = index
 
-# 使用示例
-pm = PermissionManager()
-pm.grant_permission(1, READ | WRITE)  # 用户1获得读写权限
-pm.grant_permission(1, EXECUTE)         # 用户1获得执行权限
+class Node:
+    def __init__(self, level, value, weight, bound):
+        self.level = level      # 当前考虑的物品索引
+        self.value = value      # 当前价值
+        self.weight = weight    # 当前重量
+        self.bound = bound      # 界限值
+    
+    def __lt__(self, other):
+        return self.bound > other.bound  # 最大堆
 
-print(f"用户1有读权限: {pm.has_permission(1, READ)}")      # True
-print(f"用户1有写权限: {pm.has_permission(1, WRITE)}")      # True
-print(f"用户1有执行权限: {pm.has_permission(1, EXECUTE)}")  # True
-print(f"用户1有管理员权限: {pm.has_permission(1, READ | WRITE | EXECUTE)}")  # True
+def knapsack_branch_and_bound(weights, values, capacity):
+    """分支限界解决0-1背包问题"""
+    items = [Item(weights[i], values[i], i) for i in range(len(weights))]
+    items.sort(key=lambda x: x.ratio, reverse=True)  # 按价值重量比排序
+    
+    max_value = 0
+    root = Node(-1, 0, 0, 0)
+    root.bound = calculate_bound(root, items, capacity)
+    
+    # 最大堆
+    heap = []
+    heapq.heappush(heap, root)
+    
+    while heap:
+        node = heapq.heappop(heap)
+        
+        # 剪枝
+        if node.bound <= max_value:
+            continue
+        
+        # 考虑下一个物品
+        level = node.level + 1
+        
+        # 不包含当前物品的分支
+        excluded = Node(level, node.value, node.weight, 0)
+        excluded.bound = calculate_bound(excluded, items, capacity)
+        if excluded.bound > max_value:
+            heapq.heappush(heap, excluded)
+        
+        # 包含当前物品的分支
+        if node.weight + items[level].weight <= capacity:
+            included = Node(level, 
+                           node.value + items[level].value,
+                           node.weight + items[level].weight,
+                           0)
+            
+            if included.weight <= capacity and included.value > max_value:
+                max_value = included.value
+            
+            included.bound = calculate_bound(included, items, capacity)
+            if included.bound > max_value:
+                heapq.heappush(heap, included)
+    
+    return max_value
 
-pm.revoke_permission(1, WRITE)  # 撤销写权限
-print(f"撤销后用户1有写权限: {pm.has_permission(1, WRITE)}")  # False
+def calculate_bound(node, items, capacity):
+    """计算界限值（贪心上界）"""
+    if node.weight >= capacity:
+        return 0
+    
+    bound = node.value
+    j = node.level + 1
+    total_weight = node.weight
+    
+    # 贪心添加剩余物品
+    while j < len(items) and total_weight + items[j].weight <= capacity:
+        bound += items[j].value
+        total_weight += items[j].weight
+        j += 1
+    
+    # 添加部分物品
+    if j < len(items):
+        bound += (capacity - total_weight) * items[j].ratio
+    
+    return bound
 ```
 
-### 学习路径与方法
+### 项目实践：任务调度优化
+```python
+class TaskScheduler:
+    """分支限界优化任务调度"""
+    
+    def __init__(self, tasks, processors, time_limit):
+        self.tasks = tasks
+        self.processors = processors
+        self.time_limit = time_limit
+        self.best_schedule = None
+        self.best_makespan = float('inf')
+    
+    def optimize_schedule(self):
+        """分支限界优化任务调度"""
+        import heapq
+        
+        # 初始状态
+        initial_state = ScheduleState(
+            task_index=0,
+            processor_times=[0] * self.processors,
+            assigned_tasks=[],
+            current_makespan=0
+        )
+        
+        # 计算初始界限
+        initial_state.bound = self.calculate_lower_bound(initial_state)
+        
+        # 优先队列（最小堆，按makespan排序）
+        heap = []
+        heapq.heappush(heap, initial_state)
+        
+        while heap:
+            state = heapq.heappop(heap)
+            
+            # 剪枝
+            if state.bound >= self.best_makespan:
+                continue
+            
+            # 所有任务已分配
+            if state.task_index == len(self.tasks):
+                if state.current_makespan < self.best_makespan:
+                    self.best_makespan = state.current_makespan
+                    self.best_schedule = state.assigned_tasks.copy()
+                continue
+            
+            # 分支：为当前任务分配到每个处理器
+            for processor in range(self.processors):
+                new_state = self.assign_task(state, processor)
+                new_state.bound = self.calculate_lower_bound(new_state)
+                
+                if new_state.bound < self.best_makespan:
+                    heapq.heappush(heap, new_state)
+        
+        return self.best_schedule, self.best_makespan
+    
+    def assign_task(self, state, processor):
+        """为任务分配处理器"""
+        new_state = ScheduleState(
+            task_index=state.task_index + 1,
+            processor_times=state.processor_times.copy(),
+            assigned_tasks=state.assigned_tasks + [(processor, state.task_index)],
+            current_makespan=0
+        )
+        
+        # 更新处理器时间
+        new_state.processor_times[processor] += self.tasks[state.task_index].duration
+        new_state.current_makespan = max(new_state.processor_times)
+        
+        return new_state
+    
+    def calculate_lower_bound(self, state):
+        """计算下界（乐观估计）"""
+        if state.task_index == len(self.tasks):
+            return state.current_makespan
+        
+        # 当前最大处理器时间
+        current_max = max(state.processor_times)
+        
+        # 剩余任务的最小可能时间
+        remaining_time = sum(
+            task.duration for task in self.tasks[state.task_index:]
+        )
+        
+        # 负载均衡的理想情况
+        ideal_balance = (current_max + remaining_time) / self.processors
+        
+        return max(current_max, ideal_balance)
 
-#### 推荐学习顺序
-
+class ScheduleState:
+    def __init__(self, task_index, processor_times, assigned_tasks, current_makespan):
+        self.task_index = task_index
+        self.processor_times = processor_times
+        self.assigned_tasks = assigned_tasks
+        self.current_makespan = current_makespan
+        self.bound = 0
+    
+    def __lt__(self, other):
+        return self.bound < other.bound
 ```
-第1层：基础认知
-  1. 递归        ← 必须掌握函数调用栈
-  2. 分治法      ← 递归的升级应用
 
-第2层：优化思想
-  3. 动态规划    ← 优化递归，引入记忆化
-  4. 贪心算法    ← 不同的优化思路
+### 适用场景
+- ✅ 组合优化问题
+- ✅ 资源分配问题
+- ✅ 调度问题
+- ✅ 路径优化问题
+- ✅ 整数规划问题
 
-第3层：高级应用
-  5. 回溯算法    ← 穷举搜索，组合问题
-  6. 位运算      ← 底层优化，性能升级
+---
+
+## #6 随机化算法 (Randomized Algorithms)
+
+### 核心思想
+利用随机性来简化算法设计、提高性能或解决确定性算法难以处理的问题
+
+### 算法类型
+1. **拉斯维加斯算法**：总是给出正确答案，但运行时间随机
+2. **蒙特卡洛算法**：运行时间确定，但可能给出错误答案
+
+### 伪代码模板
+```
+# 拉斯维加斯算法
+function las_vegas_algorithm(input):
+    while True:
+        random_choice = make_random_choice()
+        result = process_choice(random_choice)
+        
+        if is_valid_result(result):
+            return result
+        # 否则继续尝试
+
+# 蒙特卡洛算法
+function monte_carlo_algorithm(input, error_probability):
+    for i in range(num_trials):
+        random_choice = make_random_choice()
+        result = process_choice(random_choice)
+        
+        if confidence_in_result(result) > (1 - error_probability):
+            return result
+    
+    return best_result_found
 ```
 
-## 五、常见算法分类及实战应用
+### 经典算法实现
+
+#### 1. 快速选择（随机化版本）
+```python
+import random
+
+def quick_select_randomized(arr, k):
+    """随机化快速选择算法"""
+    if len(arr) == 1:
+        return arr[0]
+    
+    # 随机选择基准
+    pivot = random.choice(arr)
+    
+    # 分区
+    less = [x for x in arr if x < pivot]
+    equal = [x for x in arr if x == pivot]
+    greater = [x for x in arr if x > pivot]
+    
+    # 递归查找
+    if k < len(less):
+        return quick_select_randomized(less, k)
+    elif k < len(less) + len(equal):
+        return pivot
+    else:
+        return quick_select_randomized(greater, k - len(less) - len(equal))
+```
+
+#### 2. 随机化最小生成树
+```python
+import random
+
+def randomized_mst(graph):
+    """随机化最小生成树算法"""
+    vertices = list(graph.keys())
+    edges = []
+    
+    # 随机化顶点顺序
+    random.shuffle(vertices)
+    
+    # Prim算法的随机化版本
+    visited = {vertices[0]}
+    mst_edges = []
+    
+    while len(visited) < len(vertices):
+        # 随机选择一条连接已访问和未访问顶点的边
+        candidate_edges = []
+        
+        for v in visited:
+            for neighbor, weight in graph[v]:
+                if neighbor not in visited:
+                    candidate_edges.append((weight, v, neighbor))
+        
+        # 随机选择（实际应用中会选择最小权重边）
+        weight, u, v = random.choice(candidate_edges)
+        
+        visited.add(v)
+        mst_edges.append((u, v, weight))
+    
+    return mst_edges
+```
+
+### 项目实践：负载均衡随机化
+```python
+class RandomizedLoadBalancer:
+    """随机化负载均衡器"""
+    
+    def __init__(self, servers):
+        self.servers = servers
+        self.server_weights = {server: 1.0 for server in servers}
+        self.response_times = {server: [] for server in servers}
+    
+    def assign_task_randomized(self, task):
+        """随机化任务分配"""
+        # 权重随机选择
+        total_weight = sum(self.server_weights.values())
+        rand_val = random.uniform(0, total_weight)
+        
+        current_weight = 0
+        selected_server = None
+        
+        for server, weight in self.server_weights.items():
+            current_weight += weight
+            if rand_val <= current_weight:
+                selected_server = server
+                break
+        
+        return selected_server
+    
+    def update_weights(self):
+        """基于响应时间更新权重"""
+        for server in self.servers:
+            if self.response_times[server]:
+                avg_response = sum(self.response_times[server]) / len(self.response_times[server])
+                # 响应时间越短，权重越高
+                self.server_weights[server] = 1.0 / (avg_response + 1)
+        
+        # 归一化权重
+        total_weight = sum(self.server_weights.values())
+        for server in self.servers:
+            self.server_weights[server] /= total_weight
+    
+    def simulate_randomized_routing(self, tasks):
+        """模拟随机化路由"""
+        assignments = []
+        
+        for task in tasks:
+            server = self.assign_task_randomized(task)
+            assignments.append((task, server))
+            
+            # 模拟响应时间（随机化）
+            response_time = random.expovariate(1.0 / self.server_weights[server])
+            self.response_times[server].append(response_time)
+        
+        return assignments
+```
+
+### 适用场景
+- ✅ 快速选择和排序
+- ✅ 图算法优化
+- ✅ 负载均衡
+- ✅ 密码学算法
+- ✅ 机器学习算法
+
+---
+
+## #7 搜索策略 (Search Strategies)
+
+### 核心思想
+系统性地在解空间中搜索目标，不同的策略适用于不同类型的问题
+
+### 搜索策略分类
+1. **BFS**：广度优先搜索，逐层扩展
+2. **DFS**：深度优先搜索，一条路走到底
+3. **A***：启发式搜索，结合代价和启发
+4. **IDDFS**：迭代加深DFS，结合BFS和DFS优点
+
+### 伪代码模板
+
+#### BFS模板
+```
+function bfs(start, goal):
+    queue = Queue()
+    queue.enqueue(start)
+    visited = {start}
+    
+    while not queue.is_empty():
+        current = queue.dequeue()
+        
+        if current == goal:
+            return reconstruct_path(current)
+        
+        for neighbor in get_neighbors(current):
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.enqueue(neighbor)
+    
+    return None  # 未找到
+```
+
+#### DFS模板
+```
+function dfs(current, goal, visited):
+    if current == goal:
+        return [current]
+    
+    visited.add(current)
+    
+    for neighbor in get_neighbors(current):
+        if neighbor not in visited:
+            path = dfs(neighbor, goal, visited)
+            if path is not None:
+                return [current] + path
+    
+    return None  # 未找到
+```
+
+#### A*模板
+```
+function a_star(start, goal):
+    open_set = PriorityQueue()
+    open_set.put(start, heuristic(start, goal))
+    
+    g_score = {start: 0}
+    f_score = {start: heuristic(start, goal)}
+    
+    while not open_set.is_empty():
+        current = open_set.get()
+        
+        if current == goal:
+            return reconstruct_path(current)
+        
+        for neighbor in get_neighbors(current):
+            tentative_g = g_score[current] + cost(current, neighbor)
+            
+            if neighbor not in g_score or tentative_g < g_score[neighbor]:
+                g_score[neighbor] = tentative_g
+                f_score[neighbor] = tentative_g + heuristic(neighbor, goal)
+                open_set.put(neighbor, f_score[neighbor])
+    
+    return None  # 未找到
+```
+
+### 经典算法实现
+
+#### 1. BFS最短路径
+```python
+from collections import deque
+
+def bfs_shortest_path(graph, start, goal):
+    """BFS寻找无权图最短路径"""
+    queue = deque([(start, [start])])
+    visited = {start}
+    
+    while queue:
+        current, path = queue.popleft()
+        
+        if current == goal:
+            return path
+        
+        for neighbor in graph[current]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append((neighbor, path + [neighbor]))
+    
+    return None  # 未找到路径
+```
+
+#### 2. A*寻路算法
+```python
+import heapq
+
+def a_star_search(grid, start, goal):
+    """A*算法寻找最短路径"""
+    def heuristic(a, b):
+        return abs(a[0] - b[0]) + abs(a[1] - b[1])  # 曼哈顿距离
+    
+    def get_neighbors(pos):
+        x, y = pos
+        neighbors = []
+        for dx, dy in [(0, 1), (1, 0), (0, -1), (-1, 0)]:
+            nx, ny = x + dx, y + dy
+            if (0 <= nx < len(grid) and 0 <= ny < len(grid[0]) and 
+                grid[nx][ny] != 1):  # 1表示障碍物
+                neighbors.append((nx, ny))
+        return neighbors
+    
+    open_set = []
+    heapq.heappush(open_set, (0, start))
+    
+    g_score = {start: 0}
+    f_score = {start: heuristic(start, goal)}
+    
+    came_from = {}
+    
+    while open_set:
+        current = heapq.heappop(open_set)[1]
+        
+        if current == goal:
+            # 重构路径
+            path = []
+            while current in came_from:
+                path.append(current)
+                current = came_from[current]
+            path.append(start)
+            return list(reversed(path))
+        
+        for neighbor in get_neighbors(current):
+            tentative_g = g_score[current] + 1  # 假设每步成本为1
+            
+            if neighbor not in g_score or tentative_g < g_score[neighbor]:
+                came_from[neighbor] = current
+                g_score[neighbor] = tentative_g
+                f_score[neighbor] = tentative_g + heuristic(neighbor, goal)
+                heapq.heappush(open_set, (f_score[neighbor], neighbor))
+    
+    return None  # 未找到路径
+```
+
+#### 3. IDDFS迭代加深
+```python
+def iddfs_search(graph, start, goal, max_depth):
+    """迭代加深深度优先搜索"""
+    def dls(current, goal, depth, path):
+        if depth == 0:
+            return current == goal, path
+        elif depth > 0:
+            for neighbor in graph[current]:
+                found, result_path = dls(neighbor, goal, depth - 1, path + [neighbor])
+                if found:
+                    return True, result_path
+        return False, None
+    
+    for depth in range(max_depth + 1):
+        found, path = dls(start, goal, depth, [start])
+        if found:
+            return path
+    
+    return None  # 未找到
+```
+
+### 项目实践：游戏AI寻路系统
+```python
+class GamePathfinder:
+    """游戏AI寻路系统"""
+    
+    def __init__(self, game_map):
+        self.map = game_map
+        self.width = len(game_map[0])
+        self.height = len(game_map)
+    
+    def find_path(self, start, goal, algorithm='a_star'):
+        """统一寻路接口"""
+        if algorithm == 'bfs':
+            return self.bfs_pathfind(start, goal)
+        elif algorithm == 'dfs':
+            return self.dfs_pathfind(start, goal)
+        elif algorithm == 'a_star':
+            return self.a_star_pathfind(start, goal)
+        elif algorithm == 'iddfs':
+            return self.iddfs_pathfind(start, goal)
+        else:
+            raise ValueError(f"Unknown algorithm: {algorithm}")
+    
+    def bfs_pathfind(self, start, goal):
+        """BFS寻路（保证最短路径）"""
+        from collections import deque
+        
+        queue = deque([(start, [start])])
+        visited = {start}
+        
+        while queue:
+            current, path = queue.popleft()
+            
+            if current == goal:
+                return path
+            
+            for neighbor in self.get_walkable_neighbors(current):
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    queue.append((neighbor, path + [neighbor]))
+        
+        return None
+    
+    def a_star_pathfind(self, start, goal):
+        """A*寻路（启发式优化）"""
+        import heapq
+        
+        def heuristic(pos1, pos2):
+            return abs(pos1[0] - pos2[0]) + abs(pos1[1] - pos2[1])
+        
+        open_set = [(0, start)]
+        g_score = {start: 0}
+        f_score = {start: heuristic(start, goal)}
+        came_from = {}
+        
+        while open_set:
+            current = heapq.heappop(open_set)[1]
+            
+            if current == goal:
+                return self.reconstruct_path(came_from, current)
+            
+            for neighbor in self.get_walkable_neighbors(current):
+                tentative_g = g_score[current] + 1
+                
+                if neighbor not in g_score or tentative_g < g_score[neighbor]:
+                    came_from[neighbor] = current
+                    g_score[neighbor] = tentative_g
+                    f_score[neighbor] = tentative_g + heuristic(neighbor, goal)
+                    heapq.heappush(open_set, (f_score[neighbor], neighbor))
+        
+        return None
+    
+    def iddfs_pathfind(self, start, goal, max_depth=100):
+        """IDDFS寻路（内存友好）"""
+        def dls(current, goal, depth, path, visited):
+            if depth == 0:
+                return current == goal, path
+            elif depth > 0:
+                visited.add(current)
+                for neighbor in self.get_walkable_neighbors(current):
+                    if neighbor not in visited:
+                        found, result_path = dls(neighbor, goal, depth - 1, 
+                                                path + [neighbor], visited.copy())
+                        if found:
+                            return True, result_path
+            return False, None
+        
+        for depth in range(max_depth + 1):
+            found, path = dls(start, goal, depth, [start], set())
+            if found:
+                return path
+        
+        return None
+    
+    def get_walkable_neighbors(self, pos):
+        """获取可走通的邻居位置"""
+        x, y = pos
+        neighbors = []
+        
+        for dx, dy in [(0, 1), (1, 0), (0, -1), (-1, 0)]:
+            nx, ny = x + dx, y + dy
+            if (0 <= nx < self.height and 0 <= ny < self.width and 
+                self.map[nx][ny] == 0):  # 0表示可走通
+                neighbors.append((nx, ny))
+        
+        return neighbors
+    
+    def reconstruct_path(self, came_from, current):
+        """重构路径"""
+        path = [current]
+        while current in came_from:
+            current = came_from[current]
+            path.append(current)
+        return list(reversed(path))
+```
+
+### 适用场景对比
+
+| 策略 | 适用场景 | 时间复杂度 | 空间复杂度 | 特点 |
+|------|----------|------------|------------|------|
+| **BFS** | 无权图最短路径 | O(b^d) | O(b^d) | 保证最优，内存消耗大 |
+| **DFS** | 深度搜索、拓扑排序 | O(b^d) | O(d) | 内存友好，可能很深 |
+| **A*** | 加权图最短路径 | O(b^d) | O(b^d) | 启发式，效率高 |
+| **IDDFS** | 深度限制搜索 | O(b^d) | O(d) | 结合BFS和DFS优点 |
+
+---
+
+## 算法思想选择指南
+
+### 问题类型 → 算法思想映射
+
+| 问题类型 | 推荐思想 | 备选方案 | 选择标准 |
+|----------|----------|----------|----------|
+| **优化问题** | 动态规划 | 贪心、分支限界 | 是否有重叠子问题 |
+| **搜索问题** | 分治 | BFS/DFS | 是否可以分解 |
+| **组合问题** | 回溯 | 分支限界 | 是否需要所有解 |
+| **排序问题** | 分治 | 贪心 | 是否需要稳定排序 |
+| **图问题** | 搜索策略 | 分治 | 图的结构特点 |
+| **随机问题** | 随机化 | 确定性算法 | 是否允许概率性 |
+
+### 思想组合策略
+
+```python
+# 复杂问题往往需要多种思想组合
+def complex_problem_solver(problem):
+    """
+    示例：推荐系统 = 贪心 + 动态规划 + 搜索策略
+    """
+    
+    # 1. 贪心：快速筛选候选
+    candidates = greedy_filter(problem.items, problem.criteria)
+    
+    # 2. 动态规划：优化组合
+    optimal_combination = dp_optimize(candidates, problem.constraints)
+    
+    # 3. 搜索策略：精细调整
+    final_solution = a_star_refine(optimal_combination, problem.goal)
+    
+    return final_solution
+```
+
+### AI时代应用策略
+
+在AI编程时代，掌握这些算法思想的价值在于：
+
+1. **指导AI生成代码**：用正确的思想指导AI
+2. **验证AI解决方案**：判断AI代码是否使用了合适的思想
+3. **优化AI生成结果**：基于思想对AI代码进行改进
+4. **组合思想解决新问题**：用多个思想的组合解决复杂问题
+
+这些算法思想是AI时代程序员的核心竞争力，是从"编码者"升级为"设计者"的关键。
 
 ### 完整算法速查表
 
