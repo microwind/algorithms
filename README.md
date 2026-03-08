@@ -1,18 +1,34 @@
 # 理解算法与数据结构，学习不同编程语言 [English](./README_en.md)
 
-本仓库帮助你用不同编程语言来学习数据结构和算法，包括 `C` `Java` `Python` `JavaScript` `Go` `TypeScript` 等，提供充分注释说明。
+![License](https://img.shields.io/badge/License-MIT-blue.svg) ![Last Updated](https://img.shields.io/badge/Last%20Updated-2026%2F03-green.svg) ![Status](https://img.shields.io/badge/Status-Active-brightgreen.svg) ![Contributors](https://img.shields.io/badge/Contributors-Welcome-orange.svg) [![GitHub stars](https://img.shields.io/github/stars/microwind/algorithms.svg?style=social&label=Star)](https://github.com/microwind/algorithms) [![GitHub forks](https://img.shields.io/github/forks/microwind/algorithms.svg?style=social&label=Fork)](https://github.com/microwind/algorithms/fork)
 
-AI时代来临，AI可以替代人们完成大量基础编码工作，但难以替代人们的思考和认知。人们只有在深入理解编程核心（数据结构+算法）的基础上，才能驾驭AI，并让AI产生高效价值。
+本仓库帮助你用**不同编程语言来学习数据结构和算法**，包括 `C`、`Java`、`Python`、`JavaScript`、`Go`、`TypeScript`、`Rust` 等，提供充分注释说明。让你既能理解算法与数据结构原理，又能掌握不用语言的特点。
 
-表层的 API、框架与应用方案等日新月异，而数据结构、算法以及底层逻辑思维则历久弥新。表层技术需要快速地学习、不断追新逐热；底层原理与思想则需要反复钻研、琢磨，持续提升认知。
+AI 时代已经到来。AI 可以替代人们完成大量基础编码工作，但难以替代人的思考与认知。只有在深入理解编程核心（数据结构 + 算法）的基础上，**人们才能真正驾驭 AI，并让 AI 产生更高的效率与价值。**
 
-## 本项目特点：
+表层的 API、框架与应用方案日新月异，而**数据结构、算法以及底层逻辑思维则历久弥新**。表层技术需要快速学习、不断追新逐热；底层原理与思想则需要反复钻研与琢磨，从而持续提升认知。
+
+## 🚀 本项目特点
 1. 涵盖了数值计算、字符查找、树遍历、排序、动态规划等不同算法。
 2. 每个算法都有多种语言的实现，通过算法与数据结构理解不同语言的特色。
 3. 例子丰富，逐一递进，适合学生或程序员学习和分析，不断提升编程水平。
 
-## 面向大学生与程序员的学习价值
-本项目将“概念理解 → 代码实现 → 对比语言 → 练习进阶”串成一条清晰路径，适合作为课程补充、自学路线或面试与工程能力提升的长期仓库。
+## 新手入门指南
+
+如果你是**编程新手**或**算法初学者**，建议从这里开始：
+
+### [入门指南](./start-here/)
+- **[学习路线](./start-here/learning-path.md)** - 从入门到精通的完整学习规划
+- **[什么是编程](./start-here/what-is-programming.md)** - 理解编程的本质和核心概念  
+- **[算法思想](./start-here/algorithmic-thinking.md)** - 掌握核心算法思想，应用无穷
+- **[环境搭建](./start-here/environment-setup.md)** - 快速配置开发环境
+- **[推荐语言](./start-here/recommand-learning-languages.md)** - 选择合适的入门语言
+- **[常见问题](./start-here/faq.md)** - 初学者常见问题解答
+
+> 💡 **快速开始**：完全新手建议按顺序阅读，有编程基础可直接看算法思想部分。
+
+## 适合大学生与程序员学习
+本项目将**“概念理解 → 代码实现 → 对比语言 → 练习进阶”**串成一条清晰路径，适合作为课程补充、自学路线或面试与工程能力提升的长期仓库。
 
 你可以获得：
 - 体系化学习路径：从入门到经典算法，再到题库与项目，循序渐进不走弯路。
@@ -31,14 +47,14 @@ AI时代来临，AI可以替代人们完成大量基础编码工作，但难以�
 ![算法概览](https://pic4.zhimg.com/80/v2-43fde0d41df8fba377333a318f428317_1440w.webp)
 
 ## 常见算法思想
-- **贪心算法**：一种通过每次选择局部最优解来期望得到全局最优解的方法。
-- **分治算法**：将问题分解为较小的子问题，独立解决后再合并结果。
-- **动态规划**：通过将复杂问题分解为更简单的重叠子问题来求解。
-- **回溯算法**：通过逐步构建候选解并放弃那些无法满足条件的方案来解决问题。
-- **图算法**：包括广度优先搜索、深度优先搜索、Dijkstra算法、Kruskal算法等，用于解决图相关问题。
-- **分支限界法**：一种组合优化问题的求解方法，通过系统地探索搜索树的分支来解决问题。
+- **[贪心算法](./algorithmic-thinking/greedy-algorithm/)**：一种通过每次选择局部最优解来期望得到全局最优解的方法。
+- **[分治算法](./algorithmic-thinking/divide-and-conquer/)**：将问题分解为较小的子问题，独立解决后再合并结果。
+- **[动态规划](./algorithmic-thinking/dynamic-programming/)**：通过将复杂问题分解为更简单的重叠子问题来求解。
+- **[回溯算法](./algorithmic-thinking/backtracking/)**：通过逐步构建候选解并放弃那些无法满足条件的方案来解决问题。
+- **[图算法](./algorithmic-thinking/search-algorithms/)**：包括广度优先搜索、深度优先搜索、Dijkstra算法、Kruskal算法等，用于解决图相关问题。
+- **[分支限界法](./algorithmic-thinking/branch-and-bound/)**：一种组合优化问题的求解方法，通过系统地探索搜索树的分支来解决问题。
 
-详细信息见：[算法思想大全](./start-here/algorithmic-thinking.md)
+详细请见：[算法思想大全](./algorithmic-thinking)
     
 ## 10大经典排序算法
 
@@ -53,77 +69,78 @@ AI时代来临，AI可以替代人们完成大量基础编码工作，但难以�
 | [计数排序 counting sort](sorting/countingsort/) | [C](sorting/countingsort/counting_sort.c) | [JS](sorting/countingsort/counting_sort.js) | [Python](sorting/countingsort/counting_sort.py) | [Java](sorting/countingsort/CountingSort.java) | [TS](sorting/countingsort/CountingSort.ts) | [Go](sorting/countingsort/counting_sort.go) | O(n + k) / O(n + k) | O(k) | ✅ | 适用于数据范围有限的整数排序 |
 | [基数排序 radix sort](sorting/radixsort/) | [C](sorting/radixsort/radix_sort.c) | [JS](sorting/radixsort/radix_sort.js) | [Python](sorting/radixsort/radix_sort.py) | [Java](sorting/radixsort/RadixSort.java) | [TS](sorting/radixsort/RadixSort.ts) | [Go](sorting/radixsort/radix_sort.go) | O(nk) / O(nk) | O(n + k) | ✅ | 适用于大规模整数排序，如身份证号、手机号排序 |
 | [桶排序 bucket sort](sorting/bucketsort/) | [C](sorting/bucketsort/bucket_sort.c) | [JS](sorting/bucketsort/bucket_sort.js) | [Python](sorting/bucketsort/bucket_sort.py) | [Java](sorting/bucketsort/BuketSort.java) | [TS](sorting/bucketsort/BuketSort.ts) | [Go](sorting/bucketsort/bucket_sort.go) | O(n + k) / O(n²) | O(n + k) | ✅ | 适用于数据范围均匀分布的排序 |
-| [希尔排序 shell sort](sorting/shellsort/) | [C](sorting/shellsort/shell_sort.c) | [JS](sorting/shellsort/shell_sort.js) | [Python](sorting/shellsort/shell_sort.py) | [Java](sorting/shellsort/ShellSort.java) | [TS](sorting/shellsort/ShellSort.ts) | [Go](sorting/shellsort/shell_sort.go) | O(n log n) / O(n²) | O(1) | ❌ | 适用于中等规模数据排序，适合半有序数据 |
+| [希尔排序 shell sort](./sorting/shellsort/) | [C](./sorting/shellsort/shell_sort.c) | [JS](./sorting/shellsort/shell_sort.js) | [Python](./sorting/shellsort/shell_sort.py) | [Java](./sorting/shellsort/ShellSort.java) | [TS](./sorting/shellsort/ShellSort.ts) | [Go](./sorting/shellsort/shell_sort.go) | O(n log n) / O(n²) | O(1) | ❌ | 适用于中等规模数据排序，适合半有序数据 |
 
 
 ## 字符串搜索与查找
 
 | 算法 | C语言版 | Go语言版 | JS版 | Python版 | Java版 | TS版 | 时间复杂度（平均/最坏） | 空间复杂度 | 适用场景 |
 |------|--------|---------|-------------|---------|-------|-------------|--------------------|---------|--------|
-| [朴素搜索](string/nativesearch/) | [C](string/nativesearch/string_search.c) | [Go](string/nativesearch/string_search.go) | [JS](string/nativesearch/string_search.js) | [Python](string/nativesearch/string_search.py) | [Java](string/nativesearch/StringSearch.java) | [TS](string/nativesearch/StringSearch.ts) | O(mn) / O(mn) | O(1) | 适用于小规模文本搜索 |
-| [二分查找](searching/binarysearch/) | [C](searching/binarysearch/binary_search.c) | [Go](searching/binarysearch/binary_search.go) | [JS](searching/binarysearch/binary_search.js) | [Python](searching/binarysearch/binary_search.py) | [Java](searching/binarysearch/BinarySearch.java) | [TS](searching/binarysearch/BinarySearch.ts) | O(log n) / O(log n) | O(1) | 适用于已排序数组的查找 |
-| [KMP搜索](string/KMPsearch/) | [C](string/KMPsearch/kmp_search.c) | [Go](string/KMPsearch/kmp_search.go) | [JS](string/KMPsearch/kmp_search.js) | [Python](string/KMPsearch/kmp_search.py) | [Java](string/KMPsearch/KMPSearch.java) | [TS](string/KMPsearch/KMPSearch.ts) | O(n + m) / O(n + m) | O(m) | 适用于大规模文本搜索 |
+| [朴素搜索](./string/nativesearch/) | [C](./string/nativesearch/string_search.c) | [Go](./string/nativesearch/string_search.go) | [JS](./string/nativesearch/string_search.js) | [Python](./string/nativesearch/string_search.py) | [Java](./string/nativesearch/StringSearch.java) | [TS](./string/nativesearch/StringSearch.ts) | O(mn) / O(mn) | O(1) | 适用于小规模文本搜索 |
+| [二分查找](./searching/binarysearch/) | [C](./searching/binarysearch/binary_search.c) | [Go](./searching/binarysearch/binary_search.go) | [JS](./searching/binarysearch/binary_search.js) | [Python](./searching/binarysearch/binary_search.py) | [Java](./searching/binarysearch/BinarySearch.java) | [TS](./searching/binarysearch/BinarySearch.ts) | O(log n) / O(log n) | O(1) | 适用于已排序数组的查找 |
+| [KMP搜索](./string/KMPsearch/) | [C](./string/KMPsearch/kmp_search.c) | [Go](./string/KMPsearch/kmp_search.go) | [JS](./string/KMPsearch/kmp_search.js) | [Python](./string/KMPsearch/kmp_search.py) | [Java](./string/KMPsearch/KMPSearch.java) | [TS](./string/KMPsearch/KMPSearch.ts) | O(n + m) / O(n + m) | O(m) | 适用于大规模文本搜索 |
 
 
 ## 树搜索与遍历
 
 | 算法 | C语言版 | JS版 | Python版 | Java版 | TS版 | 时间复杂度（平均/最坏） | 空间复杂度 | 适用场景 |
 |------|--------|-------------|---------|-------|-------------|--------------------|---------|--------|
-| [二叉树遍历](tree/binarytree/) | [C](tree/binarytree/binary_tree.c) | [JS](tree/binarytree/binary_tree.js) | [Python](tree/binarytree/binary_tree.py) | [Java](tree/binarytree/BinaryTree.java) | [TS](tree/binarytree/BinaryTree.ts) | O(n) / O(n) | O(n) | 适用于树结构数据的遍历，如 XML 解析、文件系统遍历 |
+| [二叉树遍历](./tree/binarytree/) | [C](./tree/binarytree/binary_tree.c) | [JS](./tree/binarytree/binary_tree.js) | [Python](./tree/binarytree/binary_tree.py) | [Java](./tree/binarytree/BinaryTree.java) | [TS](./tree/binarytree/BinaryTree.ts) | O(n) / O(n) | O(n) | 适用于树结构数据的遍历，如 XML 解析、文件系统遍历 |
 
 ## 质因数分解
 
 | 语言 | 代码链接 | 复杂度 | 适用场景 |
 |------|---------|--------|--------|
-| C | [factor.c](math/factor/factor.c) | O(√n) | 计算大整数的质因数分解 |
-| C++ | [factor.cpp](math/factor/factor.cpp) | O(√n) | 适用于高效数学计算 |
-| JavaScript | [factor.js](math/factor/factor.js) | O(√n) | Web 端数论计算 |
-| TypeScript | [PrimeFactor.ts](math/factor/PrimeFactor.ts) | O(√n) | 适用于前端或 Node.js 计算 |
-| Go | [factor.go](math/factor/factor.go) | O(√n) | 适用于后端服务计算 |
-| Python | [factor.py](math/factor/factor.py) | O(√n) | 适用于科学计算、数据分析 |
-| Java | [Factor.java](math/factor/Factor.java) | O(√n) | 适用于企业级应用计算 |
-| Kotlin | [factor.kt](math/factor/factor.kt) | O(√n) | 适用于 Android 和后端计算 |
-| Dart | [factor.dart](math/factor/factor.dart) | O(√n) | 适用于 Flutter 应用 |
-| Swift | [factor.swift](math/factor/factor.swift) | O(√n) | 适用于 iOS/macOS 开发 |
-| Objective-C | [factor.m](math/factor/factor.m) | O(√n) | 适用于老版本 iOS/macOS |
-| Rust | [factor.rs](math/factor/factor.rs) | O(√n) | 适用于高性能计算 |
+| C | [factor.c](./math/factor/factor.c) | O(√n) | 计算大整数的质因数分解 |
+| C++ | [factor.cpp](./math/factor/factor.cpp) | O(√n) | 适用于高效数学计算 |
+| JavaScript | [factor.js](./math/factor/factor.js) | O(√n) | Web 端数论计算 |
+| TypeScript | [PrimeFactor.ts](./math/factor/PrimeFactor.ts) | O(√n) | 适用于前端或 Node.js 计算 |
+| Go | [factor.go](./math/factor/factor.go) | O(√n) | 适用于后端服务计算 |
+| Python | [factor.py](./math/factor/factor.py) | O(√n) | 适用于科学计算、数据分析 |
+| Java | [Factor.java](./math/factor/Factor.java) | O(√n) | 适用于企业级应用计算 |
+| Kotlin | [factor.kt](./math/factor/factor.kt) | O(√n) | 适用于 Android 和后端计算 |
+| Dart | [factor.dart](./math/factor/factor.dart) | O(√n) | 适用于 Flutter 应用 |
+| Swift | [factor.swift](./math/factor/factor.swift) | O(√n) | 适用于 iOS/macOS 开发 |
+| Objective-C | [factor.m](./math/factor/factor.m) | O(√n) | 适用于老版本 iOS/macOS |
+| Rust | [factor.rs](./math/factor/factor.rs) | O(√n) | 适用于高性能计算 |
 
 ## 数组列表去重复项
 
 | 语言 | 代码链接 | 时间复杂度 | 适用场景 |
 |------|---------|--------|--------|
-| C | [unique.c](array/unique/unique.c) | O(n log n) | 适用于嵌入式开发 |
-| Go | [unique.go](array/unique/unique.go) | O(n log n) | 适用于高并发场景 |
-| JS | [unique.js](array/unique/unique.js) | O(n) | 适用于前端数据处理 |
-| Python | [unique.py](array/unique/unique.py) | O(n) | 适用于数据清洗、分析 |
-| Java | [UniqueArray.java](array/unique/UniqueArray.java) | O(n log n) | 适用于企业级应用 |
-| TypeScript | [UniqueArray.ts](array/unique/UniqueArray.ts) | O(n) | 适用于前端 TypeScript 项目 |
-| Dart | [unique.dart](array/unique/unique.dart) | O(n) | 适用于 Flutter 应用 |
-| Rust | [unique.rs](array/unique/unique.rs) | O(n) | 适用于高性能计算 |
+| C | [unique.c](./array/unique/unique.c) | O(n log n) | 适用于嵌入式开发 |
+| Go | [unique.go](./array/unique/unique.go) | O(n log n) | 适用于高并发场景 |
+| JS | [unique.js](./array/unique/unique.js) | O(n) | 适用于前端数据处理 |
+| Python | [unique.py](./array/unique/unique.py) | O(n) | 适用于数据清洗、分析 |
+| Java | [UniqueArray.java](./array/unique/UniqueArray.java) | O(n log n) | 适用于企业级应用 |
+| TypeScript | [UniqueArray.ts](./array/unique/UniqueArray.ts) | O(n) | 适用于前端 TypeScript 项目 |
+| Dart | [unique.dart](./array/unique/unique.dart) | O(n) | 适用于 Flutter 应用 |
+| Rust | [unique.rs](./array/unique/unique.rs) | O(n) | 适用于高性能计算 |
 
 
 ## 递归
 
 | 算法 | 代码链接 | 时间复杂度 | 空间复杂度 | 适用场景 |
 |------|---------|------------|------------|--------|
-| [简单递归](./recursion/) | [C](./recursion/) | O(2^n) | O(n) | 适用于分治算法、树和图的遍历、回溯问题 |
+| [简单递归](./recursion/) | [多语言实现](./recursion/) | O(2^n) | O(n) | 适用于分治算法、树和图的遍历、回溯问题 |
 
 ## 数学计算
 
 | 算法 | 代码链接 | 时间复杂度 | 空间复杂度 | 适用场景 |
 |------|---------|------------|------------|--------|
-| [数学计算](math/number/) | [C](math/number/) | O(n) | O(1) | 适用于数论、加法、乘法、大整数计算等 |
+| [数学计算](./math/) | [多语言实现](./math/) | O(n) | O(1) | 适用于数论、加法、乘法、大整数计算、质因数分解、GCD、斐波那契等 |
 
 ## 日期与日历
 
 | 算法 | 代码链接 | 时间复杂度 | 空间复杂度 | 适用场景 |
 |------|---------|------------|------------|--------|
-| [日期与日历](date-time/) | [C](date-time/) | O(1) | O(1) | 适用于日期计算、节假日推算、日期转换等 |
+| [日期与日历](./date-time/) | [多语言实现](./date-time/) | O(1) | O(1) | 适用于日期计算、闰年判断、星期计算、日期间隔、时间戳转换等 |
 
 ---
 
 # 数据结构
-  数据结构是数据的组织和存储的方式，也就是把数据聚合在一起，以便进行加工整理。不同的数据结构，对其访问、插入、删除等操作的效率不同。通过选择合适的数据结构，可以高效地处理数据。详见：[数据结构概述](./data-structures)
+
+数据结构是数据的组织和存储的方式，通过选择合适的数据结构，可以高效地处理数据。详见：[数据结构概述](./data-structures/README.md)
 
 | 数据结构 | 描述 | 结构特点 | 访问效率 | 插入/删除效率 |
 |---------|------|---------|---------|-------------|
@@ -158,3 +175,15 @@ If you are interested in this project, please add me. I welcome you to build it 
 **wechat:** `springbuild`
 
 **邮件:** `jarryli@gmail.com`  or `lichunping@buaa.edu.cn`
+
+---
+
+## 📄 许可证
+
+本项目采用 [MIT 许可证](./LICENSE) 开源。
+
+感谢所有为本项目做出贡献的开发者！
+
+---
+
+⭐ 如果这个项目对你有帮助，请给个 Star 支持一下！

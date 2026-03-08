@@ -12,7 +12,7 @@
 
 ## 有哪些算法思想？
 
-### 1. 贪心（Greedy）
+### 1. 贪心（Greedy） [算法源码](https://github.com/microwind/algorithms/tree/main/algorithmic-thinking/greedy-algorithm)
 
 **定义**：即在每个决策点，都选择当下局部最优的选择，期望通过一系列局部最优决策来得到全局的最优解。简单讲就是步步最优，最终得到全局最优。贪心算法广泛应用于优化问题，如最短路径、背包问题、矩阵链乘法等。
 
@@ -49,7 +49,7 @@ Algorithm Greedy(Problem P):
 - **哈夫曼编码**：频率最低的两个节点合并
 - **活动选择**：选择最早结束的活动
 
-### 2. 分治（Divide and Conquer）
+### 2. 分治（Divide and Conquer） [算法源码](https://github.com/microwind/algorithms/tree/main/algorithmic-thinking/divide-and-conquer)
 
 **定义**：将原始问题分解为若干个规模更小、结构相同的子问题，通过递归式逐步求解各子问题，然后合并子问题的解以得到原始问题的解。简单理解就是以大化小，分而治之。分治算法广泛应用于排序、查找、矩阵运算等问题。
 
@@ -106,7 +106,7 @@ Algorithm DivideConquer(Problem P, boundary b):
 - **凸包**：分治构造凸包
 - **逆序对计数**：基于归并排序
 
-### 3. 动态规划（Dynamic Programming）
+### 3. 动态规划（Dynamic Programming） [算法源码](https://github.com/microwind/algorithms/tree/main/algorithmic-thinking/dynamic-programming)
 
 **定义**：将问题分解为存在重叠的子问题，通过定义状态和状态转移方程，利用存储空间换取计算时间，避免重复计算相同的子问题。动态规划广泛应用于优化问题，如最短路径、背包问题、矩阵链乘法等。
 
@@ -176,7 +176,7 @@ Algorithm DP_Memoization(State s):
 - **计数问题**：不同路径数、爬楼梯、硬币兑换
 - **图论**：Floyd-Warshall 全对最短路径
 
-### 4. 回溯（Backtracking）
+### 4. 回溯（Backtracking） [算法源码](https://github.com/microwind/algorithms/tree/main/algorithmic-thinking/backtracking)
 
 **定义**：回溯是采用试错的思想，在深度优先搜索求解过程中，当发现该分支路径行不通时（不满足约束条件），就回溯撤销该分支的选择，再尝试其他的分支。简单说就是不断试错，直到找到一个解或确定无解。回溯算法广泛应用于排列组合、约束满足、路径搜索等问题。
 
@@ -224,7 +224,7 @@ Algorithm Backtracking(candidates, track, constraints):
 - **字符串**：电话号码字母组合、单词搜索
 - **图着色**：地图着色、图着色问题
 
-### 5. 分支定界（Branch and Bound）
+### 5. 分支定界（Branch and Bound） [算法源码](https://github.com/microwind/algorithms/tree/main/algorithmic-thinking/branch-and-bound)
 
 **定义**：分支定界也叫作分支限界法，是在回溯算法基础上，为每个部分解（搜索树中的节点）计算一个界（上界或下界），当该界表明该分支不可能产生比当前最优解更优的完全解时，就剪去该分支。简单说就是在回溯的基础上，加入了对每个节点的界的计算和剪枝。分支定界广泛应用于组合优化问题，如旅行商问题、背包问题、任务分配等。
 
@@ -300,7 +300,7 @@ Algorithm BranchAndBound(initialState, costFunc):
 
 搜索策略不算是核心算法思想，而是一种解决问题的策略。它定义了在状态空间中如何系统地探索节点，以找到目标状态或满足特定条件的解。搜索策略可以分为两大类：深度优先搜索（DFS）和广度优先搜索（BFS）。
 
-### 6. 搜索（Search）
+### 6. 搜索（Search） [算法源码](https://github.com/microwind/algorithms/tree/main/algorithmic-thinking/search-algorithms)
 
 **定义**：搜索就是在状态空间中系统性地探索节点，从初始状态逐步转移到目标状态，或在所有可达状态中寻找特定目标。简单说就是按照某种策略（如广度优先、深度优先）遍历状态节点，直到找到目标或遍历完所有节点。搜索策略广泛应用于路径查找、状态空间探索等问题。
 
@@ -530,7 +530,7 @@ Algorithm DFS_DepthLimited(node, target, maxDepth, visited, G):
 
 ## 三、随机化算法
 
-### 7. 随机化（Randomization）
+### 7. 随机化（Randomization） [算法源码](https://github.com/microwind/algorithms/tree/main/algorithmic-thinking/random-algorithm)
 
 随机化不算是核心算法思想，而是一种解决问题的策略。
 
@@ -649,13 +649,13 @@ Algorithm LasVegas(Problem P):
 
 | 思想 | 定义 | 适用条件 | 典型应用 |
 |------|------|---------|---------|
-| **贪心** | 每一步选择局部最优 | 贪心选择性质 + 最优子结构 | 分数背包、最小生成树、最短路径、哈夫曼编码、活动选择 |
-| **分治** | 分解为相同的小问题，递归求解，合并结果 | 子问题相互独立、结构相同、可高效合并 | 归并排序、快速排序、二分查找、矩阵乘法、凸包、逆序对计数 |
-| **动态规划** | 识别重叠子问题，用空间换时间避免重复计算 | 存在重叠子问题、最优子结构（无后效性） | 背包问题、最长递增子序列、最长公共子序列、编辑距离、矩阵路径和、爬楼梯、硬币兑换 |
-| **回溯** | 逐个尝试所有选择，发现路走不通时回退重试 | 需要枚举所有可能、有树形/递归结构、存在约束条件 | 全排列、组合、子集、八皇后问题、数独求解、岛屿数量、迷宫寻路、电话号码字母组合 |
-| **分支定界** | 在回溯基础上，为每个节点计算界，实现更优剪枝 | 优化问题、能快速计算界的条件 | 旅行商问题、0-1背包最优化版、任务分配、装箱问题、作业调度 |
-| **搜索** | 在状态空间中系统性探索，从初始状态转移到目标状态 | 问题具有状态转移特征、能定义目标状态 | 无权最短路径、连通性检测、层级遍历、拓扑排序、强连通分量、游戏AI寻路 |
-| **随机化** | 在算法中引入随机性，改进性能或简化分析 | 需要打破最坏情况、可接受概率保证 | 随机快速排序、跳表、哈希表、Miller-Rabin素数测试、最小割算法 |
+| [**贪心**](https://github.com/microwind/algorithms/tree/main/algorithmic-thinking/greedy-algorithm) | 每一步选择局部最优 | 贪心选择性质 + 最优子结构 | 分数背包、最小生成树、最短路径、哈夫曼编码、活动选择 |
+| [**分治**](https://github.com/microwind/algorithms/tree/main/algorithmic-thinking/divide-and-conquer) | 分解为相同的小问题，递归求解，合并结果 | 子问题相互独立、结构相同、可高效合并 | 归并排序、快速排序、二分查找、矩阵乘法、凸包、逆序对计数 |
+| [**动态规划**](https://github.com/microwind/algorithms/tree/main/algorithmic-thinking/dynamic-programming) | 识别重叠子问题，用空间换时间避免重复计算 | 存在重叠子问题、最优子结构（无后效性） | 背包问题、最长递增子序列、最长公共子序列、编辑距离、矩阵路径和、爬楼梯、硬币兑换 |
+| [**回溯**](https://github.com/microwind/algorithms/tree/main/algorithmic-thinking/backtracking) | 逐个尝试所有选择，发现路走不通时回退重试 | 需要枚举所有可能、有树形/递归结构、存在约束条件 | 全排列、组合、子集、八皇后问题、数独求解、岛屿数量、迷宫寻路、电话号码字母组合 |
+| [**分支定界**](https://github.com/microwind/algorithms/tree/main/algorithmic-thinking/branch-and-bound) | 在回溯基础上，为每个节点计算界，实现更优剪枝 | 优化问题、能快速计算界的条件 | 旅行商问题、0-1背包最优化版、任务分配、装箱问题、作业调度 |
+| [**搜索**](https://github.com/microwind/algorithms/tree/main/algorithmic-thinking/search-algorithms) | 在状态空间中系统性探索，从初始状态转移到目标状态 | 问题具有状态转移特征、能定义目标状态 | 无权最短路径、连通性检测、层级遍历、拓扑排序、强连通分量、游戏AI寻路 |
+| [**随机化**](https://github.com/microwind/algorithms/tree/main/algorithmic-thinking/random-algorithm) | 在算法中引入随机性，改进性能或简化分析 | 需要打破最坏情况、可接受概率保证 | 随机快速排序、跳表、哈希表、Miller-Rabin素数测试、最小割算法 |
 
 
 ## 源码

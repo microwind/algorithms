@@ -12,7 +12,7 @@ This guide introduces **5 core algorithm thinking approaches** + **2 common prob
 
 ## What Algorithm Thinking Approaches Are There?
 
-### 1. Greedy (Greedy)
+### 1. Greedy (Greedy) [Source Code](https://github.com/microwind/algorithms/tree/main/algorithmic-thinking/greedy-algorithm)
 
 **Definition**: At each decision point, you always choose the locally optimal choice, hoping to obtain a globally optimal solution through a series of locally optimal decisions. In simple terms, it's step-by-step optimal to eventually achieve global optimality. Greedy algorithms are widely used in optimization problems such as shortest paths, knapsack problems, and matrix chain multiplication.
 
@@ -49,7 +49,7 @@ Initial Problem → Select Local Optimal → Update Problem State → Repeat →
 - **Huffman Coding**: Merge the two nodes with lowest frequency
 - **Activity Selection**: Select activities that end earliest
 
-### 2. Divide and Conquer (Divide and Conquer)
+### 2. Divide and Conquer (Divide and Conquer) [Source Code](https://github.com/microwind/algorithms/tree/main/algorithmic-thinking/divide-and-conquer)
 
 **Definition**: Divide the original problem into several smaller subproblems with the same structure, recursively solve each subproblem, then combine the solutions of subproblems to obtain the solution to the original problem. In simple terms, it's dividing large problems into smaller ones and conquering them separately. Divide and conquer algorithms are widely used in sorting, searching, and matrix operations.
 
@@ -106,7 +106,7 @@ Algorithm DivideConquer(Problem P, boundary b):
 - **Convex Hull**: Divide and conquer convex hull construction
 - **Inversion Count**: Based on merge sort
 
-### 3. Dynamic Programming (Dynamic Programming)
+### 3. Dynamic Programming (Dynamic Programming) [Source Code](https://github.com/microwind/algorithms/tree/main/algorithmic-thinking/dynamic-programming)
 
 **Definition**: Decompose the problem into overlapping subproblems, define states and state transition equations, use storage space to trade for computation time, and avoid recalculating the same subproblems. Dynamic programming is widely used in optimization problems such as shortest paths, knapsack problems, and matrix chain multiplication.
 
@@ -176,7 +176,7 @@ Algorithm DP_Memoization(State s):
 - **Counting Problems**: Different Paths, Climbing Stairs, Coin Change
 - **Graph Theory**: Floyd-Warshall All-Pairs Shortest Path
 
-### 4. Backtracking (Backtracking)
+### 4. Backtracking (Backtracking) [Source Code](https://github.com/microwind/algorithms/tree/main/algorithmic-thinking/backtracking)
 
 **Definition**: Backtracking adopts trial-and-error thinking. During depth-first search solving, when you find a branch path doesn't work (fails constraints), you backtrack to undo that branch's choice and try other branches. In simple terms, it's continuous trial and error until you find a solution or determine there's no solution. Backtracking is widely used in permutation combinations, constraint satisfaction, and path searching problems.
 
@@ -224,7 +224,7 @@ Algorithm Backtracking(candidates, track, constraints):
 - **Strings**: Phone Number Letter Combinations, Word Search
 - **Graph Coloring**: Map Coloring, Graph Coloring Problems
 
-### 5. Branch and Bound (Branch and Bound)
+### 5. Branch and Bound (Branch and Bound) [Source Code](https://github.com/microwind/algorithms/tree/main/algorithmic-thinking/branch-and-bound)
 
 **Definition**: Branch and Bound (also called Branch Limit Method) calculates a bound (upper or lower) for each partial solution (node in the search tree) based on backtracking. When this bound indicates that a branch cannot produce a complete solution better than the current optimal solution, the branch is pruned. In simple terms, it adds bound calculation and pruning for each node on top of backtracking. Branch and Bound is widely used in combinatorial optimization problems such as Traveling Salesman Problem, Knapsack Problem, and Task Assignment.
 
@@ -300,7 +300,7 @@ Algorithm BranchAndBound(initialState, costFunc):
 
 Search strategies are not core algorithm thinking, but rather a problem-solving strategy. They define how to systematically explore nodes in state space to find target states or solutions satisfying specific conditions. Search strategies can be divided into two main categories: Depth-First Search (DFS) and Breadth-First Search (BFS).
 
-### 6. Search (Search)
+### 6. Search (Search) [Source Code](https://github.com/microwind/algorithms/tree/main/algorithmic-thinking/search-algorithms)
 
 **Definition**: Search is the systematic exploration of nodes in state space, gradually transferring from initial state to target state, or finding specific targets in all reachable states. In simple terms, it's traversing state nodes according to some strategy (such as breadth-first, depth-first) until you find the target or traverse all nodes. Search strategies are widely used in pathfinding and state space exploration problems.
 
@@ -530,7 +530,7 @@ Algorithm DFS_DepthLimited(node, target, maxDepth, visited, G):
 
 ## III. Randomization Algorithm
 
-### 7. Randomization (Randomization)
+### 7. Randomization (Randomization) [Source Code](https://github.com/microwind/algorithms/tree/main/algorithmic-thinking/random-algorithm)
 
 Randomization is not core algorithm thinking, but rather a problem-solving strategy.
 
@@ -649,13 +649,13 @@ Whether it's **Greedy, Divide and Conquer, Dynamic Programming, Backtracking, an
 
 | Thinking | Definition | Applicable Conditions | Typical Applications |
 |------|------|---------|---------|
-| **Greedy** | Select locally optimal at each step | Greedy choice property + Optimal substructure | Fractional knapsack, Minimum spanning tree, Shortest path, Huffman coding, Activity selection |
-| **Divide and Conquer** | Decompose to same-size subproblems, recursively solve, combine results | Subproblems independent, same structure, can combine efficiently | Merge sort, Quick sort, Binary search, Matrix multiplication, Convex hull, Inversion count |
-| **Dynamic Programming** | Identify overlapping subproblems, use space for time to avoid recalculation | Overlapping subproblems, optimal substructure (no future dependency) | Knapsack problems, Longest increasing subsequence, Longest common subsequence, Edit distance, Matrix path sum, Climbing stairs, Coin change |
-| **Backtracking** | Try each choice, backtrack when path fails, retry | Need enumerate all possibilities, tree/recursive structure, pruning conditions exist | Permutations, Combinations, Subsets, N-Queens, Sudoku, Island count, Maze pathfinding, Phone combinations |
-| **Branch and Bound** | Based on backtracking, calculate bounds for nodes, more aggressive pruning | Optimization problem, can quickly calculate bounds | Traveling salesman, 0-1 knapsack optimization, Task assignment, Bin packing, Job scheduling |
-| **Search** | Systematically explore in state space, transfer from initial to target state | Problem has state transitions, can define target state | Unweighted shortest path, Connectivity, Level traversal, Topological sort, Strongly connected components, Game AI pathfinding |
-| **Randomization** | Introduce randomness in algorithm, improve performance or simplify analysis | Need break worst case, accept probabilistic guarantee | Random quick sort, Skip list, Hash table, Miller-Rabin primality test, Minimum cut algorithm |
+| [**Greedy**](https://github.com/microwind/algorithms/tree/main/algorithmic-thinking/greedy-algorithm) | Select locally optimal at each step | Greedy choice property + Optimal substructure | Fractional knapsack, Minimum spanning tree, Shortest path, Huffman coding, Activity selection |
+| [**Divide and Conquer**](https://github.com/microwind/algorithms/tree/main/algorithmic-thinking/divide-and-conquer) | Decompose to same-size subproblems, recursively solve, combine results | Subproblems independent, same structure, can combine efficiently | Merge sort, Quick sort, Binary search, Matrix multiplication, Convex hull, Inversion count |
+| [**Dynamic Programming**](https://github.com/microwind/algorithms/tree/main/algorithmic-thinking/dynamic-programming) | Identify overlapping subproblems, use space for time to avoid recalculation | Overlapping subproblems, optimal substructure (no future dependency) | Knapsack problems, Longest increasing subsequence, Longest common subsequence, Edit distance, Matrix path sum, Climbing stairs, Coin change |
+| [**Backtracking**](https://github.com/microwind/algorithms/tree/main/algorithmic-thinking/backtracking) | Try each choice, backtrack when path fails, retry | Need enumerate all possibilities, tree/recursive structure, pruning conditions exist | Permutations, Combinations, Subsets, N-Queens, Sudoku, Island count, Maze pathfinding, Phone combinations |
+| [**Branch and Bound**](https://github.com/microwind/algorithms/tree/main/algorithmic-thinking/branch-and-bound) | Based on backtracking, calculate bounds for nodes, more aggressive pruning | Optimization problem, can quickly calculate bounds | Traveling salesman, 0-1 knapsack optimization, Task assignment, Bin packing, Job scheduling |
+| [**Search**](https://github.com/microwind/algorithms/tree/main/algorithmic-thinking/search-algorithms) | Systematically explore in state space, transfer from initial to target state | Problem has state transitions, can define target state | Unweighted shortest path, Connectivity, Level traversal, Topological sort, Strongly connected components, Game AI pathfinding |
+| [**Randomization**](https://github.com/microwind/algorithms/tree/main/algorithmic-thinking/random-algorithm) | Introduce randomness in algorithm, improve performance or simplify analysis | Need break worst case, accept probabilistic guarantee | Random quick sort, Skip list, Hash table, Miller-Rabin primality test, Minimum cut algorithm |
 
 
 ## Source Code

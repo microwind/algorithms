@@ -9,6 +9,7 @@ function maxSubarraySum1(arr) {
     // let maxSum = -Infinity;
     let maxSum
 
+    // 遍历数组，计算每个位置开始的最大子数组和
     for (let i = 0; i < arr.length; i++) {
         let currentSum = arr[i];
         if (currentSum > maxSum) {
@@ -18,12 +19,13 @@ function maxSubarraySum1(arr) {
         console.log(`第${i + 1}位`, '子数组:')
         console.log(arr[i])
 
+        // 计算从当前位置开始的所有子数组和
         for (let j = i + 1; j < arr.length; j++) {
             currentSum += arr[j];
             if (currentSum > maxSum) {
                 maxSum = currentSum;
             }
-
+            // 输出子数组，格式如 "1 + 2 + 3 = 6"
             let subarray = arr.slice(i, j + 1).join(" + ");
             console.log(`${subarray} = ${currentSum}`);
         }
@@ -39,6 +41,7 @@ function maxSubarraySum2(arr) {
         return 0;
     }
 
+    // dp[i] 表示以第i个元素结尾的最大子数组和
     let dp = Array(arr.length).fill(0);
     dp[0] = arr[0];
 
@@ -61,6 +64,7 @@ function maxSubarraySum3(arr) {
     let maxSum = arr[0];
     let currentSum = arr[0];
 
+    // currentSum 表示以当前元素结尾的最大子数组和
     for (let i = 1; i < arr.length; i++) {
         currentSum = Math.max(arr[i], currentSum + arr[i]);
         maxSum = Math.max(maxSum, currentSum);
@@ -78,6 +82,7 @@ function maxCrossingSum(arr, left, mid, right) {
     let leftSum = -Infinity;
     let tempSum = 0;
 
+    // 从mid向左扩展，找到最大和
     for (let i = mid; i >= left; i--) {
         tempSum += arr[i];
         if (tempSum > leftSum) {
@@ -88,6 +93,7 @@ function maxCrossingSum(arr, left, mid, right) {
     let rightSum = -Infinity;
     tempSum = 0;
 
+    // 从mid+1向右扩展，找到最大和
     for (let i = mid + 1; i <= right; i++) {
         tempSum += arr[i];
         if (tempSum > rightSum) {
