@@ -177,14 +177,4 @@ If you are interested in this project, please add me. I welcome you to build it 
 
 **邮件:** `jarryli@gmail.com`  or `lichunping@buaa.edu.cn`
 
----
-
-## 📄 许可证
-
-本项目采用 [MIT 许可证](./LICENSE) 开源。
-
-感谢所有为本项目做出贡献的开发者！
-
----
-
 ⭐ 如果这个项目对你有帮助，请给个 Star 支持一下！
