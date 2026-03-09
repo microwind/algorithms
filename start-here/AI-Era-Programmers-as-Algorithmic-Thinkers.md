@@ -18,6 +18,8 @@
 
 ---
 
+**本文完整源码请见** [https://github.com/microwind/algorithms](https://github.com/microwind/algorithms)
+
 ## 一、算法与算法思想概述
 
 ### 什么是算法？
@@ -317,6 +319,24 @@ graph TD
 
 ---
 
+### 分类说明
+
+**5大核心思想** 是解决问题的**核心设计思路**，通过不同的分解和递推方式来处理复杂问题：
+- **贪心**：每步选择局部最优
+- **分治**：分解问题递归求解
+- **动态规划**：状态转移避免重复
+- **回溯**：系统尝试所有可能
+- **分支限界**：带剪枝的搜索优化
+
+**随机化算法** 是一类**独特的优化技术**，通过引入随机性来简化算法或提高性能。
+
+**搜索策略** 是**问题求解的遍历方法**，独立于上述核心思想，通常与其他思想结合使用：
+- **BFS/DFS**：基础搜索遍历
+- **A***：启发式搜索加速
+- **IDDFS**：内存和效率的平衡
+
+---
+
 ## 1 贪心算法 (Greedy)
 
 ### 核心思想
@@ -334,10 +354,29 @@ function greedy_algorithm(items):
     result = empty_set
     # 按贪心标准排序 - 这是贪心算法的核心
     sort items by greedy_criteria
-    
+
     for item in items:
-        # 略，详见完整版
+        # 检查是否满足约束条件
+        if can_add(item, result):
+            result.add(item)
+            # 检查是否找到完整解
+            if is_complete(result):
+                return result
+
+    return result
 ```
+
+### 适用场景
+- ✅ **最优子结构明显**的问题（每步最优选择导致全局最优）
+- ✅ **无后效性**的决策（前面的选择不影响后续）
+- ✅ **实时性要求高**的系统（快速做决策）
+
+### 常见应用
+- 活动选择、区间调度
+- 霍夫曼编码、最小生成树
+- 任务调度、资源分配
+
+---
 
 ## 2 分治算法 (Divide and Conquer)
 
@@ -356,8 +395,33 @@ function divide_and_conquer(problem):
     # 基础情况 - 递归终止条件
     if problem is small enough:
         return solve_directly(problem)
-    # 略，详见完整版
+
+    # Divide：分解问题
+    subproblems = divide(problem)
+
+    # Conquer：递归求解子问题
+    results = []
+    for subproblem in subproblems:
+        result = divide_and_conquer(subproblem)
+        results.append(result)
+
+    # Combine：合并子问题的解
+    final_result = combine(results)
+    return final_result
 ```
+
+### 适用场景
+- ✅ **问题具有自相似性**（子问题结构与原问题相同）
+- ✅ **子问题相互独立**（可并行求解）
+- ✅ **需要处理大规模数据**的通用场景
+
+### 常见应用
+- 排序（快速排序、归并排序）
+- 二分查找、二分答案
+- 矩阵乘法、大整数乘法
+- 并行计算、MapReduce
+
+---
 
 ## 3 动态规划 (Dynamic Programming)
 
@@ -375,15 +439,37 @@ function divide_and_conquer(problem):
 ### 伪代码模板
 ```py
 # 动态规划模板：通过表格存储避免重复计算
-# 1. 自底向上实现
+# 自底向上实现
 function dynamic_programming(problem):
     # 初始化DP表 - 存储子问题解
     dp_table = initialize_dp_table(problem)
-    
+
     # 递推计算 - 按依赖关系填充表格
-    for subproblem in all_subproblems:
-        # 略，详见完整版
+    for i in range(1, size_of_problem):
+        for j in range(required_dimensions):
+            # 状态转移方程 - 计算当前状态
+            dp_table[i][j] = compute_from_subproblems(
+                dp_table[i-1][...],
+                dp_table[i][j-1],
+                ...
+            )
+
+    # 返回最终解 - 通常在表的右下角
+    return dp_table[last_index]
 ```
+
+### 适用场景
+- ✅ **最优子结构+重叠子问题**（两个必要条件都满足）
+- ✅ **多阶段决策问题**（逐步构建最优解）
+- ✅ **优化问题**（求最大值、最小值、方案数）
+
+### 常见应用
+- 背包问题、币种兑换
+- 最长递增子序列、编辑距离
+- 路径计数、矩阵链乘法
+- 博弈论、图论最优路径
+
+---
 
 ## 4 回溯算法 (Backtracking)
 
@@ -402,15 +488,27 @@ function dynamic_programming(problem):
 ### 伪代码模板
 ```py
 # 回溯算法模板：深度优先搜索 + 状态回退
-function backtrack(current_state, path):
+function backtrack(current_state, path, solutions):
     # 找到解 - 记录当前路径
     if is_solution(current_state):
-        add path to solutions
+        solutions.add(copy(path))
         return
-    
+
     # 遍历所有可能的选择
     for choice in available_choices(current_state):
-        # 略，详见完整版
+        # 检查约束条件 - 剪枝
+        if is_valid(choice, current_state):
+            # 做出选择
+            path.add(choice)
+            new_state = apply_choice(current_state, choice)
+
+            # 递归探索
+            backtrack(new_state, path, solutions)
+
+            # 撤销选择 - 回退状态
+            path.remove(choice)
+
+    return solutions
 ```
 
 ## 5 分支限界算法 (Branch and Bound)
@@ -429,12 +527,32 @@ function backtrack(current_state, path):
 function branch_and_bound(problem):
     best_solution = None
     best_value = -infinity
-    
+
     # 优先队列 - 按界值排序
     priority_queue = PriorityQueue()
     initial_state = create_initial_state(problem)
-    
-    # 略，详见完整版
+    priority_queue.enqueue(initial_state, evaluate(initial_state))
+
+    while not priority_queue.is_empty():
+        current_node = priority_queue.dequeue()
+
+        # 剪枝：如果上界不如当前最优解，跳过
+        if upper_bound(current_node) <= best_value:
+            continue
+
+        # 扩展子节点
+        for child_state in expand(current_node):
+            child_value = evaluate(child_state)
+
+            # 更新最优解
+            if is_solution(child_state) and child_value > best_value:
+                best_solution = child_state
+                best_value = child_value
+            else:
+                # 将有潜力的节点加入队列
+                priority_queue.enqueue(child_state, upper_bound(child_state))
+
+    return best_solution
 ```
 
 ## 6 随机化算法 (Randomized Algorithms)
@@ -450,14 +568,33 @@ function branch_and_bound(problem):
 ```python
 # 随机化算法模板：利用随机性简化问题
 function randomized_algorithm(input):
-    while not solution_found():
-        # 略，详见完整版
+    # 拉斯维加斯方法：重复直到找到正确答案
+    max_attempts = calculate_attempts(input.size)
+
+    for attempt in range(1, max_attempts):
+        # 随机做出选择
+        random_choice = make_random_choice(input)
+
+        # 尝试该选择
+        result = solve_with_choice(input, random_choice)
+
+        # 验证解的正确性
+        if verify_solution(result):
+            return result
+
+    # 蒙特卡洛回退：超时后返回最佳猜测
+    return best_guess_so_far
 ```
 
 ## 7 搜索策略 (Search Strategies)
 
 ### 核心思想
 系统性地在解空间中搜索目标，不同的策略适用于不同类型的问题
+
+搜索策略是**问题求解的遍历方式**，与5大核心思想不同。它们通常**与核心思想结合使用**：
+- BFS/DFS 常与**回溯、分支限界**结合，用于遍历搜索空间
+- A* 通常用于**路径规划**和**启发式优化**
+- 这些策略是**通用的遍历工具**，可应用于多种问题域
 
 ### 搜索策略分类
 1. **BFS**：广度优先搜索，逐层扩展
@@ -473,34 +610,45 @@ function randomized_algorithm(input):
 function bfs(start, goal):
     # 队列数据结构 - 保证FIFO顺序
     queue = Queue()
+    visited = empty_set()
+
     queue.enqueue(start)
-    
-   # 略，详见完整版
+    visited.add(start)
+
+    while not queue.is_empty():
+        current = queue.dequeue()
+
+        # 找到目标
+        if current == goal:
+            return construct_path(current)
+
+        # 扩展邻居节点
+        for neighbor in get_neighbors(current):
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.enqueue(neighbor)
+
+    return None  # 无解
 ```
 
 #### DFS模板
 ```py
 # DFS模板：深度优先搜索 - 一路到底
-function dfs(current, goal, visited):
+function dfs(current, goal, visited, path):
     # 目标检查 - 找到目标
     if current == goal:
-        return [current]
-    
-    # 略，详见完整版
-```
+        return path + [current]
 
-#### A*模板
-```py
-# A*模板：启发式搜索 - 有指导的搜索
-function a_star(start, goal):
-    # 优先队列 - 按f值排序
-    open_set = PriorityQueue()
-    
-    # 启发式函数 - 估计到目标的距离
-    h_start = heuristic(start, goal)
-    open_set.put(start, h_start)
-    
-    # 略，详见完整版
+    visited.add(current)
+
+    # 递归探索邻居
+    for neighbor in get_neighbors(current):
+        if neighbor not in visited:
+            result = dfs(neighbor, goal, visited, path + [current])
+            if result is not None:
+                return result
+
+    return None  # 该分支无解
 ```
 
 ## 五、算法思想指导AI编程示例
@@ -834,6 +982,7 @@ AI，请实现搜索策略的音乐推荐：
 3. **指导AI**：用算法思想指导AI生成代码
 
 **示例**：
+
 ```
 推荐问题 → 向量相似度搜索 → KNN/ANN算法 → AI实现
 ```
@@ -873,44 +1022,6 @@ Prompt: "用二分查找设计一个搜索函数，
 □ 边界情况是否处理完整？
 □ 是否用了算法思想描述的方法？
 □ 是否有更优的方案？
-```
-
-#### **Rule 3: 理解权衡，而不是盲目求最优**
-
-```
-没有完美的算法，只有权衡：
-- 时间 vs 空间
-- 复杂度 vs 可维护性
-- 最优 vs 足够好
-- 通用 vs 特化
-
-你的职责：根据具体场景做出正确的权衡
-```
-
-#### **Rule 4: 保持对AI代码的怀疑**
-
-```
-AI可能出错的地方：
-□ 复杂度分析错误
-□ 边界情况遗漏
-□ 逻辑漏洞（看不出来的bug）
-□ 性能瓶颈（代码正确但慢）
-□ 不符合业务逻辑
-
-永远要自己验证关键代码
-```
-
-#### **Rule 5: 用小问题积累大智慧**
-
-```
-学习循环：
-1. 用一个小问题测试某个算法思想
-2. 让AI生成代码 + 解释
-3. 自己分析验证
-4. 迁移到大问题中
-5. 重复
-
-这样可以快速建立对思想的深度理解
 ```
 
 #### **Rule 3: 理解权衡，而不是盲目求最优**
@@ -1042,10 +1153,10 @@ E - Expectations（期望）：
 
 ---
 
-### 实战案例：数据库查询优化
+### 实战案例：数据库查询优化工具
 
 #### **业务背景**
-优化复杂SQL查询的执行计划，减少查询时间从秒级到毫秒级。
+通过工具优化复杂SQL查询的执行计划，减少查询时间从秒级到毫秒级。
 
 #### **三层能力分析**
 
@@ -1128,4 +1239,6 @@ E - Expectations（期望）：
 **核心观点**：AI时代，程序员的价值不在于写代码，而在于用算法思想指导AI写出最优的代码。掌握算法思想，成为AI的"架构师"而不是"程序员"。
 
 **完整代码实现请参考**：[AI-Era-Programmers-as-Algorithmic-Thinkers-Full.md](./AI-Era-Programmers-as-Algorithmic-Thinkers-Full.md)
+
+**更多算法思想与源码请见** [https://github.com/microwind/algorithms](https://github.com/microwind/algorithms)
 
