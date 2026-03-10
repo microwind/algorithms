@@ -26,45 +26,46 @@ class HeapSort:
 
   # 始终保持大顶堆特性
   def max_heapify(self, idx, size):
+    # 维护大顶堆性质
     arr = self.arr
     max = idx
     left = self.get_left(idx)
     right = self.get_right(idx)
+    # 找到父节点和子节点中的最大值
     if (left < size and arr[left] > arr[max]):
       max = left
-    
     if (right < size and arr[right] > arr[max]):
       max = right
     
-    print('idx=', idx, 'left=', left, 'right=', right, 'max=', max, 'size=', size)
-
+    # 如果最大值不是当前节点，交换并递归调整
     if (max != idx):
       [arr[idx], arr[max]] = [arr[max], arr[idx]]
       self.max_heapify(max, size)
   
   def build_max_heap(self):
+    # 构建大顶堆，从最后一个非叶子节点开始
     arr = self.arr
     length = len(arr)
     last_parent = self.get_parent(length) - 1
     for parent in range(last_parent, -1, -1):
       self.max_heapify(parent, length)
-      print('parent sort:', parent, arr)
 
   def sort_tree(self):
+    # 堆排序：交换堆顶和最后一个元素，重新调整堆
     arr = self.arr
     length = len(arr)
     child = length - 1
     while (child > 0):
+      # 交换堆顶元素到末尾
       [arr[0], arr[child]] = [arr[child], arr[0]]
+      # 重新调整堆
       self.max_heapify(0, child)
-      print('child sort:', child, arr)
       child -= 1
 
   def start(self):
     self.build_max_heap()
-    print('child start:')
     self.sort_tree()
-    return arr
+    return self.arr
 
 arr = [7, 11, 9, 10, 12, 13, 8]
 print("start:", arr)

@@ -10,53 +10,49 @@ import time
 
 # 1. 希尔排序标准版，基于插入排序进行分组排序，步长按1/2缩减。
 def shell_sort1(arr):
+    # 希尔排序：插入排序的改进版，按步长分组排序
     size = len(arr)
-    # 设置分组增量值（步长）为1/2的数组长度
+    # 初始步长为数组长度的一半
     gap = size // 2
 
-    # 根据步长得到子序列，如果间隔大于0，则表示还可以继续分组
+    # 按步长递减排序
     while gap > 0:
         for i in range(gap, size):
             current = arr[i]
             j = i
-            # 对子序列按照插入排序
+            # 对每个子序列进行插入排序
             while j >= gap and current < arr[j - gap]:
-                print('gap=' + str(gap) + ' i=' + str(i) + ' j-gap=' +
-                      str(j - gap) + ' j=' + str(j))
                 arr[j] = arr[j - gap]
                 j -= gap
-            # 交换当前项
+            # 插入当前元素
             arr[j] = current
-        # 调整步长为1/2
+        # 步长减半
         gap = gap // 2
     return arr
 
 
 # 2. 希尔排序，基于插入排序进行分组排序，步长按3倍递减。
 def shell_sort2(arr):
+    # 希尔排序优化版：使用3x+1步长序列
     size = len(arr)
     gap = 1
-    # 初始步长按3倍递增，小于1/3数组长度
+    # 计算初始步长：3x+1序列
     while gap < (size // 3):
         gap = gap * 3 + 1
 
-    # 根据步长得到子序列，如果间隔大于0，则表示还可以继续分组
+    # 按步长递减排序
     while (gap > 0):
         for i in range(gap, size):
             current = arr[i]
             j = i - gap
-            # 对子序列按照插入排序s
+            # 对每个子序列进行插入排序
             while j >= 0 and arr[j] > current:
-                print('gap=' + str(gap) + ' i=' + str(i) + ' j=' + str(j) + ' j+gap=' + str(j + gap))
                 arr[j + gap] = arr[j]
                 j -= gap
-
-            # 还原当前位置
+            # 插入当前元素
             arr[j + gap] = current
-
         # 步长按3倍缩减
         gap = gap // 3
-
     return arr
 
 

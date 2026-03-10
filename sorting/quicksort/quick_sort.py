@@ -10,38 +10,29 @@ import time
 
 # 递归新建数组版本。无需交换，每个分区都是新数组，数量庞大
 def quick_sort1(arr):
-    # 数组长度为1就不再分级
+    # 快速排序递归版：新建数组分区
     arr_len = len(arr)
     if (arr_len <= 1):
         return arr
 
-    print('split array:', arr)
-
+    # 选择中间元素作为基准
     left = []
     right = []
-    # 设置中间数
-    mid_index = arr_len / 2
+    mid_index = arr_len // 2
     pivot = arr[mid_index]
 
     for i in range(arr_len):
-        print(
-            'i=' + str(i) + ' mid_index=' + str(mid_index) + ' pivot=' +
-            str(pivot) + ' arr[]=', arr)
-        # 当中间基数等于i时，跳过当前。中间数递归完成时合并
+        # 跳过基准元素本身
         if (mid_index == i):
             continue
-
-        # 当前数组端里面的项小于基数则添加到左侧
+        # 小于基准的放左边，大于等于的放右边
         if (arr[i] < pivot):
             left.append(arr[i])
-            # 大于等于则添加到右侧
         else:
             right.append(arr[i])
 
-    arr = quick_sort1(left) + [pivot] + quick_sort1(right)
-    print('sorted array:', arr)
-    # 递归调用遍历左侧和右侧，再将中间值连接起来
-    return arr
+    # 递归排序并合并
+    return quick_sort1(left) + [pivot] + quick_sort1(right)
 
 
 """
@@ -59,50 +50,31 @@ f([7]) f([])
 
 # 标准递归版本。需要左右不断交换，无需新建数组。
 def quick_sort2(arr, left=None, right=None):
-
+    # 快速排序标准版：原地分区交换
     i = left = left if left is not None else 0
     j = right = right if right is not None else len(arr) - 1
-    mid_index = (i + j) / 2
+    mid_index = (i + j) // 2
     pivot = arr[mid_index]
 
-    # 当左侧小于等于右侧则表示还有值没有对比，需要继续
+    # 分区过程：左边小于基准，右边大于基准
     while (i <= j):
-        # 当左侧小于基准时查找位置右移，直到找出比基准值大的位置来
+        # 从左向右找大于基准的元素
         while (arr[i] < pivot):
-            print('arr[i] < pivot:',
-                  ' i=' + str(i) + ' j=' + str(j) + ' pivot=' + str(pivot))
             i = i + 1
-
-        # 当前右侧大于基准时左移，直到找出比基准值小的位置来
+        # 从右向左找小于基准的元素
         while (arr[j] > pivot):
-            print('arr[j] > pivot:',
-                  ' i=' + str(i) + ' j=' + str(j) + ' pivot=' + str(pivot))
             j -= 1
 
-        print(
-            '  left=' + str(left) + ' right=' + str(right) + ' i=' + str(i) +
-            ' j=' + str(j) + ' mid_index=' + str(mid_index) + ' pivot=' +
-            str(pivot) + ' arr[]=', arr)
-
-        # 当左侧位置小于右侧时，将数据交换，小的交换到基准左侧，大的交换到右侧
+        # 交换元素，确保左边小于基准，右边大于基准
         if (i <= j):
             [arr[i], arr[j]] = [arr[j], arr[i]]
-            # 缩小搜查范围，直到左侧都小于基数，右侧都大于基数
             i += 1
             j -= 1
 
-    # 左侧小于基数位置，不断递归左边部分
+    # 递归排序左右子数组
     if (left < j):
-        print(
-            'left < j:recursion:  left=' + str(left) + ' right=' + str(right) +
-            ' i=' + str(i) + ' j=' + str(j) + 'arr[]', arr)
         quick_sort2(arr, left, j)
-
-    # 基数位置小于右侧，不断递归右侧部分
     if (i < right):
-        print(
-            'i < right:recursion:  left=' + str(left) + ' right=' +
-            str(right) + ' i=' + str(i) + ' j=' + str(j) + 'arr[]', arr)
         quick_sort2(arr, i, right)
 
     return arr
@@ -110,39 +82,28 @@ def quick_sort2(arr, left=None, right=None):
 
 # 非递归版本。需要交换，无需新建数组，利用stack或queue遍历。
 def quick_sort3(arr, left=None, right=None):
+    # 快速排序非递归版：使用栈模拟递归
     left = left if left is not None else 0
     right = right if right is not None else len(arr) - 1
 
     stack = []
-    #  i, j, mid_index, pivot, tmp
-    # 与标准递归版相同，只是将递归改为遍历栈的方式
-    # 先将左右各取一个入栈
+    # 初始范围入栈
     stack.append(left)
     stack.append(right)
 
     while (len(stack) > 0):
-        # 如果栈内还有数据，则一并马上取出，其他逻辑与标准递归版同
+        # 出栈获取当前处理范围
         j = right = stack.pop()
         i = left = stack.pop()
-        mid_index = ((i + j) / 2)
+        mid_index = (i + j) // 2
         pivot = arr[mid_index]
+        
+        # 分区过程
         while (i <= j):
             while (arr[i] < pivot):
-                print('arr[i] < pivot:',
-                      ' i=' + str(i) + ' j=' + str(j) + ' pivot=' + str(pivot))
                 i += 1
-
             while (arr[j] > pivot):
-                print('arr[j] > pivot:',
-                      ' i=' + str(i) + ' j=' + str(j) + ' pivot=' + str(pivot))
                 j -= 1
-
-            # 打印中间过程
-            print(
-                '  left=' + str(left) + ' right=' + str(right) + ' i=' +
-                str(i) + ' j=' + str(j) + ' mid_index=' + str(mid_index) +
-                ' pivot=' + str(pivot) + ' arr[]=', arr)
-
             if (i <= j):
                 tmp = arr[j]
                 arr[j] = arr[i]
@@ -150,18 +111,11 @@ def quick_sort3(arr, left=None, right=None):
                 i += 1
                 j -= 1
 
+        # 子区间入栈
         if (left < j):
-            # 与递归版不同，这里添加到栈中，以便继续循环
-            print(
-                'i < right:recursion:  left=' + str(left) + ' right=' +
-                str(right) + ' i=' + str(i) + ' j=' + str(j) + 'arr[]', arr)
             stack.append(left)
             stack.append(j)
-
         if (i < right):
-            print(
-                'i < right:recursion:  left=' + str(left) + ' right=' +
-                str(right) + ' i=' + str(i) + ' j=' + str(j) + 'arr[]', arr)
             stack.append(i)
             stack.append(right)
 
@@ -170,20 +124,18 @@ def quick_sort3(arr, left=None, right=None):
 
 # 标准递归版本。左右不断分区交换，无需新建数组。
 def partition(arr, left, right):
-    # pivot基准可以任意挑选，这里取右侧
+    # 分区函数：选择右侧元素为基准，将小于基准的移到左侧
     pivot_index = right
     pivot = arr[pivot_index]
     partition_index = left - 1
     for i in range(left, right):
-        # 如果小于基准值则将小项移到左侧
+        # 小于基准的元素移到左侧
         if (arr[i] < pivot):
             partition_index += 1
             arr[i], arr[partition_index] = arr[partition_index], arr[i]
-    # 最后将基准位置调换至交换位置
+    # 将基准元素放到正确位置
     partition_index += 1
     arr[pivot_index], arr[partition_index] = arr[partition_index], arr[pivot_index]
-    print('partition_index:', partition_index, 'arr[partition_index]:', arr[partition_index], arr[left:partition_index],
-          arr[partition_index:right])
     return partition_index
 
 # 快排分区交换版本

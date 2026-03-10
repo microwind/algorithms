@@ -11,19 +11,17 @@ import time
 # 插入排序标准通用版
 '''
 def insert_sort1(arr):
+    # 插入排序标准版：将元素插入到已排序部分的正确位置
     l = len(arr)
     for i in range(l):
         j = i - 1
         current = arr[i]
-        # 将该项自右往左与已排序项逐个对比，当遇到比自己大的项时，将该位置右移
-        # 直到遇到小于等于自己的项则停止移动，表示插入成功
-        print('i=' + str(i), ' j=' + str(j), 'current=' + str(current),
-              'arr[i]=' + str(arr[i]), 'arr[j]=' + str(arr[j]), 'arr[]=', arr)
+        # 将当前元素与已排序部分从右向左比较
         while (j >= 0 and current < arr[j]):
-            # 逐个位移
+            # 大元素右移
             arr[j + 1] = arr[j]
             j -= 1
-        # 交换为当前项
+        # 插入当前元素
         arr[j + 1] = current
     return arr
 

@@ -16,60 +16,47 @@ import math
 """
 # 桶排序，根据数位递归调用
 def bucket_sort(arr, exponent):
-    print('origin arr:', arr, 'exponent:', exponent)
+    # 桶排序递归版：按指定位数分组排序
     if (len(arr) <= 1 or exponent <= 0):
         return arr
 
     min_value = min(arr)
-
     radix = 10
-    amount = 10
-
-    print('prepared arr:', arr, 'exponent:', exponent)
-    # 构建排序的桶二维列表
+    # 创建10个桶
     buckets = [None] * radix
 
+    # 按当前位数分组
     for i in range(len(arr)):
         item = arr[i] - min_value
-        # 根据数位上的值，把数据追加到对应的桶里，减去min是支持负数
         bucketIdx = int(item / exponent) % radix
-        # 填充空桶，或者提前填充为列表
         if buckets[bucketIdx] is None:
             buckets[bucketIdx] = []
         buckets[bucketIdx].append(arr[i])
 
-    print('append to buckets:', buckets)
-
-    # 将每个桶的数据按顺序逐个取出，重新赋值给原数组
+    # 递归排序每个桶并合并结果
     sortedIdx = 0
     for i in range(radix):
         bucket = buckets[i]
         if bucket is None or len(bucket) < 1:
             continue
-        # 如果是数组则继续递归调用，位数降低1位
-        sortedBucket = bucket_sort(bucket, exponent // amount)
-        # 把各个桶里的值按顺序赋给原数组
+        # 递归处理下一位
+        sortedBucket = bucket_sort(bucket, exponent // 10)
+        # 将排序结果放回原数组
         for num in sortedBucket:
-            print ('sortedIdx::', sortedIdx)
             arr[sortedIdx] = num
-            print('bucket:', bucket, 'sortedBucket:', sortedBucket,
-                  'sortedIdx:', sortedIdx, 'set arr:', arr)
             sortedIdx += 1
-
-    print('exponent:', exponent, 'sorted arr:', arr)
 
     return arr
 
 # 基数排序，从高到低逐位排序MSD版，基于桶排序递归实现
 def radix_sort_msd(arr):
-    # 根据最大值，逐个按进位(基数)来应用排序，从高位到低位。
-    # 获取数字的数位，这减去min_value是为了支持负数
-    # exponent是最大的数位，由高到低逐位计算
+    # 基数排序MSD版：从高位到低位递归排序
     max_value = max(arr)
     min_value = min(arr)
+    # 计算最大位数
     numberOfDigits = int(math.log10(max_value - min_value) + 1)
-    exponent = math.pow(10, numberOfDigits - 1)
-    return bucket_sort(arr, int(exponent))
+    exponent = int(math.pow(10, numberOfDigits - 1))
+    return bucket_sort(arr, exponent)
 
 
 if __name__ == '__main__':

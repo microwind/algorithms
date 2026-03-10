@@ -17,19 +17,17 @@ def counting_sort1(arr):
     real_len = int(max_value - min_value + 1)
     for i in range(real_len):
         count_list.append(0)
-    # 计数数组的长度在最大和最小差值+1
+    # 统计每个元素出现次数
     arr_len = len(arr)
     for i in range(arr_len):
-        # 把下标减去min值，以便减少计数数组的长度，同时可以支持负数，最小坐标为0
+        # 下标减去min值，支持负数
         idx = int(arr[i] - min_value)
-        # 根据待排序项给对应下标的位置增加1个标记
         count_list[idx] += 1
-        # print('idx, arr[i], count_list[idx]', idx, arr[i], count_list[idx])
+    # 根据计数重建排序数组
     output = []
-    # 遍历计数数组
     for i in range(real_len):
         val = count_list[i]
-        # 如果相同则取多次
+        # 重复添加相同元素
         for j in range(val):
             output.append(i + min_value)
     return output
@@ -73,26 +71,15 @@ def counting_sort3(arr):
         idx = int(arr[i] - min_value)
         count_list[idx] += 1
 
-    print('count_list:', count_list)
-
-    # 直接修改原list返回
-    # j = 0
-    # for i in range(real_len):
-    #   while (count_list[i]):
-    #     arr[j] = i + min_value
-    #     count_list[i] -= 1
-    #     j += 1
-    # return arr
-
-    # 将上一项的值添加到下一项中
+    # 计算累积计数，确定每个元素的最终位置
     for i in range(1, real_len):
         count_list[i] += count_list[i - 1]
 
-    # 按位置还原数据，下一个索引记录了上一个的值
+    # 构建输出数组，保持稳定性
     output = [None] * arr_len
     for i in range(arr_len):
         item = arr[i] - min_value
-        # 根据当前项从计数数组里找到目标位置
+        # 根据累积计数找到位置
         idx = count_list[int(item)] - 1
         output[idx] = item + min_value
         count_list[int(item)] -= 1

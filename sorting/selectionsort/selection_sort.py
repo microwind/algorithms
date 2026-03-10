@@ -9,29 +9,26 @@ import time
 
 
 def selection_sort1(arr):
+    # 选择排序：每次找到最小元素放到前面
     l = len(arr)
     for i in range(l - 1):
         min = arr[i]
         min_idx = i
         j = i + 1
+        # 在未排序部分找最小元素
         while j < l:
-            # 从待排序列表找到最小值和位置
             if arr[j] < min:
                 min = arr[j]
                 min_idx = j
-
-            print('i=' + str(i), ' j=' + str(j), 'min=' + str(min),
-                  'arr[i]=' + str(arr[i]), 'arr[j]=' + str(arr[j]), 'arr[]=',
-                  arr)
-
             j += 1
-        # 将待排序里最小值交换到已排序最后面
+        # 将最小元素交换到已排序部分末尾
         if min_idx != i:
             arr[i], arr[min_idx] = arr[min_idx], arr[i]
     return arr
 
 # 新建数组版，无需交换
 def selection_sort2(arr):
+    # 选择排序新建数组版：避免交换操作
     new_list = []
     i = 0
     l = len(arr)
@@ -39,23 +36,17 @@ def selection_sort2(arr):
         min = arr[i]
         min_idx = i
         j = i + 1
+        # 找到最小元素
         while (j < l):
-            # 找到并记录下最小值和位置
             if (arr[j] < min):
                 min = arr[j]
                 min_idx = j
-
-                print('i=' + str(i), ' j=' + str(j), 'min=' + str(min),
-                      'arr[i]=' + str(arr[i]), 'arr[j]=' + str(arr[j]),
-                      'arr[]=', arr)
             j += 1
-
-        # 将待排序里最小值添加到新数组中去
+        # 添加到新数组
         new_list.append(min)
-        # 原数组中删除对应的项
+        # 从原数组删除
         arr.remove(min)
         l -= 1
-
     return new_list
 
 

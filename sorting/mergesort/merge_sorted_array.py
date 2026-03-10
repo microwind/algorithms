@@ -15,20 +15,14 @@ import time
 
 
 def merge_sorted1(one, two):
-    # 数组1下标
-    i = 0
-    # 数组2下标
-    j = 0
-    # 结果数组下标
-    k = 0
-
+    # 双指针法合并两个已排序数组
+    i = j = k = 0
     one_len = len(one)
     two_len = len(two)
     result = [None] * (one_len + two_len)
 
-    # 循环遍历两个数组，直到有1个数组里面的全部被比较过
+    # 比较两个数组元素，小的放入结果数组
     while i < one_len and j < two_len:
-        # 逐个比较数组1和数组2的项，将小的项添加到新数组中，右移小项的指针再继续比较
         if one[i] < two[j]:
             result[k] = one[i]
             i += 1
@@ -37,14 +31,14 @@ def merge_sorted1(one, two):
             j += 1
         k += 1
 
-    # 如果数组1还有剩余的没有添加完，就全部追加到新数组最后
+    # 处理数组1剩余元素
     while i < one_len:
         result[k] = one[i]
         k += 1
         i += 1
 
-    # 如果数组2还有剩余的没有添加完，就全部追加到新数组最后
-    while (j < two_len):
+    # 处理数组2剩余元素
+    while j < two_len:
         result[k] = two[j]
         k += 1
         j += 1
@@ -61,25 +55,23 @@ def merge_sorted1(one, two):
 
 
 def merge_sorted2(one, two):
+    # 插入法：将数组1元素插入到数组2中
     one_len = len(one)
     two_len = len(two)
-    j = 0
+    
     for i in range(one_len):
+        # 找到插入位置
+        inserted = False
         for j in range(two_len):
-            # 从数组1里拿出一项来与数组2逐个(自前往后)进行比较
-            # 当遇到比它大的项时，则把它插入到数组2里该项的前面
-            # 同时数组2下标与长度增加一位，跳出当前循环，进入下一轮比较
-            if (one[i] < two[j]):
+            if one[i] < two[j]:
                 two.insert(j, one[i])
                 two_len += 1
+                inserted = True
                 break
-            else:
-                # 如果全部比较完成，且数组2里面没有比它还大的，则添加到最后
-                # 也可以一次性添加数组1里面全部剩余项，后面的就无需再比较了
-                if j == two_len - 1:
-                    two.append(one[i])
-                    two_len += 1
-                    break
+        # 如果没找到插入位置，添加到末尾
+        if not inserted:
+            two.append(one[i])
+            two_len += 1
 
     return two
 
@@ -93,20 +85,19 @@ def merge_sorted2(one, two):
 
 
 def merge_sorted3(one, two):
+    # 合并后插入排序：先合并再排序
     one_len = len(one)
     two_len = len(two)
-
     result = one + two
-    # 从第2个数组开始遍历，采用插入排序
+    
+    # 对合并后的数组进行插入排序
     for i in range(one_len, one_len + two_len):
         j = i - 1
         current = result[i]
-        # 如果当前项小于已排序的项，则逐个右移1位
+        # 将当前元素插入到已排序部分的正确位置
         while (j >= 0 and current < result[j]):
             result[j + 1] = result[j]
             j -= 1
-
-        # 空出位置插入比较项
         result[j + 1] = current
 
     return result

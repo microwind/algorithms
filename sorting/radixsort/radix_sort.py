@@ -10,23 +10,23 @@ import time
 
 # 利用计数排序来实现基本排序
 def counting_sort(arr, exponent):
+    # 基数排序的计数排序：按指定位数排序
     arr_len = len(arr)
-    # 基数exponent按10进位，amount表示0-9的数字的长度，也是10个
-    amount = 10
+    amount = 10  # 0-9的数字
     count_list = [0] * amount
     sorted_list = [0] * arr_len
     min_value = min(arr)
 
-    # 根据基数求得当前项目对应位置的数值，并给对应计数数组位置加1
+    # 统计当前位数的计数
     for i in range(0, arr_len):
         index = (arr[i] - min_value) // exponent % amount
         count_list[index] += 1
 
-    # 当前位置加上左侧位置，后面的位数为前面的累加之和
+    # 计算累积计数
     for i in range(1, amount):
         count_list[i] += count_list[i - 1]
 
-    # 构建输出数组，根据计数数组按顺序取得排序内容
+    # 构建输出数组
     i = arr_len - 1
     while i >= 0:
         index = (arr[i] - min_value) // exponent % amount
@@ -34,7 +34,7 @@ def counting_sort(arr, exponent):
         count_list[index] -= 1
         i -= 1
 
-    # 复制输出数组到原始数组
+    # 复制回原数组
     for i in range(0, arr_len):
         arr[i] = sorted_list[i]
 
@@ -42,11 +42,13 @@ def counting_sort(arr, exponent):
 
 # 基数排序LSD版，基于计数排序的基础，按数字的每个位置来排序
 def radix_sort(arr):
+    # 基数排序LSD版：从低位到高位逐位排序
     max_value = max(arr)
     min_value = min(arr)
-    # 根据最大值，逐个按进位(基数)来应用排序，exponent即数位。
-    exponent = 1
+    exponent = 1  # 当前位数：个位、十位、百位...
     max_number = max_value - min_value
+    
+    # 按位数循环处理
     while max_number // exponent > 0:
         counting_sort(arr, exponent)
         exponent *= 10

@@ -11,52 +11,46 @@ import time
 # 冒泡排序升序，将最大的冒泡到最后
 '''
 def bubble_sort1(arr):
-  print('bubble_sort1 from left to right:')
-  length = len(arr)
-  for i in range(length):
-    for j in range(length - i - 1):
-      # 自左往右每两个进行比较，把大的交换到右侧
-      # 逐轮冒出最大数，已经排好序的不要再比较
-      if (arr[j] > arr[j + 1]):
-        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]
-      print('i=' + str(i), 'j=' + str(j), arr)
+    print('bubble_sort1 from left to right:')
+    length = len(arr)
+    for i in range(length):
+        for j in range(length - i - 1):
+            # 自左往右比较相邻元素，大的交换到右侧
+            if (arr[j] > arr[j + 1]):
+                [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]
+            print('i=' + str(i), 'j=' + str(j), arr)
 
 '''
 # 冒泡排序降序，将最小的冒泡到最后
 '''
 def bubble_sort2(arr):
-  print('bubble_sort2 from right to left:')
-  length = len(arr)
-  for i in range(length):
-    for j in range(length - 1, i, -1):
-      # 自右往左每两个进行比较，把小的交换到右侧
-      # 逐轮冒出最小数，已经排好序的不要再比较
-      if (arr[j - 1] < arr[j]):
-        [arr[j - 1], arr[j]] = [arr[j], arr[j - 1]]
-      print('i=' + str(i), 'j=' + str(j), arr)
+    print('bubble_sort2 from right to left:')
+    length = len(arr)
+    for i in range(length):
+        for j in range(length - 1, i, -1):
+            # 自右往左比较相邻元素，小的交换到右侧
+            if (arr[j - 1] < arr[j]):
+                [arr[j - 1], arr[j]] = [arr[j], arr[j - 1]]
+            print('i=' + str(i), 'j=' + str(j), arr)
 
 
 '''
 # 冒泡排序增加交换标志，针对有序情况优化
 '''
 def bubble_sort3(arr):
-  print('bubble_sort3 add flag:')
-  # 增加一个标志，如果某一轮没有进行过任何的交换
-  # 则说明当前数组已排好序，则不必继续后面的遍历，
-  length = len(arr)
-  flag = True
-
-  for i in range(length):
-    flag = False
-    print('no. ' + str(i))
-    for j in range(length -i - 1):
-      # 自左往右每两个进行比较，把大的交换到右侧
-      # 逐轮冒出最大数，已经排好序的不要再比较
-      if (arr[j] > arr[j + 1]):
-        flag = True
-        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]
-      
-      print('i=' + str(i), 'j=' + str(j), arr)
+    print('bubble_sort3 add flag:')
+    # 增加交换标志，优化有序情况
+    length = len(arr)
+    for i in range(length):
+        flag = False
+        for j in range(length - i - 1):
+            # 自左往右比较相邻元素
+            if (arr[j] > arr[j + 1]):
+                flag = True
+                [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]
+        # 如果本轮没有交换，说明已有序
+        if not flag:
+            break
 
 
 # test

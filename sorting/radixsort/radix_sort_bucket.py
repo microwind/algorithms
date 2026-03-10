@@ -14,31 +14,27 @@ import time
 重复步骤2和3，直到排序完成。
 """
 def radix_sort(arr):
-    max_value = max(arr)  # 找出数组中最大的数
-    min_value = min(arr)  #最小值，为了支持负数
-    digit = 1  # 从个位开始排序
+    # 基数排序LSD版：基于桶排序，从低位到高位
+    max_value = max(arr)
+    min_value = min(arr)  # 支持负数
+    digit = 1  # 从个位开始
 
-    # 每次排序一个数位，从低到高直到排序完成
+    # 按位数循环处理
     while (max_value - min_value) // digit > 0:
-        # 创建10个桶，分别对应0-9的数位值
+        # 创建10个桶对应0-9
         buckets = [[] for _ in range(10)]
         for num in arr:
-            # 找出当前位数的值
+            # 计算当前位数的值
             digit_num = (num - min_value) // digit % 10
-            # 将数字添加到对应数位的桶中，相当于根据数位排序
+            # 放入对应桶中
             buckets[digit_num].append(num)
 
-        print('buckets:', buckets)
-
-        # 通过exend展开数组，相当于逐层添加
+        # 重新组合数组
         arr = []
         for bucket in buckets:
             arr.extend(bucket)
-            # 或逐项添加
-            # for item in bucket:
-            #     arr.append(item)
 
-        # 数位移动到下一位
+        # 移动到下一位
         digit *= 10
 
     return arr

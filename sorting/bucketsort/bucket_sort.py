@@ -13,35 +13,31 @@ import time
 def bucket_sort1(arr):
     max_value = max(arr)
     min_value = min(arr)
-    # min_value = 1 if min_value <= 0 else min_value
-    # 设置桶的数量，可以任意设置，也可以根据最大、最小值来设置
+    # 计算桶大小和数量
     bucket_number = int(max_value - min_value) / min_value + 1
     bucket_number = len(arr) / 2 if bucket_number > len(arr) else bucket_number
     bucket_size = int(max_value - min_value) / bucket_number + 1
-    # 设置list并填充默认值
+    # 初始化桶
     buckets = [None for i in range(min_value, max_value + 1)]
     for item in arr:
-        # 当前项除以桶间距取整，决定应该放在某个桶内
+        # 计算元素应该放入的桶索引
         idx = int((item - min_value) / bucket_size)
-        # 如果是负数就放在第一桶里面
-        # print('bucket_number', bucket_number, 'bucket_size=', bucket_size, 'idx=', idx)
+        # 负数放入第一个桶
         idx = 0 if idx < 0 else idx
         if buckets[idx] == None:
             buckets[idx] = []
             buckets[idx].append(item)
         else:
+            # 插入排序保持桶内有序
             l = len(buckets[idx]) - 1
             while l >= 0:
-                # 自后往前遍历，如果数字大于数组中的项则插入其后
                 if item > buckets[idx][l]:
                     buckets[idx].insert(l + 1, item)
                     break
-                    # 如果数字最小则插入到最前
                 elif l == 0:
                     buckets[idx].insert(0, item)
                 l -= 1
-
-        # 按照下标和顺序取出桶内的数字，回填到一个数组中
+    # 合并所有桶
     output = []
     for i in range(len(buckets)):
         if buckets[i]:

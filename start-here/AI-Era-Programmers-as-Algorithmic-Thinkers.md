@@ -42,8 +42,8 @@ AI 编程时代，AI写的代码又快又好。但面对具体业务场景，如
 
 **关键区别**：
 
-- **算法思想** ← 抽象、通用、可复用 ← **黑盒思维**
-- **具体算法** ← 实现、特定、一次性 ← **白盒实现**
+- **算法思想**：抽象、通用、可复用 → **黑盒思维**
+- **具体算法**：实现、特定、一次性 → **白盒实现**
 
 ### 为什么程序员必须学算法思想？
 
@@ -1075,6 +1075,8 @@ AI可能出错的地方：
 
 在AI时代，程序员有两种方式利用算法思想指导AI编程：
 
+> 两种方式各有所长：**提示词可以精细化打磨，Skill 可以封装能力并自动化重复执行。**两者结合使用，相得益彰。
+
 #### 方式1：传统提示词方式
 
 ```
@@ -1104,7 +1106,7 @@ AI可能出错的地方：
 
 假设要设计一个"推荐系统"：
 
-##### ❌ 提示词方式
+##### ✅ 提示词方式
 
 用户需要做：
 
@@ -1398,14 +1400,29 @@ E - Expectations（期望）：
 | 随机化 | 引入随机性简化问题或提升性能 | 1. 爬虫请求随机调度（反反爬）<br>2. A/B 测试流量随机分桶<br>3. Redis 缓存过期时间随机抖动（防雪崩） |
 | 搜索策略<br>（BFS/DFS/A*） | 系统遍历解空间，按策略选择路径 | 1. 微信社交关系六度推荐<br>2. 高德最优导航路径<br>3. 云音乐个性化推荐 |
 
+> **最后的话**
+>
+> AI时代，不是程序员不再写代码，而是程序员的价值从"写代码"转向"指导AI写代码"。
+>
+> 要指导AI写好代码，你需要：
+> 1. **清晰地描述问题**（需求描述工程师）
+> 2. **合理地设计系统**（系统设计工程师）
+> 3. **用算法思想指导**（算法思想工程师）
+>
+> 三层能力缺一不可。只有掌握这三层，你才能真正成为AI时代的优秀程序员。
+
 ### 相关链接
 
 **完整代码实现请参考：**
-https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Algorithmic-Thinkers-Full.md
+[AI时代，程序员都应该是算法思想工程师-完整代码](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Algorithmic-Thinkers-Full.md)
 
 **程序员应该掌握的算法思想：**
-https://github.com/microwind/algorithms/blob/main/start-here/algorithmic-thinking.md
+[每个程序员都应该掌握的算法思想](https://github.com/microwind/algorithms/blob/main/start-here/algorithmic-thinking.md)
 
-**更多算法思想与源码请见：**
+**更多算法思想与设计架构源码请见：**
 [https://github.com/microwind/algorithms](https://github.com/microwind/algorithms)
+
+[https://github.com/microwind/design-patterns](https://github.com/microwind/design-patterns)
+
+
 
