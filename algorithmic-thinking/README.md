@@ -11,7 +11,7 @@ algorithmic-thinking/
 ├── dynamic-programming/       # 3. 动态规划（Dynamic Programming）
 ├── backtracking/              # 4. 回溯（Backtracking）
 ├── branch-and-bound/          # 5. 分支限界（Branch and Bound）
-├── random-algorithm/          # 6. 随机化（Randomized Algorithms）
+├── random-algorithm/          # 6. 随机化策略（Randomized Algorithms）
 └── search-algorithms/         # 7. 搜索策略（BFS, DFS, A*, IDDFS）
 ```
 
@@ -268,7 +268,9 @@ BRANCH-AND-BOUND(root):
 
 ---
 
-## 6. 随机化算法（Randomized Algorithms）
+## 6. 随机化算法策略（Randomized Algorithms）
+
+> 随机化不算是核心算法思想，可算是一种算法策略
 
 - **核心**：在算法运行中引入随机性，使得**期望性能更好**或实现近似解。
 - **主要类型**：  
@@ -317,7 +319,9 @@ RANDOMIZED-ALGO(problem, MAX-ITER):
 
 ---
 
-## 7. 搜索策略（BFS / DFS / A* / IDDFS）
+## 7. 搜索算法策略（BFS / DFS / A* / IDDFS）
+
+> 搜索不算是核心算法思想，可算是一种算法策略
 
 - **核心**：在状态图或搜索树上系统地探索，常与其他范式组合使用。
 - **常见模式**：  
