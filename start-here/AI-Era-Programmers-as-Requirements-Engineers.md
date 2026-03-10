@@ -6,7 +6,7 @@ AI编程时代，**代码写得再好，也不如把问题描述清楚**。大�
 
 > AI时代，程序员的第一价值不在于写代码，而在于理解和描述需求。
 
-**本文完整源码请见** [https://github.com/microwind/algorithms](https://github.com/microwind/algorithms)
+**本文相关资源请见** [https://github.com/microwind/algorithms](https://github.com/microwind/algorithms)
 
 ## 目录
 
@@ -266,9 +266,9 @@ graph LR
 **优势**：
 
 - **需求描述即理解过程**：在编写清晰需求的同时，程序员已经完全理解业务目标
-- **生成前明确方向****：AI在接收需求前，已有完整、量化的目标和边界
-- **AI高效生成****：描述清楚后，AI可以快速生成高质量代码或文档
-- **减少理解偏差与返工****：清晰需求降低歧义，减少编码返工和多轮沟通
+- **生成前明确方向**：AI在接收需求前，已有完整、量化的目标和边界
+- **AI高效生成**：描述清楚后，AI可以快速生成高质量代码或文档
+- **减少理解偏差与返工**：清晰需求降低歧义，减少编码返工和多轮沟通
 
 ### 核心转变对比
 
@@ -331,7 +331,7 @@ graph TD
 
 ### 五大核心能力
 
-AI时代下，优秀的程序员不仅会写代码，更要懂代码，尤其是能精准地理解、分析、表达和验证需求。以下是五大核心能力及其关键要点，帮助你从“coding”成长为“thinker”。
+AI时代下，程序员的核心价值从**代码实现者**升级为**需求理解的中枢**。优秀的程序员不仅要会写代码，更要理解代码，并能够精准地**理解、分析、表达和验证需求**。下面总结了五大核心能力，帮助你从“coding”升级到“thinking”。
 
 #### 1. 理解能力 — 深入业务本质，挖掘真实需求
 
@@ -420,11 +420,11 @@ Constraints – 有哪些限制？（必须保留某些品类比例、必须包�
 
 ### 框架1：BEAT框架
 
->  这是为AI时代优化的需求描述框架
+>  AI时代需求描述的核心思想：**背景 + 目标 + 行为 + 验证** 的完整表达。
 
 ```mermaid
 graph LR
-    B[<b>背景 Background</b><br/>- 用户角色<br/>- 业务场景<br/>- 触发条件] --> E[<b>期望 Expectation</b><br/>- 业务目标<br/>- 用户价值<br/>- 预期效果]
+    B[<b>背景 Background</b><br/>- 业务背景<br/>- 使用场景<br/>- 触发条件] --> E[<b>期望 Expectation</b><br/>- 业务目标<br/>- 用户价值<br/>- 预期效果]
     E --> A[<b>行动 Action</b><br/>- 用户操作<br/>- 系统行为<br/>- 交互流程]
     A --> T[<b>测试 Test</b><br/>- 验收条件<br/>- 性能指标<br/>- 约束规则]
 
@@ -434,20 +434,18 @@ graph LR
     style T fill:#fce4ec,stroke:#880e4f
 ```
 
-#### **B - Business（业务背景）**
-清晰说明问题的**业务目标和价值**
-
+#### **B - Background（业务背景）**
+清晰说明**业务背景与使用场景**
 ```
 示例：
 电商平台要提升用户粘性和复购率，当前推荐系统的转化率仅为8%。
-通过个性化推荐，目标是把转化率提升到15%。
+希望通过个性化推荐提升用户购买概率，目标是把转化率提升到15%。
 ```
 
-**核心问题**：这个功能为什么重要？解决什么业务问题？
+**核心问题**：为什么要做这个功能？解决什么业务问题？
 
-#### **E - Expected（期望表现）**
-量化的**功能表现和性能指标**
-
+#### **E - Expectation（期望效果）**
+明确定义**功能目标与可量化指标**。
 ```
 示例：
 - 推荐准确率：>80%（用户点击率定义）
@@ -458,30 +456,29 @@ graph LR
 
 **核心问题**：成功的标准是什么？如何衡量？
 
-#### **A - Assumption（假设条件）**
-列举**数据规模和业务假设**
+#### **Action（业务行为）**
+清晰描述**用户行为和系统行为**流程。
 
 ```
 示例：
-- 日活用户：1000万
-- 商品库：100万件
-- 推荐场景：首页、列表页、详情页
-- 用户行为数据：点击、收藏、购买（最近90天）
-- 推荐算法假设：基于协同过滤和内容相似性混合
+用户进入首页时：
+1. 系统根据用户历史行为生成推荐列表
+2. 推荐列表展示10个商品
+3. 用户点击商品后记录行为数据
+4. 行为数据进入推荐系统训练模型
 ```
 
 **核心问题**：基于什么样的数据规模和假设？
 
-#### **T - Technical（技术需求）**
-明确的**技术约束和系统需求**
+#### **Test（验收标准）**
+定义系统**验收条件与技术约束**
 
 ```
 示例：
-- 技术栈：Python + TensorFlow + Redis + Elasticsearch
-- 部署环境：云服务器，支持弹性扩展
-- 实时性：支持用户行为实时更新，15分钟内刷新推荐结果
-- 可维护性：代码可读性，文档齐全，支持版本管理
-- 监控告警：推荐准确率、响应时间、推荐覆盖率的实时监控
+- 数据规模：日活用户：1000万，商品库：100万件
+- 技术栈：Python + TensorFlow，Redis缓存，Elasticsearch搜索
+- 实时性：用户行为15分钟内更新推荐结果，
+- 监控：推荐点击率，推荐响应时间，推荐覆盖率
 ```
 
 **核心问题**：技术实现的约束是什么？
@@ -1015,6 +1012,18 @@ graph LR
 
 ## 九、用AI辅助完善需求描述
 
+在传统软件工程中，需求往往通过 需求评审、需求建模和测试驱动需求来不断完善。
+```
+这些方法的核心思想是：需求不是一次写完，而是通过 检查、扩展、验证 不断迭代完善。
+```
+
+在AI时代，大模型可以充当需求评审助手和需求扩展工具，帮助程序员快速发现需求问题并补充细节。
+```
+AI时代的需求完善流程是：
+需求草稿 → AI需求检查 → AI需求扩展 → AI生成测试用例 → 完整需求
+这种方法本质上是把传统需求工程中的 Review + Refinement + Validation 自动化。
+```
+
 #### 方法1：用AI进行需求检查
 
 ```
@@ -1128,10 +1137,10 @@ T - Technical（技术需求）→ 技术约束是什么？
 > AI时代，代码能力变得不那么稀缺。但**理解复杂业务、将模糊需求转化为清晰技术需求的能力**，将成为程序员最值钱的技能。
 
 ### 相关链接
-- [AI时代，程序员都应该是系统设计工程师](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Requirements-Engineers.md)
-- [AI时代，程序员都应该是需求描述工程师](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-System-Design-Engineers.md)
+- [AI时代，程序员都应该是需求描述工程师](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Requirements-Engineers.md)
+- [AI时代，程序员都应该是系统设计工程师](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-System-Design-Engineers.md)
 - [AI时代，程序员都应该是算法思想工程师](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Algorithmic-Thinkers.md)
 - [算法与数据结构代码分析](https://github.com/microwind/algorithms)
 - [设计模式与编程范式详解](https://github.com/microwind/design-patterns)
-- [AI编程提示词仓库](https://github.com/microwind/ai-prompt)
-- [AI编程Skill仓库](https://github.com/microwind/ai-skillshttps://github.com/microwind/design-patterns)
+- [AI编程提示词模板库](https://github.com/microwind/ai-prompt)
+- [AI编程Skill仓库](https://github.com/microwind/ai-skills)
