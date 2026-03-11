@@ -1,8 +1,8 @@
-# AI时代，程序员都应该是算法思想工程师
+# AI时代，人人都是算法思想工程师
 
-AI 编程时代，AI写的代码又快又好。但面对具体业务场景，如果不能清晰地描述需求和定义边界，并从算法角度理解和建模问题，那么AI也无所适从。因此，在 AI 时代，程序员既需要深入理解业务和确定技术架构，更需要熟练掌握核心算法思想，并用算法思想来指导AI替你干活。
+AI编程时代，AI写的代码又快又好。但面对具体业务场景，如果不能清晰地描述需求和定义边界，并从算法角度理解和建模问题，那么AI也无所适从。因此，在AI时代，程序员既需要深入理解业务和确定技术架构，更需要熟练掌握核心算法思想，并用算法思想来指导AI替你干活。
 
-只有这样，才能真正利用 AI 工具进行创新，并解决实际问题。因此，在 AI 时代，程序员的价值并不会消失，而是逐渐从“编写代码”转向“理解问题、设计方案和指导 AI”。只有具备扎实的数据结构基础和算法思想，才能更有效地利用 AI 进行算法设计与问题求解，从而解决真实世界中的复杂问题。
+只有这样，才能真正利用AI工具进行创新，并解决实际问题。因此，在AI时代，程序员的价值并不会消失，而是逐渐从“编写代码”转向“理解问题、设计方案和指导AI”。只有具备扎实的数据结构基础和算法思想，才能更有效地利用AI进行算法设计与问题求解，从而解决真实世界中的复杂问题。
 
 > AI时代，程序员的价值不在于写代码，而在于用算法思想指导AI写出最优的代码。
 
@@ -1536,15 +1536,13 @@ E - Expectations（期望）：
 >
 > 三层能力缺一不可。只有掌握这三层，你才能真正成为AI时代的优秀程序员。
 
+
 ### 相关链接
+- [AI时代，程序员都应该是需求描述工程师](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Requirements-Engineers.md)
+- [AI时代，程序员都应该是系统设计工程师](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-System-Design-Engineers.md)
+- [AI时代，程序员都应该是算法思想工程师](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Algorithmic-Thinkers.md)
+- [算法与数据结构代码分析](https://github.com/microwind/algorithms)
+- [设计模式与编程范式详解](https://github.com/microwind/design-patterns)
+- [AI编程提示词模板库](https://github.com/microwind/ai-prompt)
+- [AI编程Skill仓库](https://github.com/microwind/ai-skills)
 
-**完整代码实现请参考：**
-[AI时代，程序员都应该是算法思想工程师-完整代码](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Algorithmic-Thinkers-Full.md)
-
-**程序员应该掌握的算法思想：**
-[每个程序员都应该掌握的算法思想](https://github.com/microwind/algorithms/blob/main/start-here/algorithmic-thinking.md)
-
-**更多算法思想与设计架构源码请见：**
-[https://github.com/microwind/algorithms](https://github.com/microwind/algorithms)
-
-[https://github.com/microwind/design-patterns](https://github.com/microwind/design-patterns)
