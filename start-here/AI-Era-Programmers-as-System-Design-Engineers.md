@@ -188,6 +188,8 @@ flowchart LR
 
 ## 三、系统设计的五大核心维度
 
+五大核心维度：规模与容量、性能与延迟、可扩展性与成长、成本与权衡
+
 ### 维度1：规模与容量
 
 ```mermaid
@@ -435,9 +437,9 @@ graph LR
 示例计算：
 
 推荐系统容量规划：
-流量估算：日活 1000 万用户 × 人均 30 次请求 = 3 亿请求/天。
-峰值 QPS：平均 3500 QPS。考虑早晚高峰（3-4倍系数），设计 QPS 应为 12,000 - 15,000。
-计算挑战：若所有请求实时计算（10ms/请求），则需 15,000 × 0.01s = 150 核CPU（看似不多，但未考虑召回和排序模型的深度计算开销）。
+流量估算：日活 1000 万用户 × 人均 30 次请求 = 3 亿请求/天
+峰值 QPS：平均 3500 QPS。考虑早晚高峰（3-4倍系数），设计 QPS 应为 12,000 - 15,000
+计算挑战：若所有请求实时计算（10ms/请求），则需 15,000 × 0.01s = 150 核CPU
 
 优化方案（缓存 + 多级过滤）：
 
@@ -526,7 +528,6 @@ graph LR
 
 ✓ 强指导：
 "AI，请基于以下架构实现推荐系统：
-具体可参考提示词框架，或通过Skill来与AI交互。
 - 系统架构图：[粗排层] → [精排层] → [过滤层] → [结果]
 - 粗排：使用Redis热度排序，支持1000qps
 - 精排：使用向量相似度的贪心算法，支持100qps
@@ -539,11 +540,11 @@ graph LR
 
 ---
 
-## 五、系统设计框架和方法
+## 五、系统设计框架和原则
 
-### 框架：SCALE框架
+### 系统设计框架：SCALE
 
-这是为系统设计优化的结构化框架：
+> 这是为系统设计优化的结构化框架
 
 #### **S - Scale（规模与容量）**
 
@@ -606,11 +607,11 @@ flowchart TD
     A[用户请求] --> B[请求分层处理]
     
     B --> B1[1. 缓存层检查]
-    B --> B2[2. 粗排层 热度排序, 支持1000 QPS]
-    B --> B3[3. 精排层 向量相似度贪心算法, 支持100 QPS]
-    B --> B4[4. 过滤层排除已购商品<br>无货商品 用户黑名单]
+    B --> B2[2. 粗排层<br>热度排序<br>支持1000 QPS]
+    B --> B3[3. 精排层<br>向量相似度贪心算法<br>支持100 QPS]
+    B --> B4[4. 过滤层<br>排除已购商品<br>无货商品 用户黑名单]
 
-    B4 --> C[推荐结果缓存 Redis<br>TTL=15分钟]
+    B4 --> C[推荐结果缓存 Redis TTL=15分钟]
     C --> D[返回推荐结果]
 
     style A fill:#e1f5fe,stroke:#01579b,stroke-width:2px
@@ -707,88 +708,125 @@ flowchart TD
 
 ---
 
+### 微服务系统设计原则：AKF分解法
+
+####  AKF 分解法（三维立方体）
+
+> 当系统需要微服务化时，可以参考 **AKF 分解法**（三维扩展立方体），用于指导服务拆分和系统扩展：
+
+```mermaid
+graph TD
+    style A fill:#ccc,stroke:#333,stroke-width:1px
+    style B fill:#ffe6e6,stroke:#333,stroke-width:1px
+    style C fill:#e6f7ff,stroke:#333,stroke-width:1px
+    style D fill:#fff0b3,stroke:#333,stroke-width:1px
+
+    A[AFK 架构设计]
+
+    A --> B[X轴 > 副本分解]
+    B --> B1[在负载均衡器后<br>添加N个相同副本]
+    B --> B2[解决并发<br>能力有限]
+    B --> B3[实施简单<br>成本线性增长]
+
+    A --> C[Y轴 - 功能分解]
+    C --> C1[按业务功能<br>拆分为不同服务]
+    C --> C2[解决单一服务过大<br>功能混乱]
+    C --> C3[需要清晰的<br>业务边界定义]
+
+    A --> D[Z轴 - 数据分解]
+    D --> D1[按数据范围分片<br>如用户ID 商品ID]
+    D --> D2[解决单点<br>数据库瓶颈]
+    D --> D3[需要一致性哈希<br>分片键设计]
+```
+**SCALE框架与AKF的关系**：
+
+- SCALE在A（架构）层面定义系统的组件划分
+- AKF是具体的微服务分解方法，是SCALE架构设计的细化工具
+
+###  微服务设计参考原则： SOLID 原则
+> 在服务内部设计时，可以参考 SOLID 原则，保证服务可维护、可扩展：
+```
+S：每个服务只做一件事；  
+O：新增功能时可扩展，不修改核心；  
+L：子模块可替换父模块，保证兼容；  
+I：接口专一，避免依赖无关功能；  
+D：依赖抽象而非实现，方便升级替换。
+```
+
+```mermaid
+graph TD
+    style A fill:#ccc,stroke:#333,stroke-width:1px
+    style B fill:#ffe6e6,stroke:#333,stroke-width:1px
+    style C fill:#e6f7ff,stroke:#333,stroke-width:1px
+    style D fill:#fff0b3,stroke:#333,stroke-width:1px
+    style E fill:#d9f7be,stroke:#333,stroke-width:1px
+    style F fill:#f9d6ff,stroke:#333,stroke-width:1px
+    style B1 fill:#fff,stroke:#333,stroke-width:1px
+    style C1 fill:#fff,stroke:#333,stroke-width:1px
+    style D1 fill:#fff,stroke:#333,stroke-width:1px
+    style E1 fill:#fff,stroke:#333,stroke-width:1px
+    style F1 fill:#fff,stroke:#333,stroke-width:1px
+
+    A[SLIOD系统设计原则]
+    A --> B[S - Single Responsibility]
+    B --> B1[每个服务只负责一个业务域<br>微服务原则]
+
+    A --> C[O - Open/Closed]
+    C --> C1[易于扩展新功能<br>避免修改核心模块]
+
+    A --> D[L - Liskov Substitution]
+    D --> D1[组件兼容 接口一致<br>支持无缝替换]
+
+    A --> E[I - Interface Segregation]
+    E --> E1[定义清晰的服务接口<br>避免过大的依赖]
+
+    A --> F[D - Dependency Inversion]
+    F --> F1[依赖抽象接口<br>不依赖具体实现<br>便于技术栈升级]
+```
+
+> 结合 AKF + SOLID 原则：
+> AKF：指导微服务拆分、横向/纵向扩展
+> SOLID：指导服务内部设计和接口规范
+> 两者结合可构建可扩展、可维护的微服务架构
+
+---
+
+### 何时使用这些原则和框架
+
+**SCALE框架** - 用于任何系统设计
+- ✓ 新项目启动前的设计评审
+- ✓ 大型系统的架构规划
+- ✓ 性能问题的根因分析
+
+**AKF分解法** - 用于微服务架构设计
+- ✓ 系统需要水平扩展时
+- ✓ 功能复杂需要拆分时
+- ✓ 数据规模过大需要分片时
+
+**SOLID原则** - 用于代码和模块设计
+
+- ✓ 指导团队代码规范
+- ✓ 代码审查的检查项
+- ✓ 重构时的参考标准
+
+**三层/分层架构** - 用于初期系统设计
+
+- ✓ 传统业务系统
+- ✓ 快速原型验证
+- ✓ 中小型应用
+
+---
+
 ## 六、常见的系统设计问题与解决方案
 
-### 问题1：过度设计（Over-engineering）
-
-**症状**：
-
-```
-常见担忧：
-"万一用户变成100倍怎么办？"
-"万一需要国际化怎么办？"
-"万一要支持AI推荐怎么办？"
-
-结果：
-- 使用过于复杂的技术栈
-- 实现不必要的功能
-- 开发时间延长2-3倍
-- 系统复杂度不必要地高
-```
-
-**问题所在**：
-- 对需求的理解不清
-- 为不存在的问题优化
-- 没有优先级和权衡意识
-
-**解决方案**：
-```
-1. 明确当前阶段的目标
-   - MVP（最小可行产品）：满足核心需求即可
-   - 成熟期：支持预期用户增长和业务扩展
-
-2. 定义清晰的增长计划
-   - 今年目标：支持 500 万用户
-   - 明年目标：支持 5000 万用户
-   - 后年目标：支持 1 亿用户
-
-3. 按阶段投入资源
-   - 第一阶段：单机或小集群即可
-   - 第二阶段：增加缓存层和数据库分片
-   - 第三阶段：考虑全球分布和多区域部署
-
-4. 使用 YAGNI 原则
-   - You Aren't Gonna Need It（只实现当前需要的功能）
-   - 避免过度设计，降低开发和维护成本
-```
-
-**权衡示例**：
-```
-权衡示例：
-
-方案1（简单设计）：
-- 架构：单台服务器 + MySQL
-- 开发时间：2周
-- 成本：500元/月
-- 支撑能力：约 100 万用户
-- 缺点：无法水平扩展，增长受限
-
-方案2（中度设计）：
-- 架构：3台应用服务器 + MySQL 主从 + Redis 缓存
-- 开发时间：3周
-- 成本：5000元/月
-- 支撑能力：约 1000 万用户
-- 缺点：达到大规模后仍需进一步优化
-
-方案3（充分设计）：
-- 架构：应用集群（20+）+ 数据库分片 + 缓存集群 + MQ + 搜索引擎
-- 开发时间：8周
-- 成本：50万元/月
-- 支撑能力：约 10 亿用户
-- 缺点：当前阶段过度设计，成本过高
-
-建议：
-- 初期采用方案1或方案2，随着用户量增长再逐步升级架构
-```
-
-### 问题2：选错了技术栈
+### 问题1：技术栈选择不当
 
 **症状**：
 ```
 常见技术选型问题：
-- “我们用了一个很流行的框架，但后来发现它不适合实际的业务场景”
-- “迁移成本太高，现在被技术选型困住了”
-- “团队学习成本太高，导致开发效率一直上不去”
+- "我们用了一个很流行的框架，但后来发现它不适合实际的业务场景"
+- "迁移成本太高，现在被技术选型困住了"
+- "团队学习成本太高，导致开发效率一直上不去"
 ```
 
 **问题所在**：
@@ -796,10 +834,8 @@ flowchart TD
 - 没有考虑团队经验
 - 没有评估迁移成本
 
-**解决方案**：
+**解决方案 - 技术栈选择的决策框架**：
 ```
-技术栈选择的决策框架：
-
 1. 适配性（权重40%）
    □ 是否适合这个业务场景？
    □ 性能指标能否满足需求？
@@ -820,31 +856,10 @@ flowchart TD
    □ 基础设施成本？
    □ 人力成本？
 
-评分案例（推荐系统）：
-
-方案A：Python + Django + MySQL + Redis
-- 适配性：4/5（开发快，但性能差一点）
-- 团队因素：5/5（团队熟悉Python）
-- 生态：5/5（社区活跃）
-- 成本：5/5（都是开源）
-- 总分：4.7/5 ✓ 推荐
-
-方案B：Java + Spring Cloud + PostgreSQL + RabbitMQ
-- 适配性：5/5（性能好，可靠性高）
-- 团队因素：3/5（学习成本高）
-- 生态：5/5（成熟稳定）
-- 成本：4/5（有许可成本）
-- 总分：4.3/5
-
-方案C：Rust + 自研框架 + ClickHouse
-- 适配性：5/5（性能非常好）
-- 团队因素：1/5（太难学，没人会）
-- 生态：2/5（不够成熟）
-- 成本：3/5（工程师稀缺）
-- 总分：2.75/5 ✗ 不推荐
+评分优先原则：成熟度 > 稳定性 > 团队经验 > 性能极限
 ```
 
-### 问题3：忽视了关键的非功能需求
+### 问题2：忽视了关键的非功能需求
 
 **症状**：
 ```
@@ -888,7 +903,7 @@ flowchart TD
 □ 技术债的隐性成本？
 ```
 
-### 问题4：有单点故障
+### 问题3：有单点故障
 
 **症状**：
 ```
@@ -903,62 +918,26 @@ flowchart TD
 - 知识集中
 
 **解决方案**：
-```mermaid
-graph TD
-    A[单点故障] 
-    A --> B1[单台 MySQL]
-    A --> B2[单台 Redis]
-    A --> B3[单个数据中心]
-    A --> B4[人力]
 
-    B1 --> C1[解决方案 主从复制 + 主备切换]
-    C1 --> D1[架构 Master-Slave + Sentinel]
-
-    B2 --> C2[解决方案 Redis Cluster + Sentinel + 持久化]
-    C2 --> D2[或者 本地缓存 + 多级缓存]
-
-    B3 --> C3[解决方案 跨地域部署 + 数据同步]
-    C3 --> D3[架构 主中心 + 从中心 异步同步]
-
-    B4 --> C4[解决方案 知识文档化 + 代码审查 + 轮流值班]
-    C4 --> D4[确保至少 2 人能处理关键模块]
-
-    %% 节点颜色
-    style A fill:#ffcccb,stroke:#ff0000,stroke-width:2px
-    style B1 fill:#ffe0b2,stroke:#ff9800
-    style B2 fill:#ffe0b2,stroke:#ff9800
-    style B3 fill:#ffe0b2,stroke:#ff9800
-    style B4 fill:#ffe0b2,stroke:#ff9800
-
-    style C1 fill:#c8e6c9,stroke:#388e3c
-    style C2 fill:#c8e6c9,stroke:#388e3c
-    style C3 fill:#c8e6c9,stroke:#388e3c
-    style C4 fill:#c8e6c9,stroke:#388e3c
-
-    style D1 fill:#bbdefb,stroke:#1976d2
-    style D2 fill:#bbdefb,stroke:#1976d2
-    style D3 fill:#bbdefb,stroke:#1976d2
-    style D4 fill:#bbdefb,stroke:#1976d2
 ```
-<!--
 消除单点故障：
 
 单点：单台MySQL
-→ 解决：主从复制 + 主备切换
-           └─ 架构：Master-Slave + Sentinel
+解决：主从复制 + 主备切换
+        └─ 架构：Master-Slave + Sentinel
 
 单点：单台Redis
-→ 解决：Redis Cluster + Sentinel + 持久化
-           └─ 或者：用本地缓存 + 多级缓存
+解决：Redis Cluster + Sentinel + 持久化
+        └─ 或者：用本地缓存 + 多级缓存
 
 单点：单个数据中心
-→ 解决：跨地域部署 + 数据同步
-           └─ 架构：主中心 + 从中心，异步同步
+解决：跨地域部署 + 数据同步
+        └─ 架构：主中心 + 从中心，异步同步
 
 单点：人力
-→ 解决：知识文档化 + 代码审查 + 轮流值班
-           └─ 确保至少2个人能处理关键模块
--->
+解决：知识文档化 + 代码审查 + 轮流值班
+        └─ 确保至少2个人能处理关键模块
+```
 
 ---
 
@@ -998,68 +977,34 @@ QPS：50000
 ```
 
 **A - Architecture（架构）**：
+
+推荐系统的处理流程：
+
 ```mermaid
 graph LR
-    A[用户请求]:::user --> B[请求分发层<br/>Nginx负载均衡]:::dispatch
-    B --> C[缓存检查<br/>Redis热门推荐缓存]:::cache
-    
-    C -->|缓存命中| D[直接返回结果]:::cache_hit
-    C -->|缓存未命中| E[粗排层<br/>热度排序 + 规则<br/>返回Top 50结果]:::compute
-    
-    E --> F[精排层<br/>向量相似度 + 多样性<br/>返回Top 10结果]:::compute
-    F --> G[过滤层<br/>黑名单 + 库存]:::compute
-    G --> H[结果缓存<br/>15分钟TTL<br/>返回给用户]:::cache
+    A[用户请求] --> B[检查缓存]
+    B -->|缓存命中| C[直接返回<br/>响应时间 < 10ms]
+    B -->|缓存未命中| D[粗排<br/>热度排序<br/>返回Top50]
+    D --> E[精排<br/>向量相似度<br/>返回Top10]
+    E --> F[过滤<br/>黑名单 库存检查]
+    F --> G[缓存结果<br/>TTL=15分钟]
+    G --> H[返回给用户<br/>响应时间 100-200ms]
 
-    classDef user fill:#e0f7fa,stroke:#006064,color:#000;
-    classDef dispatch fill:#ffe0b2,stroke:#ef6c00,color:#000;
-    classDef cache fill:#dcedc8,stroke:#2e7d32,color:#000;
-    classDef cache_hit fill:#c8e6c9,stroke:#2e7d32,color:#000;
+    classDef fast fill:#c8e6c9,stroke:#2e7d32,color:#000;
     classDef compute fill:#f3e5f5,stroke:#6a1b9a,color:#000;
-```
-<!--
-推荐系统架构设计：
+    classDef cache fill:#dcedc8,stroke:#1b5e20,color:#000;
 
-              用户请求
-                  │
-                  ▼
-         ┌────────────────┐
-         │  请求分发层    │ (Nginx负载均衡)
-         └────────┬───────┘
-                  │
-         ┌────────▼───────┐
-         │   缓存检查      │ (Redis)
-         │ (热门推荐缓存)  │
-         └────────┬───────┘
-                  │
-       ┌──────────┴──────────┐
-       │ 缓存命中            │ 缓存未命中
-       │ 直接返回            │ 继续处理
-       │                     │
-       │          ┌──────────▼────────┐
-       │          │   粗排层          │
-       │          │ (热度排序+规则)   │
-       │          │ 返回Top 50结果    │
-       │          └──────────┬────────┘
-       │                     │
-       │          ┌──────────▼────────┐
-       │          │   精排层          │
-       │          │ (向量相似度+多样) │
-       │          │ 返回Top 10结果    │
-       │          └──────────┬────────┘
-       │                     │
-       │          ┌──────────▼────────┐
-       │          │   过滤层          │
-       │          │ (黑名单+库存)     │
-       │          └──────────┬────────┘
-       │                     │
-       └──────────┬──────────┘
-                  │
-                  ▼
-         ┌────────────────┐
-         │ 结果缓存       │ (15分钟TTL)
-         │ 返回给用户     │
-         └────────────────┘
---
+    class C fast;
+    class D,E,F compute;
+    class G cache;
+```
+
+各层的具体职责：
+- **缓存层**：存储热门推荐结果，命中率目标80%
+- **粗排层**：快速筛选候选商品，支持1000+ QPS
+- **精排层**：精细化排序和多样性优化，支持100 QPS
+- **过滤层**：业务规则检查，排除无效商品
+- **降级策略**：粗排超时→返回缓存；精排故障→返回粗排结果
 
 **L - Limitations（容错）**：
 ```
@@ -1170,6 +1115,7 @@ L2 缓存（Redis分布式缓存）：
 #### 第3步：技术栈和部署
 
 **技术栈选择**：
+
 ```
 应用层：
 - 语言：Python（快速开发）+ Java（性能要求高的模块）
@@ -1196,6 +1142,7 @@ L2 缓存（Redis分布式缓存）：
 ```
 
 **部署架构**：
+
 ```mermaid
 graph TD
     %% 节点定义
@@ -1243,43 +1190,11 @@ graph TD
     class Milvus milvus;
     class MySQL_Slave slave;
 ```
-<!--
-┌─────────────────────────────────────────┐
-│        用户请求（来自CDN）              │
-└──────────────────┬──────────────────────┘
-                   │
-         ┌─────────▼────────┐
-         │  Nginx负载均衡   │ (4个实例)
-         └─────────┬────────┘
-                   │
-    ┌──────────────┼──────────────┐
-    │              │              │
-┌───▼───┐     ┌───▼───┐     ┌───▼───┐
-│应用池 │     │应用池 │     │应用池 │
-│(20台) │     │(20台) │     │(20台) │
-└───┬───┘     └───┬───┘     └───┬───┘
-    │             │             │
-    └─────────────┼─────────────┘
-                  │
-        ┌─────────▼────────┐
-        │  Redis集群       │
-        │  (10个分片)      │
-        └─────────┬────────┘
-                  │
-    ┌─────────────┼────────────┐
-    │             │            │
-┌───▼───┐  ┌─────▼──┐   ┌─────▼──┐
-│MySQL  │  │Elastic │   │Milvus  │
-│Master │  │Search  │   │        │
-└───┬───┘  └────────┘   └────────┘
-    │
-    ▼
-  MySQL Slave (备份 + 读库)
--->
 
 #### 第4步：风险和应对
 
 **关键风险识别**：
+
 ```
 风险1：推荐准确率下降
 - 原因：算法模型过时、训练数据偏差
@@ -1515,27 +1430,11 @@ graph TD
 
 ---
 
-## 参考资源
-
-**完整算法代码和案例：**
-https://github.com/microwind/algorithms
-
-**设计模式与编程范式：**
-https://github.com/microwind/design-patterns
-
-**AI编程提示词：**
-https://github.com/microwind/ai-prompt
-
-**AI编程Skill库：**
-https://github.com/microwind/ai-skills
-
----
-
 ## 看完本文，您应该有所收获：
 
 ### 1. **认知转变**
 - 从"会编码"升级为"能设计"
-- 从"实现者"升级为"建筑师"
+- 从"实现者"升级为"设计师"
 - 系统设计是优秀程序员的必修课
 
 ### 2. **SCALE框架掌握**
@@ -1570,9 +1469,9 @@ E - Evaluation（评估）→ 如何监控？
 
 ---
 
-## 三篇文章的完整体系
+## AI时代程序员的三层能力
 
-到现在为止，你已经学习了AI时代程序员的三层核心能力：
+> AI时代，掌握这三层能力，你就能驾驭AI，让AI替你打工。
 
 ```mermaid
 graph TD
@@ -1592,12 +1491,6 @@ graph TD
 
     D --> D2["7大算法思想<br/>2大核心策略<br/>问题建模"]
 
-    E["三层能力的关系"]
-    B --> E
-    C --> E
-    D --> E
-
-    E --> E1["需求定义 → 系统设计 → 算法建模<br/>→ 指导AI → 生成最优代码"]
 
     %% 颜色定义
     classDef root fill:#FFF4E6,stroke:#FF8C00,stroke-width:2px;
@@ -1610,26 +1503,18 @@ graph TD
     class B,C,D layer;
     class B1,C1,D1,E skill;
     class B2,C2,D2 framework;
-    class E,E1 relation;
 ```
 
-> **最后的话**
->
-> AI时代，不是程序员不再写代码，而是程序员的价值从"写代码"转向"指导AI写代码"。
->
-> 要指导AI写好代码，你需要：
+程序员的价值从"写代码"转向"指导AI写代码"。你需要：
 > 1. **清晰地描述问题**（需求描述工程师）
 > 2. **合理地设计系统**（系统设计工程师）
 > 3. **用算法思想指导**（算法思想工程师）
->
-> 三层能力缺一不可。只有掌握这三层，你才能真正成为AI时代的优秀程序员。
 
 ### 相关链接
-- [AI时代，程序员都应该是需求描述工程师](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Requirements-Engineers.md)
-- [AI时代，程序员都应该是系统设计工程师](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-System-Design-Engineers.md)
-- [AI时代，程序员都应该是算法思想工程师](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Algorithmic-Thinkers.md)
+- [AI时代，人人都是需求描述工程师](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Requirements-Engineers.md)
+- [AI时代，人人都是系统设计工程师](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-System-Design-Engineers.md)
+- [AI时代，人人都是算法思想工程师](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Algorithmic-Thinkers.md)
 - [算法与数据结构代码分析](https://github.com/microwind/algorithms)
 - [设计模式与编程范式详解](https://github.com/microwind/design-patterns)
 - [AI编程提示词模板库](https://github.com/microwind/ai-prompt)
 - [AI编程Skill仓库](https://github.com/microwind/ai-skills)
-
