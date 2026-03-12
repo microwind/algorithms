@@ -65,7 +65,7 @@ func bubbleSort3(list []int) []int {
 		flag = false
 		// 当前项跟后一项进行比较，如果需要交换
 		// 当没有任何一项需要交换时则终止循环
-		for j := 0; j < length-j-1; j++ {
+		for j := 0; j < length-i-1; j++ {
 			fmt.Printf("\nj=%d * i=%d | ", j, i)
 			if list[j] < list[j+1] {
 				flag = true

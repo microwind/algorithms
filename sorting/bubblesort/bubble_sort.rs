@@ -60,8 +60,8 @@ fn main() {
 }
 
 /*
-jarry@jarrys-MacBook-Pro rust % rustc -V  
-rustc 1.51.0 (2fd73fabe)
+jarry@Mac bubblesort % rustc -V
+rustc 1.84.0 (9fc6b4312 2025-01-07)
 jarry@jarrys-MacBook-Pro bubblesort % rustc ./bubble_sort.rs
 jarry@jarrys-MacBook-Pro bubblesort % ./bubble_sort
 bubbleSort:

@@ -14,6 +14,7 @@ def bubble_sort1(arr):
     print('bubble_sort1 from left to right:')
     length = len(arr)
     for i in range(length):
+        print('no. ' + str(i))
         for j in range(length - i - 1):
             # 自左往右比较相邻元素，大的交换到右侧
             if (arr[j] > arr[j + 1]):
@@ -27,6 +28,7 @@ def bubble_sort2(arr):
     print('bubble_sort2 from right to left:')
     length = len(arr)
     for i in range(length):
+        print('no. ' + str(i))
         for j in range(length - 1, i, -1):
             # 自右往左比较相邻元素，小的交换到右侧
             if (arr[j - 1] < arr[j]):
@@ -42,6 +44,7 @@ def bubble_sort3(arr):
     # 增加交换标志，优化有序情况
     length = len(arr)
     for i in range(length):
+        print('no. ' + str(i))
         flag = False
         for j in range(length - i - 1):
             # 自左往右比较相邻元素
