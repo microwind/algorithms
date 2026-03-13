@@ -173,8 +173,7 @@ AI 时代已经到来。AI 可以替代人们完成大量基础编码工作，�
 如果您对本项目感兴趣请加我，欢迎一起共建！ 
 If you are interested in this project, please add me. I welcome you to build it together!
 
-**wechat:** `springbuild`
-
-**邮件:** `jarryli@gmail.com`  or `lichunping@buaa.edu.cn`
-
-⭐ 如果这个项目对你有帮助，请给个 Star 支持一下！
+**我是Jarry 李春平**
+- 📧 mail: `jarryli@gmail.com`  or `lichunping@buaa.edu.cn`
+- 💬 wechat: `springbuild`
+- 🌟 如果这个项目对你有帮助，请给个 Star 支持一下！
