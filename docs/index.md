@@ -1,6 +1,6 @@
 # 🚀 Algorithms - AI时代更需要学习数据结构与算法
 
-> **在AI时代，深刻理解数据结构与算法才能真正驾驭AI，发挥其最大价值。** https://github.com/microwind/algorithms/
+> **在AI时代，深刻理解数据结构与算法才能真正驾驭AI，发挥其最大价值。** [https://github.com/microwind/algorithms](https://github.com/microwind/algorithms)
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/microwind/algorithms/blob/main/LICENSE) ![Build Status](https://img.shields.io/badge/build-passing-brightgreen) [![GitHub stars](https://img.shields.io/github/stars/microwind/algorithms.svg?style=social&label=Star)](https://github.com/microwind/algorithms) [![GitHub forks](https://img.shields.io/github/forks/microwind/algorithms.svg?style=social&label=Fork)](https://github.com/microwind/algorithms/fork)
 

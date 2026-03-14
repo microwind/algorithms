@@ -1,4 +1,4 @@
-# 理解算法与数据结构，学习不同编程语言 [English](./README_en.md)
+# AI时代，你更需要理解算法思想与数据结构，学习不同的编程语言 [English](./README_en.md)
 
 
 ![License](https://img.shields.io/badge/License-MIT-blue.svg) ![Last Updated](https://img.shields.io/github/last-commit/microwind/design-patterns) ![Build Status](https://img.shields.io/badge/build-passing-brightgreen) [![GitHub stars](https://img.shields.io/github/stars/microwind/algorithms.svg?style=social&label=Star)](https://github.com/microwind/algorithms) [![GitHub forks](https://img.shields.io/github/forks/microwind/algorithms.svg?style=social&label=Fork)](https://github.com/microwind/algorithms/fork)
