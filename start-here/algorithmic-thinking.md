@@ -657,3 +657,13 @@ Algorithm LasVegas(Problem P):
 
 ## 源码
 - 算法实现源码：[https://github.com/microwind/algorithms/](https://github.com/microwind/algorithms/)
+
+## 相关链接
+- [AI时代，人人都是AI Agent工程师](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Agent-Engineers.md)
+- [AI时代，人人都是需求描述工程师](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Requirements-Engineers.md)
+- [AI时代，人人都是系统设计工程师](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-System-Design-Engineers.md)
+- [AI时代，人人都是算法思想工程师](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Algorithmic-Thinkers.md)
+- [算法与数据结构代码分析](https://github.com/microwind/algorithms)
+- [设计模式与编程范式详解](https://github.com/microwind/design-patterns)
+- [AI编程提示词模板库](https://github.com/microwind/ai-prompt)
+- [AI编程Skill仓库](https://github.com/microwind/ai-skills)

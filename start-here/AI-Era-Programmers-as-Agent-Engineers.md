@@ -1129,6 +1129,43 @@ flowchart LR
     style C5 fill:#b6e3a8
 ```
 
+### Agent工程师的成长之路
+
+随着AI能力的提升，程序员与AI的协作模式在演变。
+```mermaid
+flowchart LR
+    L1["L1：Copilot 模式\nAI 辅助编码\n效率 ↑ 30–70%"]
+    L2["L2：Agent 模式\nAI 驱动任务完成\n效率 ↑ 300–500%"]
+    L3["L3：Agentic 模式\nAI 自主规划执行\n效率 ↑ 1000%+"]
+
+    L1 -->|能力升级| L2
+    L2 -->|自主演进| L3
+
+    style L1 fill:#1D9E75,stroke:#0F6E56,color:#ffffff
+    style L2 fill:#534AB7,stroke:#3C3489,color:#ffffff
+    style L3 fill:#D85A30,stroke:#993C1D,color:#ffffff
+```
+
+**L1：Copilot模式（AI辅助编码）**
+* 特点：用Cursor、GitHub Copilot、Windsurf等工具在IDE中辅助编码
+* 效率：提升30-70%
+* 局限：程序员仍需承担系统设计和需求理解，只是编码加速
+
+**L2：Agent模式（AI驱动任务完成）**
+* 特点：通过提示词框架与任务分解方法论，指导Claude Code、Codex完成整个系统开发
+* 效率：提升300-500%
+* 要求：掌握指导AI的方法论，有足够经验验证AI输出
+* 现状：2025年开始流行的模式，大量企业开始采用
+
+**L3：Agentic模式（AI自主规划执行）**
+
+* 特点：OpenClaw、SWE-agent等AI能自主规划和执行多步骤任务
+* 效率：提升1000%+（理论值）
+* 现状：2026年随着OpenClaw爆红引发关注，估计1-3年内逐步成熟
+* 人的角色：从"指导AI"变成"监督AI"
+
+---
+
 ### 成为Agent工程师的建议
 
 给有经验程序员的建议
@@ -1178,7 +1215,7 @@ flowchart LR
 
 建议：
 1. 不要急着成为全职Agent工程师，不要当甩手掌柜
-   (那样会浪费学习机会)
+   (那样会浪费实践机会)
 2. 可以用AI编程，但一定要手写代码，把编程基础打牢
    (写一遍和看一遍完全不同)
 3. 参与足够多的系统设计评审，多分析需求，理解业务
@@ -1238,18 +1275,18 @@ flowchart LR
 随着AI时代的到来，我们可以看到三类工程师的分化：
 
 ```
-1. 【AI时代守旧者】
+1. AI时代守旧者
    - 拒绝使用AI，坚持传统开发模式
    - 效率不变，相对竞争力下降
    - 未来5年会逐步被淘汰
 
-2. 【AI工具使用者】
+2. AI工具使用者
    - 拥抱AI，但用Cursor等工具加速编码
    - 效率提升50-100%
    - 但本质还是"写代码"而不是"指导AI"
    - 中期有竞争力，长期会卡住
 
-3. 【Agent工程师】
+3. Agent工程师
    - 全面拥抱AI，掌握指导AI的方法论（BEAT/SCALE/算法模型）
    - 不亲自写代码，而是指导AI完成，并且验证AI的代码
    - 效率提升300-1000%
@@ -1283,11 +1320,10 @@ flowchart LR
 ---
 
 ## 相关链接
-
+- [AI时代，人人都是AI Agent工程师](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Agent-Engineers.md)
 - [AI时代，人人都是需求描述工程师](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Requirements-Engineers.md)
 - [AI时代，人人都是系统设计工程师](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-System-Design-Engineers.md)
 - [AI时代，人人都是算法思想工程师](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Algorithmic-Thinkers.md)
-- [AI时代，人人都是AI Agent工程师](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Agent-Engineers.md)
 - [算法与数据结构代码分析](https://github.com/microwind/algorithms)
 - [设计模式与编程范式详解](https://github.com/microwind/design-patterns)
 - [AI编程提示词模板库](https://github.com/microwind/ai-prompt)
