@@ -4,8 +4,6 @@ AI编程时代，AI写的代码又快又好。但面对具体业务场景，如�
 
 因此，在AI时代，程序员既需要深入理解业务和确定技术架构，更需要熟练掌握核心算法思想，并用算法思想来指导AI替你干活。只有这样，才能真正利用AI工具进行创新，并解决实际问题。
 
-因此，在AI时代，程序员的价值并不会消失，而是逐渐从“编写代码”转向“理解问题、设计方案和指导AI”。只有具备扎实的数据结构基础和算法思想基础，才能更有效地利用AI进行算法设计与问题求解，从而解决真实世界中的复杂问题。
-
 > AI时代，程序员的价值不在于写代码，而在于用算法思想指导AI写出最优的代码。
 
 **本文源码资料请见** [https://github.com/microwind/algorithms](https://github.com/microwind/algorithms)
@@ -112,6 +110,25 @@ class C,D result;
 ## 二、算法要解决什么问题？
 
 算法要解决的问题就是现实中要解决的问题，下面列出一些问题示例。
+```mermaid
+graph TD
+    ROOT["算法问题分类"]
+
+    ROOT --> A["计算问题\n求值问题"]
+    ROOT --> B["搜索问题\n查找问题"]
+    ROOT --> C["排序问题\n整序问题"]
+    ROOT --> D["优化问题\n最优化问题"]
+    ROOT --> E["组合问题\n枚举问题"]
+    ROOT --> F["图论问题\n关系问题"]
+
+    style ROOT fill:#444441,stroke:#2C2C2A,color:#ffffff
+    style A fill:#1D9E75,stroke:#0F6E56,color:#ffffff
+    style B fill:#534AB7,stroke:#3C3489,color:#ffffff
+    style C fill:#D85A30,stroke:#993C1D,color:#ffffff
+    style D fill:#BA7517,stroke:#854F0B,color:#ffffff
+    style E fill:#185FA5,stroke:#0C447C,color:#ffffff
+    style F fill:#993556,stroke:#72243E,color:#ffffff
+```
 
 #### 1. **计算问题** - 求值问题
 
@@ -183,6 +200,24 @@ class C,D result;
 
 通过算法思想，我们可以从本质上去思考和解决问题。其核心作用是：将模糊的业务问题转化为可量化、可优化的计算模型，从而在设计阶段就做出正确的方向选择。
 
+```mermaid
+graph TD
+    ROOT["算法思想的作用"]
+
+    ROOT --> A["快速问题识别\n与方案选择"]
+    ROOT --> B["代码性能优化"]
+    ROOT --> C["系统架构理解"]
+    ROOT --> D["AI编程时代\n核心竞争力"]
+    ROOT --> E["建立通用\n解题框架"]
+
+    style ROOT fill:#444441,stroke:#2C2C2A,color:#ffffff
+    style A fill:#1D9E75,stroke:#0F6E56,color:#ffffff
+    style B fill:#534AB7,stroke:#3C3489,color:#ffffff
+    style C fill:#D85A30,stroke:#993C1D,color:#ffffff
+    style D fill:#BA7517,stroke:#854F0B,color:#ffffff
+    style E fill:#185FA5,stroke:#0C447C,color:#ffffff
+```
+
 #### 1. **快速问题识别与方案选择**
 
 ```
@@ -245,28 +280,7 @@ AI生成代码的问题：
 结论：AI时代，算法思想是程序员的"操纵杆"
 ```
 
-#### 5. **职业发展的推手**
-
-```
-初级工程师：能实现给定算法
-中级工程师：能根据需求选择算法
-高级工程师：能根据问题设计创新算法
-
-所有阶段都需要算法思想，但层次不同。
-```
-
-#### 6. **面试和技术评估**
-
-```
-面试官关注的顺序：
-1. 能否识别问题类型？（算法思想）
-2. 选择的方案是否最优？（复杂度分析）
-3. 实现代码是否正确？（编码能力）
-
-结论：算法设计思想决定了60%的评分，编码能力变得并不那么重要
-```
-
-#### 7. **建立通用的解题框架**
+#### 5. **建立通用的解题框架**
 
 ```
 有了算法思想：
@@ -286,39 +300,39 @@ AI生成代码的问题：
 
 ```mermaid
 graph TD
-    A[算法思想] --> B[5大核心思想]
-    A --> C[2大核心策略]
+    A["算法思想"] --> B1["贪心\nGreedy"]
+    A --> B2["分治\nDivide & Conquer"]
+    A --> B3["动态规划\nDynamic Programming"]
+    A --> B4["回溯\nBacktracking"]
+    A --> B5["分支限界\nBranch and Bound"]
 
-    B --> B1[贪心<br>Greedy]
-    B --> B2[分治<br>Divide and Conquer]
-    B --> B3[动态规划<br>Dynamic Programming]
-    B --> B4[回溯<br>Backtracking]
-    B --> B5[分支限界<br>Branch and Bound]
-
-    C --> C1[随机化<br>Randomized Algorithms]
-    C --> C2[搜索策略<br>Search Strategies]
-
-    C2 --> C21[BFS<br>广度优先搜索]
-    C2 --> C22[DFS<br>深度优先搜索]
-    C2 --> C23[A*<br>启发式搜索]
-    C2 --> C24[IDDFS<br>迭代加深DFS]
-
-    %% 颜色定义
-    classDef root fill:#ffcc99,stroke:#333,stroke-width:2px,color:#000
-    classDef core fill:#99ccff,stroke:#333,stroke-width:1px
-    classDef algo fill:#b6e3a8,stroke:#333
-    classDef strategy fill:#f9d5e5,stroke:#333
-    classDef search fill:#e6ccff,stroke:#333
-
-    %% 节点应用颜色
-    class A root
-    class B core
-    class C core
-    class B1,B2,B3,B4,B5 algo
-    class C1 strategy
-    class C2 strategy
-    class C21,C22,C23,C24 search
+    style A fill:#444441,stroke:#2C2C2A,color:#ffffff
+    style B1 fill:#1D9E75,stroke:#0F6E56,color:#ffffff
+    style B2 fill:#534AB7,stroke:#3C3489,color:#ffffff
+    style B3 fill:#D85A30,stroke:#993C1D,color:#ffffff
+    style B4 fill:#BA7517,stroke:#854F0B,color:#ffffff
+    style B5 fill:#185FA5,stroke:#0C447C,color:#ffffff
 ```
+```mermaid
+graph TD
+    A["算法策略"] --> C1["随机化\nRandomized Algorithms"]
+    A --> C2["搜索策略\nSearch Strategies"]
+    C2 --> C21["BFS\n广度优先搜索"]
+    C2 --> C22["DFS\n深度优先搜索"]
+    C2 --> C23["A*\n启发式搜索"]
+    C2 --> C24["IDDFS\n迭代加深DFS"]
+    A["算法策略"] --> D1["其他……"]
+
+    style A fill:#444441,stroke:#2C2C2A,color:#ffffff
+    style C1 fill:#993556,stroke:#72243E,color:#ffffff
+    style C2 fill:#3B6D11,stroke:#27500A,color:#ffffff
+    style C21 fill:#1D9E75,stroke:#0F6E56,color:#ffffff
+    style C22 fill:#534AB7,stroke:#3C3489,color:#ffffff
+    style C23 fill:#D85A30,stroke:#993C1D,color:#ffffff
+    style C24 fill:#BA7517,stroke:#854F0B,color:#ffffff
+    style D1 fill:#0F6E56,stroke:#3C3489,color:#ffffff
+```
+
 **5大核心算法思想** 是解决问题的**核心设计思路**，通过不同的分解和递推方式来处理复杂问题：
 
 - **贪心**：每步选择局部最优，逐步逼近全局最优。

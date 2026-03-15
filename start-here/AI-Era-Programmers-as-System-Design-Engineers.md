@@ -2,11 +2,9 @@
 
 AI时代，你可以让AI替你打工。最近OpenClaw很火，它可以承担产品、UI、程序员、测试等一系列职责，这些工作你都可以交给它来完成。但AI还是需要人来给它意图和指令，否则AI也不知何去何从。
 
-随着AI能力的提升，软件开发中的岗位边界正在变得模糊。传统意义上的产品、UI、前端、后端、大数据工程师、算法工程师等角色，不再像过去那样细分。未来需要的角色，是能够**理解需求、设计系统并做出技术权衡的综合型工程师**。换句话说，我们需要的是既懂需求、又懂架构，同时具备良好算法思维的**系统设计工程师**。
+随着AI能力的提升，传统意义上的产品、UI、前端、后端、大数据工程师、算法工程师等角色，不再像过去那样细分。未来需要的角色，是能够**理解需求、设计系统并做出技术权衡的综合型工程师**。换句话说，我们需要的是既懂需求、又懂架构，同时具备良好算法思维的**系统设计工程师**。
 
 当你清晰地描述了问题之后，下一步就是**定义问题的边界和约束**。这个步骤至关重要，因为它直接影响后续的算法选择、技术架构和实现成本。
-
-在AI编程时代，系统设计工程师的职责是：**在明确需求的基础上，分析系统的规模、确定关键约束、权衡多个维度的因素，最终设计出既能满足需求又最优系统架构**。这不是简单的"怎么做"，而是"用什么样的方式做最划算"。
 
 > AI时代，程序员的价值不在于写代码，而在于系统设计能力。好的系统设计，能让AI生成的代码既高效又可维护。
 
@@ -403,6 +401,28 @@ graph LR
 
 ## 四、系统设计工程师的核心职责
 
+在AI编程时代，系统设计工程师的职责是：**在明确需求的基础上，分析系统的规模、确定关键约束、权衡多个维度的因素，最终设计出既能满足需求又最优系统架构**。
+
+这不是简单的"怎么做"，而是"用什么样的方式做最划算"。具体来讲，分为下面5种职责。
+
+```mermaid
+graph TD
+    ROOT["系统设计师职责"]
+
+    ROOT --> A["定义系统边界"]
+    ROOT --> B["进行容量规划"]
+    ROOT --> C["设计架构和技术栈"]
+    ROOT --> D["识别系统瓶颈和风险"]
+    ROOT --> E["指导AI代码生成"]
+
+    style ROOT fill:#444441,stroke:#2C2C2A,color:#ffffff
+    style A fill:#1D9E75,stroke:#0F6E56,color:#ffffff
+    style B fill:#534AB7,stroke:#3C3489,color:#ffffff
+    style C fill:#D85A30,stroke:#993C1D,color:#ffffff
+    style D fill:#BA7517,stroke:#854F0B,color:#ffffff
+    style E fill:#185FA5,stroke:#0C447C,color:#ffffff
+```
+
 ### 职责1：定义系统边界
 
 ```
@@ -467,7 +487,7 @@ graph LR
 ```
 选择合适的技术栈：
 ✓ 编程语言
-  Python / Java / Go / Node.js
+  Python / Java / Go / JavaScript / ...
 ✓ 后端框架
   Django / Spring Boot / Gin / NestJS
 ✓ 前端框架
@@ -761,11 +781,11 @@ graph TD
     style D fill:#fff0b3,stroke:#333,stroke-width:1px
     style E fill:#d9f7be,stroke:#333,stroke-width:1px
     style F fill:#f9d6ff,stroke:#333,stroke-width:1px
-    style B1 fill:#fff,stroke:#333,stroke-width:1px
-    style C1 fill:#fff,stroke:#333,stroke-width:1px
-    style D1 fill:#fff,stroke:#333,stroke-width:1px
-    style E1 fill:#fff,stroke:#333,stroke-width:1px
-    style F1 fill:#fff,stroke:#333,stroke-width:1px
+    style B1 fill:#f1f1f1,stroke:#333,stroke-width:1px
+    style C1 fill:#f1f1f1,stroke:#333,stroke-width:1px
+    style D1 fill:#f1f1f1,stroke:#333,stroke-width:1px
+    style E1 fill:#f1f1f1,stroke:#333,stroke-width:1px
+    style F1 fill:#f1f1f1,stroke:#333,stroke-width:1px
 
     A[SLIOD系统设计原则]
     A --> B[S - Single Responsibility]
