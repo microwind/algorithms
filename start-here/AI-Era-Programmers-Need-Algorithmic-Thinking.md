@@ -1,18 +1,18 @@
-# Agentic AI时代，程序员必须掌握的算法思想
+# Agentic AI时代，程序员需要掌握的算法思想
 
 AI时代，程序员最重要的职责不是写代码，而是给AI发出指令，引导AI替你干活。要想让AI的工作成果富有成效，那么需要你给出明确清晰的指引。
 
 在AI时代，只有具备良好算法思想的程序员，才能有效地引领AI完成任务，从而解决真实世界中的复杂问题。
 
-> AI时代，程序员的价值不在于写代码，而在于用算法思想指导AI写出最优的代码。
+> AI时代，程序员的价值不在于写代码，而在于用算法思想驱动AI生成最优的代码。我是刀法如飞。
 
 ## 目录
 
 1. [算法与算法思想概述](#一算法与算法思想概述)
-2. [算法要解决什么问题](#二算法要解决什么问题)
-3. [算法思想有什么作用](#三算法思想有什么作用)
+2. [算法要解决什么问题？](#二算法要解决什么问题？)
+3. [算法思想有什么作用？](#三算法思想有什么作用？)
 4. [算法思想大全](#四算法思想大全)
-5. [算法思想指导AI编程实战](#五算法思想指导ai编程实战)
+5. [算法思想指导AI编程实战](#五算法思想指导AI编程实战)
 6. [程序员如何学习算法思想](#六程序员如何学习算法思想)
 7. [核心算法思想应用场景总结](#七核心算法思想应用场景总结)
 
@@ -200,6 +200,25 @@ graph TD
 在Agentic时代，Agent 的每个执行环节——感知、推理规划、行动执行——都需要提前编写对应的 Skill，将解决问题的策略预置给 AI。
 
 这正是程序员核心价值所在：**理解业务本质，用算法思想制定推理和执行策略，让 Agent 真正完成任务。** 没有扎实的算法思想基础，Skill 只是空壳，Agent 也只是在执行指令而非解决问题。
+
+```
+graph TD
+    A["业务需求"] --> B["Planning\n问题分析·任务分解·算法选择"]
+    B --> C["系统设计\n架构设计·技术选型·容量规划"]
+    C --> D["Skill设计\n感知·推理·行动·反馈"]
+    D --> E["AI执行\n生成代码·调用工具·完成任务"]
+    E --> F["Observation\n验证结果·评估质量"]
+    F -->|"通过"| G["上线迭代"]
+    F -->|"不通过"| B
+
+    style A fill:#444441,stroke:#2C2C2A,color:#ffffff
+    style B fill:#1D9E75,stroke:#0F6E56,color:#ffffff
+    style C fill:#3B6D11,stroke:#27500A,color:#ffffff
+    style D fill:#534AB7,stroke:#3C3489,color:#ffffff
+    style E fill:#D85A30,stroke:#993C1D,color:#ffffff
+    style F fill:#BA7517,stroke:#854F0B,color:#ffffff
+    style G fill:#185FA5,stroke:#0C447C,color:#ffffff
+```
 
 ```mermaid
 graph LR
@@ -686,6 +705,26 @@ function BFSShortest(graph, start, end):  // 求最短路径
 
 ## 五、算法思想指导AI编程实战
 
+### AI Agent代码生成流程
+```mermaid
+graph LR
+    A["业务需求"] --> B["Planning\n问题分析·任务分解·算法选择"]
+    B --> C["Skill设计\n感知·推理·行动·反馈"]
+    C --> D["AI执行\n生成代码·调用工具·完成任务"]
+    D --> E["Observation\n验证结果·评估质量"]
+    E -->|"通过"| F["上线迭代"]
+    E -->|"不通过"| B
+
+    style A fill:#444441,stroke:#2C2C2A,color:#ffffff
+    style B fill:#1D9E75,stroke:#0F6E56,color:#ffffff
+    style C fill:#534AB7,stroke:#3C3489,color:#ffffff
+    style D fill:#D85A30,stroke:#993C1D,color:#ffffff
+    style E fill:#BA7517,stroke:#854F0B,color:#ffffff
+    style F fill:#185FA5,stroke:#0C447C,color:#ffffff
+```
+
+详见独立文档：[AI Agent代码生成系统完全指南](https://github.com/microwind/ai-skills/blob/main/docs/AI-Agent-Code-Generation-System.md)
+
 ### 实战案例1：电商秒杀系统（贪心算法）
 
 #### 业务需求
@@ -860,7 +899,9 @@ SKILL: DeliveryRouteOptimizationDP
   - 空间: O(2^n * n) - DP表存储
 ```
 
-**本文相关skills请见** [https://github.com/microwind/ai-skills](https://github.com/microwind/ai-skills)
+本文相关skills请见：  [https://github.com/microwind/ai-skills](https://github.com/microwind/ai-skills)
+
+---
 
 ## 六、程序员如何学习算法思想？
 
@@ -894,7 +935,7 @@ graph LR
 
 |  | 规则 | 核心要点 |
 |---|------|---------|
-| Rule1 | 用思想而不是需求指导AI | ✗ "给我一个搜索函数"<br>✓ "用二分查找设计搜索函数，支持O(log n)查询，处理不存在的情况" |
+| Rule1 | 用思想而不是需求驱动AI | ✗ "给我一个搜索函数"<br>✓ "用二分查找设计搜索函数，支持O(log n)查询，处理不存在的情况" |
 | Rule2 | 验证AI的结果 | 检查：时间复杂度是否符合预期、空间复杂度是否可接受、边界情况是否完整、是否有更优方案 |
 | Rule3 | 理解权衡而不是盲目求最优 | 没有完美算法，只有权衡：时间vs空间、复杂度vs可维护性、最优vs足够好、通用vs特化 |
 | Rule4 | 保持对AI代码的怀疑 | AI易出错点：复杂度分析错误、边界遗漏、逻辑漏洞、性能瓶颈、不符合业务逻辑。关键代码永远要自己验证 |
@@ -902,9 +943,9 @@ graph LR
 
 ### 程序员认知转变
 
-- 从"如何编码"转变为"如何设计"
+- 从"如何编码"转变为"如何设计"到“如何驱动”
 - 从"实现者"升级为"指导者"或者“协调者”
-- AI时代，程序员的价值在于**算法思想**而非编码能力
+- AI时代，程序员的价值在于架构设计和**算法思想**而非编码能力
 
 ---
 
