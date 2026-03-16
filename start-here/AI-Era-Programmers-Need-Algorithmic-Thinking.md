@@ -1,4 +1,4 @@
-# AI时代，程序员必须掌握的算法思想
+# Agentic AI时代，程序员必须掌握的算法思想
 
 AI时代，程序员最重要的职责不是写代码，而是给AI发出指令，引导AI替你干活。要想让AI的工作成果富有成效，那么需要你给出明确清晰的指引。
 
@@ -12,7 +12,7 @@ AI时代，程序员最重要的职责不是写代码，而是给AI发出指令�
 2. [算法要解决什么问题](#二算法要解决什么问题)
 3. [算法思想有什么作用](#三算法思想有什么作用)
 4. [算法思想大全](#四算法思想大全)
-5. [算法思想指导AI编程示例](#五算法思想指导ai编程示例)
+5. [算法思想指导AI编程实战](#五算法思想指导ai编程实战)
 6. [程序员如何学习算法思想](#六程序员如何学习算法思想)
 7. [核心算法思想应用场景总结](#七核心算法思想应用场景总结)
 
@@ -229,6 +229,8 @@ graph LR
 
 ### 常见的5大核心思想与2大策略
 
+> 相关算法思想及源码请见：https://github.com/microwind/algorithms
+
 ```mermaid
 graph TD
     A["算法思想"] --> B1["贪心\nGreedy"]
@@ -271,6 +273,25 @@ graph TD
 |---------|---------|---------|---------|
 | 每一步都选择当前状态下的最优选择，期望得到全局最优解 | **贪心选择性**：全局最优解可以通过局部最优选择得到<br>**最优子结构**：问题的最优解包含子问题的最优解<br>**无后效性**：前面的选择不影响后面的决策 | 最优子结构明显的问题<br>无后效性的决策<br>实时性要求高的系统 | 1. 活动选择、区间调度<br>2. 霍夫曼编码、最小生成树<br>3. 任务调度 |
 
+#### 贪心算法流程图
+
+```mermaid
+graph LR
+    A["初始化：候选集合"] --> B["选择最优候选"]
+    B --> C["做出贪心选择"]
+    C --> D["更新问题规模"]
+    D --> E["还有候选?"]
+    E -->|是| B
+    E -->|否| F["输出最优解"]
+
+    style A fill:#444441,stroke:#2C2C2A,color:#ffffff
+    style B fill:#1D9E75,stroke:#0F6E56,color:#ffffff
+    style C fill:#D85A30,stroke:#993C1D,color:#ffffff
+    style D fill:#534AB7,stroke:#3C3489,color:#ffffff
+    style E fill:#BA7517,stroke:#854F0B,color:#ffffff
+    style F fill:#185FA5,stroke:#0C447C,color:#ffffff
+```
+
 #### 伪代码示例（活动选择问题）
 ```c
 function SelectActivities(activities):
@@ -295,6 +316,32 @@ function SelectActivities(activities):
 | 核心思想 | 三个阶段 | 算法特征 | 适用场景 | 常见应用 |
 |---------|---------|---------|---------|---------|
 | 分解问题 → 递归求解子问题 → 合并子问题的结果 | **Divide**：把问题分解成若干个规模较小的相同问题<br>**Conquer**：递归求解这些子问题<br>**Combine**：合并子问题的解成原问题的解 | **自相似性**：问题可以被分解为相似的子问题<br>**独立性**：子问题相互独立<br>**并行性**：可以并行处理子问题 | 问题具有自相似性<br>子问题相互独立<br>需要处理大规模数据 | 1. 排序（快速排序、归并排序）<br>2. 二分查找、矩阵乘法<br>3. 并行计算 |
+
+#### 分治算法流程图
+
+```mermaid
+graph LR
+    A["原问题"] --> B["分解"]
+    B --> C["子问题1"]
+    B --> D["子问题2"]
+    B --> E["子问题N"]
+    C --> F["递归求解"]
+    D --> F
+    E --> F
+    F --> G["子问题解"]
+    G --> H["合并"]
+    H --> I["最终解"]
+
+    style A fill:#444441,stroke:#2C2C2A,color:#ffffff
+    style B fill:#D85A30,stroke:#993C1D,color:#ffffff
+    style C fill:#1D9E75,stroke:#0F6E56,color:#ffffff
+    style D fill:#1D9E75,stroke:#0F6E56,color:#ffffff
+    style E fill:#1D9E75,stroke:#0F6E56,color:#ffffff
+    style F fill:#534AB7,stroke:#3C3489,color:#ffffff
+    style G fill:#534AB7,stroke:#3C3489,color:#ffffff
+    style H fill:#BA7517,stroke:#854F0B,color:#ffffff
+    style I fill:#185FA5,stroke:#0C447C,color:#ffffff
+```
 
 #### 伪代码示例（归并排序）
 ```c
@@ -333,6 +380,20 @@ function Merge(left, right):
 |---------|---------|---------|---------|---------|
 | 以空间换时间，用记忆化消除重复计算 | **最优子结构**：大问题的最优解 = 子问题最优解的组合<br>**重叠子问题**：不同的子问题有重复计算 | **自顶向下**：记忆化递归<br>**自底向上**：递推表格 | 最优子结构+重叠子问题<br>多阶段决策问题<br>优化问题（求最大值、最小值、方案数） | 1. 背包问题、币种兑换<br>2. 最长递增子序列、编辑距离<br>3. 路径计数 |
 
+#### 动态规划流程图
+
+```mermaid
+graph LR
+    A["问题分析\n最优子结构+重叠子问题"] --> B["建模\n1. 定义状态\n 2. 状态转移方程"]
+    B --> C["求解\n 1. 初始化\n 2. 自底向上递推\n 3. 填充DP表"]
+    C --> D["输出\n 1. 查询结果\n 2. 回溯求解\n 3. 输出最优解"]
+
+    style A fill:#444441,stroke:#2C2C2A,color:#ffffff
+    style B fill:#1D9E75,stroke:#0F6E56,color:#ffffff
+    style C fill:#534AB7,stroke:#3C3489,color:#ffffff
+    style D fill:#993556,stroke:#72243E,color:#ffffff
+```
+
 #### 伪代码示例（0-1背包问题 - 自底向上）
 ```c
 function KnapsackDP(weights, values, capacity):
@@ -364,6 +425,33 @@ function KnapsackDP(weights, values, capacity):
 |---------|---------|---------|---------|---------|
 | 尝试 → 探索 → 回退，系统地尝试所有可能性直到找到解 | 带约束的深度优先搜索（DFS） | 1. 做出选择<br>2. 在这个选择上进行递归<br>3. 撤销选择（回退）<br>4. 尝试其他选择 | 需要枚举所有可能解<br>组合生成、排列问题<br>约束满足问题 | 1. 全排列、组合生成<br>2. N皇后问题<br>3. 数独求解 |
 
+#### 回溯算法流程图
+
+```mermaid
+graph LR
+    A["开始：初始状态"] --> B["做出选择"]
+    B --> C["检查约束"]
+    C -->|满足| D["递归探索"]
+    C -->|不满足| E["回退"]
+    D --> F["找到解?"]
+    F -->|是| G["记录解"]
+    F -->|否| B
+    G --> E
+    E --> H["还有选择?"]
+    H -->|是| B
+    H -->|否| I["输出所有解"]
+
+    style A fill:#444441,stroke:#2C2C2A,color:#ffffff
+    style B fill:#1D9E75,stroke:#0F6E56,color:#ffffff
+    style C fill:#D85A30,stroke:#993C1D,color:#ffffff
+    style D fill:#534AB7,stroke:#3C3489,color:#ffffff
+    style E fill:#BA7517,stroke:#854F0B,color:#ffffff
+    style F fill:#BA7517,stroke:#854F0B,color:#ffffff
+    style G fill:#185FA5,stroke:#0C447C,color:#ffffff
+    style H fill:#185FA5,stroke:#0C447C,color:#ffffff
+    style I fill:#993556,stroke:#72243E,color:#ffffff
+```
+
 #### 伪代码示例（全排列问题）
 ```c
 function Permutations(arr, start, result):
@@ -389,6 +477,34 @@ function GetPermutations(arr):
 | 核心思想 | 算法特点 | 适用场景 | 常见应用 |
 |---------|---------|---------|---------|
 | 通过剪枝来减少搜索空间，在回溯的基础上加入界限函数 | **分支**：将问题分解为子问题<br>**限界**：计算子问题的界限，剪枝不可能产生最优解的分支<br>**剪枝**：提前终止不可能产生最优解的搜索路径 | 搜索空间巨大的优化问题<br>需要找到全局最优解<br>可以计算上下界的问题 | 1. 旅行商问题<br>2. 背包问题优化<br>3. 任务调度、资源分配 |
+
+#### 分支限界流程图
+
+```mermaid
+graph LR
+    A["初始化：队列+最优值"] --> B["队列非空?"]
+    B -->|是| C["取出节点"]
+    C --> D["计算上界"]
+    D --> E["上界>最优值?"]
+    E -->|是| G["分支：生成子节点"]
+    E -->|否| F["剪枝"]
+    G --> H["更新最优值"]
+    H --> I["加入队列"]
+    I --> B
+    F --> B
+    B -->|否| J["输出最优解"]
+
+    style A fill:#444441,stroke:#2C2C2A,color:#ffffff
+    style B fill:#BA7517,stroke:#854F0B,color:#ffffff
+    style C fill:#1D9E75,stroke:#0F6E56,color:#ffffff
+    style D fill:#D85A30,stroke:#993C1D,color:#ffffff
+    style E fill:#D85A30,stroke:#993C1D,color:#ffffff
+    style F fill:#993556,stroke:#72243E,color:#ffffff
+    style G fill:#534AB7,stroke:#3C3489,color:#ffffff
+    style H fill:#185FA5,stroke:#0C447C,color:#ffffff
+    style I fill:#185FA5,stroke:#0C447C,color:#ffffff
+    style J fill:#0F6E56,stroke:#3C3489,color:#ffffff
+```
 
 #### 伪代码示例（0-1背包问题 - 分支限界）
 ```c
@@ -424,6 +540,31 @@ function KnapsackBranchBound(weights, values, capacity):
 | 核心思想 | 算法类型 | 算法特征 | 适用场景 | 常见应用 |
 |---------|---------|---------|---------|---------|
 | 利用随机性来简化算法设计、提高性能或解决确定性算法难以处理的问题 | **拉斯维加斯算法**：总是给出正确答案，但运行时间随机<br>**蒙特卡洛算法**：运行时间确定，但可能给出错误答案 | **随机性**：利用随机数或随机过程<br>**概率性**：结果具有概率保证<br>**简化性**：随机化可以简化算法设计 | 需要避免被识别的系统<br>性能要求高但可接受近似解<br>确定性算法过于复杂的问题 | 1. 爬虫调度<br>2. A/B测试<br>3. 缓存过期时间随机化 |
+
+#### 随机化算法流程图
+
+```mermaid
+graph LR
+    A["问题"] --> B["引入随机性"]
+    B --> C["随机选择"]
+    C --> D["执行算法"]
+    D --> E["得到结果"]
+    E --> F["验证结果"]
+    F --> G["结果正确?"]
+    G -->|是| H["输出结果"]
+    G -->|否| I["重新执行"]
+    I --> C
+
+    style A fill:#444441,stroke:#2C2C2A,color:#ffffff
+    style B fill:#1D9E75,stroke:#0F6E56,color:#ffffff
+    style C fill:#D85A30,stroke:#993C1D,color:#ffffff
+    style D fill:#534AB7,stroke:#3C3489,color:#ffffff
+    style E fill:#BA7517,stroke:#854F0B,color:#ffffff
+    style F fill:#BA7517,stroke:#854F0B,color:#ffffff
+    style G fill:#185FA5,stroke:#0C447C,color:#ffffff
+    style H fill:#0F6E56,stroke:#3C3489,color:#ffffff
+    style I fill:#993556,stroke:#72243E,color:#ffffff
+```
 
 #### 伪代码示例（随机快速选择 - 拉斯维加斯算法）
 ```c
@@ -465,6 +606,41 @@ function RandomPartition(arr, left, right):
 | 核心思想 | 策略分类 | 结合使用 | 适用场景 | 常见应用 |
 |---------|---------|---------|---------|---------|
 | 系统性地在解空间中搜索目标，不同的策略适用于不同类型的问题 | **BFS**：广度优先搜索，逐层扩展<br>**DFS**：深度优先搜索，一路到底<br>**A***：启发式搜索，有指导的搜索<br>**IDDFS**：迭代加深DFS，结合BFS和DFS优点 | **BFS/DFS**：常与回溯、分支限界结合<br>**A***：用于路径规划和启发式优化 | 需要在解空间中找到目标<br>路径规划和优化问题<br>需要遍历复杂解空间 | 1. 最短路径、社交网络推荐<br>2. 导航系统<br>3. 图遍历 |
+
+#### 搜索策略流程图
+
+```mermaid
+graph LR
+    A["初始化：起点"] --> B["选择策略"]
+    B --> C{策略类型}
+    C -->|BFS| D["队列：FIFO"]
+    C -->|DFS| E["栈：LIFO"]
+    C -->|A*| F["优先队列：启发式"]
+    D --> G["取出节点"]
+    E --> G
+    F --> G
+    G --> H["是目标?"]
+    H -->|是| I["返回路径"]
+    H -->|否| J["扩展邻居"]
+    J --> K["加入容器"]
+    K --> L["容器非空?"]
+    L -->|是| G
+    L -->|否| M["搜索失败"]
+
+    style A fill:#444441,stroke:#2C2C2A,color:#ffffff
+    style B fill:#1D9E75,stroke:#0F6E56,color:#ffffff
+    style C fill:#D85A30,stroke:#993C1D,color:#ffffff
+    style D fill:#534AB7,stroke:#3C3489,color:#ffffff
+    style E fill:#534AB7,stroke:#3C3489,color:#ffffff
+    style F fill:#534AB7,stroke:#3C3489,color:#ffffff
+    style G fill:#BA7517,stroke:#854F0B,color:#ffffff
+    style H fill:#BA7517,stroke:#854F0B,color:#ffffff
+    style I fill:#185FA5,stroke:#0C447C,color:#ffffff
+    style J fill:#185FA5,stroke:#0C447C,color:#ffffff
+    style K fill:#185FA5,stroke:#0C447C,color:#ffffff
+    style L fill:#BA7517,stroke:#854F0B,color:#ffffff
+    style M fill:#993556,stroke:#72243E,color:#ffffff
+```
 
 #### 伪代码示例（BFS - 广度优先搜索）
 ```c
@@ -508,7 +684,7 @@ function BFSShortest(graph, start, end):  // 求最短路径
 
 ---
 
-## 五、算法思想指导AI编程示例
+## 五、算法思想指导AI编程实战
 
 ### 实战案例1：电商秒杀系统（贪心算法）
 
@@ -528,6 +704,34 @@ AI，请实现贪心算法的秒杀系统：
 2. 按队列顺序处理（贪心选择）
 3. 检查库存和用户限制
 4. 立即分配或拒绝
+```
+
+#### SKILL模板：秒杀系统贪心分配
+
+```yaml
+SKILL: FlashSaleGreedyAllocation
+描述: 使用贪心算法实现高并发秒杀系统的库存分配
+
+输入:
+  - user_requests: 用户请求队列 (FIFO)
+  - inventory: 商品库存数量
+  - user_limits: 每个用户的购买限制
+
+处理流程:
+  1. 初始化: 创建请求队列，设置库存计数器
+  2. 贪心选择: 按队列顺序逐个处理请求
+  3. 检查约束: 验证库存充足 && 用户未超限
+  4. 立即决策: 满足条件则分配，否则拒绝
+  5. 更新状态: 库存-1，用户购买数+1
+
+输出:
+  - allocation_result: {user_id, status, quantity}
+  - remaining_inventory: 剩余库存
+  - user_purchase_record: 用户购买记录
+
+复杂度:
+  - 时间: O(n) - n为请求数
+  - 空间: O(n) - 存储请求和记录
 ```
 
 ---
@@ -552,6 +756,42 @@ AI，请实现分治算法的视频分发：
 4. 优化：选择最近的CDN节点
 ```
 
+#### SKILL模板：视频分发分治系统
+
+```yaml
+SKILL: VideoDistributionDivideConquer
+描述: 使用分治算法实现全球视频内容的低延迟分发
+
+输入:
+  - users: 全球用户列表 {user_id, region, location}
+  - video_content: 视频文件信息
+  - cdn_nodes: CDN节点列表 {node_id, region, capacity}
+
+处理流程:
+  1. Divide: 按地理区域递归分组用户
+     - 分组策略: 按大陆/国家/城市分层
+     - 递归条件: 直到组内用户数<阈值
+
+  2. Conquer: 并行处理各组分发
+     - 为每组选择最近CDN节点
+     - 并行推送视频到各CDN
+     - 各组独立处理，互不影响
+
+  3. Combine: 合并分发结果
+     - 收集各组分发状态
+     - 汇总成功/失败统计
+     - 生成全局分发报告
+
+输出:
+  - distribution_status: {region, success_count, fail_count}
+  - cdn_utilization: 各CDN节点利用率
+  - latency_metrics: 各地区平均延迟
+
+复杂度:
+  - 时间: O(n log n) - n为用户数
+  - 空间: O(n) - 递归栈+临时数据
+```
+
 ---
 
 ### 实战案例3：外卖路径优化（动态规划）
@@ -574,7 +814,53 @@ AI，请实现动态规划的配送优化：
 4. 回溯：基于DP结果重构最优路径
 ```
 
-**本文相关prompts请见** [https://github.com/microwind/ai-prompt](https://github.com/microwind/ai-prompt)
+#### SKILL模板：外卖路径优化动态规划
+
+```yaml
+SKILL: DeliveryRouteOptimizationDP
+描述: 使用动态规划实现外卖配送路线的最优规划
+
+输入:
+  - orders: 待配送订单列表 {order_id, location, deadline}
+  - current_location: 骑手当前位置
+  - current_time: 当前时间
+  - distance_matrix: 位置间距离矩阵
+
+处理流程:
+  1. 状态定义: dp[mask][i][t]
+     - mask: 已配送订单的位掩码
+     - i: 当前位置索引
+     - t: 当前时间
+     - 值: 最小配送时间/最大满意度
+
+  2. 状态转移方程:
+     dp[mask][i][t] = min(
+       dp[mask|1<<j][j][t+distance[i][j]]
+       for j in unvisited_orders
+       if t+distance[i][j] <= deadline[j]
+     )
+
+  3. 记忆化:
+     - 使用哈希表缓存已计算状态
+     - 避免重复计算相同子问题
+
+  4. 回溯求解:
+     - 从最优状态反向追踪
+     - 记录每步的最优选择
+     - 构建完整配送路径
+
+输出:
+  - optimal_route: [order_id1, order_id2, ...]
+  - total_time: 总配送时间
+  - satisfaction_score: 用户满意度评分
+  - route_visualization: 路线可视化数据
+
+复杂度:
+  - 时间: O(2^n * n^2) - n为订单数
+  - 空间: O(2^n * n) - DP表存储
+```
+
+**本文相关skills请见** [https://github.com/microwind/ai-skills](https://github.com/microwind/ai-skills)
 
 ## 六、程序员如何学习算法思想？
 
