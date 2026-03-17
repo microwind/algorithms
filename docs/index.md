@@ -24,69 +24,38 @@
 ---
 
 ## 快速开始（3分钟上手）
-<!--
-┌─────────────────────────────────────┐
-│   第1步：了解编程基础                  │
-│   📖 什么是编程？                      │
-└──────────────┬──────────────────────┘
-               ↓
-┌──────────────────────────────────────┐
-│   第2步：选择入门语言                   │
-│   🐍 推荐语言与环境搭建                  │
-└──────────────┬───────────────────────┘
-               ↓
-┌──────────────────────────────────────┐
-│   第3步：学习核心算法思想                │
-│   🧩 贪心、分治、动态规划等              │
-└──────────────┬───────────────────────┘
-               ↓
-┌──────────────────────────────────────┐
-│   第4步：实现10大排序算法               │
-│   ⚡ 快速排序、归并排序等                │
-└──────────────┬───────────────────────┘
-               ↓
-┌──────────────────────────────────────┐
-│   第5步：进阶：树、图、动态规划           │
-│   🌳 二叉树、Dijkstra算法等             │
-└──────────────────────────────────────┘
--->
 
-```mermaid
-flowchart LR
-    A["第1步：
-    了解编程基础
-    📖 什么是编程？"]
+> **📊 学习路线图**
+> 5个循序渐进的学习步骤，帮助你系统地掌握算法与数据结构。
 
-    B["第2步：
-    选择入门语言
-    🐍 推荐语言与环境搭建"]
+<div class="mermaid" data-processed="true"><svg id="mermaid-1773720579524" width="980px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="flowchart" style="max-width: 1363.859375px;" viewBox="0 0 1363.859375 118" role="graphics-document document" aria-roledescription="flowchart-v2"><style>#mermaid-1773720579524{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;fill:#333;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#mermaid-1773720579524 .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#mermaid-1773720579524 .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#mermaid-1773720579524 .error-icon{fill:#552222;}#mermaid-1773720579524 .error-text{fill:#552222;stroke:#552222;}#mermaid-1773720579524 .edge-thickness-normal{stroke-width:1px;}#mermaid-1773720579524 .edge-thickness-thick{stroke-width:3.5px;}#mermaid-1773720579524 .edge-pattern-solid{stroke-dasharray:0;}#mermaid-1773720579524 .edge-thickness-invisible{stroke-width:0;fill:none;}#mermaid-1773720579524 .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-1773720579524 .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-1773720579524 .marker{fill:#333333;stroke:#333333;}#mermaid-1773720579524 .marker.cross{stroke:#333333;}#mermaid-1773720579524 svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;}#mermaid-1773720579524 p{margin:0;}#mermaid-1773720579524 .label{font-family:"trebuchet ms",verdana,arial,sans-serif;color:#333;}#mermaid-1773720579524 .cluster-label text{fill:#333;}#mermaid-1773720579524 .cluster-label span{color:#333;}#mermaid-1773720579524 .cluster-label span p{background-color:transparent;}#mermaid-1773720579524 .label text,#mermaid-1773720579524 span{fill:#333;color:#333;}#mermaid-1773720579524 .node rect,#mermaid-1773720579524 .node circle,#mermaid-1773720579524 .node ellipse,#mermaid-1773720579524 .node polygon,#mermaid-1773720579524 .node path{fill:#ECECFF;stroke:#9370DB;stroke-width:1px;}#mermaid-1773720579524 .rough-node .label text,#mermaid-1773720579524 .node .label text,#mermaid-1773720579524 .image-shape .label,#mermaid-1773720579524 .icon-shape .label{text-anchor:middle;}#mermaid-1773720579524 .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#mermaid-1773720579524 .rough-node .label,#mermaid-1773720579524 .node .label,#mermaid-1773720579524 .image-shape .label,#mermaid-1773720579524 .icon-shape .label{text-align:center;}#mermaid-1773720579524 .node.clickable{cursor:pointer;}#mermaid-1773720579524 .root .anchor path{fill:#333333!important;stroke-width:0;stroke:#333333;}#mermaid-1773720579524 .arrowheadPath{fill:#333333;}#mermaid-1773720579524 .edgePath .path{stroke:#333333;stroke-width:2.0px;}#mermaid-1773720579524 .flowchart-link{stroke:#333333;fill:none;}#mermaid-1773720579524 .edgeLabel{background-color:rgba(232,232,232, 0.8);text-align:center;}#mermaid-1773720579524 .edgeLabel p{background-color:rgba(232,232,232, 0.8);}#mermaid-1773720579524 .edgeLabel rect{opacity:0.5;background-color:rgba(232,232,232, 0.8);fill:rgba(232,232,232, 0.8);}#mermaid-1773720579524 .labelBkg{background-color:rgba(232, 232, 232, 0.5);}#mermaid-1773720579524 .cluster rect{fill:#ffffde;stroke:#aaaa33;stroke-width:1px;}#mermaid-1773720579524 .cluster text{fill:#333;}#mermaid-1773720579524 .cluster span{color:#333;}#mermaid-1773720579524 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:12px;background:hsl(80, 100%, 96.2745098039%);border:1px solid #aaaa33;border-radius:2px;pointer-events:none;z-index:100;}#mermaid-1773720579524 .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#333;}#mermaid-1773720579524 rect.text{fill:none;stroke-width:0;}#mermaid-1773720579524 .icon-shape,#mermaid-1773720579524 .image-shape{background-color:rgba(232,232,232, 0.8);text-align:center;}#mermaid-1773720579524 .icon-shape p,#mermaid-1773720579524 .image-shape p{background-color:rgba(232,232,232, 0.8);padding:2px;}#mermaid-1773720579524 .icon-shape .label rect,#mermaid-1773720579524 .image-shape .label rect{opacity:0.5;background-color:rgba(232,232,232, 0.8);fill:rgba(232,232,232, 0.8);}#mermaid-1773720579524 .label-icon{display:inline-block;height:1em;overflow:visible;vertical-align:-0.125em;}#mermaid-1773720579524 .node .label-icon path{fill:currentColor;stroke:revert;stroke-width:revert;}#mermaid-1773720579524 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g><marker id="mermaid-1773720579524_flowchart-v2-pointEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1773720579524_flowchart-v2-pointStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="4.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 5 L 10 10 L 10 0 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1773720579524_flowchart-v2-circleEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="11" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></circle></marker><marker id="mermaid-1773720579524_flowchart-v2-circleStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-1" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></circle></marker><marker id="mermaid-1773720579524_flowchart-v2-crossEnd" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="12" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1773720579524_flowchart-v2-crossStart" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="-1" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"></path></marker><g class="root"><g class="clusters"></g><g class="edgePaths"><path d="M184.82,59L188.987,59C193.154,59,201.487,59,209.154,59C216.82,59,223.82,59,227.32,59L230.82,59" id="L_A_B_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_A_B_0" data-points="W3sieCI6MTg0LjgyMDMxMjUsInkiOjU5fSx7IngiOjIwOS44MjAzMTI1LCJ5Ijo1OX0seyJ4IjoyMzQuODIwMzEyNSwieSI6NTl9XQ==" marker-end="url(#mermaid-1773720579524_flowchart-v2-pointEnd)"></path><path d="M459.641,59L463.807,59C467.974,59,476.307,59,483.974,59C491.641,59,498.641,59,502.141,59L505.641,59" id="L_B_C_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_B_C_0" data-points="W3sieCI6NDU5LjY0MDYyNSwieSI6NTl9LHsieCI6NDg0LjY0MDYyNSwieSI6NTl9LHsieCI6NTA5LjY0MDYyNSwieSI6NTl9XQ==" marker-end="url(#mermaid-1773720579524_flowchart-v2-pointEnd)"></path><path d="M766.461,59L770.628,59C774.794,59,783.128,59,790.794,59C798.461,59,805.461,59,808.961,59L812.461,59" id="L_C_D_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_C_D_0" data-points="W3sieCI6NzY2LjQ2MDkzNzUsInkiOjU5fSx7IngiOjc5MS40NjA5Mzc1LCJ5Ijo1OX0seyJ4Ijo4MTYuNDYwOTM3NSwieSI6NTl9XQ==" marker-end="url(#mermaid-1773720579524_flowchart-v2-pointEnd)"></path><path d="M1057.281,59L1061.448,59C1065.615,59,1073.948,59,1081.615,59C1089.281,59,1096.281,59,1099.781,59L1103.281,59" id="L_D_E_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_D_E_0" data-points="W3sieCI6MTA1Ny4yODEyNSwieSI6NTl9LHsieCI6MTA4Mi4yODEyNSwieSI6NTl9LHsieCI6MTEwNy4yODEyNSwieSI6NTl9XQ==" marker-end="url(#mermaid-1773720579524_flowchart-v2-pointEnd)"></path></g><g class="edgeLabels"><g class="edgeLabel"><g class="label" data-id="L_A_B_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_B_C_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_C_D_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_D_E_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "></span></div></foreignObject></g></g></g><g class="nodes"><g class="node default" id="flowchart-A-0" transform="translate(96.41015625, 59)"><rect class="basic label-container" style="fill:#4A90D9 !important;stroke:#2C6FAC !important;stroke-width:2px !important" x="-88.41015625" y="-51" width="176.8203125" height="102"></rect><g class="label" style="color:#fff !important" transform="translate(-58.41015625, -36)"><rect></rect><foreignObject width="116.8203125" height="72"><div style="color: rgb(255, 255, 255) !important; display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" xmlns="http://www.w3.org/1999/xhtml"><span style="color:#fff !important" class="nodeLabel "><p><b>第1步</b><br>了解编程基础<br>📖 什么是编程？</p></span></div></foreignObject></g></g><g class="node default" id="flowchart-B-1" transform="translate(347.23046875, 59)"><rect class="basic label-container" style="fill:#7B68EE !important;stroke:#5A4DB0 !important;stroke-width:2px !important" x="-112.41015625" y="-51" width="224.8203125" height="102"></rect><g class="label" style="color:#fff !important" transform="translate(-82.41015625, -36)"><rect></rect><foreignObject width="164.8203125" height="72"><div style="color: rgb(255, 255, 255) !important; display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" xmlns="http://www.w3.org/1999/xhtml"><span style="color:#fff !important" class="nodeLabel "><p><b>第2步</b><br>选择入门语言<br>🐍 推荐语言与环境搭建</p></span></div></foreignObject></g></g><g class="node default" id="flowchart-C-2" transform="translate(638.05078125, 59)"><rect class="basic label-container" style="fill:#50C878 !important;stroke:#3A9A5C !important;stroke-width:2px !important" x="-128.41015625" y="-51" width="256.8203125" height="102"></rect><g class="label" style="color:#fff !important" transform="translate(-98.41015625, -36)"><rect></rect><foreignObject width="196.8203125" height="72"><div style="color: rgb(255, 255, 255) !important; display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" xmlns="http://www.w3.org/1999/xhtml"><span style="color:#fff !important" class="nodeLabel "><p><b>第3步</b><br>学习核心算法思想<br>🧩 贪心、分治、动态规划等</p></span></div></foreignObject></g></g><g class="node default" id="flowchart-D-3" transform="translate(936.87109375, 59)"><rect class="basic label-container" style="fill:#FF8C42 !important;stroke:#CC6A1F !important;stroke-width:2px !important" x="-120.41015625" y="-51" width="240.8203125" height="102"></rect><g class="label" style="color:#fff !important" transform="translate(-90.41015625, -36)"><rect></rect><foreignObject width="180.8203125" height="72"><div style="color: rgb(255, 255, 255) !important; display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" xmlns="http://www.w3.org/1999/xhtml"><span style="color:#fff !important" class="nodeLabel "><p><b>第4步</b><br>实现10大排序算法<br>⚡ 快速排序、归并排序等</p></span></div></foreignObject></g></g><g class="node default" id="flowchart-E-4" transform="translate(1231.5703125, 59)"><rect class="basic label-container" style="fill:#FF6B6B !important;stroke:#CC4444 !important;stroke-width:2px !important" x="-124.2890625" y="-51" width="248.578125" height="102"></rect><g class="label" style="color:#fff !important" transform="translate(-94.2890625, -36)"><rect></rect><foreignObject width="188.578125" height="72"><div style="color: rgb(255, 255, 255) !important; display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" xmlns="http://www.w3.org/1999/xhtml"><span style="color:#fff !important" class="nodeLabel "><p><b>第5步</b><br>进阶：树、图、动态规划<br>🌳 二叉树、Dijkstra算法等</p></span></div></foreignObject></g></g></g></g></g></svg></div>
 
-    C["第3步：
-    学习核心算法思想
-    🧩 贪心、分治、动态规划等"]
+### 5步学习路线
 
-    D["第4步：
-    实现10大排序算法
-    ⚡ 快速排序、归并排序等"]
+1. **第1步：了解编程基础** 📖
+   - 理解什么是编程，掌握编程的本质和核心概念
+   - 学会如何思考和解决问题
+   - 推荐资源：[什么是编程](https://github.com/microwind/algorithms/blob/main/start-here/what-is-programming.md)
 
-    E["第5步：
-    进阶：树、图、动态规划
-    🌳 二叉树、Dijkstra算法等"]
+2. **第2步：选择入门语言** 🐍
+   - 选择适合你的编程语言（Python、Java、JavaScript 等）
+   - 搭建开发环境
+   - 推荐资源：[推荐语言](https://github.com/microwind/algorithms/blob/main/start-here/recommand-learning-languages.md)
 
-    A --> B --> C --> D --> E
+3. **第3步：学习核心算法思想** 🧩
+   - 掌握 7 大核心算法思想
+   - 贪心、分治、动态规划、回溯、分支限界、随机化、搜索
+   - 推荐资源：[算法思想详解](https://github.com/microwind/algorithms/blob/main/start-here/algorithmic-thinking.md)
 
-    style A fill:#4A90D9,stroke:#2C6FAC,color:#fff
-    style B fill:#7B68EE,stroke:#5A4DB0,color:#fff
-    style C fill:#50C878,stroke:#3A9A5C,color:#fff
-    style D fill:#FF8C42,stroke:#CC6A1F,color:#fff
-    style E fill:#FF6B6B,stroke:#CC4444,color:#fff
-```
+4. **第4步：实现10大排序算法** ⚡
+   - 从冒泡排序到快速排序，掌握经典的排序算法
+   - 理解时间空间复杂度和稳定性
+   - 推荐资源：[10大排序算法](#排序算法10大经典排序)
 
-**推荐学习路线：**
-
-- [学习路线](https://github.com/microwind/algorithms/blob/main/start-here/learning-path.md) - 完整的学习规划（包含时间估计）
-- [什么是编程](https://github.com/microwind/algorithms/blob/main/start-here/what-is-programming.md) - 理解编程本质
-- [推荐语言](https://github.com/microwind/algorithms/blob/main/start-here/recommand-learning-languages.md) - 选择适合的语言
+5. **第5步：进阶学习** 🌳
+   - 深入学习树、图、动态规划等高级数据结构
+   - 二叉树、Dijkstra 算法、最长递增子序列等
+   - 推荐资源：[完整学习地图](#完整学习内容地图)
 
 ---
 
