@@ -4,7 +4,7 @@
 >
 > 作为一个有着20年经验的老程序员，我也一样焦虑。大家好，我是一名互联网软件工程师，网名刀法如飞。
 
-AI时代，不是所有人都需要写代码，但所有人都需要会**驱动AI干活**。当Claude Code、Codex、OpenClaw等AI编程工具和Agent框架出现后，传统职能边界变得模糊——产品经理可以指导AI设计UI，测试可以用AI生成测试用例，程序员可以用提示词指导AI写代码。但这一切的前提是：**你要会指导AI干什么，怎么干，以及如何验证干得对不对**。
+AI时代，不是所有人都需要会写代码，但所有人都需要会**驱动AI干活**。当Claude Code、Codex、OpenClaw等AI编程工具和Agent框架出现后，传统职能边界变得模糊——产品经理可以指导AI设计UI，测试可以用AI生成测试用例，程序员可以用提示词指导AI写代码。但这一切的前提是：**你要会指导AI干什么，怎么干，以及如何验证干得对不对**。
 
 换句话说，每个人都需要成为"**会驱动AI干活的工程师**"——这就是**Agent工程师**。AI时代的竞争力不是你能干什么，而是你能指导AI干什么、怎么干、干得有多好。
 
@@ -200,6 +200,18 @@ graph LR
     style D fill:#b6e3a8,stroke:#333,stroke-width:1px
     style E fill:#ffe6cc,stroke:#333,stroke-width:1px
     style G fill:#c8e6c9,stroke:#333,stroke-width:1px
+```
+
+### Agent工程师进阶3部曲
+```mermaid
+graph LR
+    A["AI辅助<br/>L1 Copilot<br/>AI辅助写代码实现功能<br/>角色：执行者"]
+    -->|"能力升级"| B["指导AI<br/>L2 Agent<br/>用设计思想指导AI生成代码<br/>角色：指挥者"]
+    -->|"自主演进"| C["驱动AI<br/>L3 Agentic<br/>设定目标让AI自主规划执行<br/>角色：决策者"]
+
+    style A fill:#b6e3a8,stroke:#0D9775
+    style B fill:#ffe6cc,stroke:#CB4D12
+    style C fill:#f3d5ff,stroke:#651899
 ```
 
 ###  问问自己

@@ -2,9 +2,9 @@
 
 AI编程时代，**代码写得再好，也不如把问题描述清楚**。大模型能够快速生成代码，而且写得比大多数程序员都要好，可谓是**又快又好**。但前提是你能清晰、完整地描述需求，让AI真正听懂你的意图。
 
-传统时代，程序员拿到需求文档就开始设计和编码。但在AI时代，程序员需要做得更深：理解需求的本质，用精准的语言描述问题，定义程序的边界，告诉AI总体解题思路，让AI能够理解你的意图——**你要比业务方更本质地理解需求**。
+传统时代，程序员拿到需求文档就开始设计和编码。但在AI时代，程序员需要做得更深：理解需求的本质，用精准的语言描述问题，定义程序的边界，告诉AI总体解题思路，让AI能够理解你的意图——**你要比业务方更深刻地理解需求**。
 
-> AI时代，程序员的价值不在于写代码，而在于深入理解和描述需求。清晰地描述需求，让AI替你干活。
+> AI时代，程序员的价值不在于写代码，而在于深入理解和描述需求，让AI替你干活。
 
 **本文相关资源请见** [https://github.com/microwind/algorithms](https://github.com/microwind/algorithms)
 
@@ -86,7 +86,7 @@ B1 -.-> X
 X --> Y[从理解力到表达力]
 
 %% 颜色定义
-classDef traditional fill:#FFE6E6,stroke:#CC0000,stroke-width:1px;
+classDef traditional fill:#FBDEDE,stroke:#CC0000,stroke-width:1px;
 classDef ai fill:#E6F2FF,stroke:#0066CC,stroke-width:1px;
 classDef result fill:#E8F8E8,stroke:#2E8B57,stroke-width:1px;
 
@@ -107,15 +107,15 @@ flowchart LR
     A["需求描述清晰"] --> B["AI理解准确"] --> C["代码符合预期"] --> D["减少迭代"]
     E["需求描述模糊"] --> F["AI理解偏差"] --> G["代码偏离预期"] --> H["增加返工"]
 
-    style A fill:#50C878,stroke:#3A9A5C,color:#fff
-    style B fill:#50C878,stroke:#3A9A5C,color:#fff
-    style C fill:#50C878,stroke:#3A9A5C,color:#fff
-    style D fill:#50C878,stroke:#3A9A5C,color:#fff
+    style A fill:#268B48,stroke:#3A9A5C,color:#fff
+    style B fill:#268B48,stroke:#3A9A5C,color:#fff
+    style C fill:#268B48,stroke:#3A9A5C,color:#fff
+    style D fill:#268B48,stroke:#3A9A5C,color:#fff
 
-    style E fill:#FF6B6B,stroke:#CC4444,color:#fff
-    style F fill:#FF6B6B,stroke:#CC4444,color:#fff
-    style G fill:#FF6B6B,stroke:#CC4444,color:#fff
-    style H fill:#FF6B6B,stroke:#CC4444,color:#fff
+    style E fill:#D02727,stroke:#CC4444,color:#fff
+    style F fill:#D02727,stroke:#CC4444,color:#fff
+    style G fill:#D02727,stroke:#CC4444,color:#fff
+    style H fill:#D02727,stroke:#CC4444,color:#fff
 ```
 
 **含混需求：**
@@ -322,7 +322,7 @@ graph TD
     E --> E3[案例示意]
 
     %% 颜色定义
-    classDef main fill:#99ccff,stroke:#333,stroke-width:2px;
+    classDef main fill:#C4DAF1,stroke:#333,stroke-width:2px;
     classDef task fill:#b6e3a8,stroke:#333,stroke-width:1px;
 
     class A main;
@@ -542,6 +542,7 @@ graph LR
 用于描述**功能的完整交互流程**
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'actorBkg': '#534AB7', 'actorTextColor': '#FFFFFF', 'actorBorderColor': '#160C6B', 'activationBkgColor': '#1D9E75', 'activationBorderColor': '#0F6E56', 'noteBkgColor': '#8835BEB1', 'noteTextColor': '#ffffff', 'signalColor': '#3B4153', 'signalTextColor': '#27227B'}}}%%
 sequenceDiagram
     用户->>推荐系统: 请求推荐
     推荐系统->>用户档案服务: 获取用户信息（ID、兴趣、历史行为）
