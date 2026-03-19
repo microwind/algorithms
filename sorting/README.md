@@ -3,35 +3,6 @@
 > 排序算法是将一组数据按照特定顺序（升序或降序）重新排列的算法。排序是计算机科学中最基础、最重要的算法之一，也是许多复杂算法的基础操作。本目录涵盖经典十大排序算法的原理、流程与多语言实现。
 
 ## 导航总览
-```mermaid
-graph LR
-    Root([排序算法]):::root
-
-    Root --> A([插入排序]):::cat
-    Root --> B([选择排序]):::cat
-    Root --> C([交换排序]):::cat
-    Root --> D([归并排序]):::cat
-    Root --> E([线性排序]):::cat
-
-    A --> A1["<b>简单插入排序</b> O(n²) · O(1) · 稳定"]:::leaf
-    A --> A2["<b>希尔排序</b> O(n log n) · O(1) · 不稳定"]:::leaf
-
-    B --> B1["<b>简单选择排序</b> O(n²) · O(1) · 不稳定"]:::leaf
-    B --> B2["<b>堆排序</b> O(n log n) · O(1) · 不稳定"]:::leaf
-
-    C --> C1["<b>冒泡排序</b> O(n²) · O(1) · 稳定"]:::leaf
-    C --> C2["<b>快速排序</b> O(n log n) · O(log n)· 不稳定"]:::leaf
-
-    D --> D1["<b>归并排序</b> O(n log n) · O(n) · 稳定"]:::leaf
-
-    E --> E1["<b>计数排序</b> O(n+k) · O(k) · 稳定"]:::leaf
-    E --> E2["<b>桶排序</b> O(n+k) · O(n+k) · 稳定"]:::leaf
-    E --> E3["<b>基数排序</b> O(n·k) · O(n+k) · 稳定"]:::leaf
-
-    classDef root fill:#6436ED,stroke:#7c3aed,color:#fff,font-weight:bold
-    classDef cat  fill:#5eead4,stroke:#0d9488,color:#134e4a,font-weight:bold
-    classDef leaf fill:#fef9c3,stroke:#ca8a04,color:#713f12
-```
 
 | 排序算法 | 类型 | 时间复杂度（平均） | 稳定性 | 目录 |
 |---------|------|------------------|--------|------|
@@ -43,13 +14,14 @@ graph LR
 | [归并排序 Merge Sort](#36-归并排序merge-sort) | 比较 / 归并 | O(n log n) | 稳定 | [`mergesort/`](./mergesort/) |
 | [堆排序 Heap Sort](#37-堆排序heap-sort) | 比较 / 选择 | O(n log n) | 不稳定 | [`heapsort/`](./heapsort/) |
 | [计数排序 Counting Sort](#38-计数排序counting-sort) | 非比较 | O(n + k) | 稳定 | [`countingsort/`](./countingsort/) |
-| [基数排序 Radix Sort](#39-基数排序radix-sort) | 非比较 | O(n × k) | 稳定 | [`radixsort/`](./radixsort/) |
+| [基数排序 Radix Sort](#39-基数排序radix-sort) | 非比较 | O(n × d) | 稳定 | [`radixsort/`](./radixsort/) |
 | [桶排序 Bucket Sort](#310-桶排序bucket-sort) | 非比较 | O(n + k) | 稳定 | [`bucketsort/`](./bucketsort/) |
 
 ---
 
 ## 1. 排序算法分类
 
+### 1.1 常见排序算法分类
 ```mermaid
 graph TD
     ROOT["排序算法分类"]
@@ -81,6 +53,36 @@ graph TD
     class CMP,NCMP cat
     class SWAP,SEL,INS,MRG sub
     class BUB,QCK,SSEL,HEAP,DINS,SHELL,CNT,RDX,BKT leaf
+```
+### 1.2 排序算法时间复杂度、空间复杂度以及稳定性
+```mermaid
+graph LR
+    Root([排序算法]):::root
+
+    Root --> A([插入排序]):::cat
+    Root --> B([选择排序]):::cat
+    Root --> C([交换排序]):::cat
+    Root --> D([归并排序]):::cat
+    Root --> E([线性排序]):::cat
+
+    A --> A1["<b>简单插入排序</b> O(n²) · O(1) · 稳定"]:::leaf
+    A --> A2["<b>希尔排序</b> O(n log n) · O(1) · 不稳定"]:::leaf
+
+    B --> B1["<b>简单选择排序</b> O(n²) · O(1) · 不稳定"]:::leaf
+    B --> B2["<b>堆排序</b> O(n log n) · O(1) · 不稳定"]:::leaf
+
+    C --> C1["<b>冒泡排序</b> O(n²) · O(1) · 稳定"]:::leaf
+    C --> C2["<b>快速排序</b> O(n log n) · O(log n)· 不稳定"]:::leaf
+
+    D --> D1["<b>归并排序</b> O(n log n) · O(n) · 稳定"]:::leaf
+
+    E --> E1["<b>计数排序</b> O(n+k) · O(n+k) · 稳定"]:::leaf
+    E --> E2["<b>桶排序</b> O(n+k) · O(n+k) · 稳定"]:::leaf
+    E --> E3["<b>基数排序</b> O(n·d) · O(n+k) · 稳定"]:::leaf
+
+    classDef root fill:#6436ED,stroke:#7c3aed,color:#fff,font-weight:bold
+    classDef cat  fill:#5eead4,stroke:#0d9488,color:#134e4a,font-weight:bold
+    classDef leaf fill:#fef9c3,stroke:#ca8a04,color:#713f12
 ```
 
 ---
@@ -414,7 +416,7 @@ graph LR
 
 | 最好 | 平均 | 最坏 | 空间 | 稳定性 |
 |------|------|------|------|--------|
-| O(n + k) | O(n + k) | O(n + k) | O(k) | 稳定 |
+| O(n + k) | O(n + k) | O(n + k) | O(n + k) | 稳定 |
 
 ```mermaid
 graph LR
@@ -514,7 +516,7 @@ graph LR
 | 快速排序 | O(n log n) | O(n log n) | O(n²) | O(log n) | 不稳定 |
 | 归并排序 | O(n log n) | O(n log n) | O(n log n) | O(n) | 稳定 |
 | 堆排序 | O(n log n) | O(n log n) | O(n log n) | O(1) | 不稳定 |
-| 计数排序 | O(n + k) | O(n + k) | O(n + k) | O(k) | 稳定 |
+| 计数排序 | O(n + k) | O(n + k) | O(n + k) | O(n + k) | 稳定 |
 | 基数排序 | O(n × d) | O(n × d) | O(n × d) | O(n + k) | 稳定 |
 | 桶排序 | O(n + k) | O(n + k) | O(n²) | O(n + k) | 稳定 |
 
@@ -636,3 +638,6 @@ graph LR
 | **计数排序** | [C](./countingsort/counting_sort.c) | [Java](./countingsort/CountingSort.java) | [Go](./countingsort/counting_sort.go) | [PY](./countingsort/counting_sort.py) | [JS](./countingsort/counting_sort.js) | [TS](./countingsort/CountingSort.ts) | [Rust](./countingsort/counting_sort.rs) | - |
 | **基数排序** | [C](./radixsort/radix_sort.c) | [Java](./radixsort/RadixSort.java) | [Go](./radixsort/radix_sort.go) | [PY](./radixsort/radix_sort.py) | [JS](./radixsort/radix_sort.js) | [TS](./radixsort/RadixSort.ts) | [Rust](./radixsort/radix_sort.rs) | - |
 | **桶排序** | [C](./bucketsort/bucket_sort.c) | [Java](./bucketsort/BucketSort.java) | [Go](./bucketsort/bucket_sort.go) | [PY](./bucketsort/bucket_sort.py) | [JS](./bucketsort/bucket_sort.js) | [TS](./bucketsort/BucketSort.ts) | [Rust](./bucketsort/bucket_sort.rs) | - |
+
+## 本文链接
+AI时代下的算法思想大全：[https://github.com/microwind/algorithms](https://github.com/microwind/algorithms)
