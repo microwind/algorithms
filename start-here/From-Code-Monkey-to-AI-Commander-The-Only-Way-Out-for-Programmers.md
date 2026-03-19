@@ -405,13 +405,9 @@ AI指挥官（懂需求、架构、算法）
 3. [AI时代，程序员必须掌握的算法思想](./Algorithmic-Thinking-Programmers-Must-Master-in-the-Age-of-AI-Programming.md)
 4. [AI时代，人人都是Agent工程师](./AI-Era-Programmers-as-Agent-Engineers.md)
 
-**这不是建议，这是必读。**
-
 ---
 
 ## 八、最后的话
-
-我写这篇文章的目的，不是吓唬你，而是提醒你。
 
 **AI时代，从码农到AI指挥官，不是一个选择题，而是一个生存题。**
 
@@ -423,7 +419,7 @@ AI指挥官（懂需求、架构、算法）
 
 因为市场不会等你。
 
-**现在就开始，6个月后，你会感谢今天的自己。**
+**现在就开始，不要让自己等待。**
 
 ---
 
