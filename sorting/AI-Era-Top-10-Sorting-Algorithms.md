@@ -1,20 +1,16 @@
-# AI时代，人人应该掌握的十大经典排序算法
+# AI时代，十大经典排序算法详解
 
-排序，是计算机科学中最古老、最基础的问题之一。也是工作中最常见的算法，相信每个程序员都遇到过。
-
-在AI时代，AI实现这些算法轻而易举，那么我们还有必要继续学习吗？AI可以帮你写出任何一种排序算法的代码。但问题是：**当AI问你"这个场景该用什么排序？性能是多少？稳定性如何？"的时候，你能回答吗？**
+> AI时代，AI实现这些算法轻而易举，那么我们还有学习的必要吗？但是肯定的，很有必要。AI可以帮你写出任何一种排序算法的代码。但关键在于：当你面对一个具体场景时，你能判断该用哪种算法以及为什么吗？
 
 AI时代不在于你还能手写这十种排序，而是在于理解它们背后的思想——分治、贪心、空间换时间、分桶映射。掌握这些思想，你就能在AI编程时代做出正确的技术决策。
-
-> AI时代，程序员的价值不在于写代码，而在于用算法思想驱动AI生成最优的代码。
 
 ## 一、为什么AI时代还要学排序算法？
 
 ### 排序无处不在
 
-打开手机，你看到的每一个信息流、搜索结果、商品列表、好友排名，背后都有排序算法在工作。数据库的ORDER BY、搜索引擎的结果排序、推荐系统的优先级队列——排序是整个计算世界的基石操作。
+信息流、搜索结果、商品列表、好友排名，背后都有排序算法在工作。数据库的ORDER BY、搜索引擎的结果排序、推荐系统的优先级队列——排序是整个计算世界的基石操作。
 
-### AI写代码，但不做决策
+### AI会写代码，但不做决策
 
 AI能在几秒钟内生成一个快速排序的实现，但它无法替你判断：
 
@@ -22,33 +18,49 @@ AI能在几秒钟内生成一个快速排序的实现，但它无法替你判断
 - 用户ID是纯数字且范围有限，能不能用计数排序把O(n log n)优化到O(n)？
 - 这个排序结果要传给下游服务做二次排序，稳定性重不重要？
 
-这些决策需要你**理解排序算法的原理和适用场景**，而不是会写代码。
+这些决策需要你理解排序算法的原理和适用场景，而不是会写代码。
 
 ### 排序算法是算法思想的缩影
 
 十大排序算法不是孤立的十个程序，它们是几种核心算法思想的具体体现：
 
 ```mermaid
-graph LR
-    A["分治思想"] --> A1["快速排序\n归并排序"]
-    B["贪心思想"] --> B1["选择排序"]
-    C["插入思想"] --> C1["插入排序\n希尔排序"]
-    D["交换思想"] --> D1["冒泡排序"]
-    E["映射思想"] --> E1["计数排序\n基数排序\n桶排序"]
-    F["树形结构"] --> F1["堆排序"]
+%%{init: {'flowchart': {'nodeSpacing': 50, 'rankSpacing': 30, 'padding': 20}}}%%
+graph TD
+    ROOT(["排序算法的核心思想"]):::root
 
-    style A fill:#1D9E75,stroke:#0F6E56,color:#ffffff
-    style B fill:#534AB7,stroke:#3C3489,color:#ffffff
-    style C fill:#D85A30,stroke:#993C1D,color:#ffffff
-    style D fill:#BA7517,stroke:#854F0B,color:#ffffff
-    style E fill:#185FA5,stroke:#0C447C,color:#ffffff
-    style F fill:#993556,stroke:#72243E,color:#ffffff
-    style A1 fill:#1D9E75,stroke:#0F6E56,color:#ffffff
-    style B1 fill:#534AB7,stroke:#3C3489,color:#ffffff
-    style C1 fill:#D85A30,stroke:#993C1D,color:#ffffff
-    style D1 fill:#BA7517,stroke:#854F0B,color:#ffffff
-    style E1 fill:#185FA5,stroke:#0C447C,color:#ffffff
-    style F1 fill:#993556,stroke:#72243E,color:#ffffff
+    ROOT --> A["分治思想"]
+    ROOT --> B["贪心思想"]
+    ROOT --> C["插入思想"]
+    ROOT --> D["交换思想"]
+    ROOT --> E["映射思想"]
+    ROOT --> F["树形结构"]
+
+    A --> A1["快速排序\n归并排序"]
+    B --> B1["选择排序"]
+    C --> C1["插入排序\n希尔排序"]
+    D --> D1["冒泡排序"]
+    E --> E1["计数排序\n基数排序\n桶排序"]
+    F --> F1["堆排序"]
+
+    %% root更突出
+    classDef root fill:#111827,color:#ffffff,stroke:#000000,stroke-width:2px,rx:12,ry:12
+
+    %% 分类层
+    style A fill:#1D9E75,stroke:#0F6E56,color:#ffffff,rx:10,ry:10
+    style B fill:#534AB7,stroke:#3C3489,color:#ffffff,rx:10,ry:10
+    style C fill:#D85A30,stroke:#993C1D,color:#ffffff,rx:10,ry:10
+    style D fill:#BA7517,stroke:#854F0B,color:#ffffff,rx:10,ry:10
+    style E fill:#185FA5,stroke:#0C447C,color:#ffffff,rx:10,ry:10
+    style F fill:#993556,stroke:#72243E,color:#ffffff,rx:10,ry:10
+
+    %% 叶子层
+    style A1 fill:#1D9E75,stroke:#0F6E56,color:#ffffff,rx:10,ry:10
+    style B1 fill:#534AB7,stroke:#3C3489,color:#ffffff,rx:10,ry:10
+    style C1 fill:#D85A30,stroke:#993C1D,color:#ffffff,rx:10,ry:10
+    style D1 fill:#BA7517,stroke:#854F0B,color:#ffffff,rx:10,ry:10
+    style E1 fill:#185FA5,stroke:#0C447C,color:#ffffff,rx:10,ry:10
+    style F1 fill:#993556,stroke:#72243E,color:#ffffff,rx:10,ry:10
 ```
 
 学会这些思想，你面对的就不仅仅是排序问题——而是所有需要"分解、组合、选择、映射"的工程问题。
@@ -57,13 +69,14 @@ graph LR
 
 ## 二、排序算法全景图
 
-### 分类体系
+### 排序算法分类体系
 
 ```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
 graph TD
-    ROOT["十大排序算法"]
-    ROOT --> CMP["比较排序\n理论下界 O(n log n)"]
-    ROOT --> NCMP["非比较排序\n可突破 O(n log n)"]
+    ROOT(["十大排序算法"])
+    ROOT --> CMP("比较排序\n理论下界 O(n log n)")
+    ROOT --> NCMP("非比较排序\n可突破 O(n log n)")
 
     CMP --> SWAP["交换排序"]
     CMP --> SEL["选择排序"]
@@ -102,13 +115,13 @@ graph TD
 |------|---------|---------|------|------|-----------|
 | [冒泡排序](https://github.com/microwind/algorithms/tree/main/sorting/bubblesort) | O(n²) | O(n²) | O(1) | 稳定 | 相邻交换，大数下沉 |
 | [选择排序](https://github.com/microwind/algorithms/tree/main/sorting/selectionsort) | O(n²) | O(n²) | O(1) | 不稳定 | 每轮选最小，交换次数最少 |
-| [插入排序](https://github.com/microwind/algorithms/tree/main/sorting/insertionsort) | O(n²) | O(n²) | O(1) | 稳定 | 扑克牌式，近乎有序时最快 |
+| [插入排序](https://github.com/microwind/algorithms/tree/main/sorting/insertsort) | O(n²) | O(n²) | O(1) | 稳定 | 扑克牌式，近乎有序时最快 |
 | [希尔排序](https://github.com/microwind/algorithms/tree/main/sorting/shellsort) | O(n^1.3) | O(n²) | O(1) | 不稳定 | 分组插入，突破O(n²) |
 | [快速排序](https://github.com/microwind/algorithms/tree/main/sorting/quicksort) | O(n log n) | O(n²) | O(log n) | 不稳定 | 分治+分区，实际最快 |
 | [归并排序](https://github.com/microwind/algorithms/tree/main/sorting/mergesort) | O(n log n) | O(n log n) | O(n) | 稳定 | 分治+合并，稳定可靠 |
 | [堆排序](https://github.com/microwind/algorithms/tree/main/sorting/heapsort) | O(n log n) | O(n log n) | O(1) | 不稳定 | 堆结构选择，原地排序 |
 | [计数排序](https://github.com/microwind/algorithms/tree/main/sorting/countingsort) | O(n + k) | O(n + k) | O(n + k) | 稳定 | 计数定位，整数专用 |
-| [基数排序](https://github.com/microwind/algorithms/tree/main/sorting/rixsort) | O(n × d) | O(n × d) | O(n + k) | 稳定 | 逐位排序，多位数利器 |
+| [基数排序](https://github.com/microwind/algorithms/tree/main/sorting/radixsort) | O(n × d) | O(n × d) | O(n + k) | 稳定 | 逐位排序，多位数利器 |
 | [桶排序](https://github.com/microwind/algorithms/tree/main/sorting/bucketsort) | O(n + k) | O(n²) | O(n + k) | 稳定 | 分桶+桶内排序，均匀分布最快 |
 
 ---
@@ -117,8 +130,6 @@ graph TD
 
 ### 1. 冒泡排序（Bubble Sort）— 最朴素的交换
 
-#### 核心思想
-
 反复遍历数组，比较相邻元素，如果顺序错了就交换。每一轮遍历都会把当前最大的元素"冒泡"到数组末尾，就像汽水里的气泡一样往上浮。
 
 > **生活类比**：体育课排队，老师让相邻两人比身高，矮的站前面，高的站后面。一轮下来，最高的人一定到了队尾。
@@ -126,6 +137,7 @@ graph TD
 #### 流程图
 
 ```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 10, 'rankSpacing': 10, 'padding': 15}}}%%
 graph LR
     S(["开始"]) --> INIT["i = 0"]
     INIT --> OUTER{"i < n-1 ?"}
@@ -185,8 +197,6 @@ function BubbleSort(arr):
 
 ### 2. 选择排序（Selection Sort）— 最少的交换
 
-#### 核心思想
-
 每一轮从未排序区域找到最小（或最大）的元素，放到已排序区域的末尾。不管数据怎么分布，比较次数永远是O(n²)，但交换次数最多只有O(n)。
 
 > **生活类比**：教练选球员。扫一眼整支队伍，挑出最矮的排第一，再从剩下的人里挑最矮的排第二，依此类推。
@@ -194,6 +204,7 @@ function BubbleSort(arr):
 #### 流程图
 
 ```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 15, 'padding': 10}}}%%
 graph LR
     S(["开始"]) --> INIT["i = 0"]
     INIT --> OUTER{"i < n-1 ?"}
@@ -253,8 +264,6 @@ function SelectionSort(arr):
 
 ### 3. 插入排序（Insertion Sort）— 扑克牌式排序
 
-#### 核心思想
-
 就像打扑克牌时整理手牌：每摸一张新牌，从右往左找到合适的位置插进去。已排好序的牌始终保持有序。
 
 > **生活类比**：这是人类最自然的排序方式。你整理书架上的书、给考试卷子按分数排列，用的都是插入排序的思路。
@@ -262,6 +271,7 @@ function SelectionSort(arr):
 #### 流程图
 
 ```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
 graph LR
     S(["开始"]) --> INIT["i = 1"]
     INIT --> OUTER{"i < n ?"}
@@ -315,8 +325,6 @@ function InsertionSort(arr):
 
 ### 4. 希尔排序（Shell Sort）— 跳跃式插入
 
-#### 核心思想
-
 插入排序的进化版。核心洞察：插入排序在数据基本有序时非常快，那能不能先让数据"大致有序"再做插入排序？希尔排序的做法是先用较大的步长（gap）将数组分成若干组，对每组做插入排序；然后逐步缩小gap，最终gap=1时就是普通的插入排序——但此时数据已经基本有序了。
 
 > **生活类比**：整理一堆乱放的书。先粗略地按类别大致归位（大步长），然后在每个类别内精细排列（小步长），最后微调。比一本一本从头排要快得多。
@@ -324,6 +332,7 @@ function InsertionSort(arr):
 #### 流程图
 
 ```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 10, 'rankSpacing': 10, 'padding': 15}}}%%
 graph LR
     S(["开始"]) --> GAP["gap = n / 2"]
     GAP --> GCHK{"gap > 0 ?"}
@@ -383,9 +392,7 @@ function ShellSort(arr):
 
 ---
 
-### 5. 快速排序（Quick Sort）— 分治的王者
-
-#### 核心思想
+### 5. 快速排序（Quick Sort）— 分治的经典
 
 选一个基准元素（pivot），把数组分成"比pivot小"和"比pivot大"两部分，然后对这两部分递归排序。这是分治思想的经典应用：大问题拆成小问题，小问题解决了，大问题自然解决。
 
@@ -396,6 +403,7 @@ function ShellSort(arr):
 #### 流程图
 
 ```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 16, 'padding': 15}}}%%
 graph LR
     S(["开始"]) --> CHK{"low < high ?"}
     CHK -->|"否"| END(["返回"])
@@ -453,8 +461,6 @@ function Partition(arr, low, high):
 
 ### 6. 归并排序（Merge Sort）— 稳定的分治
 
-#### 核心思想
-
 把数组不断二分，直到每个子数组只有一个元素（自然有序），然后两两合并。合并时用两个指针分别扫描两个有序子数组，每次取较小的放入结果数组。
 
 这是1945年冯·诺依曼为EDVAC计算机编写的第一个程序——人类历史上第一个计算机算法实现就是归并排序。
@@ -464,6 +470,7 @@ function Partition(arr, low, high):
 #### 流程图
 
 ```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 15, 'padding': 15}}}%%
 graph LR
     S(["开始"]) --> CHK{"数组长度 > 1 ?"}
     CHK -->|"否"| END(["返回"])
@@ -527,8 +534,6 @@ function Merge(left, right):
 
 ### 7. 堆排序（Heap Sort）— 树形选择
 
-#### 核心思想
-
 利用堆（完全二叉树）这种数据结构来排序。先把数组构建成一个大顶堆（每个父节点都大于等于子节点），然后不断取出堆顶（最大值）放到数组末尾，再重新调整堆。
 
 堆的精妙之处在于：用数组就能表示一棵完全二叉树。对于位置i的元素，其左子节点在2i+1，右子节点在2i+2，父节点在(i-1)/2。不需要任何指针。
@@ -538,6 +543,7 @@ function Merge(left, right):
 #### 流程图
 
 ```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
 graph LR
     S(["开始"]) --> BUILD["构建大顶堆\n从最后一个非叶节点\n到根逐个下沉"]
     BUILD --> LOOP{"未排序部分\n长度 > 1 ?"}
@@ -600,8 +606,6 @@ function SiftDown(arr, parent, size):
 
 ### 8. 计数排序（Counting Sort）— 用空间换时间
 
-#### 核心思想
-
 不做任何比较！直接统计每个值出现了多少次，然后按顺序输出。这就像统计考试分数：建一个0-100的表格，遍历一遍试卷把每个分数的计数加1，然后从0分到100分依次输出，每个分数出现几次就输出几次。
 
 > **生活类比**：选举计票。不需要两两比较谁的票多，直接数每个候选人各有多少票，按票数排列就行。
@@ -609,6 +613,7 @@ function SiftDown(arr, parent, size):
 #### 流程图
 
 ```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 10, 'rankSpacing': 20, 'padding': 15}}}%%
 graph LR
     S(["开始"]) --> RANGE["找到最大值 max\n创建计数数组 count[0..max]"]
     RANGE --> COUNT["遍历数组\n统计每个元素出现次数"]
@@ -663,8 +668,6 @@ function CountingSort(arr):
 
 ### 9. 基数排序（Radix Sort）— 逐位排序
 
-#### 核心思想
-
 不比较元素大小，而是按"位"来排序。从最低位（个位）开始，对每一位用一次稳定排序（通常是计数排序），逐位处理到最高位。因为每一轮都是稳定排序，低位的排序结果在高位排序时不会被破坏。
 
 这个思想最早可以追溯到1887年Herman Hollerith为美国人口普查设计的打孔卡片分拣机——比电子计算机还早了半个多世纪。
@@ -674,6 +677,7 @@ function CountingSort(arr):
 #### 流程图
 
 ```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
 graph LR
     S(["开始"]) --> MAXD["计算最大位数 d"]
     MAXD --> DINIT["digit = 1（从最低位开始）"]
@@ -742,8 +746,6 @@ function CountingSortByDigit(arr, exp):
 
 ### 10. 桶排序（Bucket Sort）— 分桶映射
 
-#### 核心思想
-
 把数据按值域范围均匀地分配到若干个"桶"里，每个桶内部用其他排序算法（通常是插入排序）排好，然后按桶的顺序依次把元素拼接起来。
 
 桶排序的核心假设是：数据分布大致均匀。如果分布均匀，每个桶里的元素很少，桶内排序的代价很低，总体接近O(n)。极端情况下（所有数据落入同一个桶），退化为桶内排序算法的复杂度。
@@ -753,6 +755,7 @@ function CountingSortByDigit(arr, exp):
 #### 流程图
 
 ```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 35, 'padding': 20}}}%%
 graph LR
     S(["开始"]) --> INIT["创建 k 个空桶\n确定值域范围"]
     INIT --> DIST["遍历数组\n将每个元素分配到\n对应的桶中"]
@@ -803,7 +806,7 @@ function BucketSort(arr):
 |------|------|------|------|--------|
 | O(n + k) | O(n + k) | O(n²) | O(n + k) | 稳定 |
 
-> 桶排序的性能高度依赖数据分布。2025年Springer的一项系统性研究表明，在均匀分布的数据集上，桶排序的实际执行速度超过了所有其他排序算法。但如果数据严重倾斜，大部分元素落入少数几个桶，性能会急剧下降。
+> 桶排序的性能高度依赖数据分布。2025年发表在Springer *Discover Computing* 上的一项系统性研究（Sundaramoorthy & Karunanidhi）表明，在均匀分布的数据集上，桶排序的实际执行速度超过了所有其他排序算法。不过该研究也指出，数据量超过10万时桶排序的优势减弱，归并排序和堆排序凭借更稳定的复杂度表现出更好的扩展性。
 
 ---
 
@@ -827,6 +830,7 @@ function BucketSort(arr):
 ### 稳定性分类
 
 ```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 40, 'rankSpacing': 25, 'padding': 20}}}%%
 graph TD
     STABLE["稳定排序"] --> SB["冒泡"] & SI["插入"] & SM["归并"] & SC["计数"] & SR["基数"] & SBK["桶"]
     UNSTABLE["不稳定排序"] --> US["选择"] & UQ["快速"] & UH["堆"] & USH["希尔"]
@@ -843,55 +847,45 @@ graph TD
 ### 场景选型决策
 
 ```mermaid
-graph TD
-    START["需要排序"] --> Q1{"数据规模？"}
-    Q1 -->|"n < 50"| A1["插入排序"]
+%%{init: {'flowchart': {'nodeSpacing': 40, 'rankSpacing': 10, 'padding': 10}}}%%
+graph TB
+    START(["需要排序"]):::start --> Q1{"数据规模？"}
+
+    Q1 -->|"n < 50"| A1(["插入排序"]):::cmp
     Q1 -->|"中等/大规模"| Q2{"数据特征？"}
-    Q2 -->|"整数且范围有限"| A2["计数排序"]
-    Q2 -->|"多位整数/定长字符串"| A3["基数排序"]
-    Q2 -->|"均匀分布"| A4["桶排序"]
+
+    Q2 -->|"整数且范围有限"| A2(["计数排序"]):::noncmp
+    Q2 -->|"多位整数/定长字符串"| A3(["基数排序"]):::noncmp
+    Q2 -->|"均匀分布"| A4(["桶排序"]):::noncmp
     Q2 -->|"通用数据"| Q3{"额外要求？"}
-    Q3 -->|"需要稳定排序"| A5["归并排序"]
-    Q3 -->|"内存受限"| A6["堆排序"]
-    Q3 -->|"追求最快速度"| A7["快速排序"]
-    Q3 -->|"数据近乎有序"| A8["插入排序"]
 
-    classDef root fill:#444441,color:#fff,stroke:#2C2C2A
-    classDef question fill:#1a1a2e,color:#fff,stroke:#16213e
-    classDef answer fill:#0f3460,color:#fff,stroke:#0a2647
+    Q3 -->|"需要稳定"| A5(["归并排序"]):::cmp
+    Q3 -->|"内存受限"| A6(["堆排序"]):::cmp
+    Q3 -->|"追求速度"| A7(["快速排序"]):::cmp
+    Q3 -->|"近乎有序"| A8(["插入排序"]):::cmp
 
-    class START root
+    %% 样式定义（统一圆角 + 分层颜色）
+    classDef start fill:#e94560,color:#fff,stroke:#cb21b6,stroke-width:2px,rx:12,ry:12
+    classDef question fill:#0f3460,color:#fff,stroke:#0f69a1,stroke-width:2px,rx:10,ry:10
+    classDef cmp fill:#22c55e,color:#052e16,stroke:#15803d,rx:10,ry:10
+    classDef noncmp fill:#f59e0b,color:#422006,stroke:#b45309,rx:10,ry:10
+
+    class START start
     class Q1,Q2,Q3 question
-    class A1,A2,A3,A4,A5,A6,A7,A8 answer
 ```
-
-### 各语言标准库的排序选择
-
-了解主流语言的标准库用了什么排序算法，本身就能说明工程界的选择：
-
-| 语言 | 函数 | 实际算法 | 选择理由 |
-|------|------|---------|---------|
-| C | `qsort()` | 通常为快速排序 | 追求原地+速度 |
-| Java | `Arrays.sort()` | 基本类型：Dual-Pivot QuickSort；对象：Timsort | 基本类型不需要稳定性；对象需要 |
-| Python | `sorted()` / `list.sort()` | Timsort | 利用现实数据中的有序片段 |
-| Go | `sort.Sort()` | pdqsort（模式自适应排序） | 综合性能+最坏情况保证 |
-| JavaScript | `Array.prototype.sort()` | V8引擎使用Timsort | 稳定性 + 实际性能 |
-| Rust | `slice.sort()` | 自适应归并排序（Timsort变体） | 稳定性保证 |
-
-> 注意一个有趣的趋势：越来越多的语言选择了**Timsort**（归并排序+插入排序的混合体），而不是纯快速排序。这说明在实际工程中，**稳定性**和**对半有序数据的适应能力**往往比理论最优更重要。
 
 ---
 
 ## 五、AI时代如何用排序思想驱动编程
 
-### 不是让你手写，而是让你会选
+### 不是让你手写，而是让你会选择
 
 AI时代学排序算法，不是要你在白板上默写快速排序的分区函数。而是当你面对一个具体场景时，能够：
 
-1. **识别问题**：这是一个排序问题吗？什么数据？什么规模？什么约束？
-2. **选择方案**：哪种排序算法最适合？为什么？
-3. **指导AI**：用精确的算法思想引导AI生成正确的代码
-4. **验证结果**：AI生成的排序代码，复杂度对不对？稳定性对不对？边界处理对不对？
+1. 识别问题：这是一个排序问题吗？什么数据？什么规模？什么约束？
+2. 选择方案：哪种排序算法最适合？为什么？
+3. 指导AI：用精确的算法思想引导AI生成正确的代码
+4. 验证结果：AI生成的排序代码，复杂度对不对？稳定性对不对？边界处理对不对？
 
 ### 指导AI的正确姿势
 
@@ -913,21 +907,14 @@ AI时代学排序算法，不是要你在白板上默写快速排序的分区函
 | **堆/优先队列** | 堆排序 | 任务调度、Top-K实时计算、定时器管理 |
 | **稳定性** | 归并排序 | 多维排序、数据库索引、UI列表渲染 |
 
-### 2023年的启示：AlphaDev
-
-2023年，Google DeepMind的AlphaDev用深度强化学习在汇编指令层面发现了更快的排序算法——短序列排序快了70%，长序列快了1.7%。这个成果已经被集成到C++标准库LLVM libc++中，每天被全球数万亿次调用。
-
-这个事件说明了什么？
-
-- 即使是最基础的排序算法，仍然有优化空间
-- AI可以在人类看不到的微观层面发现优化
-- 但**选择用什么排序、在什么场景下用**，仍然是人类工程师的决策
+### 提醒
+> AI是很厉害，知识面和速度都超远人类，但**选择用什么排序、在什么场景下用**，仍然是人类的决策
 
 ---
 
 ## 六、多语言实现源码
 
-以下是十大排序算法的多语言实现，每种语言都有其独特的表达方式和适用领域。
+以下是十大排序算法的多语言实现，每种语言都有其独特性，可以对比着来看，还能学习到语言特性。
 
 ### 源码链接总表
 
@@ -948,22 +935,21 @@ AI时代学排序算法，不是要你在白板上默写快速排序的分区函
 
 ## 总结
 
-十大排序算法，从最朴素的冒泡到精巧的基数排序，每一种都体现了前人解决问题的智慧——**怎样更快、更省、更稳地把一组数据排好序**。
+十大排序算法，从最朴素的冒泡到精巧的基数排序，每一种都体现了前人解决问题的智慧——怎样更快、更省、更稳地把一组数据排好序。
 
 在AI时代，你不需要手写这些算法。但你需要理解：
 
-- **为什么**快速排序是实际最快的通用排序？（缓存友好+分治思想）
-- **什么时候**应该放弃O(n log n)去用O(n)的计数排序？（整数且范围有限）
-- **怎么判断**AI生成的排序代码是否正确？（稳定性、边界条件、复杂度分析）
+- 为什么快速排序是实际最快的通用排序？（缓存友好+分治思想）
+- 什么时候应该放弃O(n log n)去用O(n)的计数排序？（整数且范围有限）
+- 怎么判断AI生成的排序代码是否正确？（稳定性、边界条件、复杂度分析）
 
-这些判断力，来自于对算法思想的理解，而不是对代码的记忆。
-
-> **没有最好的排序算法，只有最合适的排序算法。** 这句话同样适用于AI时代的所有技术决策。
+> 这些判断力，来自于对算法思想的理解，而不是对代码的记忆。
 
 ---
 
 ### 相关链接
-- [AI时代，人人都是算法思想工程师](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-Need-Algorithmic-Thinking.md)
-- [AI时代，人人都是AI Agent工程师](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Agent-Engineers.md)
+- [《程序员必备的算法思想指南》](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-Need-Algorithmic-Thinking.md)
+- [AI时代，人人都是算法思想工程师](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Algorithmic-Thinkers.md)
+- [AI时代，人人都是Agent工程师](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Agent-Engineers.md)
 - [排序算法概述](https://github.com/microwind/algorithms/blob/main/sorting/README.md)
 - [算法与数据结构源码](https://github.com/microwind/algorithms)

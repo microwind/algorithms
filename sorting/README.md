@@ -23,39 +23,42 @@
 
 ### 1.1 常见排序算法分类
 ```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 10}}}%%
 graph TD
-    ROOT["排序算法分类"]
-    ROOT --> CMP["比较排序"]
-    ROOT --> NCMP["非比较排序"]
+    ROOT(["排序算法分类"])
+    ROOT --> CMP("比较排序")
+    ROOT --> NCMP("非比较排序")
 
     CMP --> SWAP["交换排序"]
     CMP --> SEL["选择排序"]
     CMP --> INS["插入排序"]
     CMP --> MRG["归并排序"]
-
+    
     SWAP --> BUB["冒泡排序"]
     SWAP --> QCK["快速排序"]
     SEL --> SSEL["简单选择排序"]
     SEL --> HEAP["堆排序"]
     INS --> DINS["直接插入排序"]
     INS --> SHELL["希尔排序"]
-
+    
     NCMP --> CNT["计数排序"]
     NCMP --> RDX["基数排序"]
     NCMP --> BKT["桶排序"]
-
+    
     classDef root fill:#1a1a2e,color:#fff,stroke:#16213e
     classDef cat fill:#0f3460,color:#fff,stroke:#0a2647
     classDef sub fill:#533483,color:#fff,stroke:#2c1654
     classDef leaf fill:#e94560,color:#fff,stroke:#c81e45
-
+    
     class ROOT root
     class CMP,NCMP cat
     class SWAP,SEL,INS,MRG sub
     class BUB,QCK,SSEL,HEAP,DINS,SHELL,CNT,RDX,BKT leaf
 ```
+
 ### 1.2 排序算法时间复杂度、空间复杂度以及稳定性
 ```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 5}}}%%
 graph LR
     Root([排序算法]):::root
 
@@ -72,13 +75,13 @@ graph LR
     B --> B2["<b>堆排序</b> O(n log n) · O(1) · 不稳定"]:::leaf
 
     C --> C1["<b>冒泡排序</b> O(n²) · O(1) · 稳定"]:::leaf
-    C --> C2["<b>快速排序</b> O(n log n) · O(log n)· 不稳定"]:::leaf
+    C --> C2["<b>快速排序</b> O(n log n) · O(log n) · 不稳定"]:::leaf
 
     D --> D1["<b>归并排序</b> O(n log n) · O(n) · 稳定"]:::leaf
 
     E --> E1["<b>计数排序</b> O(n+k) · O(n+k) · 稳定"]:::leaf
     E --> E2["<b>桶排序</b> O(n+k) · O(n+k) · 稳定"]:::leaf
-    E --> E3["<b>基数排序</b> O(n·d) · O(n+k) · 稳定"]:::leaf
+    E --> E3["<b>基数排序</b> O(nd) · O(n+k) · 稳定"]:::leaf
 
     classDef root fill:#6436ED,stroke:#7c3aed,color:#fff,font-weight:bold
     classDef cat  fill:#5eead4,stroke:#0d9488,color:#134e4a,font-weight:bold
@@ -92,6 +95,7 @@ graph LR
 ### 2.1 排序算法的评估维度
 
 ```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 20, 'rankSpacing': 25, 'padding': 5}}}%%
 graph TD
     DIM["评估维度"]
     DIM --> T["时间复杂度<br/>最好 / 平均 / 最坏"]
@@ -109,6 +113,7 @@ graph TD
 ### 2.2 排序算法的稳定性示例
 
 ```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 20, 'rankSpacing': 25, 'padding': 5}}}%%
 graph TD
     subgraph ORIG["原始数据"]
         direction LR
@@ -163,6 +168,7 @@ graph TD
 | O(n) | O(n²) | O(n²) | O(1) | 稳定 |
 
 ```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 5}}}%%
 graph LR
     S(["开始"]) --> INIT["i = 0"]
     INIT --> OUTER{"i < n - 1 ?"}
@@ -203,6 +209,7 @@ graph LR
 | O(n²) | O(n²) | O(n²) | O(1) | 不稳定 |
 
 ```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 20, 'padding': 5}}}%%
 graph LR
     S(["开始"]) --> INIT["i = 0"]
     INIT --> OUTER{"i < n - 1 ?"}
@@ -244,6 +251,7 @@ graph LR
 | O(n) | O(n²) | O(n²) | O(1) | 稳定 |
 
 ```mermaid
+
 graph LR
     S(["开始"]) --> INIT["i = 1"]
     INIT --> OUTER{"i < n ?"}
@@ -280,6 +288,7 @@ graph LR
 | O(n log n) | O(n^1.3) | O(n²) | O(1) | 不稳定 |
 
 ```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 5}}}%%
 graph LR
     S(["开始"]) --> GAP["gap = n / 2"]
     GAP --> GCHK{"gap > 0 ?"}
@@ -320,6 +329,7 @@ graph LR
 | O(n log n) | O(n log n) | O(n²) | O(log n) | 不稳定 |
 
 ```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 5}}}%%
 graph LR
     S(["开始"]) --> CHK{"low < high ?"}
     CHK -->|"否"| END(["返回"])
@@ -353,6 +363,7 @@ graph LR
 | O(n log n) | O(n log n) | O(n log n) | O(n) | 稳定 |
 
 ```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 20, 'padding': 15}}}%%
 graph LR
     S(["开始"]) --> CHK{"数组长度 > 1 ?"}
     CHK -->|"否"| END(["返回"])
@@ -386,6 +397,7 @@ graph LR
 | O(n log n) | O(n log n) | O(n log n) | O(1) | 不稳定 |
 
 ```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
 graph LR
     S(["开始"]) --> BUILD["构建大顶堆<br/>（从最后一个非叶节点<br/>到根逐个下沉）"]
     BUILD --> LOOP{"未排序部分<br/>长度 > 1 ?"}
@@ -419,6 +431,7 @@ graph LR
 | O(n + k) | O(n + k) | O(n + k) | O(n + k) | 稳定 |
 
 ```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
 graph LR
     S(["开始"]) --> RANGE["找到数据最大值 max<br/>创建计数数组 count[0..max]"]
     RANGE --> COUNT["遍历数组<br/>统计每个元素出现次数"]
@@ -450,6 +463,7 @@ graph LR
 > d = 最大位数，k = 基数（如十进制 k=10）
 
 ```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 20, 'rankSpacing': 25, 'padding': 20}}}%%
 graph LR
     S(["开始"]) --> MAXD["计算最大位数 d"]
     MAXD --> DINIT["digit = 1（从最低位开始）"]
@@ -523,6 +537,7 @@ graph LR
 ### 稳定性分类
 
 ```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 40, 'rankSpacing': 20, 'padding': 15}}}%%
 graph TD
     STABLE["稳定排序"] --> SB["冒泡"] & SI["插入"] & SM["归并"] & SC["计数"] & SR["基数"] & SBK["桶"]
     UNSTABLE["不稳定排序"] --> US["选择"] & UQ["快速"] & UH["堆"] & USH["希尔"]
@@ -541,6 +556,7 @@ graph TD
 ## 5. 典型应用场景
 
 ```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 15}}}%%
 graph TD
     SCENE["场景选择"]
     SCENE --> SMALL["小规模 n < 50<br/>→ 插入排序"]
@@ -604,6 +620,7 @@ graph TD
 ### 学习路径
 
 ```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 45, 'padding': 20}}}%%
 graph LR
     L1["1. 基础排序<br/>冒泡 / 选择 / 插入"] --> L2["2. 进阶排序<br/>快速排序（重点）"]
     L2 --> L3["3. 稳定排序<br/>归并排序"]
@@ -638,6 +655,3 @@ graph LR
 | **计数排序** | [C](./countingsort/counting_sort.c) | [Java](./countingsort/CountingSort.java) | [Go](./countingsort/counting_sort.go) | [PY](./countingsort/counting_sort.py) | [JS](./countingsort/counting_sort.js) | [TS](./countingsort/CountingSort.ts) | [Rust](./countingsort/counting_sort.rs) | - |
 | **基数排序** | [C](./radixsort/radix_sort.c) | [Java](./radixsort/RadixSort.java) | [Go](./radixsort/radix_sort.go) | [PY](./radixsort/radix_sort.py) | [JS](./radixsort/radix_sort.js) | [TS](./radixsort/RadixSort.ts) | [Rust](./radixsort/radix_sort.rs) | - |
 | **桶排序** | [C](./bucketsort/bucket_sort.c) | [Java](./bucketsort/BucketSort.java) | [Go](./bucketsort/bucket_sort.go) | [PY](./bucketsort/bucket_sort.py) | [JS](./bucketsort/bucket_sort.js) | [TS](./bucketsort/BucketSort.ts) | [Rust](./bucketsort/bucket_sort.rs) | - |
-
-## 本文链接
-AI时代下的算法思想大全：[https://github.com/microwind/algorithms](https://github.com/microwind/algorithms)
