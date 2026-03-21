@@ -239,7 +239,7 @@ graph LR
 
 ### 常见的5大核心思想与2大策略
 
-> 相关算法思想及源码请见：https://github.com/microwind/algorithms
+> 相关算法思想及源码请见：https://github.com/microwind/algorithms/tree/main/algorithmic-thinking
 
 ```mermaid
 graph TD

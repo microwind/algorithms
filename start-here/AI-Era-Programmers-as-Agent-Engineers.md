@@ -608,9 +608,9 @@ graph TD
 ### 三层能力的关系
 
 ```mermaid
-flowchart TD
+flowchart BT
     %% 最终结果在顶部
-    D["指导AI替你干活"]
+    D["指导/驱动AI替你干活"]
 
     %% 第三层：算法思想（最接近顶部）
     subgraph L3["第三层：算法思想（How）"]
