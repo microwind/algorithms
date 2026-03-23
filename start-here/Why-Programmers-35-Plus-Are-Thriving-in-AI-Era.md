@@ -63,7 +63,7 @@ graph LR
 
 负责推广AI编程的同学说：
 
-> "以前我还做架构设计，现在连设计都省了，直接提需求和约束条件，让AI去分析、出计划、自执行。
+> ”以前我还做架构设计，现在连设计都省了，直接提需求和约束条件，让AI去分析、出计划、自执行。“
 
 那问题来了：AI这么强了，程序员还有价值吗？35岁以上的程序员何去何从？
 
@@ -146,7 +146,7 @@ graph LR
     style G fill:#c8e6c9,stroke:#333,stroke-width:1px
 ```
 
-**框架说明** 
+**框架说明**
 
 - **BEAT**：Background（背景）、Expectation（期望）、Action（行动）、Test（验证）——用于需求澄清与拆解。
 
@@ -162,9 +162,10 @@ graph LR
 
 现实恰恰相反。**你的确无需关注代码的实现细节，但你要懂得技术原理**，尤其是算法思想、设计模式和系统架构等。
 
-比如，你有个订单任务处理的功能。
+### 比如，你有个订单任务处理的功能
 
-### 你直接问AI：
+**你直接问AI：**
+
 ```c
 提示词："实现订单接口，处理并更新库存和日志"
 
@@ -177,7 +178,8 @@ writeLog(order);
 
 AI代码逻辑没问题，但在高并发场景下，每个请求都阻塞等待库存更新和日志写入，性能瓶颈明显，吞吐量低。
 
-### 你指导性地问AI：
+**你指导性地问AI：**
+
 ```c
 提示词："高并发订单接口，需要异步处理库存和日志，核心逻辑200ms内响应"
 
@@ -193,41 +195,34 @@ AI会给你完整的版本：
 
 我只需要告诉AI：这个问题的核心是高并发场景下需要快速响应，并**说明约束条件和处理策略**。
 
-再比如，在“搜索问题”中：
+### 再比如，你想给商品增加搜索功能
 
 如果你只是说“实现一个商品搜索功能”，AI可能会给出一个简单的线性扫描方案，在数据量大时性能会很差。
 
-但如果你告诉AI：“数据规模百万级，查询复杂度需要控制在 O(log n) 或更优，可使用索引或倒排结构”。
+但如果你指导AI：**“数据规模百万级，查询复杂度需要控制在 O(log n) 或更优，可使用索引或倒排结构”。**
 
-那么AI就更可能会给出更合理的实现方案。
-
-**在这个过程中，我同样不需要告诉AI具体如何实现**，比如怎么写 Elasticsearch 的 query DSL，细节方面AI可以完成。
-
-我只需要明确问题的核心约束，以及可行的算法思想方向，由AI来完成具体实现。
-
-虽然现在通过一些开源 Skills 库，比如 **Superpowers**、**awesome-openclaw-skills**，以及基于**Claude / OpenAI / OpenClaw 的Agent Skills**实践，也可以做到问题澄清、任务拆解以及架构设计、策略推导等，但最终的取舍和决策，仍然需要人来完成。
-
-如果你不懂技术原理，那么基于AI生成出来的程序质量可能不会很好。这就像你有了AI视频生成工具，也不一定能做好导演和剪辑——工具可以替你执行，但判断还得人来做。
+那么AI就更可能会给出更合理的实现方案：
 
 ```mermaid
 %%{init: {'flowchart': {'nodeSpacing': 35, 'rankSpacing': 25, 'padding': 10}}}%%
 graph LR
 
-    %% ===== 正确路径（蓝 → 绿）=====
+    %% ===== 正确路径 =====
     A["业务问题<br/>100万商品快速搜索"] --> B["原理思考"]
-    B --> B1["需要：快速查询"]
-    B1 --> B2["算法思想：二分查找"]
-    B2 --> B3["实现方案：倒排索引<br/>Elasticsearch"]
-    B3 --> C["AI生成实现"]
-    C --> D["高效搜索"]
-
-    %% ===== 错误路径（橙 → 红）=====
+    
+    %% ===== 错误路径 =====
     A --> E["直接给AI：加搜索功能"]
     E --> F["AI选择简单方案"]
     F --> G["线性搜索"]
     G --> H["性能不达标"]
+    
+    B --> B1["约束条件：<br/>百万级数据 + O(log n) 查询"]
+    B1 --> B2["算法思想：<br>索引化查询"]
+    B2 --> B3["实现方案：<br>倒排索引 / Elasticsearch"]
+    B3 --> C["AI生成实现"]
+    C --> D["高效搜索"]
 
-    %% ===== 正确路径颜色（蓝色思考 → 绿色结果）=====
+    %% ===== 正确路径颜色 =====
     style A fill:#FEF3C7,stroke:#F59E0B,rx:12,ry:12
     style B fill:#DBEAFE,stroke:#3B82F6,rx:10,ry:10
     style B1 fill:#DBEAFE,stroke:#3B82F6,rx:10,ry:10
@@ -236,14 +231,26 @@ graph LR
     style C fill:#E0E7FF,stroke:#6366F1,rx:10,ry:10
     style D fill:#BBF7D0,stroke:#22C55E,stroke-width:2px,rx:12,ry:12
 
-    %% ===== 错误路径颜色（橙 → 红）=====
+    %% ===== 错误路径颜色 =====
     style E fill:#FED7AA,stroke:#F97316,rx:10,ry:10
     style F fill:#FDBA74,stroke:#EA580C,rx:10,ry:10
     style G fill:#FCA5A5,stroke:#DC2626,rx:10,ry:10
     style H fill:#FECACA,stroke:#B91C1C,stroke-width:2px,rx:12,ry:12
 ```
 
-这就是为什么，AI能写代码，你还是要懂业务需求、懂算法思想、懂系统设计。因为这些是指导AI的核心武器。
+**在这个过程中，我同样不需要告诉AI具体如何实现**，比如怎么写 Elasticsearch 的 query DSL，细节方面AI可以完成。
+
+我只需要明确问题的核心约束，以及可行的算法思想方向，由AI来完成具体实现。
+
+### 懂原理的人，才能用好Skills和Prompts
+
+通过一些开源 Skills 库，比如 **Superpowers**、**awesome-openclaw-skills**，以及基于**Claude / OpenAI / OpenClaw 的Agent Skills**实践，可以做到问题澄清、任务拆解，以及架构设计和策略推导等，但最终的取舍和决策，仍然需要人来完成。
+
+有了Skills，还需要通过Prompt多轮对话不断修正方案。懂了技术原理，才能跟AI更好互动。
+
+如果你不懂技术原理，那么基于AI生成出来的程序质量可能不会很好。这就像你有了AI视频生成工具，也不一定能做好导演和剪辑——工具可以替你执行，但判断还得人来做。
+
+这就是为什么，AI能写代码，你还是要懂业务需求、懂算法思想和系统设计。因为这些是指导AI的核心武器。
 
 一个35岁+的老程序员，可能不再追逐最新的框架以及API。但如果你有这些经验：
 
@@ -282,10 +289,10 @@ AI很聪明，但有时候也犯傻。AI在某些方面远超人类，但在另�
 ```mermaid
 %%{init: {'flowchart': {'nodeSpacing': 45, 'rankSpacing': 25, 'padding': 15}}}%%
 graph TD
-    A["AI的致命弱点"] --> B["1. 容易幻觉<br/>自信地说错话"]
-    A --> C["2. 知识有时效性<br/>训练数据有截止日期"]
-    A --> D["3. 复杂度分析常出错<br/>给出的算法可能不优"]
-    A --> E["4. 边界情况容易遗漏<br/>正常情况对，特殊情况bug"]
+    A["AI的致命弱点"] --> B["1、容易幻觉<br/>自信地说错话"]
+    A --> C["2、知识有时效性<br/>训练数据有截止日期"]
+    A --> D["3、复杂度分析常出错<br/>给出的算法可能不优"]
+    A --> E["4、边界情况容易遗漏<br/>正常情况对，特殊情况bug"]
 
     style A fill:#fff2cc
     style B fill:#A0B2E3
@@ -373,8 +380,7 @@ graph TD
 
 ### 为什么有经验的程序员更有优势？
 
-### 1. 指导AI的能力，靠时间积累
-
+#### 指导AI的能力，靠时间积累
 
 | 阶段 | 能力需要 | 谁擅长 | 理由 |
 |------|------|--------|--------|
@@ -385,11 +391,18 @@ graph TD
 
 不是说年轻人不行，而是有些能力确实需要时间沉淀。尤其是决策和判断力。
 
-### 2. 经验决定你是依赖AI还是驾驭AI
-
+#### 经验决定你是依赖AI还是驾驭AI
 - 经验少比较依赖AI，但AI出问题时束手无策
 - 经验多则能指导AI，在AI出问题时能予以指正
 - 有经验的人拿AI当工具，没经验的人容易被AI带偏
+
+ #### 并不是所有老程序员都有优势
+- **拒绝学习AI工具的人**——经验再丰富，如果不会驱动AI，就像坐进智能座舱，但不知道如何下指令
+- **只有"管理经验"没有"技术判断力"的人**——AI时代需要的是能做技术决策的人，不是只会写PPT的人
+- **经验停留在表层技术的人**——只会编程框架的细节和应用，但不懂得底层原理与机制的人
+- **缺乏全栈技术和全局业务思维的人**——技术上还固守自己的一亩三分地，业务上还不能全面深入思考的人
+
+真正有优势的，是那些**既有广博知识，又明白事物原理、并且积极拥抱AI**的人。
 
 ---
 
@@ -399,26 +412,26 @@ graph TD
 >
 > 基于AI风口，可以成为Agent工程师，也可以成为决策者，还可以自己当老板。
 
-###  1、学习指导AI的方法论
+### 学习指导AI的方法论
 
-**1. 理解需求的方法**——搞清楚：现状是什么、目标是什么、要做什么、如何验证。[《AI时代，程序员如何成为需求描述工程师》](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Requirements-Engineers.md.md)
+- **理解需求的方法**——搞清楚：现状是什么、目标是什么、要做什么、如何验证。[《AI时代，程序员如何成为需求描述工程师》](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Requirements-Engineers.md)
 
-**2. 设计系统的方法**——明确：规模、约束、架构、边界、评估指标。[《AI时代，程序员如何成为系统设计工程师》](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-System-Design-Engineers.md)
+- **设计系统的方法**——明确：规模、约束、架构、边界、评估指标。[《AI时代，程序员如何成为系统设计工程师》](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-System-Design-Engineers.md)
 
-**3. 解决问题的方法**——选择：把模糊业务变为可计算、可优化的问题模型，选用合适的求解策略。[《AI时代，程序员如何成为算法思想工程师》](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Algorithmic-Thinkers.md)
+- **解决问题的方法**——选择：把模糊业务变为可计算、可优化的问题模型，选用合适的求解策略。[《AI时代，程序员如何成为算法思想工程师》](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Algorithmic-Thinkers.md)
 
 其实你之前做项目也是这么干的，只是没刻意这么总结。
 
-### 2、学习架构设计和算法思想的体系
+### 学习架构设计和算法思想的体系
 
-完整学习[系统设计](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-System-Design-Engineers.md)与[算法思想](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-Need-Algorithmic-Thinking.md)），掌握每种思想的意义和用途。
+完整学习[系统设计](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-System-Design-Engineers.md)与[算法思想](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-Need-Algorithmic-Thinking.md)，掌握每种思想的意义和用途。
 
 不需要手写每个算法，但要理解：
 - 理解每个设计与思想的核心思路
 - 知道什么问题该用什么设计和思想
 - 能用设计架构与算法思想来指导AI
 
-### 3、持续练习验证AI代码的能力
+### 持续练习验证AI代码的能力
 
 这个最重要，没有什么比持续学习重要了。多用AI编程工具，用多了自然就有了感觉。
 
@@ -466,7 +479,7 @@ graph LR
     F0 --> F1 --> F2 --> F3 --> F4 --> F5 --> F6
 
     %% ===== 节点样式 =====
-    style P0 fill:#B91C1C,stroke:#B91C1C,color:#ffffff,stroke-width:2px,rx:10,ry:10
+    style P0 fill:#DF3636,stroke:#B91C1C,color:#ffffff,stroke-width:2px,rx:10,ry:10
     style P1 fill:#FECACA,stroke:#B91C1C,color:#000000,stroke-width:2px,rx:8,ry:8
     style P2 fill:#FECACA,stroke:#B91C1C,color:#000000,stroke-width:2px,rx:8,ry:8
     style P3 fill:#FECACA,stroke:#B91C1C,color:#000000,stroke-width:2px,rx:8,ry:8
@@ -474,7 +487,7 @@ graph LR
     style P5 fill:#FECACA,stroke:#B91C1C,color:#000000,stroke-width:2px,rx:8,ry:8
     style P6 fill:#FECACA,stroke:#B91C1C,color:#000000,stroke-width:2px,rx:8,ry:8
 
-    style F0 fill:#1E3A8A,stroke:#1E40AF,color:#ffffff,stroke-width:2px,rx:10,ry:10
+    style F0 fill:#4B6FD1,stroke:#1E40AF,color:#ffffff,stroke-width:2px,rx:10,ry:10
     style F1 fill:#BFDBFE,stroke:#1E3A8A,color:#000000,stroke-width:2px,rx:8,ry:8
     style F2 fill:#BFDBFE,stroke:#1E3A8A,color:#000000,stroke-width:2px,rx:8,ry:8
     style F3 fill:#BFDBFE,stroke:#1E3A8A,color:#000000,stroke-width:2px,rx:8,ry:8
@@ -512,7 +525,18 @@ AI变强，对人的要求也在变强。因为验证AI的难度，远高于编�
 
 AI替代人工编程已成定局，积极拥抱是唯一出路。以前程序员是“青春饭”，35岁以上就开始焦虑。现在时代变了——AI把"写代码"的门槛大幅降低，反而让"理解问题、做出判断"这些需要时间积累的能力变得更值钱。
 
-**这对有经验的程序员来说，何尝不是一个难得的机会。你怎么看？欢迎聊聊你的看法。
+全文主要观点：
+
+- **AI改变的是编码方式，不是工程本质**——你的角色从执行者变成决策者
+- **经验不再是包袱，而是驱动AI的能力**——你踩过的坑，就是AI最需要的约束条件
+- **不需要手写代码，但需要能判断好坏**——验证能力比编码能力更稀缺
+- **真正的风险不是年龄，而是停止学习**——拒绝AI工具的老程序员同样会被淘汰
+
+代码会过时，框架会淘汰，但对问题的理解力和判断力，只会随着时间增值。
+
+有经验的程序员在AI的加持下，不一定要上班，接私活、做兼职、开个人公司都是不错的选择。 
+
+**这对有经验的程序员来说，何尝不是一个难得的机会**。你怎么看？欢迎聊聊你的看法。
 
 ---
 
