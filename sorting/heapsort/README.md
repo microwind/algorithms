@@ -4,7 +4,7 @@
 
 堆排序（Heap Sort）算法，是将数据看成近似完全二叉树结构，并根据完全二叉树的特性来进行排序的一种算法。完全二叉树要求每个节点的值都大于等于其左右子节点的值，称为大顶堆；或者每个节点的值都小于或等于其左右子节点的值，称为小顶堆。先将父节点的最大数取出，并构建最大堆，再将堆继续调整为最大堆，再次将堆顶的最大数取出，这个过程持续到剩余数只有一个时结束。
 
-堆排序本质也是一种选择排序，利用树形结构选择排序。只不过在直接选择排序中，为了从A[1…n]中选择最大记录，需比较n-1次，然后从A[1…n-2]中选择最大记录需比较n-2次。事实上这n-2次比较中有很多已经在前面的n-1次比较中已经做过，而树形选择排序恰好利用树形的特点保存了部分的比较结果，因此能减少比较次数。对于n个关键字序列，最坏情况下每个节点需比较log2(n)次，因此其最坏情况下时间复杂度为nlogn。堆排序为不稳定排序，不适合记录较少的排序。
+> **生活类比**：就像整理一堆水果，把最大的放在顶上，每次取出最顶上的水果放到盘子里，然后让剩下的水果重新"自动堆成一座山"，下一次再取最大的。不断重复，最终就把所有水果从大到小排好。
 
 ## 实现过程
 
@@ -12,9 +12,34 @@
 2. 构建最大堆（Build-Max-Heap），将堆所有数据重新排序，使其成为最大堆，并且冒出最大数；
 3. 堆排序(Heap-Sort)，从最后一个子节点开始遍历，并将根节点与其交换，也就是移除第一个数据的根节点，并做最大堆调整的递归调用，直到排序完成。
 
+## 算法流程
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> BUILD["构建大顶堆\n从最后一个非叶节点\n到根逐个下沉"]
+    BUILD --> LOOP{"未排序部分\n长度 > 1 ?"}
+    LOOP -->|"否"| END(["排序完成"])
+    LOOP -->|"是"| SWAP["交换堆顶与\n未排序部分末尾"]
+    SWAP --> SHRINK["未排序范围 - 1"]
+    SHRINK --> HEAPIFY["对堆顶执行下沉\nsift down"]
+    HEAPIFY --> LOOP
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef loop fill:#1e90ff,color:#fff,stroke:#104e8b,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,END start
+    class LOOP decision
+    class BUILD,SWAP,SHRINK,HEAPIFY process
+```
+
 ## 示意图
 
-<!-- ![堆排序](../../resources/images/sort/heap1.png)s -->
 ![堆排序](../../resources/images/sort/heap2.png)
 ![堆排序](../../resources/images/sort/heap2.gif)
 

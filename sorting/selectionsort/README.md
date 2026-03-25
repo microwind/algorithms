@@ -2,13 +2,49 @@
 
 ## 说明
 
-选择排序（Selection Sort）是一种简单直观的排序算法。跟冒泡、插入排序一样，它将数列分为已排序和待排序两个区间。首先在待排序序列中找到最小（或最大）的元素，追加到已排序序列中，然后继续从待排序序列中寻找最小（或最大）的元素，追加到已排序序列的尾部。以此类推，直到所有元素均排序完毕。可以通过同时找出最小和最大项来优化性能，详见源码。
+选择排序（Selection Sort）是一种简单直观的排序算法。它将数列分为已排序和待排序两个区间，每一轮在待排序序列中找到最小（或最大）的元素，放到已排序序列的末尾。选择排序的特点是交换次数很少，每一轮最多只交换一次。
+
+> **生活类比**：就像从一堆没有次序的苹果里，每次都挑出最小（或最大）的一个，放到一边按大小排好。每次只挑一个，慢慢就把所有苹果按顺序排好了。
 
 ## 实现过程
 
 1. 先建立两个循环，外循环用于逐个交换数据，内循环用来遍历找到最小(或最大)值。
 2. 设第 1 项为最小值，在内循环中将其逐个与后项进行比较，如果遇到更小的值，则更新最小值，并记录下最小值的下标。
 3. 在外循环中将第 1 项与最小值进行交换，然后以第 2 项作为最小值，再重复执行步骤 2，直到遍历完全部待排序区间。
+
+## 算法流程
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 10, 'rankSpacing': 20, 'padding': 15}}}%%
+graph LR
+    S(["开始"]) --> INIT["i = 0"]
+    INIT --> OUTER{"i < n-1 ?"}
+    OUTER -->|"否"| END(["排序完成"])
+    OUTER -->|"是"| MIN["minIdx = i\nj = i + 1"]
+    MIN --> INNER{"j < n ?"}
+    INNER -->|"否"| DOSWAP{"minIdx ≠ i ?"}
+    DOSWAP -->|"是"| SWAP["交换 arr[i] 和 arr[minIdx]"]
+    DOSWAP -->|"否"| INC["i++"]
+    SWAP --> INC
+    INC --> OUTER
+    INNER -->|"是"| CMP{"arr[j] < arr[minIdx] ?"}
+    CMP -->|"是"| UPD["minIdx = j"]
+    CMP -->|"否"| JINC["j++"]
+    UPD --> JINC
+    JINC --> INNER
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef loop fill:#1e90ff,color:#fff,stroke:#104e8b,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,END start
+    class OUTER,INNER,CMP,DOSWAP decision
+    class INIT,MIN,INC,JINC,UPD,SWAP process
+```
 
 ## 示意图
 

@@ -6,18 +6,40 @@
 
 归并排序和选择排序一样，归并排序的性能不受输入数据的影响，但表现比选择排序好的多，因为始终都是O(n log n）的时间复杂度。代价是需要额外的内存空间。
 
-归并排序是用分治思想，分治模式在每一层递归上有三个步骤：
-
-分解（Divide）：将n个元素分成个含n/2个元素的子序列。
-解决（Conquer）：用合并排序法对两个子序列递归的排序。
-合并（Combine）：合并两个已排序的子序列已得到排序结果。
+> **生活类比**：先把一筐苹果**分成两篮**，再每篮**分成两篮**……直到每篮只有一个苹果。然后从底层开始合并，每次合并按大小排序，直到所有苹果排好。
 
 ## 实现过程
 
 1. 将所有数组项无限细分，得到1个个独立的单元，也就是不断分解。
 2. 将相近的两两进行比较，按照已排序数组合并，形成（n/2）个序列，每个序列包含2个数字。
-2. 将上述两个序列递归合并，按照已排序数组合并，形成（n/4）个序列，每个序列包含4个数字。
-3. 重复步骤2，直到所有元素合并排序完毕。
+3. 将上述两个序列递归合并，按照已排序数组合并，形成（n/4）个序列，每个序列包含4个数字。
+4. 重复步骤3，直到所有元素合并排序完毕。
+
+## 算法流程
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 35, 'rankSpacing': 15, 'padding': 15}}}%%
+graph LR
+    S(["开始"]) --> CHK{"数组长度 > 1 ?"}
+    CHK -->|"否"| END(["返回"])
+    CHK -->|"是"| SPLIT["从中间二分为\n左半部分 + 右半部分"]
+    SPLIT --> LSORT["递归排序左半部分"]
+    LSORT --> RSORT["递归排序右半部分"]
+    RSORT --> MERGE["合并两个有序子数组"]
+    MERGE --> END
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef loop fill:#1e90ff,color:#fff,stroke:#104e8b,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,END start
+    class CHK decision
+    class SPLIT,LSORT,RSORT,MERGE process
+```
 
 ## 示意图
 

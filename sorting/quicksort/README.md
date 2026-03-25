@@ -4,11 +4,44 @@
 
 快速排序（QuickSort），又称分区交换排序（partition-exchange sort），简称快排。快排是一种通过基准划分区块，再不断交换左右项的排序方式，其采用了分治法，减少了交换的次数。它的基本思想是：通过一趟排序将要排序的数据分割成独立的两部分，其中一部分的所有数据都比另外一部分的所有数据都要小，然后再按此方法对这两部分数据分别进行快速排序，整个排序过程可以递归或迭代进行，以此让整个数列变成有序序列。
 
+> **生活类比**：就像给一群人排队，先选一个人当"基准"，比他矮的站左边，比他高的站右边，然后左右两边也重复这个过程。随着不断分组，每一小组都会越来越有序，直到每组只剩下一个人时，整个队伍就排好了。
+
 ## 实现过程
 
 1. 在待排序区间找到一个基准点(pivot)，便于理解一般是位于数组中间的那一项。
 2. 逐个循环数组将小于基准的项放左侧，将大于基准的项放在右侧。一般通过交换的方式来实现。
 3. 将基准点左侧全部项和基点右侧全部项分别通过递归(或迭代)方式重复第1项，直到所有数组都交换完成。
+
+## 算法流程
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 16, 'padding': 15}}}%%
+graph LR
+    S(["开始"]) --> CHK{"low < high ?"}
+    CHK -->|"否"| END(["返回"])
+    CHK -->|"是"| PIVOT["选择 pivot"]
+    PIVOT --> PART["分区：\n小于pivot在左\n大于pivot在右\n返回pivot位置 p"]
+    PART --> LEFT["递归排序左半部分\nquickSort(low, p-1)"]
+    LEFT --> RIGHT["递归排序右半部分\nquickSort(p+1, high)"]
+    RIGHT --> END
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef loop fill:#1e90ff,color:#fff,stroke:#104e8b,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    classDef pivot fill:#ffb703,color:#000,stroke:#e09f00,stroke-width:2px
+    classDef partition fill:#06d6a0,color:#003d2e,stroke:#04a777,stroke-width:2px
+    classDef recurse fill:#118ab2,color:#fff,stroke:#0b5f7a,stroke-width:2px
+    
+    %% 应用样式
+    class S,END start
+    class CHK decision
+    class PIVOT pivot
+    class PART partition
+    class LEFT,RIGHT recurse
+```
 
 ## 示意图
 

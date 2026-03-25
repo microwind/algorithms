@@ -2,7 +2,9 @@
 
 ## 说明
 
-桶排序（Bucket Sort）也称箱排序，是一个排序算法，工作原理是将数组分到几个桶里，桶的数量可由排序数组最大值与最小值关系决定，可以固定几个桶。每个桶内再通过插入、冒泡或或是以桶递归方式进行排序。
+桶排序（Bucket Sort）也称箱排序，是一个排序算法，工作原理是将数组分到有限数量的桶里，每个桶内再单独排序，最后按桶的顺序合并结果。桶排序的关键在于假设数据分布均匀，这样每个桶的元素相对较少，能够高效完成排序。
+
+> **生活类比**：就像收集水果，把苹果按大小或颜色放到不同的篮子里，每个篮子里再整理一下，最后按篮子顺序排列所有苹果，就得到整齐的果堆。
 
 ## 实现过程
 
@@ -12,10 +14,33 @@
 4. 在存入桶中时，按顺序插入，保持桶内的顺序；
 5. 数据全部放入桶之后，再遍历桶原始列表，将桶二维数组按顺序展开取出。
 
+## 算法流程
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 35, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> INIT["创建 k 个空桶\n确定值域范围"]
+    INIT --> DIST["遍历数组\n将每个元素分配到\n对应的桶中"]
+    DIST --> SORT["对每个非空桶\n内部进行排序"]
+    SORT --> CONCAT["按桶顺序\n依次拼接所有元素"]
+    CONCAT --> END(["排序完成"])
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef loop fill:#1e90ff,color:#fff,stroke:#104e8b,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,END start
+    class INIT,DIST,SORT,CONCAT process
+```
+
 ## 示意图
 
-![冒泡排序](../../resources/images/sort/bucket1.png)
-![冒泡排序](../../resources/images/sort/bucket2.gif)
+![桶排序](../../resources/images/sort/bucket1.png)
+![桶排序](../../resources/images/sort/bucket2.gif)
 
 ## 性能分析
 

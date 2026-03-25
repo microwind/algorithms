@@ -1,14 +1,48 @@
 ## 【插入排序算法详解】Java/Go/Python/JS/C不同语言实现
 
 ## 说明
+
 插入排序（Insertion Sort）是一种简单直观的排序算法。它的工作原理是将数据分为已排序和未排序两个序列，对于未排序的数据，在已排序序列中从后向前逐个遍历，找到相应位置插入的方式，其原理跟打扑克牌按顺序插入牌很类似。
 
+> **生活类比**：就像打扑克牌一样，把牌分成两堆——**已排好序的牌**和**未排的牌**。一开始，第一张牌算作已排序部分，其余都是未排序部分。然后每次从未排序中拿一张牌，插入到已排序中的正确位置，已排序的牌往右移一位，未排序的牌则减少一张。
+
 ## 实现过程
+
 1. 将数组分为左右两个序列，分别表示已排序和未排序。外循环遍历未排序序列，内循环遍历已排序序列。
 2. 从未排序序列中选取一项作为比较项，跟已排序列表项自后往前逐个对比，如果比较项小于列表成员，则将列表成员逐个右移，以便空出位置。
 3. 当比较项大于等于已排序的成员时，将比较项放在该成员的后面。
 
+## 算法流程
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> INIT["i = 1"]
+    INIT --> OUTER{"i < n ?"}
+    OUTER -->|"否"| END(["排序完成"])
+    OUTER -->|"是"| KEY["key = arr[i]\nj = i - 1"]
+    KEY --> INNER{"j ≥ 0 且\narr[j] > key ?"}
+    INNER -->|"是"| SHIFT["arr[j+1] = arr[j]\nj--"]
+    SHIFT --> INNER
+    INNER -->|"否"| PLACE["arr[j+1] = key"]
+    PLACE --> INC["i++"]
+    INC --> OUTER
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef loop fill:#1e90ff,color:#fff,stroke:#104e8b,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,END start
+    class OUTER,INNER decision
+    class INIT,KEY,SHIFT,PLACE,INC process
+```
+
 ## 示意图
+
 ![插入排序](../../resources/images/sort/insert1.png)
 ![插入排序](../../resources/images/sort/insert2.gif)
 

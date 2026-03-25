@@ -4,12 +4,37 @@
 
 计数排序（Counting Sort）是一种稳定的线性时间排序算法。该算法于1954年由 Harold H. Seward 提出。计数排序使用一个额外的数组，数组的下标对应待排序的数字。然后根据新数组的下标来获得正确的顺序。就像给每个位置按数字顺序做好标记，然后把对应数组放入其中，最后把下标打印出来即可。计数排序适合数量较少的整数排序，对于浮点不太适合。
 
+> **生活类比**：就像统计考试分数：准备一个 0–100 的计数表，遍历所有试卷，把每个分数出现的次数加 1。最后从 0 分到 100 分依次输出，每个分数出现几次就写几次，这样就得到排序好的成绩单。
+
 ## 实现过程
 
 1. 找到待排序中最大和最小的元素；
 2. 新建一个计数数组，长度为最大与最小值的差值+1；
 3. 遍历待排序数组，将数字与计数数组下标对应，按出现次数做标记；做对应时为了减少数组长度，可以用下标减去最小值；
 4. 反向取出数据，按出现的次数逐个追加到输出数组中。
+
+## 算法流程
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 10, 'rankSpacing': 20, 'padding': 15}}}%%
+graph LR
+    S(["开始"]) --> RANGE["找到最大值 max\n创建计数数组 count[0..max]"]
+    RANGE --> COUNT["遍历数组\n统计每个元素出现次数"]
+    COUNT --> PREFIX["对 count 做前缀和\n确定每个元素的位置"]
+    PREFIX --> FILL["反向遍历原数组\n按 count 放入输出数组"]
+    FILL --> END(["排序完成"])
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef loop fill:#1e90ff,color:#fff,stroke:#104e8b,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,END start
+    class RANGE,COUNT,PREFIX,FILL process
+```
 
 ## 示意图
 

@@ -1,21 +1,59 @@
 ## 【希尔排序算法详解】Java/Go/Python/JS/C不同语言实现
 
 ## 说明
+
 希尔排序（Shell Sort）是插入排序的一种改进版，也称递减增量排序算法（Diminishing Increment Sort），其实质是将数列分组，然后再按插入算法分别排序，因DL．Shell于1959年提出而得名。
 
 希尔排序是基于插入排序的以下两点性质而提出改进方法的：
 - 插入排序在对几乎已经排好序的数据操作时效率较高，可以达到线性排序的效率。
 - 但插入排序对于一般不规则数列来说是低效的，因为插入排序每次只能挪动一位数据。
 
+> **生活类比**：就像整理扑克牌，如果手里有很多牌，一次只按相隔一定间距（比如每隔10张牌）把牌插入到已排好的位置，先把大块牌大致排好序，再缩小间距，一次次精细调整，最后整个牌堆就排好了。相比插入排序"每次拿一张牌插入"，希尔排序就像先粗略排，再精细排，效率更高。
+
 ## 实现过程
+
 1. 定义一个分组间隔（步长），分组规则可以是1/2数组长度或其他。
 2. 按步长间隔取出数字组成子序列，针对子序列按照插入算法进行排序。
 3. 步长按照分组规则缩量递减，继续新一轮子序列的插入排序。
-3. 待步长为1时，再对全体元素进行一次插入排序，排序完成。
+4. 待步长为1时，再对全体元素进行一次插入排序，排序完成。
 
 步长间隔怎么取呢？在希尔的原稿中建议的初始步长是N/2，就是将每一次排序分成两半，这样取步长在大多数情况下会比插入排序好，但也不是最好。
 
+## 算法流程
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 10, 'rankSpacing': 10, 'padding': 15}}}%%
+graph LR
+    S(["开始"]) --> GAP["gap = n / 2"]
+    GAP --> GCHK{"gap > 0 ?"}
+    GCHK -->|"否"| END(["排序完成"])
+    GCHK -->|"是"| IINIT["i = gap"]
+    IINIT --> ICHK{"i < n ?"}
+    ICHK -->|"否"| GSHR["gap = gap / 2"]
+    GSHR --> GCHK
+    ICHK -->|"是"| KEY["key = arr[i]\nj = i - gap"]
+    KEY --> INNER{"j ≥ 0 且\narr[j] > key ?"}
+    INNER -->|"是"| SHIFT["arr[j+gap] = arr[j]\nj -= gap"]
+    SHIFT --> INNER
+    INNER -->|"否"| PLACE["arr[j+gap] = key"]
+    PLACE --> INC["i++"]
+    INC --> ICHK
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef loop fill:#1e90ff,color:#fff,stroke:#104e8b,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,END start
+    class GCHK,ICHK,INNER decision
+    class GAP,IINIT,KEY,SHIFT,PLACE,INC,GSHR process
+```
+
 ## 示意图
+
 ![希尔排序](../../resources/images/sort/shell1.png)
 ![希尔排序](../../resources/images/sort/shell2.gif)
 

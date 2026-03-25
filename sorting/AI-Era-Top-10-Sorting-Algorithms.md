@@ -322,11 +322,7 @@ function InsertionSort(arr):
 
 ### 4. 希尔排序（Shell Sort）— 跳跃式插入
 
-**算法原理**：希尔排序是插入排序的改进版，先用较大的步长（gap）把数组分成若干组并分别做插入排序，再逐步缩小gap，最后gap=1完成整体排序。因此希尔相比插入会多一个gap的循环。
-
-希尔排序针对插入排序的两点特性而提出改进：
-- 插入排序在对几乎已经排好序的数据操作时效率较高，可以达到线性排序的效率。
-- 插入排序对于不规则数列来说是相对低效，因为插入排序每次只能挪动一个数据。
+**算法原理**：希尔排序是插入排序的改进版，先用较大的步长（gap）将数组分成若干组，对每组分别进行插入排序，然后逐步缩小gap，最终gap=1完成整体排序。通过先对间隔较大的子序列排序，可以显著减少元素移动次数，从而提高排序效率，尤其是对于较大或无序的数据序列。
 
 > 生活类比：就像整理扑克牌，如果手里有很多牌，一次只按相隔一定间距（比如每隔10张牌）把牌插入到已排好的位置，先把大块牌大致排好序，再缩小间距，一次次精细调整，最后整个牌堆就排好了。相比插入排序“每次拿一张牌插入”，希尔排序就像先粗略排，再精细排，效率更高。
 
@@ -906,33 +902,24 @@ graph TB
 
 **编程语言中，会根据数据规模、分布特征和运行时情况，动态组合多种算法**
 
-- **C 标准库（`qsort`）**：QuickSort 变种 + 插入排序优化
+- **C 标准库 (`qsort`)**：QuickSort 变种 + 小数组插入排序优化
+- **C++ STL (`std::sort`)**：Introsort（快速排序 + 堆排序 + 插入排序）
+- **Java (`Arrays.sort`)**：双轴 QuickSort（基本类型）、Timsort（对象数组，归并 + 插入排序）
+- **Python (`sorted` / `list.sort`)**：Timsort（归并 + 插入排序）
+- **Go (`sort` 包)**：PDQSort + 插入排序
+- **JavaScript (`Array.prototype.sort`)**：Timsort / QuickSort + 插入排序
+- **Rust (`slice::sort` / `sort_unstable`)**：`sort` → Timsort 变体；`sort_unstable` → PDQSort（快排优化版）
 
-- **C++ STL（`std::sort`）**：Introsort（快速排序 + 堆排序 + 插入排序）
+**开源软件与系统中，也会根据数据特点与内存动态选择排序策略**
 
-- **Java（`Arrays.sort`）**：Dual-Pivot QuickSort（双轴快排）、Timsort（归并 + 插入排序）
-
-- **Python（`sorted` / `list.sort`）**：Timsort（归并 + 插入排序）
-
-- **Go（`sort` 包）**：Introsort + 插入排序
-
-- **JavaScript（`Array.prototype.sort`）**：插入排序、QuickSort / Timsort
-
-- **Rust（`slice::sort` / `sort_unstable`）**：`sort` → Timsort 变体；`sort_unstable` → PDQSort（快排优化版）
-
-**开源软件里也会根据数据结构的不同采用混合策略**
-
-| 系统/场景 | 混合策略 |
-|----------|---------|
-| **MySQL** | 优先利用索引顺序；内存内 `ORDER BY` 使用快速排序，超出 `sort_buffer_size` 后切换为外部归并排序。 |
-| **MongoDB** | 内存内使用快速排序或 Timsort，结果集超过 32 MB 时自动降级为外部归并排序（`allowDiskUse`）。 |
-| **Elasticsearch (Lucene)** | 多段合并采用归并排序；对 `doc_values` 字段使用计数排序或快速排序变体。 |
-| **推荐系统 Top-N** | 召回阶段用近似排序（ANN、桶排序、堆排序），精排阶段用快速排序或归并排序，整体用堆维护动态 Top-K。 |
-| **Spark / Flink** | 分区内用 Timsort（Java 内置），跨分区全局排序采用采样+范围划分，流式场景用堆排序维护窗口 Top-N。 |
-| **Redis** | `SORT` 命令小数据量用快速排序，大数据量用归并排序，支持外部临时文件。 |
-| **PostgreSQL** | 优先走索引；内存排序使用快速排序，超过 `work_mem` 后切换为外部归并排序。 |
-| **搜索引擎（如 Solr）** | 倒排索引合并时使用堆排序或归并排序；高亮片段排序使用自定义优先级队列。 |
-| **实时计算（如 Flink SQL）** | 流式 Top-N 使用堆排序，批处理排序使用外部归并排序，结合内存和磁盘。 |
+- **MySQL**：内存内 ORDER BY 使用快速排序，超 `sort_buffer_size` 后切换为外部归并排序
+- **MongoDB**：内存排序 QuickSort/Timsort，结果集 >32 MB 时自动降级为外部归并排序 (`allowDiskUse`)
+- **Elasticsearch (Lucene)**：多段合并归并排序；`doc_values` 字段用计数排序或快速排序变体
+- **PostgreSQL**：内存排序 QuickSort，超过 `work_mem` 后切换外部归并
+- **Redis**：小数据量 QuickSort，大数据量归并排序，支持外部临时文件
+- **Spark / Flink**：分区内用 Timsort，跨分区全局排序用采样+范围划分，流式 Top‑N 用堆
+- **推荐系统 Top‑N**：召回用近似排序（ANN/桶/堆），精排用快速排序或归并排序，整体用堆维护动态 Top‑K
+- **实时计算（Flink SQL）**：流式 Top‑N 用堆排序，批处理超内存用外部归并排序
 
 ---
 

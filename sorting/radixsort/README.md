@@ -4,13 +4,39 @@
 
 基数排序（RadixSort）是一种非比较型整数排序算法，其原理是将整数按位数切割成不同的数字，然后按每个位数分别比较。由于整数也可以表达字符串（比如名字或日期）和特定格式的浮点数，所以基数排序也不是只能使用于整数。基数排序的发明可以追溯到1887年赫尔曼·何乐礼在列表机（Tabulation Machine）上的贡献。
 
-基数排序的方式可以采用LSD（Least significant digital）或MSD（Most significant digital），LSD的排序方式由键值的最右边开始，而MSD则相反，由键值的最左边开始。LSD使用计数排序或桶排序，MSD可以使用桶排序。由低到高（LSD）比较简单，按位重排即可，如果是从高往低（MSD）则不能每次重排，可以通过递归来逐层遍历实现。详细请看各种不同版本的源码。
+> **生活类比**：就像整理邮政编码的信件，先按最后一位数字分堆，再按倒数第二位分堆……逐位处理，直到按完整邮编顺序排列好所有信件。
 
 ## 实现过程
 
 1. 将待排序数列（正整数）统一为同样的数位长度，数位较短的补零。
 2. 每个数位单独排序，从最低位到最高位，或从最高位到最低位。
 3. 这样从最低到高或从高到低排序完成以后，数列就变成一个有序数列。
+
+## 算法流程
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 10, 'rankSpacing': 20, 'padding': 15}}}%%
+graph LR
+    S(["开始"]) --> MAXD["计算最大位数 d"]
+    MAXD --> DINIT["digit = 1（从最低位开始）"]
+    DINIT --> DCHK{"digit ≤ d ?"}
+    DCHK -->|"否"| END(["排序完成"])
+    DCHK -->|"是"| STABLE["按当前位进行\n稳定排序（计数排序）"]
+    STABLE --> NEXT["digit++"]
+    NEXT --> DCHK
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef loop fill:#1e90ff,color:#fff,stroke:#104e8b,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,END start
+    class DCHK decision
+    class MAXD,DINIT,STABLE,NEXT process
+```
 
 ## 示意图
 
