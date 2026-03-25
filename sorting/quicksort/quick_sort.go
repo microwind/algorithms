@@ -6,44 +6,42 @@
 package main
 
 import (
-  "fmt"
-  "time"
+	"fmt"
+	"time"
 )
 
-// 方式1, 递归新建数组版本。无需交换，每个分区都是新数组，数量庞大
+// 方式1：递归新建数组版本。无需交换，每个分区都是新数组
 func quickSort1(arr []int) []int {
-  // 数组长度为1就不再分级
-  if len(arr) <= 1 {
-    return arr
-  }
-  fmt.Println("split array:", arr)
-
-  left := make([]int, 0)
-  right := make([]int, 0)
-  // 设置中间数
-  var midIndex = len(arr) / 2
-  var pivot = arr[midIndex]
-
-  for i := 0; i < len(arr); i++ {
-    fmt.Println("i=", i, " midIndex=", midIndex, " pivot=", pivot, " arr[]=", arr)
-    // 当中间基数等于i时，跳过当前。中间数递归完成时合并
-    if midIndex == i {
-      continue
-    }
-    // 当前数组里面的项小于基数则添加到左侧
-    if arr[i] < pivot {
-      left = append(left, arr[i])
-      // 大于等于则添加到右侧
-    } else {
-      right = append(right, arr[i])
-    }
-  }
-
-  arr = append(quickSort1(left), pivot)
-  arr = append(arr, quickSort1(right)...)
-  fmt.Println("sorted array:", arr)
-  // 递归调用遍历左侧和右侧，再将中间值连接起来
-  return arr
+	// 第一步：递归终止条件
+	if len(arr) <= 1 {
+		return arr
+	}
+	// 第二步：选择基准并分区
+	fmt.Println("split array:", arr)
+	left := make([]int, 0)
+	right := make([]int, 0)
+	// 设置中间数作为基准
+	var midIndex = len(arr) / 2
+	var pivot = arr[midIndex]
+	
+	// 第三步：遍历数组，按基准值分区
+	for i := 0; i < len(arr); i++ {
+		// 跳过基准元素本身
+		if midIndex == i {
+			continue
+		}
+		// 小于基准的放左边，大于等于的放右边
+		if arr[i] < pivot {
+			left = append(left, arr[i])
+		} else {
+			right = append(right, arr[i])
+		}
+	}
+	// 第四步：递归排序并合并
+	arr = append(quickSort1(left), pivot)
+	arr = append(arr, quickSort1(right)...)
+	fmt.Println("sorted array:", arr)
+	return arr
 }
 
 /**
@@ -59,23 +57,25 @@ f([7]) f([])
   [7]
 */
 
-// 把数组分按照基准值分为左右两部分，再返回新的中间位置作为排序的pivot
+// 标准原地分区版本：需要左右不断交换，无需新建数组
 func partition(arr []int, left int, right int) int {
-  // pivot基准可以任意挑选，这里取右侧
-  var pivotIndex = right
-  var pivot = arr[pivotIndex]
-  var partitionIndex = left - 1
-  for i := left; i < right; i++ {
-    // 如果小于基准则进行交换
-    if arr[i] < pivot {
-      partitionIndex++
-      arr[partitionIndex], arr[i] = arr[i], arr[partitionIndex]
-    }
-  }
-  partitionIndex++
-  arr[partitionIndex], arr[pivotIndex] = arr[pivotIndex], arr[partitionIndex]
-  fmt.Println("partitionIndex=", partitionIndex, "arr[partitionIndex]=", arr[partitionIndex], arr[left:partitionIndex], arr[partitionIndex:right])
-  return partitionIndex
+	// 第一步：选择基准（这里取右侧）
+	var pivotIndex = right
+	var pivot = arr[pivotIndex]
+	var partitionIndex = left - 1
+	
+	// 第二步：分区过程
+	for i := left; i < right; i++ {
+		// 小于基准的元素交换到左侧
+		if arr[i] < pivot {
+			partitionIndex++
+			arr[partitionIndex], arr[i] = arr[i], arr[partitionIndex]
+		}
+	}
+	// 第三步：将基准放到正确位置
+	partitionIndex++
+	arr[partitionIndex], arr[pivotIndex] = arr[pivotIndex], arr[partitionIndex]
+	return partitionIndex
 }
 
 // 方式2, 标准递归版本。左右不断分区交换，无需新建数组。

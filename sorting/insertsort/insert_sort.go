@@ -15,18 +15,18 @@ func insertSort1(arr []int) []int {
   var current int
   var l = len(arr)
 
+  // 外层循环：遍历所有元素，将每个元素插入到已排序部分的正确位置
   for i := 0; i < l; i++ {
-    // 当前项为第1项
+    // 当前项为第i项
     current = arr[i]
     // j是已排序的末尾位置
     j = i - 1
 
-    // 内循环用来遍历已排序区间
+    // 内层循环：将当前元素与已排序部分从右向左比较
     // 将该项自右往左与已排序项逐个对比，当遇到比自己大的项时，则将该位置逐项右移
     // 直到遇到小于等于自己的项则停止移动，表示插入成功
-    fmt.Println("i=", i, " j=", j, "current=", current, "arr[i]=", arr[i], "arr[]=", arr)
     for j >= 0 && current < arr[j] {
-      // 逐项右移，以便空出插入项
+      // 逐项右移，以便空出插入位置
       arr[j+1] = arr[j]
       j--
     }
@@ -41,19 +41,21 @@ func insertSort1(arr []int) []int {
  * 插入排序降序版
  */
 func insertSort2(arr []int) []int {
+  // 降序版：从左向右插入，将大的元素向左移动
   for i := 0; i < len(arr); i++ {
     var current = arr[i]
     var j = i - 1
-    fmt.Println("i=", i, " j=", j, "current=", current, "arr[i]=", arr[i], "arr[j + 1]=", arr[j+1], "arr[]=", arr)
+    // 从已排序部分的末尾开始，向前查找插入位置
     for ; j >= 0; j-- {
       // 当前项比已排序的内容要大，则逐个右移，空出位置
       if current > arr[j] {
         arr[j+1] = arr[j]
       } else {
-        // 当小于已排序内容，则跳出循环
+        // 当小于已排序内容，则跳出循环，找到插入位置
         break
       }
     }
+    // 将当前元素插入到正确位置
     arr[j+1] = current
   }
   return arr

@@ -6,38 +6,37 @@
 package main
 
 import (
-  "fmt"
-  "time"
+	"fmt"
+	"time"
 )
 
-// 1. 基数排序简版，基于计数排序的基础上，按数字的每个位置来排序
+// 1. 基数排序简版：基于计数排序的基础上，按数字的每个位置来排序
 func countingSort(arr []int, exponent int) []int {
+  // 第一步：统计当前位数的计数
   var arrLen = len(arr)
   var amount = 10
   var countList = make([]int, amount)
-
   for i := 0; i < arrLen; i++ {
     var item = arr[i]
     // 根据基数取得数位上的值，并给对应计数数组加1
     var idx = (item / exponent) % amount
     countList[idx] += 1
   }
-
-  // 后面的位数为前面的累加之和
+  // 第二步：计算累积计数
   for i := 1; i < amount; i++ {
     countList[i] += countList[i-1]
   }
   fmt.Println("radixSort1 countList:", countList)
 
+  // 第三步：根据计数数组按顺序取得排序内容
   var sortedList = make([]int, arrLen)
-  // 补齐位数，根据计数数组按顺序取得排序内容
   for i := arrLen - 1; i >= 0; i-- {
     var idx = (arr[i] / exponent) % amount
     sortedList[countList[idx]-1] = arr[i]
     countList[idx] -= 1
   }
 
-  // 根据新顺序重新调整原数组
+  // 第四步：根据新顺序重新调整原数组
   for i := 0; i < arrLen; i++ {
     arr[i] = sortedList[i]
   }
@@ -46,6 +45,7 @@ func countingSort(arr []int, exponent int) []int {
 }
 
 func radixSort1(arr []int) []int {
+  // 查找最大值
   max := arr[0]
   for i := 1; i < len(arr); i++ {
     if arr[i] > max {
@@ -59,59 +59,35 @@ func radixSort1(arr []int) []int {
   return arr
 }
 
-// 2. 基数排序LSD版，计算最小值，基于计数排序实现
+// 2. 基数排序LSD版：计算最小值，基于计数排序实现
 func radixSort2(arr []int) []int {
   var arrLen = len(arr)
   // 基数exponent按10进位，amount为10
   var amount = 10
   var sortedList = make([]int, arrLen)
+  
+  // 第一步：查找最大值和最小值
   var max = arr[0]
+  var min = arr[0]
   for i := 0; i < arrLen; i++ {
     if arr[i] > max {
       max = arr[i]
     }
-  }
-  var min = arr[0]
-  for i := 0; i < arrLen; i++ {
     if arr[i] < min {
       min = arr[i]
     }
   }
-
-  // 根据基数求得当前项目对应位置的数值，并给对应计数数组位置加1
-  // 按最大值补齐数位，基数exponent按10进位
-  for exponent := 1; ((max - min) / exponent) > 0; exponent *= amount {
-
-    // 计数数组，长度为10，0-9一共10个数字
-    countList := make([]int, amount)
-    // 根据基数得到当前位数，并给计数数组对应位置加1
-    for i := 0; i < arrLen; i++ {
-      var item = arr[i] - min
-      var idx = (item / exponent) % amount
-      countList[idx] += 1
-    }
-
-    // 计数排序构建，自前往后，逐个将上一项的值存入当前项
-    for i := 1; i < amount; i++ {
-      countList[i] += countList[i-1]
-    }
-
-    fmt.Println("radixSort2 -> countList:", countList)
-
-    // 根据计数数组按顺序取出排序内容
-    for i := arrLen - 1; i >= 0; i-- {
-      item := arr[i] - min
-      var idx = (item / exponent) % amount
-      sortedList[countList[idx]-1] = arr[i]
-      countList[idx] -= 1
-    }
-
-    // 将新顺序赋值给原数组
-    for i := 0; i < arrLen; i++ {
-      arr[i] = sortedList[i]
-    }
+  
+  // 第二步：计算位数值范围
+  var maxNumber = max - min
+  var exponent = 1  // 当前位数：个位、十位、百位...
+  
+  // 第三步：按位数循环处理
+  for maxNumber/exponent > 0 {
+    // 对当前位数进行计数排序
+    countingSort(arr, exponent)
+    exponent *= 10
   }
-
   return arr
 }
 

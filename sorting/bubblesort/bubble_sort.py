@@ -1,79 +1,134 @@
 #!/usr/bin/env python
 #-*- encoding: UTF-8-*-
 """
- * Copyright © https://github.com/jarry All rights reserved.
+ * Copyright https://github.com/jarry All rights reserved.
  * @author: jarryli@gmail.com
  * @version: 1.0
 """
 import time
 
 '''
-# 冒泡排序升序，将最大的冒泡到最后
+ * 冒泡排序升序，将最大的元素冒泡到最后
+ * 时间复杂度：O(n²)，空间复杂度：O(1)，稳定性：稳定
 '''
 def bubble_sort1(arr):
     print('bubble_sort1 from left to right:')
     length = len(arr)
+    # 外层循环控制排序轮数，每轮确定一个最大值的位置
     for i in range(length):
         print('no. ' + str(i))
+        # 内层循环控制比较次数，length-i-1 避免重复比较已排序部分
         for j in range(length - i - 1):
             # 自左往右比较相邻元素，大的交换到右侧
             if (arr[j] > arr[j + 1]):
+                # 多重赋值交换，更简洁
                 [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]
             print('i=' + str(i), 'j=' + str(j), arr)
 
 '''
-# 冒泡排序降序，将最小的冒泡到最后
+ * 冒泡排序降序，将最小的元素冒泡到最后
+ * 从右向左比较，逐轮冒出最小数
+ * 时间复杂度：O(n²)，空间复杂度：O(1)，稳定性：稳定
 '''
 def bubble_sort2(arr):
     print('bubble_sort2 from right to left:')
     length = len(arr)
+    # 外层循环控制排序轮数，每轮确定一个最小值的位置
     for i in range(length):
         print('no. ' + str(i))
+        # 内层循环从右向左比较，range(length-1, i, -1) 递减遍历
         for j in range(length - 1, i, -1):
             # 自右往左比较相邻元素，小的交换到右侧
             if (arr[j - 1] < arr[j]):
+                # 多重赋值交换相邻元素
                 [arr[j - 1], arr[j]] = [arr[j], arr[j - 1]]
             print('i=' + str(i), 'j=' + str(j), arr)
 
 
 '''
-# 冒泡排序增加交换标志，针对有序情况优化
+ * 冒泡排序升序，增加交换标志优化
+ * 当某一轮无交换时提前终止，针对有序情况优化
+ * 时间复杂度：最好O(n)，最坏O(n²)，空间复杂度：O(1)
 '''
 def bubble_sort3(arr):
     print('bubble_sort3 add flag:')
     # 增加交换标志，优化有序情况
     length = len(arr)
+    # 外层循环控制排序轮数，每轮确定一个最大值的位置
     for i in range(length):
         print('no. ' + str(i))
-        flag = False
+        flag = False  # 每轮开始时重置标志
+        # 内层循环控制比较次数，length-i-1 避免重复比较已排序部分
         for j in range(length - i - 1):
             # 自左往右比较相邻元素
             if (arr[j] > arr[j + 1]):
-                flag = True
+                flag = True  # 发生交换，设置标志
+                # 多重赋值交换相邻元素
                 [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]
-        # 如果本轮没有交换，说明已有序
+        # 如果本轮没有交换，说明已有序，提前终止
         if not flag:
             break
+
+'''
+ * 冒泡排序升序，记录最后交换位置的优化版本
+ * 通过记录最后一次交换的位置，减少不必要的比较
+ * 时间复杂度：最好O(n)，最坏O(n²)，空间复杂度：O(1)
+'''
+def bubble_sort4(arr):
+    print('bubble_sort4 optimized:')
+    length = len(arr)
+    last_swap = length - 1  # 记录最后一次交换的位置
+    
+    # 外层循环控制排序轮数，最多进行 length-1 轮
+    for i in range(length - 1):
+        is_sorted = True  # 标记本轮是否发生交换
+        current_last_swap = 0  # 记录当前轮次的最后交换位置
+        
+        # 内层循环只比较到 last_swap 位置，减少不必要的比较
+        for j in range(last_swap):
+            if arr[j] > arr[j + 1]:
+                # 多重赋值交换相邻元素
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+                is_sorted = False  # 发生交换，标记为未排序
+                current_last_swap = j  # 更新最后交换位置
+        
+        last_swap = current_last_swap  # 更新下一轮的比较边界
+        if is_sorted:
+            break  # 如果本轮没有交换，说明已有序，提前终止
 
 
 # test
 
+print("=== bubble_sort1 test ===")
 arr1 = [ 7, 11, 9, 10, 12, 13, 8 ]
+print("original:", arr1)
 start_time = time.time()
 bubble_sort1(arr1)
-print(arr1)
+print("sorted:", arr1)
 print("time:" + str((time.time() - start_time) * 1000) + " ms")
 
+print("\n=== bubble_sort2 test ===")
 arr2 = [ 7, 11, 9, 10, 12, 13, 8 ]
+print("original:", arr2)
 start_time = time.time()
 bubble_sort2(arr2)
-print(arr2)
+print("sorted:", arr2)
 print("time:" + str((time.time() - start_time) * 1000) + " ms")
 
+print("\n=== bubble_sort3 test ===")
 arr3 = [ 7, 11, 9, 10, 12, 13, 8 ]
+print("original:", arr3)
 start_time = time.time()
 bubble_sort3(arr3)
-print(arr3)
+print("sorted:", arr3)
+print("time:" + str((time.time() - start_time) * 1000) + " ms")
+
+print("\n=== bubble_sort4 test ===")
+arr4 = [ 7, 11, 9, 10, 12, 13, 8 ]
+print("original:", arr4)
+start_time = time.time()
+bubble_sort4(arr4)
+print("sorted:", arr4)
 print("time:" + str((time.time() - start_time) * 1000) + " ms")
 
 """

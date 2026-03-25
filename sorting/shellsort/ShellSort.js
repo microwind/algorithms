@@ -13,7 +13,7 @@ var ShellSort = /** @class */ (function () {
         var gap = Math.floor(len / 2);
         // 根据步长得到子序列，如果间隔大于0，则表示还可以继续分组
         while (gap > 0) {
-            for (var i = 0; i < len; i++) {
+            for (var i = gap; i < len; i++) {
                 var current = arr[i];
                 var j = i;
                 // 对子序列按照插入排序

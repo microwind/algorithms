@@ -5,7 +5,7 @@
 
 本仓库帮助你用**不同编程语言来学习数据结构和算法**，包括 `C`、`Java`、`Python`、`JavaScript`、`Go`、`TypeScript`、`Rust` 等，提供充分注释说明。让你既能理解算法与数据结构原理，又能掌握不用语言的特点。
 
-AI 时代已经到来。AI 可以替代人们完成大量基础编码工作，但难以替代人的思考与认知。只有在深入理解编程核心（数据结构 + 算法）的基础上，**人们才能真正驾驭 AI，并让 AI 产生更高的效率与价值。**
+AI 时代已经到来。AI 可以替代人们完成基础编码工作，但难以替代人的认知与思考。只有在深入理解编程核心（数据结构 + 算法）的基础上，**人们才能真正驾驭 AI，并让 AI 产生更高的效率与价值。**
 
 表层的 API、框架与应用方案日新月异，而**数据结构、算法以及底层逻辑思维则历久弥新**。表层技术需要快速学习、不断追新逐热；底层原理与思想则需要反复钻研与琢磨，从而持续提升认知。
 
@@ -26,7 +26,7 @@ AI 时代已经到来。AI 可以替代人们完成大量基础编码工作，�
 - **[推荐语言](./start-here/recommand-learning-languages.md)** - 选择合适的入门语言
 - **[常见问题](./start-here/faq.md)** - 初学者常见问题解答
 
-> 💡 **快速开始**：完全新手建议按顺序阅读，有编程基础可直接看算法思想部分。
+>**快速开始**：完全新手建议按顺序阅读，有编程基础可直接看算法思想部分。
 
 ## 适合大学生与程序员学习
 本项目将“**概念理解 → 代码实现 → 对比语言 → 练习进阶**”串成一条清晰路径，适合作为课程补充、自学路线或面试与工程能力提升的长期仓库。
@@ -166,6 +166,9 @@ AI 时代已经到来。AI 可以替代人们完成大量基础编码工作，�
 - [如何学好编程？一文彻底搞懂](https://zhuanlan.zhihu.com/p/582174773)
 
 ## 相关链接：AI时代程序员成长体系
+
+> AI时代，我们要从编码程序员转变成驱动AI的指挥官，告诉AI该怎么做，什么是好、什么是坏。
+
 - [《AI时代，人人都是Agent工程师》](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Agent-Engineers.md)
 - ai-prompt - AI编程提示词库：[https://github.com/microwind/ai-prompt](https://github.com/microwind/ai-prompt)
 - ai-skills - AI编程Skill库：[https://github.com/microwind/ai-skills](https://github.com/microwind/ai-skills)
@@ -180,7 +183,8 @@ AI 时代已经到来。AI 可以替代人们完成大量基础编码工作，�
 如果您对本项目感兴趣请加我，欢迎一起共建！ 
 If you are interested in this project, please add me. I welcome you to build it together!
 
-**我是Jarry 李春平**
+**我是Jarry 李春平, 从业20多年的互联网工程师。**
+
 - 📧 mail: `jarryli@gmail.com`  or `lichunping@buaa.edu.cn`
 - 💬 wechat: `springbuild`
 - 🌟 如果这个项目对你有帮助，请给个 Star 支持一下！

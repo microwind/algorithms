@@ -16,17 +16,17 @@ def counting_sort(arr, exponent):
     count_list = [0] * amount
     sorted_list = [0] * arr_len
     min_value = min(arr)
-
-    # 统计当前位数的计数
+    
+    # 第一步：统计当前位数的计数
     for i in range(0, arr_len):
         index = (arr[i] - min_value) // exponent % amount
         count_list[index] += 1
 
-    # 计算累积计数
+    # 第二步：计算累积计数
     for i in range(1, amount):
         count_list[i] += count_list[i - 1]
 
-    # 构建输出数组
+    # 第三步：构建输出数组
     i = arr_len - 1
     while i >= 0:
         index = (arr[i] - min_value) // exponent % amount
@@ -34,7 +34,7 @@ def counting_sort(arr, exponent):
         count_list[index] -= 1
         i -= 1
 
-    # 复制回原数组
+    # 第四步：复制回原数组
     for i in range(0, arr_len):
         arr[i] = sorted_list[i]
 

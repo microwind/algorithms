@@ -1,5 +1,5 @@
 /**
- * Copyright © https://github.com/jarry All rights reserved.
+ * Copyright https://github.com/jarry All rights reserved.
  * @author: jarryli@gmail.com
  * @version: 1.0
  */
@@ -10,7 +10,8 @@ var BubbleSort = /** @class */ (function () {
         this.bubbleSort3(arr.slice(0));
     }
     /**
-     * 冒泡排序升序，将最大的冒泡到最后
+     * 冒泡排序升序，将最大的元素冒泡到最后
+     * 时间复杂度：O(n²)，空间复杂度：O(1)，稳定性：稳定
      */
     BubbleSort.prototype.bubbleSort1 = function (arr) {
         var _a;
@@ -21,6 +22,7 @@ var BubbleSort = /** @class */ (function () {
                 // 自左往右每两个进行比较，把大的交换到右侧
                 // 逐轮冒出最大数，已经排好序的不要再比较
                 if (arr[j] > arr[j + 1]) {
+                    ;
                     _a = [arr[j + 1], arr[j]], arr[j] = _a[0], arr[j + 1] = _a[1];
                 }
                 // console.log('i=' + i, 'j=' + j, arr)
@@ -29,7 +31,9 @@ var BubbleSort = /** @class */ (function () {
         console.log(arr);
     };
     /**
-     * 冒泡排序降序，将最小的冒泡到最后
+     * 冒泡排序降序，将最小的元素冒泡到最后
+     * 从右向左比较，逐轮冒出最小数
+     * 时间复杂度：O(n²)，空间复杂度：O(1)，稳定性：稳定
      */
     BubbleSort.prototype.bubbleSort2 = function (arr) {
         var _a;
@@ -40,6 +44,7 @@ var BubbleSort = /** @class */ (function () {
                 // 自右往左每两个进行比较，把小的交换到右侧
                 // 逐轮冒出最小数，已经排好序的不要再比较
                 if (arr[j - 1] < arr[j]) {
+                    ;
                     _a = [arr[j], arr[j - 1]], arr[j - 1] = _a[0], arr[j] = _a[1];
                 }
                 // console.log('i=' + i, 'j=' + j, arr)
@@ -48,7 +53,9 @@ var BubbleSort = /** @class */ (function () {
         console.log(arr);
     };
     /**
-     * 冒泡排序升序，增加交换标志，针对有序情况优化
+     * 冒泡排序升序，增加交换标志优化
+     * 当某一轮无交换时提前终止，针对有序情况优化
+     * 时间复杂度：最好O(n)，最坏O(n²)，空间复杂度：O(1)
      */
     BubbleSort.prototype.bubbleSort3 = function (arr) {
         var _a;
@@ -101,4 +108,4 @@ bubbleSort3 add flag:
   11, 12, 13
 ]
 bubbleSort: 8.312ms
-*/ 
+*/

@@ -21,9 +21,9 @@ typedef enum
 
 void swap(int arr[], int a, int b)
 {
-  int tmp = arr[b];
-  arr[b] = arr[a];
-  arr[a] = tmp;
+  int tmp = arr[a];
+  arr[a] = arr[b];
+  arr[b] = tmp;
 }
 
 int count(int arr[], int len, int number)
@@ -73,7 +73,7 @@ float *shell_sort1(float arr[], int len)
   // 根据步长得到子序列，如果间隔大于0，则表示还可以继续分组
   while (gap > 0)
   {
-    for (int i = 0; i < len; i++)
+    for (int i = gap; i < len; i++)
     {
       float current = arr[i];
       int j = i;
@@ -101,12 +101,13 @@ int *shell_sort2(int arr[], int len)
   // 初始步长按3倍递增，小于1/3数组长度
   while (gap < len / 3)
   {
+    // Knuth 序列：1, 4, 13, 40...
     gap = gap * 3 + 1;
   }
   // 根据步长得到子序列，如果间隔大于0，则表示还可以继续分组
   while (gap > 0)
   {
-    for (int i = 0; i < len; i++)
+    for (int i = gap; i < len; i++)
     {
       int current = arr[i];
       int j = i - gap;

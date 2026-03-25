@@ -19,25 +19,30 @@ typedef enum
 
 void swap(int arr[], int a, int b)
 {
-  int tmp = arr[b];
-  arr[b] = arr[a];
-  arr[a] = tmp;
+  // 使用临时变量交换数组中两个位置的元素
+  int tmp = arr[a];
+  arr[a] = arr[b];
+  arr[b] = tmp;
 }
 
 /**
- * 冒泡排序升序，将最大的冒泡到最后
+ * 冒泡排序升序，将最大的元素冒泡到最后
+ * 时间复杂度：O(n²)，空间复杂度：O(1)，稳定性：稳定
  */
 int *bubbleSort1(int arr[], int len)
 {
   printf("bubbleSort1 from left to right:");
+  // 外层循环控制排序轮数，每轮确定一个最大值的位置
   for (int i = 0; i < len; i++)
   {
+    // 内层循环控制比较次数，len-i-1 避免重复比较已排序部分
     for (int j = 0; j < len - i - 1; j++)
     {
       // 自左往右每两个进行比较，把大的交换到右侧
       // 逐轮冒出最大数，已经排好序的不要再比较
       if (arr[j] > arr[j + 1])
       {
+        // 使用临时变量交换相邻元素
         int tmp = arr[j];
         arr[j] = arr[j + 1];
         arr[j + 1] = tmp;
@@ -49,19 +54,24 @@ int *bubbleSort1(int arr[], int len)
 }
 
 /**
- * 冒泡排序降序，将最小的冒泡到最后
+ * 冒泡排序降序，将最小的元素冒泡到最后
+ * 从右向左比较，逐轮冒出最小数
+ * 时间复杂度：O(n²)，空间复杂度：O(1)，稳定性：稳定
  */
 int bubbleSort2(int arr[], int len)
 {
   printf("bubbleSort2 from right to left:");
+  // 外层循环控制排序轮数，每轮确定一个最小值的位置
   for (int i = 0; i < len; i++)
   {
-    for (int j = len; j > i; j--)
+    // 内层循环从右向左比较，j > i 避免重复比较已排序部分
+    for (int j = len - 1; j > i; j--)
     {
       // 自右往左每两个进行比较，把小的交换到右侧
       // 逐轮冒出最小数，已经排好序的不要再比较
       if (arr[j - 1] < arr[j])
       {
+        // 使用 swap 函数交换元素
         swap(arr, j, j - 1);
       }
       printf("\r\n i=%d j=%d", i, j);
@@ -71,7 +81,9 @@ int bubbleSort2(int arr[], int len)
 }
 
 /**
- * 冒泡排序增加交换标志，针对有序情况优化
+ * 冒泡排序升序，增加交换标志优化
+ * 当某一轮无交换时提前终止，针对有序情况优化
+ * 时间复杂度：最好O(n)，最坏O(n²)，空间复杂度：O(1)
  */
 void bubbleSort3(int arr[], int len)
 {
@@ -80,17 +92,20 @@ void bubbleSort3(int arr[], int len)
   // 则说明当前数组已排好序，则不必继续后面的遍历，
   bool flag = true;
 
+  // 外层循环增加 flag 条件，当数组已有序时提前终止
   for (int i = 0; i < len && flag == true; i++)
   {
-    flag = false;
+    flag = false;  // 每轮开始时重置标志
     printf("\r\nno. %d", i);
+    // 内层循环控制比较次数，len-i-1 避免重复比较已排序部分
     for (int j = 0; j < len - i - 1; j++)
     {
       // 自左往右每两个进行比较，把大的交换到右侧
       // 逐轮冒出最大数，已经排好序的不要再比较
       if (arr[j] > arr[j + 1])
       {
-        flag = true;
+        flag = true;  // 发生交换，设置标志
+        // 使用 swap 函数交换元素
         swap(arr, j, j + 1);
       }
       printf("\r\n i=%d j=%d", i, j);
@@ -105,10 +120,12 @@ void bubbleSort3(int arr[], int len)
 int *bubbleSort4(int arr[], int len)
 {
   printf("bubbleSort4:");
+  // 外层循环控制排序轮数，i 从 1 开始，因为第 0 个元素默认为已排序
   for (int i = 1; i < len; i++)
   {
-    int j = i - 1;
-    int current = i;
+    int j = i - 1;    // j 指向已排序区域的最后一个元素
+    int current = i;  // current 指向待插入元素
+    // 从已排序区域的末尾向前比较，将待插入元素冒泡到正确位置
     while (j >= 0)
     {
       // 与插入排序同，不同的是，插入排序整体右移，空出位置，然后再插入
@@ -116,12 +133,13 @@ int *bubbleSort4(int arr[], int len)
       if (arr[current] < arr[j])
       {
         printf("\r\ni=%d, j=%d, arr[i]=%d, arr[j+1]=%d", i, j, arr[i], arr[j + 1]);
+        // 交换待插入元素和当前比较的元素
         int temp = arr[current];
         arr[current] = arr[j];
         arr[j] = temp;
       }
-      current = j;
-      j--;
+      current = j;  // 更新待插入元素的位置
+      j--;  // 继续向前比较
     }
   }
 
@@ -166,7 +184,7 @@ int main()
   }
   printf("\ntime: %f ms.", ((clock() - startTime) / CLOCKS_PER_SEC * 1000));
 
-  // sort4s
+  // sort4
   int arr4[7] = {7, 11, -9, 10, 12, 13, 8};
   int len4 = sizeof(arr4) / sizeof(arr4[0]);
   bubbleSort4(arr4, len4);

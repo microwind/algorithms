@@ -12,7 +12,7 @@ class ShellSort {
     let gap = Math.floor(len / 2)
     // 根据步长得到子序列，如果间隔大于0，则表示还可以继续分组
     while (gap > 0) {
-      for (let i = 0; i < len; i++) {
+      for (let i = gap; i < len; i++) {
         const current = arr[i]
         let j = i
         // 对子序列按照插入排序

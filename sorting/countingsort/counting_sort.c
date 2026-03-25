@@ -21,9 +21,9 @@ typedef enum
 
 void swap(int arr[], int a, int b)
 {
-  int tmp = arr[b];
-  arr[b] = arr[a];
-  arr[a] = tmp;
+  int tmp = arr[a];
+  arr[a] = arr[b];
+  arr[b] = tmp;
 }
 
 int count(int arr[], int len, int number)

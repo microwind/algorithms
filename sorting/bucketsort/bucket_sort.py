@@ -13,12 +13,13 @@ import time
 def bucket_sort1(arr):
     max_value = max(arr)
     min_value = min(arr)
-    # 计算桶大小和数量
+    # 第一步：计算桶大小和数量
     bucket_number = int(max_value - min_value) / min_value + 1
     bucket_number = len(arr) / 2 if bucket_number > len(arr) else bucket_number
     bucket_size = int(max_value - min_value) / bucket_number + 1
-    # 初始化桶
+    # 第二步：初始化桶
     buckets = [None for i in range(min_value, max_value + 1)]
+    # 第三步：将元素分配到对应桶中
     for item in arr:
         # 计算元素应该放入的桶索引
         idx = int((item - min_value) / bucket_size)
@@ -28,7 +29,7 @@ def bucket_sort1(arr):
             buckets[idx] = []
             buckets[idx].append(item)
         else:
-            # 插入排序保持桶内有序
+            # 第四步：插入排序保持桶内有序
             l = len(buckets[idx]) - 1
             while l >= 0:
                 if item > buckets[idx][l]:
@@ -36,8 +37,9 @@ def bucket_sort1(arr):
                     break
                 elif l == 0:
                     buckets[idx].insert(0, item)
+                    break
                 l -= 1
-    # 合并所有桶
+    # 第五步：合并所有桶
     output = []
     for i in range(len(buckets)):
         if buckets[i]:

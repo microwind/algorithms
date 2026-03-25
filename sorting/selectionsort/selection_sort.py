@@ -11,11 +11,12 @@ import time
 def selection_sort1(arr):
     # 选择排序：每次找到最小元素放到前面
     l = len(arr)
+    # 外层循环：每次确定一个最小值的位置
     for i in range(l - 1):
         min = arr[i]
         min_idx = i
         j = i + 1
-        # 在未排序部分找最小元素
+        # 内层循环：在未排序部分找最小元素
         while j < l:
             if arr[j] < min:
                 min = arr[j]
@@ -32,21 +33,23 @@ def selection_sort2(arr):
     new_list = []
     i = 0
     l = len(arr)
+    # 外层循环：每次找到最小值并添加到新数组
     while (i < l):
         min = arr[i]
         min_idx = i
         j = i + 1
-        # 找到最小元素
+        # 内层循环：在未排序部分找最小元素
         while (j < l):
             if (arr[j] < min):
                 min = arr[j]
                 min_idx = j
             j += 1
-        # 添加到新数组
+        # 直接添加最小值到新数组，无需交换
         new_list.append(min)
-        # 从原数组删除
+        # 从原数组删除对应的项
         arr.remove(min)
         l -= 1
+        i -= 1  # 重新从当前位置开始
     return new_list
 
 

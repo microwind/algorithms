@@ -1,4 +1,10 @@
 /**
+ * Copyright © https://github.com/jarry All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ */
+
+/**
  * using struct for sorting
  */
 #include <stdio.h>
@@ -96,6 +102,20 @@ void bucket_sort(int arr[], int len)
       node = node->next;
     }
   }
+
+  // 释放内存：释放所有桶中的节点
+  for (i = 0; i < bucket_number; ++i)
+  {
+    struct Node *node = buckets[i];
+    while (node)
+    {
+      struct Node *temp = node;
+      node = node->next;
+      free(temp);
+    }
+  }
+  // 释放桶数组
+  free(buckets);
 
   return;
 }

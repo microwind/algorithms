@@ -5,7 +5,8 @@
  */
 
 /**
- * 冒泡排序升序，将最大的冒泡到最后
+ * 冒泡排序升序，将最大的元素冒泡到最后
+ * 时间复杂度：O(n²)，空间复杂度：O(1)，稳定性：稳定
  */
 bubbleSort1(List list) {
   var len = list.length;
@@ -25,6 +26,8 @@ bubbleSort1(List list) {
 
 /**
  * 冒泡排序降序且增加交换标志，针对有序情况优化
+ * 从右向左比较，逐轮冒出最小数，使用交换标志优化
+ * 时间复杂度：最好O(n)，最坏O(n²)，空间复杂度：O(1)
  */
 bubbleSort2(List list) {
   var len = list.length;

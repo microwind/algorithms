@@ -18,10 +18,10 @@ def insert_sort1(arr):
         current = arr[i]
         # 将当前元素与已排序部分从右向左比较
         while (j >= 0 and current < arr[j]):
-            # 大元素右移
+            # 大元素右移，为插入元素腾出位置
             arr[j + 1] = arr[j]
             j -= 1
-        # 插入当前元素
+        # 插入当前元素到正确位置
         arr[j + 1] = current
     return arr
 
@@ -31,7 +31,8 @@ def insert_sort1(arr):
 def insert_sort2(arr):
     l = len(arr)
     is_min = False
-    for i in range(l):
+    i = 0
+    while (i < l):
         j = i - 1
         current = arr[i]
         print('current:', current)
@@ -48,6 +49,8 @@ def insert_sort2(arr):
         if (is_min):
             arr.insert(0, current)
         arr.pop(i)
+        l -= 1  # 重新计算长度
+        # 不增加 i，因为删除元素后下一个元素会移动到当前位置
     return arr
 
 '''

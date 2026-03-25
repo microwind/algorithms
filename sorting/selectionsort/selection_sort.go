@@ -6,59 +6,63 @@
 package main
 
 import (
-  "fmt"
-  "time"
+	"fmt"
+	"time"
 )
 
-// 标准版
+// 标准版：原地交换
 func selectionSort1(arr []int) []int {
   var min = arr[0]
   var minIdx = 0
   var tmp = -1
   var arrLen = len(arr)
+  // 外层循环：每次确定一个最小值的位置
   for i := 0; i < arrLen-1; i++ {
+    // 初始化当前轮次的最小值
     min = arr[i]
     minIdx = i
+    // 内层循环：在未排序部分找最小值
     var j = i + 1
     for ; j < arrLen; j++ {
-      // 从待排序列表中找到最小值和位置，用作交换
+      // 找到更小的值，更新最小值和位置
       if arr[j] < min {
         min = arr[j]
         minIdx = j
       }
     }
     fmt.Println("i=", i, " j=", j, "min=", min, "minIdx=", minIdx, "arr[]=", arr)
-    // 将待排序里最小值交换到已排序最后面
+    // 将最小值交换到已排序部分的末尾
     if minIdx != i {
       tmp = arr[i]
       arr[i] = min
       arr[minIdx] = tmp
     }
   }
-
   return arr
 }
 
-// 新建数组版，无需交换
+// 新建数组版：无需交换
 func selectionSort2(arr []int) []int {
-
   var min = arr[0]
   var minIdx = 0
   var arrLen = len(arr)
   var newArr = make([]int, 0)
+  // 外层循环：每次找到最小值并添加到新数组
   for i := 0; i < arrLen; i++ {
+    // 初始化当前轮次的最小值
     min = arr[i]
     minIdx = i
+    // 内层循环：在未排序部分找最小值
     var j = i + 1
     for ; j < arrLen; j++ {
-      // 找到并记录下最小值和位置
+      // 找到更小的值，更新最小值和位置
       if arr[j] < min {
         min = arr[j]
         minIdx = j
       }
     }
     fmt.Println("i=", i, " j=", j, "min=", min, "minIdx=", minIdx, "arr[]=", arr)
-    // 将待排序里最小值添加到新数组中去
+    // 直接添加最小值到新数组，无需交换
     newArr = append(newArr, min)
     // 原数组中删除对应的项
     arr = append(arr[:minIdx], arr[minIdx+1:]...)

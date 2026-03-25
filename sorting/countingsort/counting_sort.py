@@ -10,20 +10,20 @@ import time
 
 # 计数排序1
 def counting_sort1(arr):
-    # 计算最大值与最小值
+    # 第一步：计算最大值与最小值
     min_value = min(arr)
     max_value = max(arr)
     count_list = []
     real_len = int(max_value - min_value + 1)
     for i in range(real_len):
         count_list.append(0)
-    # 统计每个元素出现次数
+    # 第二步：统计每个元素出现次数
     arr_len = len(arr)
     for i in range(arr_len):
         # 下标减去min值，支持负数
         idx = int(arr[i] - min_value)
         count_list[idx] += 1
-    # 根据计数重建排序数组
+    # 第三步：根据计数重建排序数组
     output = []
     for i in range(real_len):
         val = count_list[i]

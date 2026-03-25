@@ -6,8 +6,8 @@
 package main
 
 import (
-  "fmt"
-  "time"
+	"fmt"
+	"time"
 )
 
 /* 根据完全二叉树结构性质，父子节点与数组下标的关系，通过数组下标i得到节点位置 */
@@ -32,18 +32,18 @@ func maxHeapify(arr []int, idx int, size int) {
   var max = idx
   var left = getLeft(idx)
   var right = getRight(idx)
-  // 获取最大数的位置
+  // 第一步：在父节点、左子节点、右子节点中找到最大值
   if left < size && arr[left] > arr[max] {
     max = left
   }
   if right < size && arr[right] > arr[max] {
     max = right
   }
-  fmt.Println("idx=", idx, "left=", left, "right=", right, "max=", max, "size:", size)
+  // 第二步：如果最大值不是当前父节点，则交换并递归调整
   if max != idx {
-    // 保持最大顶堆，如果当前父节点小于子节点，则进行交换
+    // 交换父节点与最大子节点，保持大顶堆性质
     arr[idx], arr[max] = arr[max], arr[idx]
-    // 继续递归执行，直到整棵树符合最大堆特性
+    // 递归调整被交换的子树，直到整棵树符合最大堆特性
     maxHeapify(arr, max, size)
   }
 }
@@ -51,23 +51,21 @@ func maxHeapify(arr []int, idx int, size int) {
 // 堆排序算法
 func heapSort(arr []int) []int {
   var arrLen = len(arr)
-  // 最底层的父节点
+  // 第一步：构建大顶堆
+  // 从最后一个非叶子节点开始，逐个向上调整
   var parent = getParent(arrLen) - 1
-  // 最底层的子节点
-  var child = arrLen - 1
-  // 从最后的父节点开始遍历，把最大的那个父节点冒出到堆顶
   for ; parent >= 0; parent-- {
     maxHeapify(arr, parent, arrLen)
-    fmt.Println("parent sort:", parent, arr)
   }
-  fmt.Println("child start:", "parent=", parent, " child=", child)
-  // 从子节点往上开始交换和保持大顶堆
+  
+  // 第二步：堆排序
+  // 不断将堆顶元素（最大值）与末尾元素交换
+  var child = arrLen - 1
   for child > 0 {
-    // 将顶端的父节点与当前子节点互换
+    // 交换堆顶元素与当前末尾元素
     arr[0], arr[child] = arr[child], arr[0]
-    // 自最底层往上遍历排序
+    // 重新调整堆，保持大顶堆性质（堆大小减1）
     maxHeapify(arr, 0, child)
-    fmt.Println("child sort:", child, arr)
     child--
   }
   return arr

@@ -6,57 +6,64 @@
 package main
 
 import (
-  "fmt"
-  "time"
+	"fmt"
+	"time"
 )
 
-// 1. 希尔排序标准版，基于插入排序进行分组排序，步长按1/2缩减。
+// 1. 希尔排序标准版：基于插入排序进行分组排序，步长按1/2缩减
 func shellSort1(arr []int) []int {
+  // 获取数组长度
   var arrLen int = len(arr)
-  //  设置分组间隔
+  // 第一步：设置初始分组间隔
   var gap int = (arrLen / 2)
-  // 如果间隔大于0，则表示还可以继续分
+  // 第二步：按间隔分组排序
   for gap > 0 {
-    for i := 0; i < arrLen; i++ {
+    // 对每个分组进行插入排序
+    for i := gap; i < arrLen; i++ {
+      // 选取当前元素
       var current = arr[i]
       var j = i
-      // 分组按照插入排序
+      // 在组内进行插入排序：比较并移动元素
       for j >= gap && current < arr[j-gap] {
         fmt.Println("gap=", gap, "i=", i, " j-gap=", j-gap, " j=", j)
         arr[j] = arr[j-gap]
         j -= gap
       }
-      // 交换当前项
+      // 插入当前元素到正确位置
       arr[j] = current
-      // 调整步长为1/2
     }
+    // 第三步：调整步长为1/2
     gap = (gap / 2)
   }
   return arr
 }
 
-// 2. 希尔排序，基于插入排序进行分组排序，步长按3倍递减。
+// 2. 希尔排序优化版：基于插入排序进行分组排序，步长按3倍递减
 func shellSort2(arr []int) []int {
+  // 获取数组长度
   var arrLen int = len(arr)
-  //  设置分组间隔
+  // 第一步：设置初始分组间隔
   var gap int = 1
-  // 初始步长按3倍递增，小于1/3数组长度
+  // 第二步：计算初始步长（3x+1序列）
   for gap < (arrLen / 3) {
     gap = gap*3 + 1
   }
-  // 如果间隔大于0，则表示还可以继续分
+  // 第三步：按间隔分组排序
   for gap > 0 {
+    // 对每个分组进行插入排序
     for i := gap; i < arrLen; i++ {
+      // 选取当前元素
       var current = arr[i]
       var j = i - gap
-      // 对子序列按照插入排序
+      // 在组内进行插入排序：比较并移动元素
       for ; j >= 0 && arr[j] > current; j -= gap {
         fmt.Println("gap=", gap, "i=", i, " j=", j, " j+gap=", (j + gap))
         arr[j+gap] = arr[j]
       }
+      // 插入当前元素到正确位置
       arr[j+gap] = current
     }
-    // 步长按3倍缩减
+    // 第四步：调整步长为1/3
     gap = (gap / 3)
   }
   return arr

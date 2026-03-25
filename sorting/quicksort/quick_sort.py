@@ -8,19 +8,20 @@
 import time
 
 
-# 递归新建数组版本。无需交换，每个分区都是新数组，数量庞大
+# 递归新建数组版本。无需交换，每个分区都是新数组
 def quick_sort1(arr):
-    # 快速排序递归版：新建数组分区
+    # 第一步：递归终止条件
     arr_len = len(arr)
     if (arr_len <= 1):
         return arr
-
-    # 选择中间元素作为基准
+    
+    # 第二步：选择基准并分区
     left = []
     right = []
     mid_index = arr_len // 2
     pivot = arr[mid_index]
-
+    
+    # 第三步：遍历数组，按基准值分区
     for i in range(arr_len):
         # 跳过基准元素本身
         if (mid_index == i):
@@ -30,8 +31,8 @@ def quick_sort1(arr):
             left.append(arr[i])
         else:
             right.append(arr[i])
-
-    # 递归排序并合并
+    
+    # 第四步：递归排序并合并
     return quick_sort1(left) + [pivot] + quick_sort1(right)
 
 
@@ -48,15 +49,15 @@ f([7]) f([])
   [7]
 """
 
-# 标准递归版本。需要左右不断交换，无需新建数组。
+# 标准原地分区版本：需要左右不断交换，无需新建数组
 def quick_sort2(arr, left=None, right=None):
-    # 快速排序标准版：原地分区交换
-    i = left = left if left is not None else 0
-    j = right = right if right is not None else len(arr) - 1
+    # 第一步：初始化边界
+    i = left if left is not None else 0
+    j = right if right is not None else len(arr) - 1
     mid_index = (i + j) // 2
     pivot = arr[mid_index]
-
-    # 分区过程：左边小于基准，右边大于基准
+    
+    # 第二步：分区过程
     while (i <= j):
         # 从左向右找大于基准的元素
         while (arr[i] < pivot):
@@ -64,24 +65,24 @@ def quick_sort2(arr, left=None, right=None):
         # 从右向左找小于基准的元素
         while (arr[j] > pivot):
             j -= 1
-
+        
         # 交换元素，确保左边小于基准，右边大于基准
         if (i <= j):
             [arr[i], arr[j]] = [arr[j], arr[i]]
             i += 1
             j -= 1
-
-    # 递归排序左右子数组
+    
+    # 第三步：递归排序左右子数组
     if (left < j):
         quick_sort2(arr, left, j)
     if (i < right):
         quick_sort2(arr, i, right)
-
     return arr
 
 
 # 非递归版本。需要交换，无需新建数组，利用stack或queue遍历。
 def quick_sort3(arr, left=None, right=None):
+    # 第一步：初始化边界
     # 快速排序非递归版：使用栈模拟递归
     left = left if left is not None else 0
     right = right if right is not None else len(arr) - 1

@@ -16,6 +16,7 @@ import (
 func bucketSort1(arr []int) []int {
   var arrLen = len(arr)
   var output = make([]int, arrLen)
+  // 第一步：查找数组中的最大值和最小值，用于确定桶的范围
   var max = arr[0]
   var min = arr[0]
   for i := 1; i < arrLen; i++ {
@@ -27,14 +28,14 @@ func bucketSort1(arr []int) []int {
     }
   }
 
+  // 第二步：确定桶的大小和数量
   if max < 1 {
     max = 2
   }
   if min < 1 {
     min = 1
   }
-
-  // 每个桶的容量大小，也就是桶的间隔，用最大减去最小，也可以自定义
+  // 每个桶的容量大小，也就是桶的间隔
   var bucketSize = (max-min)/min + 1
   // 桶的数量，可以任意，也可以根据容量大小计算
   var bucketNumber = (max-min)/bucketSize + 1
@@ -86,6 +87,30 @@ func bucketSort1(arr []int) []int {
     bucketsMemberLength[idx]++
   }
 
+  // 第三步：将元素分配到对应的桶中
+  for i := 0; i < arrLen; i++ {
+    // 根据元素值计算应该放入哪个桶
+    bucketIndex := (arr[i] - min) / bucketSize
+    // 将元素添加到对应桶中
+    buckets[bucketIndex][bucketsMemberLength[bucketIndex]] = arr[i]
+    bucketsMemberLength[bucketIndex]++
+  }
+
+  // 第四步：对每个桶内的元素进行排序（这里使用插入排序）
+  for i := 0; i < bucketNumber; i++ {
+    // 对桶内元素进行插入排序
+    for j := 1; j < bucketsMemberLength[i]; j++ {
+      key := buckets[i][j]
+      k := j - 1
+      for k >= 0 && buckets[i][k] > key {
+        buckets[i][k+1] = buckets[i][k]
+        k--
+      }
+      buckets[i][k+1] = key
+    }
+  }
+
+  // 第五步：将所有桶的元素合并到结果数组
   var idx = 0
   for i := 0; i < bucketNumber; i++ {
     for j := 0; j < bucketsMemberLength[i]; j++ {
@@ -131,19 +156,16 @@ func bucketSort2(arr []float64) []float64 {
     } else if bucketIndex >= bucketNumber {
       bucketIndex = bucketNumber - 1
     }
-
-    // Sort the elements of each bucket
+    // Sort elements of each bucket
     var bucket = buckets[bucketIndex]
-    // var bucketLen int = bucketsMemberLength[bucketIndex]
-    var bucketLen = len(bucket)
-
+    // Get bucket length
+    bucketLen := len(bucket)
     var item = arr[i]
     fmt.Println("i, item, bucketNumber, bucketIndex, bucket:", i, "|", item, "|", bucketNumber, "|", bucketIndex, "|", bucket)
-    // Insert the first element to the bucket
+    // Insert first element to bucket
     if bucketLen == 0 {
       bucket = append(bucket, item)
     } else {
-
       for j := 0; j < bucketLen; j++ {
         if item < bucket[j] {
           // Expand a position to the bucket
@@ -154,16 +176,17 @@ func bucketSort2(arr []float64) []float64 {
           bucket[j] = item
           break
         }
-        // Append to end of bucket if item is max
-        if j == bucketLen-1 && item >= bucket[j] {
-          bucket = append(bucket, item)
-        }
+      }
+      // Append to end of bucket if item is max
+      if j := bucketLen - 1; j >= 0 && item >= bucket[j] {
+        bucket = append(bucket, item)
       }
     }
     buckets[bucketIndex] = bucket
   }
 
   // Get all buckets to origin arr
+  // 把所有桶里面的数字取出放回到原数组
   var index = 0
   for i := 0; i < bucketNumber; i++ {
     size := len(buckets[i])

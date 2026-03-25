@@ -31,15 +31,17 @@ class HeapSort:
     max = idx
     left = self.get_left(idx)
     right = self.get_right(idx)
-    # 找到父节点和子节点中的最大值
+    # 第一步：在父节点、左子节点、右子节点中找到最大值
     if (left < size and arr[left] > arr[max]):
       max = left
     if (right < size and arr[right] > arr[max]):
       max = right
     
-    # 如果最大值不是当前节点，交换并递归调整
+    # 第二步：如果最大值不是当前节点，交换并递归调整
     if (max != idx):
+      # 交换父节点与最大子节点，保持大顶堆性质
       [arr[idx], arr[max]] = [arr[max], arr[idx]]
+      # 递归调整被交换的子树
       self.max_heapify(max, size)
   
   def build_max_heap(self):
@@ -56,9 +58,9 @@ class HeapSort:
     length = len(arr)
     child = length - 1
     while (child > 0):
-      # 交换堆顶元素到末尾
+      # 第一步：交换堆顶元素（最大值）与末尾元素
       [arr[0], arr[child]] = [arr[child], arr[0]]
-      # 重新调整堆
+      # 第二步：重新调整堆，保持大顶堆性质（堆大小减1）
       self.max_heapify(0, child)
       child -= 1
 

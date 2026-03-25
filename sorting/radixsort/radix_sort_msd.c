@@ -36,13 +36,15 @@ int get_digit_by_position(int num, int position, int max_length)
   {
     return 0;
   }
-  int exponent = (int)pow(10, number_length - position);
+  // 修正：position 应该是从右往左的位置，而不是从左往右
+  int actual_position = max_length - position - 1;
+  int exponent = (int)pow(10, actual_position);
   int digit = 0;
   if (exponent > 0)
   {
     digit = (num / exponent) % 10;
   }
-  printf("\r\nnum=%d position=%d max_length=%d number_length=%d exponent=%d position=%d digit=%d.", num, position, max_length, number_length, exponent, position, digit);
+  printf("\r\nnum=%d position=%d max_length=%d number_length=%d exponent=%d actual_position=%d digit=%d.", num, position, max_length, number_length, exponent, actual_position, digit);
   return digit;
 }
 

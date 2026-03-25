@@ -6,15 +6,15 @@
 package main
 
 import (
-  "fmt"
-  "time"
+	"fmt"
+	"time"
 )
 
 /**
  * 计数排序标准版
  */
 func countingSort1(arr []int) []int {
-  // 计算最大值与最小值
+  // 第一步：查找数组中的最大值和最小值
   var max = arr[0]
   var min = arr[0]
   var arrLen = len(arr)
@@ -27,17 +27,17 @@ func countingSort1(arr []int) []int {
     }
   }
 
-  // 计数数组的长度在最大和最小差值+1
+  // 第二步：创建计数数组，长度为最大值与最小值的差值+1
   var countList = make([]int, max-min+1)
   for i := 0; i < arrLen; i++ {
-    // 把下标减去min值，以便减少计数数组的长度，最小项的坐标为0，以此递增
+    // 把下标减去min值，以便减少计数数组的长度
     var idx = arr[i] - min
     // 根据待排序项给对应下标的位置标记加1
     countList[idx] += 1
   }
 
+  // 第三步：根据计数数组重建排序数组
   var idx = 0
-  // 遍历计数数组，覆盖原数组
   for i := 0; i < len(countList); i++ {
     // 下标若大于0，则取出来，如果相同则取多次
     val := countList[i]

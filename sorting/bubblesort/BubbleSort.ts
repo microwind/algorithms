@@ -1,5 +1,5 @@
 /**
- * Copyright © https://github.com/jarry All rights reserved.
+ * Copyright https://github.com/jarry All rights reserved.
  * @author: jarryli@gmail.com
  * @version: 1.0
  */
@@ -9,9 +9,9 @@ class BubbleSort {
     this.bubbleSort2(arr.slice(0))
     this.bubbleSort3(arr.slice(0))
   }
-  s
   /**
-   * 冒泡排序升序，将最大的冒泡到最后
+   * 冒泡排序升序，将最大的元素冒泡到最后
+   * 时间复杂度：O(n²)，空间复杂度：O(1)，稳定性：稳定
    */
   bubbleSort1(arr: Array<number>) {
     console.log('bubbleSort1 from left to right:')
@@ -30,7 +30,9 @@ class BubbleSort {
   }
 
   /**
-   * 冒泡排序降序，将最小的冒泡到最后
+   * 冒泡排序降序，将最小的元素冒泡到最后
+   * 从右向左比较，逐轮冒出最小数
+   * 时间复杂度：O(n²)，空间复杂度：O(1)，稳定性：稳定
    */
   bubbleSort2(arr: Array<Object>) {
     console.log('bubbleSort2 from right to left:')
@@ -49,7 +51,9 @@ class BubbleSort {
   }
 
   /**
-   * 冒泡排序升序，增加交换标志，针对有序情况优化
+   * 冒泡排序升序，增加交换标志优化
+   * 当某一轮无交换时提前终止，针对有序情况优化
+   * 时间复杂度：最好O(n)，最坏O(n²)，空间复杂度：O(1)
    */
   bubbleSort3<T>(arr: Array<T>) {
     console.log('bubbleSort3 add flag:')
