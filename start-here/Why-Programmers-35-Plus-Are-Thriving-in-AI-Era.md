@@ -129,11 +129,11 @@ graph LR
     F -.不满足.-> B
     F --> G["交付产出<br/>上线或应用"]
 
-    style B fill:#99ccff,stroke:#333,stroke-width:1px
-    style C fill:#f3d5ff,stroke:#333,stroke-width:1px
-    style D fill:#b6e3a8,stroke:#333,stroke-width:1px
-    style E fill:#ffe6cc,stroke:#333,stroke-width:1px
-    style G fill:#c8e6c9,stroke:#333,stroke-width:1px
+    style B fill:#99ccff,stroke:#333,color:#000000,stroke-width:1px
+    style C fill:#f3d5ff,stroke:#333,color:#000000,stroke-width:1px
+    style D fill:#b6e3a8,stroke:#333,color:#000000,stroke-width:1px
+    style E fill:#ffe6cc,stroke:#333,color:#000000,stroke-width:1px
+    style G fill:#c8e6c9,stroke:#333,color:#000000,stroke-width:1px
 ```
 
 **框架说明**
@@ -213,19 +213,19 @@ graph LR
     C --> D["高效搜索"]
 
     %% ===== 正确路径颜色 =====
-    style A fill:#FEF3C7,stroke:#F59E0B,rx:12,ry:12
-    style B fill:#DBEAFE,stroke:#3B82F6,rx:10,ry:10
-    style B1 fill:#DBEAFE,stroke:#3B82F6,rx:10,ry:10
-    style B2 fill:#93C5FD,stroke:#2563EB,stroke-width:2px,rx:10,ry:10
-    style B3 fill:#DBEAFE,stroke:#3B82F6,rx:10,ry:10
-    style C fill:#E0E7FF,stroke:#6366F1,rx:10,ry:10
-    style D fill:#BBF7D0,stroke:#22C55E,stroke-width:2px,rx:12,ry:12
+    style A fill:#FEF3C7,color:#000000,stroke:#F59E0B,rx:12,ry:12
+    style B fill:#DBEAFE,color:#000000,stroke:#3B82F6,rx:10,ry:10
+    style B1 fill:#DBEAFE,color:#000000,stroke:#3B82F6,rx:10,ry:10
+    style B2 fill:#93C5FD,color:#000000,stroke:#2563EB,stroke-width:2px,rx:10,ry:10
+    style B3 fill:#DBEAFE,color:#000000,stroke:#3B82F6,rx:10,ry:10
+    style C fill:#E0E7FF,color:#000000,stroke:#6366F1,rx:10,ry:10
+    style D fill:#BBF7D0,color:#000000,stroke:#22C55E,stroke-width:2px,rx:12,ry:12
 
     %% ===== 错误路径颜色 =====
-    style E fill:#FED7AA,stroke:#F97316,rx:10,ry:10
-    style F fill:#FDBA74,stroke:#EA580C,rx:10,ry:10
-    style G fill:#FCA5A5,stroke:#DC2626,rx:10,ry:10
-    style H fill:#FECACA,stroke:#B91C1C,stroke-width:2px,rx:12,ry:12
+    style E fill:#FED7AA,color:#000000,stroke:#F97316,rx:10,ry:10
+    style F fill:#FDBA74,color:#000000,stroke:#EA580C,rx:10,ry:10
+    style G fill:#FCA5A5,color:#000000,stroke:#DC2626,rx:10,ry:10
+    style H fill:#FECACA,color:#000000,stroke:#B91C1C,stroke-width:2px,rx:12,ry:12
 ```
 
 **在这个过程中，我同样不需要告诉AI具体如何实现**，比如怎么写 Elasticsearch 的 query DSL，细节方面AI可以完成。
@@ -284,11 +284,11 @@ graph TD
     A --> D["3、复杂度分析常出错<br/>给出的算法可能不优"]
     A --> E["4、边界情况容易遗漏<br/>正常情况对，特殊情况bug"]
 
-    style A fill:#fff2cc
-    style B fill:#A0B2E3
-    style C fill:#CFE7CC
-    style D fill:#ECB6B6
-    style E fill:#D1A1ED
+    style A fill:#fff2cc,color:#000000
+    style B fill:#A0B2E3,color:#000000
+    style C fill:#CFE7CC,color:#000000
+    style D fill:#ECB6B6,color:#000000
+    style E fill:#D1A1ED,color:#000000
 ```
 
 ### 举几个例子
