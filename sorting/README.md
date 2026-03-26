@@ -431,19 +431,29 @@ graph LR
 | O(n + k) | O(n + k) | O(n + k) | O(n + k) | 稳定 |
 
 ```mermaid
-%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 15}}}%%
 graph LR
-    S(["开始"]) --> RANGE["找到数据最大值 max<br/>创建计数数组 count[0..max]"]
-    RANGE --> COUNT["遍历数组<br/>统计每个元素出现次数"]
-    COUNT --> PREFIX["对 count 数组<br/>做前缀和累加"]
-    PREFIX --> FILL["反向遍历原数组<br/>根据 count 确定位置<br/>放入输出数组"]
-    FILL --> END(["排序完成"])
+    S(["开始"]) --> RANGE["找到最大值 max\n创建计数数组 count[0..max]"]
 
+    RANGE --> INIT["初始化 i = 0"]
+    INIT --> CCHK{"i < n ?"}
+    CCHK -->|"否"| PREFIX["对 count 做前缀和\n确定每个元素的位置"]
+    CCHK -->|"是"| CNT["count[arr[i]]++"] --> INC["i++"] --> CCHK
+
+    PREFIX --> INIT2["初始化 j = n-1"]
+    INIT2 --> FCHK{"j ≥ 0 ?"}
+    FCHK -->|"否"| END(["排序完成"])
+    FCHK -->|"是"| PLACE["按 count 放入输出数组\ncount[arr[j]]--"] --> DEC["j--"] --> FCHK
+
+    %% 样式
     classDef start fill:#0b8457,color:#fff,stroke:#065535
+    classDef decision fill:#1a1a2e,color:#fff,stroke:#16213e
     classDef process fill:#0f3460,color:#fff,stroke:#0a2647
 
+    %% 应用节点样式
     class S,END start
-    class RANGE,COUNT,PREFIX,FILL process
+    class CCHK,FCHK decision
+    class RANGE,INIT,CNT,INC,PREFIX,INIT2,PLACE,DEC process
 ```
 
 **适用场景**：整数排序且范围不大（如年龄 0-150、分数 0-100）、基数排序的子过程。

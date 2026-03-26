@@ -1,8 +1,8 @@
-# AI时代，重温十大经典排序算法
+# AI时代，重温10大经典排序算法
 
-> AI可以轻松生成任何排序算法代码，那么我们还必要学习算法吗？
+AI可以轻松生成任何排序算法代码，那么我们还有必要学习算法吗？
 
-AI时代，不需要人工手写排序算法了，但我们需要理解算法背后的思想——分治、贪心、空间换时间以及分桶映射等。掌握这些思想，有利于我们与AI协作时给出正确的决策和指导。
+> 有必要。我们需要理解算法背后的思想——分治、贪心、空间换时间以及分桶映射等。掌握这些思想，才能更好地跟AI协作。
 
 ## 一、为什么还要学排序算法？
 
@@ -10,13 +10,11 @@ AI时代，不需要人工手写排序算法了，但我们需要理解算法背
 
 信息流、搜索结果、商品列表、好友排名，背后都有排序算法在工作。数据库的 ORDER BY、搜索引擎的结果排序、推荐系统的优先级队列——排序是计算世界中最基础、最常见的计算。
 
-实现排序算法并非难事，难的是遇到实际场景时能做出合理的判断和决策：
+学习算法，是为了在实际场景时能做出合理的判断和决策：
 
 - 100万条订单数据，应该用快速排序还是归并排序？为什么？
 - 用户ID是纯数字且范围有限，能不能用计数排序把O(n log n)优化到O(n)？
 - 排序结果传递给下游做二次排序好还是提前排好再给下游？性能和稳定性哪个更重要？
-
-这些决策需要我们理解排序算法的原理和适用场景，而不是只会实现代码。
 
 ### 排序算法是算法思想的缩影
 
@@ -45,7 +43,7 @@ graph TD
     classDef root fill:#111827,color:#ffffff,stroke:#000000,stroke-width:2px,rx:12,ry:12
 
     %% 分类层
-    style A fill:#1D9E75,stroke:#0F6E56,color:#ffffff,rx:10,ry:10
+    style A fill:#11908A,stroke:#0F6E56,color:#ffffff,rx:10,ry:10
     style B fill:#534AB7,stroke:#3C3489,color:#ffffff,rx:10,ry:10
     style C fill:#D85A30,stroke:#993C1D,color:#ffffff,rx:10,ry:10
     style D fill:#BA7517,stroke:#854F0B,color:#ffffff,rx:10,ry:10
@@ -53,7 +51,7 @@ graph TD
     style F fill:#993556,stroke:#72243E,color:#ffffff,rx:10,ry:10
 
     %% 叶子层
-    style A1 fill:#1D9E75,stroke:#0F6E56,color:#ffffff,rx:10,ry:10
+    style A1 fill:#11908A,stroke:#0F6E56,color:#ffffff,rx:10,ry:10
     style B1 fill:#534AB7,stroke:#3C3489,color:#ffffff,rx:10,ry:10
     style C1 fill:#D85A30,stroke:#993C1D,color:#ffffff,rx:10,ry:10
     style D1 fill:#BA7517,stroke:#854F0B,color:#ffffff,rx:10,ry:10
@@ -61,7 +59,7 @@ graph TD
     style F1 fill:#993556,stroke:#72243E,color:#ffffff,rx:10,ry:10
 ```
 
-学会这些思想，我们面对的就不仅仅是排序问题——而是所有需要"分解、组合、选择、映射"的工程问题。
+学会这些思想，我们掌握的不仅仅是排序问题——而是所有需要"分解、组合、选择、映射"的工程问题。
 
 ---
 
@@ -93,7 +91,7 @@ graph TD
     NCMP --> BKT["桶排序"]
 
     classDef root fill:#111827,stroke:#2C2C2A,color:#fff
-    classDef cat fill:#0f3460,color:#fff,stroke:#0a2647
+    classDef cat fill:#11908A,color:#fff,stroke:#0a2647
     classDef sub fill:#533483,color:#fff,stroke:#2c1654
     classDef leaf fill:#e94560,color:#fff,stroke:#c81e45
 
@@ -124,32 +122,39 @@ graph TD
 #### 流程图
 
 ```mermaid
-%%{init: {'flowchart': {'nodeSpacing': 10, 'rankSpacing': 20, 'padding': 15}}}%%
+%%{init: {'flowchart': {'nodeSpacing': 20, 'rankSpacing': 25, 'padding': 15}}}%%
 graph LR
-    S(["开始"]) --> INIT["i = 0"]
-    INIT --> OUTER{"i < n-1 ?"}
+
+    S(["开始"]) --> INIT["未排序区间 <br> = [0, n-1]"]
+
+    INIT --> OUTER{"区间长度 > 1 ?"}
     OUTER -->|"否"| END(["排序完成"])
-    OUTER -->|"是"| JSTART["j = 0\nswapped = false"]
-    JSTART --> INNER{"j < n-1-i ?"}
-    INNER -->|"否"| CHKSW{"交换过 ?"}
-    CHKSW -->|"否"| END
-    CHKSW -->|"是"| INC["i++"]
-    INC --> OUTER
-    INNER -->|"是"| CMP{"arr[j] > arr[j+1] ?"}
-    CMP -->|"否"| JINC["j++"]
-    CMP -->|"是"| SWAP["交换 arr[j], arr[j+1]\nswapped = true"]
-    SWAP --> JINC
-    JINC --> INNER
 
-    %% 节点样式定义
-    classDef start fill:#ff6f61,color:#fff,stroke:#c94c4c,stroke-width:2px
+    OUTER -->|"是"| LOOP["从左到右<br>依次比较相邻元素"]
+
+    LOOP --> CMP{"前一个 > 后一个 ?"}
+
+    CMP -->|"否"| NEXT["继续比较"]
+    CMP -->|"是"| SWAP["交换"]
+
+    SWAP --> NEXT
+
+    NEXT --> CHECK{"到达区间末尾 ?"}
+
+    CHECK -->|"否"| LOOP
+
+    CHECK -->|"是"| SHRINK["缩小区间<br>（最大值归位）"]
+
+    SHRINK --> |"开始下一轮"| OUTER
+
+    %% 样式
+    classDef start fill:#FF6253,color:#fff,stroke:#c94c4c,stroke-width:2px
     classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
-    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    classDef process fill:#11908A,color:#fff,stroke:#008080,stroke-width:2px
 
-    %% 应用样式
     class S,END start
-    class OUTER,INNER,CMP,CHKSW decision
-    class INIT,JSTART,INC,JINC,SWAP process
+    class OUTER,CMP,CHECK decision
+    class INIT,LOOP,NEXT,SWAP,SHRINK process
 ```
 
 #### 伪代码
@@ -158,21 +163,21 @@ graph LR
 function BubbleSort(arr):
     n = length(arr)
     for i = 0 to n - 2:                     // 外层循环：共 n-1 轮
-        swapped = false
+        swapped = false                     // 优化点：设置已交换标志
         for j = 0 to n - 2 - i:             // 内层循环：每轮减少一个
             if arr[j] > arr[j + 1]:         // 相邻比较
                 swap(arr[j], arr[j + 1])    // 逆序则交换
                 swapped = true
-        if not swapped:                     // 本轮无交换，已有序
+        if not swapped:                     // 本轮无交换，已有序，跳过
             break
     return arr
 ```
 
 #### 应用场景
 
-- **教学入门**：几乎所有算法教材的第一个排序算法
-- **近乎有序的小数据**：加上swapped优化后，对基本有序的数据只需O(n)
-- **嵌入式设备**：代码极简，ROM占用极小
+- **算法入门教学**：逻辑最简单、最直观，是所有算法教材的首选入门排序
+- **近乎有序的小规模数据**：加入提前终止优化后，对基本有序的数据可达到 O (n) 效率
+- **嵌入式与极简环境**：代码极短、占用空间极小，适合资源受限设备
 
 #### 复杂度
 
@@ -195,33 +200,33 @@ function BubbleSort(arr):
 #### 流程图
 
 ```mermaid
-%%{init: {'flowchart': {'nodeSpacing': 10, 'rankSpacing': 20, 'padding': 15}}}%%
+%%{init: {'flowchart': {'nodeSpacing': 20, 'rankSpacing': 25, 'padding': 15}}}%%
 graph LR
-    S(["开始"]) --> INIT["i = 0"]
-    INIT --> OUTER{"i < n-1 ?"}
+
+    S(["开始"]) --> INIT["未排序区间 = [0, n-1]"]
+
+    INIT --> OUTER{"区间长度 > 1 ?"}
     OUTER -->|"否"| END(["排序完成"])
-    OUTER -->|"是"| MIN["minIdx = i\nj = i + 1"]
-    MIN --> INNER{"j < n ?"}
-    INNER -->|"否"| DOSWAP{"minIdx ≠ i ?"}
-    DOSWAP -->|"是"| SWAP["交换 arr[i] 和 arr[minIdx]"]
-    DOSWAP -->|"否"| INC["i++"]
-    SWAP --> INC
-    INC --> OUTER
-    INNER -->|"是"| CMP{"arr[j] < arr[minIdx] ?"}
-    CMP -->|"是"| UPD["minIdx = j"]
-    CMP -->|"否"| JINC["j++"]
-    UPD --> JINC
-    JINC --> INNER
 
-    %% 风格节点
-    classDef start fill:#ff6f61,color:#fff,stroke:#c94c4c,stroke-width:2px
+    OUTER -->|"是"| FIND["在未排序区间<br>挑选最小值"]
+
+    FIND --> DOSWAP{"最小值是否<br>在当前位置 ?"}
+    DOSWAP -->|"否"| SWAP["交换最小值<br>到当前位置"]
+    DOSWAP -->|"是"| NEXT["无需交换"]
+
+    SWAP --> NEXT
+
+    NEXT --> SHRINK["缩小未排序区间<br>长度 - 1"]
+    SHRINK --> |"开始下一轮"| OUTER
+
+    %% 样式
+    classDef start fill:#FF6253,color:#fff,stroke:#c94c4c,stroke-width:2px
     classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
-    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    classDef process fill:#11908A,color:#fff,stroke:#008080,stroke-width:2px
 
-    %% 应用节点样式
     class S,END start
-    class OUTER,INNER,CMP,DOSWAP decision
-    class INIT,MIN,INC,JINC,UPD,SWAP process
+    class OUTER,DOSWAP decision
+    class INIT,FIND,SWAP,NEXT,SHRINK process
 ```
 
 #### 伪代码
@@ -241,9 +246,9 @@ function SelectionSort(arr):
 
 #### 应用场景
 
-- **存储介质写入**：如Flash存储器，每次写入都有损耗，选择排序的交换次数最少
-- **小数据集**：实现简单，n很小时性能差异不明显
-- **找Top-K的朴素方案**：选择排序做K轮就能找到前K小的元素
+- **写入敏感的存储设备**：如 Flash、ROM 等，选择排序交换次数最少，能显著降低写入损耗
+- **小规模数据排序**：实现简单、逻辑清晰，数据量小时性能差异不明显
+- **朴素 Top‑K 问题**：只需执行 K 轮即可选出前 K 大 / 前 K 小元素，无需完整排序
 
 #### 复杂度
 
@@ -264,28 +269,31 @@ function SelectionSort(arr):
 #### 流程图
 
 ```mermaid
-%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+%%{init: {'flowchart': {'nodeSpacing': 20, 'rankSpacing': 25, 'padding': 15}}}%%
 graph LR
-    S(["开始"]) --> INIT["i = 1"]
-    INIT --> OUTER{"i < n ?"}
+
+    S(["开始"]) --> INIT["未排序区间 <br>= [1, n-1]"]
+
+    INIT --> OUTER{"区间长度 > 0 ?"}
     OUTER -->|"否"| END(["排序完成"])
-    OUTER -->|"是"| KEY["key = arr[i]\nj = i - 1"]
-    KEY --> INNER{"j ≥ 0 且\narr[j] > key ?"}
-    INNER -->|"是"| SHIFT["arr[j+1] = arr[j]\nj--"]
+    OUTER -->|"是"| KEY["选取当前元素<br>作为待插入 key"]
+
+    KEY --> INNER{"前方元素<br>是否 > key ?"}
+    INNER -->|"是"| SHIFT["向后移动元素<br>为 key 腾位置"] 
     SHIFT --> INNER
-    INNER -->|"否"| PLACE["arr[j+1] = key"]
-    PLACE --> INC["i++"]
-    INC --> OUTER
+    INNER -->|"否"| PLACE["将 key 放入合适位置"]
 
-    %% 节点配色
-    classDef start fill:#ff6f61,color:#fff,stroke:#c94c4c,stroke-width:2px
+    PLACE --> SHRINK["未排序区间长度 - 1"]
+    SHRINK --> |"开始下一轮"| OUTER
+
+    %% 样式
+    classDef start fill:#FF6253,color:#fff,stroke:#c94c4c,stroke-width:2px
     classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
-    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    classDef process fill:#11908A,color:#fff,stroke:#008080,stroke-width:2px
 
-    %% 应用样式
     class S,END start
     class OUTER,INNER decision
-    class INIT,KEY,SHIFT,PLACE,INC process
+    class INIT,KEY,SHIFT,PLACE,SHRINK process
 ```
 
 #### 伪代码
@@ -307,8 +315,8 @@ function InsertionSort(arr):
 
 - **小规模数据排序**：n < 50时，插入排序的常数因子极小，实际速度往往最快
 - **Timsort的子过程**：Python的`sorted()`和Java的`Collections.sort()`底层都用插入排序处理小分区
-- **在线排序**：数据流式到达，每来一个新元素就插入到已排序序列中
-- **近乎有序的数据**：最好情况O(n)，这是所有简单排序算法中最优的
+- **在线流式排序**：数据逐个到达时，可随时插入到正确位置，无需重排整体
+- **近乎有序的数据**：最优情况可达到 O (n)，是简单排序中效率最高的一种
 
 #### 复杂度
 
@@ -329,32 +337,36 @@ function InsertionSort(arr):
 #### 流程图
 
 ```mermaid
-%%{init: {'flowchart': {'nodeSpacing': 10, 'rankSpacing': 10, 'padding': 15}}}%%
+%%{init: {'flowchart': {'nodeSpacing': 20, 'rankSpacing': 25, 'padding': 15}}}%%
 graph LR
-    S(["开始"]) --> GAP["gap = n / 2"]
+
+    S(["开始"]) --> GAP["初始化<br>gap = n / 2"]
+
     GAP --> GCHK{"gap > 0 ?"}
     GCHK -->|"否"| END(["排序完成"])
-    GCHK -->|"是"| IINIT["i = gap"]
-    IINIT --> ICHK{"i < n ?"}
-    ICHK -->|"否"| GSHR["gap = gap / 2"]
-    GSHR --> GCHK
-    ICHK -->|"是"| KEY["key = arr[i]\nj = i - gap"]
-    KEY --> INNER{"j ≥ 0 且\narr[j] > key ?"}
-    INNER -->|"是"| SHIFT["arr[j+gap] = arr[j]\nj -= gap"]
+    GCHK -->|"是"| OUTER["遍历未排序区间<br>i = gap → n-1"]
+
+    OUTER --> KEY["取当前元素<br>作为待插入 key"]
+
+    KEY --> INNER{"按 gap 向前比较<br>前方元素是否 > key ?"}
+    INNER -->|"是"| SHIFT["向后移动元素<br>为 key 腾位置"]
     SHIFT --> INNER
-    INNER -->|"否"| PLACE["arr[j+gap] = key"]
-    PLACE --> INC["i++"]
-    INC --> ICHK
+    INNER -->|"否"| PLACE["将 key 插入<br>正确位置"]
 
-    %% 节点配色
-    classDef start fill:#ff6f61,color:#fff,stroke:#c94c4c,stroke-width:2px
+    PLACE --> NEXT["处理下一个 i"]
+    NEXT --> OUTER
+
+    OUTER --> GSHR["gap /= 2"]
+    GSHR --> |"开始下一轮"| GCHK
+
+    %% 样式
+    classDef start fill:#FF6253,color:#fff,stroke:#c94c4c,stroke-width:2px
     classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
-    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    classDef process fill:#11908A,color:#fff,stroke:#008080,stroke-width:2px
 
-    %% 应用样式
     class S,END start
-    class GCHK,ICHK,INNER decision
-    class GAP,IINIT,KEY,SHIFT,PLACE,INC,GSHR process
+    class GCHK,INNER decision
+    class GAP,OUTER,KEY,SHIFT,PLACE,NEXT,GSHR process
 ```
 
 #### 伪代码
@@ -377,9 +389,9 @@ function ShellSort(arr):
 
 #### 应用场景
 
-- **嵌入式系统**：原地排序、代码简单、性能远超O(n²)算法
-- **中等规模数据**：比简单排序快很多，又不像快排那样需要递归栈空间
-- **Linux内核**：部分版本使用希尔排序处理中等规模数据
+- **中等规模数据（100～10000 条）**：效率远超 O (n²) 算法，又不需要快排的递归栈空间
+- **嵌入式与小型系统**：原地排序、代码简洁，性能稳定
+- **Linux 内核等底层场景**：部分版本使用希尔排序处理中等规模数据排序
 
 #### 复杂度
 
@@ -400,22 +412,25 @@ function ShellSort(arr):
 #### 流程图
 
 ```mermaid
-%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 16, 'padding': 15}}}%%
+%%{init: {'flowchart': {'nodeSpacing': 20, 'rankSpacing': 25, 'padding': 15}}}%%
 graph LR
-    S(["开始"]) --> CHK{"low < high ?"}
-    CHK -->|"否"| END(["返回"])
-    CHK -->|"是"| PIVOT["选择 pivot"]
-    PIVOT --> PART["分区：\n小于pivot在左\n大于pivot在右\n返回pivot位置 p"]
-    PART --> LEFT["递归排序左半部分\nquickSort(low, p-1)"]
-    LEFT --> RIGHT["递归排序右半部分\nquickSort(p+1, high)"]
-    RIGHT --> END
 
-    %% 更鲜艳的配色
-    classDef start fill:#ff6f61,color:#fff,stroke:#c94c4c,stroke-width:2px
+    S(["开始"]) --> CHK["当前区间长度 > 1 ?"]
+    CHK -->|"否"| END(["返回"])
+    CHK -->|"是"| PIVOT["选择 pivot 元素"]
+
+    PIVOT --> PART["分区操作：<br>小于 pivot 在左<br>大于 pivot 在右<br>返回 pivot 位置 p"]
+
+    PART --> LEFT["递归排序左半区<br>quickSort(low, p-1)"]
+    LEFT --> RIGHT["递归排序右半区<br>quickSort(p+1, high)"]
+    RIGHT --> |"返回上一层"| CHK
+
+    %% 节点样式
+    classDef start fill:#FF6253,color:#fff,stroke:#c94c4c,stroke-width:2px
     classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
     classDef pivot fill:#ffb703,color:#000,stroke:#e09f00,stroke-width:2px
-    classDef partition fill:#06d6a0,color:#003d2e,stroke:#04a777,stroke-width:2px
-    classDef recurse fill:#118ab2,color:#fff,stroke:#0b5f7a,stroke-width:2px
+    classDef partition fill:#A3F1B5,color:#003d2e,stroke:#04a777,stroke-width:2px
+    classDef recurse fill:#11908A,color:#fff,stroke:#0b5f7a,stroke-width:2px
 
     %% 应用样式
     class S,END start
@@ -447,10 +462,11 @@ function Partition(arr, low, high):
 
 #### 应用场景
 
-- **通用排序的首选**：C标准库的`qsort()`、Java的`Arrays.sort()`（基本类型）都基于快速排序
-- **数据库引擎**：内存中的排序操作大量使用快速排序
-- **大数据处理**：MapReduce的Shuffle阶段使用快速排序的变体
+- **通用排序的首选**：C标准库的`qsort()`、Java的`Arrays.sort()`（基本类型）都基于快排变体
+- **数据库与搜索引擎**：内存中的 ORDER BY、结果集排序大量使用快速排序
+- **大数据 Shuffle 阶段**：MapReduce、Spark 等分布式框架广泛使用快排思想
 - **为什么实际最快**：缓存友好（在连续内存上操作）、内层循环极其紧凑、原地排序节省内存
+- **通用内存排序首选**：C、C++、Java、Go 等语言标准库的默认排序均基于快排变体
 
 #### 复杂度
 
@@ -471,20 +487,24 @@ function Partition(arr, low, high):
 #### 流程图
 
 ```mermaid
-%%{init: {'flowchart': {'nodeSpacing': 35, 'rankSpacing': 15, 'padding': 15}}}%%
+%%{init: {'flowchart': {'nodeSpacing': 25, 'rankSpacing': 25, 'padding': 15}}}%%
 graph LR
-    S(["开始"]) --> CHK{"数组长度 > 1 ?"}
-    CHK -->|"否"| END(["返回"])
-    CHK -->|"是"| SPLIT["从中间二分为\n左半部分 + 右半部分"]
-    SPLIT --> LSORT["递归排序左半部分"]
-    LSORT --> RSORT["递归排序右半部分"]
-    RSORT --> MERGE["合并两个有序子数组"]
-    MERGE --> END
 
-    %% 节点样式定义
-    classDef start fill:#ff6f61,color:#fff,stroke:#c94c4c,stroke-width:2px
+    S(["开始"]) --> CHK["当前数组长度 > 1 ?"]
+    CHK -->|"否"| END(["返回"])
+    CHK -->|"是"| SPLIT["从中间二分为<br>左半部分 + 右半部分"]
+
+    SPLIT --> LSORT["递归排序左半区<br>mergeSort(left)"]
+    LSORT --> RSORT["递归排序右半区<br>mergeSort(right)"]
+
+    RSORT --> MERGE["合并两个有序子数组<br>返回有序数组"]
+
+    MERGE --> |"返回上一层"| CHK
+
+    %% 节点样式
+    classDef start fill:#FF6253,color:#fff,stroke:#c94c4c,stroke-width:2px
     classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
-    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    classDef process fill:#11908A,color:#fff,stroke:#008080,stroke-width:2px
 
     %% 应用样式
     class S,END start
@@ -523,7 +543,7 @@ function Merge(left, right):
 - **需要稳定排序的场景**：数据库多字段排序、UI列表渲染保持相同元素的原始顺序
 - **外部排序**：海量数据无法一次装入内存时，分块排序再合并，天然适合归并思想
 - **链表排序**：链表上做归并排序不需要额外空间（不需要随机访问），比快速排序更合适
-- **Python / Java标准库**：Python的`sorted()`和Java的`Collections.sort()`底层都使用归并排序的变体（Timsort）
+- **Python / Java标准库**：Python的`sorted()`和Java的`Collections.sort()`底层均使用 Timsort（归并 + 插入）
 
 #### 复杂度
 
@@ -561,9 +581,9 @@ graph LR
     SHRINK --> HEAPIFY["对堆顶执行下沉\nsift down"]
     HEAPIFY --> LOOP
 
-    classDef start fill:#ff6f61,color:#fff,stroke:#c94c4c,stroke-width:2px
+    classDef start fill:#FF6253,color:#fff,stroke:#c94c4c,stroke-width:2px
     classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
-    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    classDef process fill:#11908A,color:#fff,stroke:#008080,stroke-width:2px
 
     class S,END start
     class LOOP decision
@@ -597,10 +617,10 @@ function SiftDown(arr, parent, size):
 
 #### 应用场景
 
-- **优先队列**：操作系统的进程调度、网络包调度，底层都是堆
-- **Top-K问题**：从10亿条数据中找最大的100个，维护一个大小为100的小顶堆，O(n log k)
-- **内存受限环境**：原地排序，O(1)额外空间，且最坏情况也是O(n log n)
-- **定时器管理**：Nginx、Go runtime的定时器都基于堆实现
+- **优先队列调度**：操作系统进程调度、网络包调度底层均基于堆结构
+- **大规模 Top‑K 问题**：从10亿级数据中取前K个值，只需维护大小为K的小顶堆，复杂度 O (n log k)
+- **内存受限环境**：原地排序 O (1) 空间，最坏复杂度稳定 O (n log n)
+- **高性能定时器**：Nginx、Go Runtime、Redis 均使用堆管理定时器
 
 #### 复杂度
 
@@ -614,7 +634,7 @@ function SiftDown(arr, parent, size):
 
 ### 8. 计数排序（Counting Sort）— 用空间换时间
 
-**算法原理**：不做任何比较，直接统计每个元素出现的次数，然后按顺序输出。这种方法适合元素取值范围不大的情况，时间复杂度可接近 O(n)。
+**算法原理**：统计每个元素出现的次数，用额外数组记录到对应下标，再按顺序输出实现排序，不进行元素比较。适合元素范围不大、为整数的数组，时间复杂度 O(n + k)。
 
 > **生活类比**： 就像统计考试分数：准备一个 0–100 的计数表，遍历所有试卷，把每个分数出现的次数加 1。最后从 0 分到 100 分依次输出，每个分数出现几次就写几次，这样就得到排序好的成绩单。
 
@@ -630,8 +650,8 @@ graph LR
     PREFIX --> FILL["反向遍历原数组\n按 count 放入输出数组"]
     FILL --> END(["排序完成"])
 
-    classDef start fill:#ff6f61,color:#fff,stroke:#c94c4c,stroke-width:2px
-    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    classDef start fill:#FF6253,color:#fff,stroke:#c94c4c,stroke-width:2px
+    classDef process fill:#11908A,color:#fff,stroke:#008080,stroke-width:2px
 
 
     class S,END start
@@ -661,10 +681,10 @@ function CountingSort(arr):
 
 #### 应用场景
 
-- **年龄排序**：范围0-150，非常适合计数排序
-- **考试成绩排序**：分数0-100的有限范围
-- **字符频率统计**：ASCII码范围0-127，统计字符出现频率
-- **基数排序的子过程**：基数排序每一位的排序通常用计数排序实现
+- **年龄排序**：范围 0–150 固定且集中，计数排序可实现极致线性效率
+- **考试成绩排序**：分数 0–100 范围有限，无需比较即可完成排序与统计
+- **字符频率统计**：ASCII 字符集 0–127，非常适合计数排序
+- **基数排序的子过程**：基数排序每一位的稳定排序通常由计数排序实现
 
 #### 复杂度
 
@@ -687,18 +707,20 @@ function CountingSort(arr):
 ```mermaid
 %%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
 graph LR
-    S(["开始"]) --> MAXD["计算最大位数 d"]
-    MAXD --> DINIT["digit = 1（从最低位开始）"]
-    DINIT --> DCHK{"digit ≤ d ?"}
+    S(["开始"]) --> MAXD["计算数组<br>最大位数 d"]
+    MAXD --> DINIT["digit = 1\n从最低位开始"]
+    DINIT --> DCHK{"digit ≤ d ? <br>(最低位 → 最高位)"}
     DCHK -->|"否"| END(["排序完成"])
-    DCHK -->|"是"| STABLE["按当前位进行\n稳定排序（计数排序）"]
+    DCHK -->|"是"| STABLE["对数组 a[0..n-1]\n按 digit 位进行稳定排序\n（计数排序）"]
     STABLE --> NEXT["digit++"]
-    NEXT --> DCHK
+    NEXT --> |"处理下一位"| DCHK
 
-    classDef start fill:#ff6f61,color:#fff,stroke:#c94c4c,stroke-width:2px
+    %% 节点样式
+    classDef start fill:#FF6253,color:#fff,stroke:#c94c4c,stroke-width:2px
     classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
-    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    classDef process fill:#11908A,color:#fff,stroke:#008080,stroke-width:2px
 
+    %% 应用样式
     class S,END start
     class DCHK decision
     class MAXD,DINIT,STABLE,NEXT process
@@ -737,10 +759,10 @@ function CountingSortByDigit(arr, exp):
 
 #### 应用场景
 
-- **手机号排序**：11位数字的定长字符串，基数排序的效率是O(11n)，远快于O(n log n)
-- **IP地址排序**：4段数字，天然适合基数排序
-- **身份证号排序**：定长数字串
-- **大规模整数排序**：当整数位数d相对固定且不大时，O(dn)接近线性
+- **手机号排序**：11 位定长数字，效率 O (11n)，远快于 O (n log n)
+- **IP 地址排序**：4 段固定格式数字，天然适合逐段排序
+- **身份证号排序**：定长数字编码，规则统一，可实现线性时间排序
+- **大规模整数 / 定长字符串**：位数固定时，O (dn) 接近线性，海量数据下优势巨大
 
 #### 复杂度
 
@@ -748,7 +770,7 @@ function CountingSortByDigit(arr, exp):
 |------|------|------|------|--------|
 | O(n × d) | O(n × d) | O(n × d) | O(n + k) | 稳定 |
 
-> 基数排序不依赖比较，高效处理大规模整数或固定长度字符串，就像邮局分拣信件一样，是实践中经过验证的稳定排序利器。
+> 基数排序不依赖比较，高效处理大规模整数或固定长度字符串，就像邮局分拣信件一样，是实践中验证过的排序智慧。
 
 ---
 
@@ -765,15 +787,24 @@ function CountingSortByDigit(arr, exp):
 %%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 35, 'padding': 20}}}%%
 graph LR
     S(["开始"]) --> INIT["创建 k 个空桶\n确定值域范围"]
-    INIT --> DIST["遍历数组\n将每个元素分配到\n对应的桶中"]
-    DIST --> SORT["对每个非空桶\n内部进行排序"]
-    SORT --> CONCAT["按桶顺序\n依次拼接所有元素"]
-    CONCAT --> END(["排序完成"])
 
-    classDef start fill:#ff6f61,color:#fff,stroke:#c94c4c,stroke-width:2px
-    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    INIT --> DIST["遍历数组\n将每个元素<br>分配到对应桶"]
+
+    DIST --> SORT["对每个非空桶\n内部排序"]
+
+    SORT --> CONCAT["按桶顺序\n依次拼接所有元素"]
+
+    CONCAT --> NEXT{"还有未处理的桶 ?"}
+    NEXT -->|"是，处理下一桶"| SORT
+    NEXT -->|"否"| END(["排序完成"])
+
+    %% 样式
+    classDef start fill:#FF6253,color:#fff,stroke:#c94c4c,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#11908A,color:#fff,stroke:#008080,stroke-width:2px
 
     class S,END start
+    class NEXT decision
     class INIT,DIST,SORT,CONCAT process
 ```
 
@@ -802,10 +833,10 @@ function BucketSort(arr):
 
 #### 应用场景
 
-- **均匀分布的浮点数排序**：如0-1之间的随机浮点数，分桶后几乎是线性时间
-- **成绩分段统计**：按分数段分桶，天然的桶排序应用
-- **颜色直方图**：图像处理中按像素值分桶统计
-- **负载均衡**：将请求按特征值分桶分配到不同服务器
+- **均匀分布浮点数排序**：如 0～1 随机浮点数，分桶后接近线性时间
+- **分段统计排序**：成绩分段、商品价格区间、用户年龄段归类等业务场景
+- **图像颜色直方图**：按像素值分桶统计，是图像处理经典应用
+- **请求负载均衡**：按特征值分桶分发流量，实现均匀调度与分流
 
 #### 复杂度
 
@@ -818,8 +849,6 @@ function BucketSort(arr):
 ---
 
 ## 四、10大排序算法特点回顾
-
-
 
 | 算法 | 平均时间复杂度 | 最坏时间复杂度 | 空间复杂度 | 稳定性 | 说明 |
 |------|----------------|----------------|------------|--------|-----------|
@@ -834,9 +863,52 @@ function BucketSort(arr):
 | [基数排序](https://github.com/microwind/algorithms/tree/main/sorting/radixsort) | O(n × d) | O(n × d) | O(n + k) | 稳定 | 按位从低到高分别排序，最后从高到低合并数据 |
 | [桶排序](https://github.com/microwind/algorithms/tree/main/sorting/bucketsort) | O(n + k) | O(n²) | O(n + k) | 稳定 | 将数据分成若干桶，桶内排序后再将全部桶合并 |
 
+> 10大排序算法的多语言实现（C/Java/Go/Python/JS/TS/Rust）源码地址：https://github.com/microwind/algorithms
+
 ## 五、AI时代，如何指导AI选择排序算法？
 
-### AI时代，工作方式发生了本质变化
+前面回顾了10大排序算法的特点与适用场景，现在再回到文章开头的问题：
+
+> AI可以轻松生成算法代码了，那作为程序员，我们还有必要学习算法吗？
+
+AI时代我们无需手写代码了，但我们需要理解算法背后的思想，这样才能**根据实际场景，指导AI做出合适的选择**。
+
+我们来看下AI引起的编程变革。
+
+### 1. AI编程的发展阶段
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 30, 'rankSpacing': 40, 'padding': 10}}}%%
+graph LR
+
+    %% ===== 时间线主线 =====
+    P(["2023以前<br/>传统模式"]) --> Q(["2023-2024<br/>Copilot模式"]) --> R(["2025+<br/>Agent模式"]) --> S(["2026+<br/>Agentic模式"])
+
+    %% ===== 核心能力纵向显示 =====
+    P1("手写代码<br/>实现功能<br/>角色：执行者")
+    Q1("L1 AI Copilot<br/>辅助编码<br/>角色：增强执行")
+    R1("L2 AI Agent<br/>指导AI<br/>角色：指挥者")
+    S1("L3 Agentic AI<br/>驱动AI<br/>角色：决策者")
+
+    P --> P1
+    Q --> Q1
+    R --> R1
+    S --> S1
+
+    %% ===== 主节点 =====
+    style P fill:#615B5B,stroke:#282A2D,color:#ffffff,stroke-width:2px,rx:12,ry:12
+    style Q fill:#FF6253,stroke:#c94c4c,color:#ffffff,stroke-width:2px,rx:12,ry:12
+    style R fill:#6a5acd,stroke:#1D4ED8,color:#ffffff,stroke-width:2px,rx:12,ry:12
+    style S fill:#11908A,stroke:#15803D,color:#ffffff,stroke-width:2px,rx:12,ry:12
+
+    %% ===== 子节点 =====
+    style P1 fill:#E6E8EB,stroke:#90959D,color:#15181E,rx:10,ry:10
+    style Q1 fill:#FDE2DF,stroke:#F59E0B,color:#78350F,rx:10,ry:10
+    style R1 fill:#F2E7FA,stroke:#7C04AB,color:#1E3A8A,rx:10,ry:10
+    style S1 fill:#C2F8F1,stroke:#23B659,color:#14532D,rx:10,ry:10
+```
+
+### 2. 工作方式发生了本质变化
 
 ```mermaid
 %%{init: {'flowchart': {'nodeSpacing': 50, 'rankSpacing': 45, 'padding': 20}}}%%
@@ -847,24 +919,22 @@ graph LR
 
     PAST --> NOW --> FUTURE
 
-    classDef past fill:#ff6f61,color:#fff,stroke:#c94c4c,stroke-width:2px,rx:14,ry:14
+    classDef past fill:#615B5B,stroke:#282A2D,color:#ffffff,stroke-width:2px,rx:12,ry:12
     classDef now fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px,rx:14,ry:14
-    classDef future fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px,rx:14,ry:14
+    classDef future fill:#11908A,color:#fff,stroke:#008080,stroke-width:2px,rx:14,ry:14
 ```
 
 > **过去：** 程序员写排序代码
-> **现在：** 人工定义算法策略（需求拆解）和约束条件（性能 / 稳定性 / 成本）， 指导AI实现
+> **现在：** 人工定义算法策略（需求拆解）和约束条件（性能/稳定性/成本）， 指导AI实现
 > **未来：** 人只告诉AI需求目标，AI自主确定策略，自主执行合适方案
 
+### 3. 先分析需求和选择策略，再让AI实现代码
 
-
-### 先分析需求和选择策略，再让AI实现代码
-
-- **先看约束**：数据规模、是否需要稳定性、内存限制、键的范围与分布。
-- **默认选择**：通用数组优先快速排序；链表或需要稳定性时选择归并排序。
-- **小规模 / 近乎有序**：插入排序效果最好；也可用“无交换提前结束”的冒泡作为简单有序性检测。
-- **整数且范围有限**：计数、基数或桶排序可将复杂度降到线性级别。
-- **最坏情况防护**：快排应使用随机或三数取中选基准，小分区切换插入排序；大量重复元素时使用三路划分。
+- **先明确约束**：根据数据规模、稳定性要求、内存限制、键值范围与分布特征，确定算法边界
+- **通用场景首选**：普通数组优先使用快速排序；链表或需要稳定排序时选择归并排序
+- **小规模/近乎有序数据**：插入排序效果最好；也可用“无交换提前结束”的冒泡作为简单有序性检测
+- **整数且范围有限**：计数排序、基数排序、桶排序可将时间复杂度降至线性级别，性能优势极大
+- **最坏情况防护**：快排应使用随机或三数取中选基准，小分区切换插入排序；大量重复元素时使用三路划分
 
 ```mermaid
 %%{init: {'flowchart': {'nodeSpacing': 30, 'rankSpacing': 15, 'padding': 10}}}%%
@@ -888,17 +958,17 @@ graph TB
     Q3 -->|"近乎有序"| A8(["插入排序 / 希尔排序"]):::cmp
 
     %% 样式定义（统一圆角 + 分层颜色）
-    classDef start fill:#e94560,color:#fff,stroke:#cb21b6,stroke-width:2px,rx:12,ry:12
+    classDef start fill:#FF6253,color:#fff,stroke:#c94c4c,stroke-width:2px,rx:12,ry:12
     classDef question fill:#0f3460,color:#fff,stroke:#0f69a1,stroke-width:2px,rx:10,ry:10
-    classDef small fill:#DB9CFF,stroke:#483d8b,stroke:#7913CC,rx:10,ry:10
-    classDef cmp fill:#22c55e,color:#052e16,stroke:#15803d,rx:10,ry:10
+    classDef small fill:#DCA8FA,stroke:#483d8b,stroke:#7913CC,rx:10,ry:10
+    classDef cmp fill:#51D0EA,color:#052e16,stroke:#15807C,rx:10,ry:10
     classDef noncmp fill:#f59e0b,color:#422006,stroke:#b45309,rx:10,ry:10
 
     class START start
     class Q1,Q2,Q3 question
 ```
 
-### 实际场景多采用混合策略
+### 4. 实际场景多采用混合策略
 
 **编程语言中，会根据数据规模、分布特征和运行时情况，动态组合多种算法**
 
@@ -923,37 +993,17 @@ graph TB
 
 ---
 
-## 六、多语言实现源码
+## 六、总结
 
-以下是十大排序算法在多种编程语言中的实现，你可以点击链接直接查看源码，对比不同语言的实现风格。
+10大排序算法，从朴素的冒泡、选择、插入，到基于分治思想的快速排序、归并排序，再到利用数据特征实现线性时间的计数、基数和桶排序，每一种都体现了前人解决问题的智慧。
 
-> 源码仓库：https://github.com/microwind/algorithms
+在实际应用中，我们经常要做出判断：何时优先选择快排，何时切换到线性时间的计数/基数/桶排序，何时为了稳定性选择归并，这些都取决于数据特征与约束条件。
 
-| 排序算法 | C | Java | Go | Python | JavaScript | TypeScript | Rust |
-|---------|---|------|----|--------|------------|------------|------|
-| **冒泡排序** | [C](https://github.com/microwind/algorithms/tree/main/sorting/bubblesort/bubble_sort.c) | [Java](https://github.com/microwind/algorithms/tree/main/sorting/bubblesort/BubbleSort.java) | [Go](https://github.com/microwind/algorithms/tree/main/sorting/bubblesort/bubble_sort.go) | [Python](https://github.com/microwind/algorithms/tree/main/sorting/bubblesort/bubble_sort.py) | [JS](https://github.com/microwind/algorithms/tree/main/sorting/bubblesort/bubble_sort.js) | [TS](https://github.com/microwind/algorithms/tree/main/sorting/bubblesort/BubbleSort.ts) | [Rust](https://github.com/microwind/algorithms/tree/main/sorting/bubblesort/bubble_sort.rs) |
-| **选择排序** | [C](https://github.com/microwind/algorithms/tree/main/sorting/selectionsort/selection_sort.c) | [Java](https://github.com/microwind/algorithms/tree/main/sorting/selectionsort/SelectionSort.java) | [Go](https://github.com/microwind/algorithms/tree/main/sorting/selectionsort/selection_sort.go) | [Python](https://github.com/microwind/algorithms/tree/main/sorting/selectionsort/selection_sort.py) | [JS](https://github.com/microwind/algorithms/tree/main/sorting/selectionsort/selection_sort.js) | [TS](https://github.com/microwind/algorithms/tree/main/sorting/selectionsort/SelectionSort.ts) | [Rust](https://github.com/microwind/algorithms/tree/main/sorting/selectionsort/selection_sort.rs) |
-| **插入排序** | [C](https://github.com/microwind/algorithms/tree/main/sorting/insertsort/insert_sort.c) | [Java](https://github.com/microwind/algorithms/tree/main/sorting/insertsort/InsertSort.java) | [Go](https://github.com/microwind/algorithms/tree/main/sorting/insertsort/insert_sort.go) | [Python](https://github.com/microwind/algorithms/tree/main/sorting/insertsort/insert_sort.py) | [JS](https://github.com/microwind/algorithms/tree/main/sorting/insertsort/insert_sort.js) | [TS](https://github.com/microwind/algorithms/tree/main/sorting/insertsort/InsertSort.ts) | [Rust](https://github.com/microwind/algorithms/tree/main/sorting/insertsort/insert_sort.rs) |
-| **希尔排序** | [C](https://github.com/microwind/algorithms/tree/main/sorting/shellsort/shell_sort.c) | [Java](https://github.com/microwind/algorithms/tree/main/sorting/shellsort/ShellSort.java) | [Go](https://github.com/microwind/algorithms/tree/main/sorting/shellsort/shell_sort.go) | [Python](https://github.com/microwind/algorithms/tree/main/sorting/shellsort/shell_sort.py) | [JS](https://github.com/microwind/algorithms/tree/main/sorting/shellsort/shell_sort.js) | [TS](https://github.com/microwind/algorithms/tree/main/sorting/shellsort/ShellSort.ts) | [Rust](https://github.com/microwind/algorithms/tree/main/sorting/shellsort/shell_sort.rs) |
-| **快速排序** | [C](https://github.com/microwind/algorithms/tree/main/sorting/quicksort/quick_sort.c) | [Java](https://github.com/microwind/algorithms/tree/main/sorting/quicksort/QuickSort.java) | [Go](https://github.com/microwind/algorithms/tree/main/sorting/quicksort/quick_sort.go) | [Python](https://github.com/microwind/algorithms/tree/main/sorting/quicksort/quick_sort.py) | [JS](https://github.com/microwind/algorithms/tree/main/sorting/quicksort/quick_sort.js) | [TS](https://github.com/microwind/algorithms/tree/main/sorting/quicksort/QuickSort.ts) | [Rust](https://github.com/microwind/algorithms/tree/main/sorting/quicksort/quick_sort.rs) |
-| **归并排序** | [C](https://github.com/microwind/algorithms/tree/main/sorting/mergesort/merge_sort.c) | [Java](https://github.com/microwind/algorithms/tree/main/sorting/mergesort/MergeSort.java) | [Go](https://github.com/microwind/algorithms/tree/main/sorting/mergesort/merge_sort.go) | [Python](https://github.com/microwind/algorithms/tree/main/sorting/mergesort/merge_sort.py) | [JS](https://github.com/microwind/algorithms/tree/main/sorting/mergesort/merge_sort.js) | [TS](https://github.com/microwind/algorithms/tree/main/sorting/mergesort/MergeSort.ts) | [Rust](https://github.com/microwind/algorithms/tree/main/sorting/mergesort/merge_sort.rs) |
-| **堆排序** | [C](https://github.com/microwind/algorithms/tree/main/sorting/heapsort/heap_sort.c) | [Java](https://github.com/microwind/algorithms/tree/main/sorting/heapsort/HeapSort.java) | [Go](https://github.com/microwind/algorithms/tree/main/sorting/heapsort/heap_sort.go) | [Python](https://github.com/microwind/algorithms/tree/main/sorting/heapsort/heap_sort.py) | [JS](https://github.com/microwind/algorithms/tree/main/sorting/heapsort/heap_sort.js) | [TS](https://github.com/microwind/algorithms/tree/main/sorting/heapsort/HeapSort.ts) | [Rust](https://github.com/microwind/algorithms/tree/main/sorting/heapsort/heap_sort.rs) |
-| **计数排序** | [C](https://github.com/microwind/algorithms/tree/main/sorting/countingsort/counting_sort.c) | [Java](https://github.com/microwind/algorithms/tree/main/sorting/countingsort/CountingSort.java) | [Go](https://github.com/microwind/algorithms/tree/main/sorting/countingsort/counting_sort.go) | [Python](https://github.com/microwind/algorithms/tree/main/sorting/countingsort/counting_sort.py) | [JS](https://github.com/microwind/algorithms/tree/main/sorting/countingsort/counting_sort.js) | [TS](https://github.com/microwind/algorithms/tree/main/sorting/countingsort/CountingSort.ts) | [Rust](https://github.com/microwind/algorithms/tree/main/sorting/countingsort/counting_sort.rs) |
-| **基数排序** | [C](https://github.com/microwind/algorithms/tree/main/sorting/radixsort/radix_sort.c) | [Java](https://github.com/microwind/algorithms/tree/main/sorting/radixsort/RadixSort.java) | [Go](https://github.com/microwind/algorithms/tree/main/sorting/radixsort/radix_sort.go) | [Python](https://github.com/microwind/algorithms/tree/main/sorting/radixsort/radix_sort.py) | [JS](https://github.com/microwind/algorithms/tree/main/sorting/radixsort/radix_sort.js) | [TS](https://github.com/microwind/algorithms/tree/main/sorting/radixsort/RadixSort.ts) | [Rust](https://github.com/microwind/algorithms/tree/main/sorting/radixsort/radix_sort.rs) |
-| **桶排序** | [C](https://github.com/microwind/algorithms/tree/main/sorting/bucketsort/bucket_sort.c) | [Java](https://github.com/microwind/algorithms/tree/main/sorting/bucketsort/BucketSort.java) | [Go](https://github.com/microwind/algorithms/tree/main/sorting/bucketsort/bucket_sort.go) | [Python](https://github.com/microwind/algorithms/tree/main/sorting/bucketsort/bucket_sort.py) | [JS](https://github.com/microwind/algorithms/tree/main/sorting/bucketsort/bucket_sort.js) | [TS](https://github.com/microwind/algorithms/tree/main/sorting/bucketsort/BucketSort.ts) | [Rust](https://github.com/microwind/algorithms/tree/main/sorting/bucketsort/bucket_sort.rs) |
-
-## 总结
-
-十大排序算法，从最朴素的冒泡、选择、插入，到分治思想的快速排序与归并排序，再到利用数据特性的计数、基数和桶排序，每一种都体现了前人解决问题的智慧——如何更快、更省、更稳地完成排序。
-
-在实际应用中，判断力比记住代码实现更重要：何时优先选择快排，何时切换到线性时间的计数/基数/桶排序，何时为了稳定性选择归并，这些都取决于数据特征与约束条件。
-
-当我们面对具体问题时，理解这些算法思想，就能够做出合理的判断，指导 AI 做出合适的方案。
+AI时代，实现排序算法本身已经不重要了，重要的是**选择哪种算法、为什么这么选**。理解这些算法思想，指导AI时我们才会从容不迫。
 
 ---
 
 ### 相关链接
-- [《程序员必备的算法思想指南》](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-Need-Algorithmic-Thinking.md)
-- [AI时代，人人都是算法思想工程师](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Algorithmic-Thinkers.md)
-- [AI时代，人人都是Agent工程师](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Agent-Engineers.md)
-- [算法与数据结构多种语言实现](https://github.com/microwind/algorithms)
+- [程序员必备的算法思想指南](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-Need-Algorithmic-Thinking.md)
+- [程序员如何成为算法思想工程师](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Algorithmic-Thinkers.md)
+- [程序员如何成为Agent工程师](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Agent-Engineers.md)
