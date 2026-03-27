@@ -1,13 +1,14 @@
-# AI时代，你更需要理解算法思想与数据结构，学习不同的编程语言 [English](./README_en.md)
+# AI编程：算法思想与数据结构知识库
 
+> AI时代，我们需要理解算法思想与数据结构，学习不同的编程语言 [English](./README_en.md)
 
 ![License](https://img.shields.io/badge/License-MIT-blue.svg) ![Last Updated](https://img.shields.io/github/last-commit/microwind/design-patterns) ![Build Status](https://img.shields.io/badge/build-passing-brightgreen) [![GitHub stars](https://img.shields.io/github/stars/microwind/algorithms.svg?style=social&label=Star)](https://github.com/microwind/algorithms) [![GitHub forks](https://img.shields.io/github/forks/microwind/algorithms.svg?style=social&label=Fork)](https://github.com/microwind/algorithms/fork)
 
-本仓库帮助你用**不同编程语言来学习数据结构和算法**，包括 `C`、`Java`、`Python`、`JavaScript`、`Go`、`TypeScript`、`Rust` 等，提供充分注释说明。让你既能理解算法与数据结构原理，又能掌握不用语言的特点。
+本仓库帮助你**用不同编程语言来学习数据结构和算法思想**，包括 `C`、`Java`、`Python`、`JavaScript`、`Go`、`TypeScript`、`Rust` 等，提供充分注释说明。让你既能理解算法与数据结构原理，又能掌握不用语言的特点。
 
-AI 时代已经到来。AI 可以替代人们完成基础编码工作，但难以替代人的认知与思考。只有在深入理解编程核心（数据结构 + 算法）的基础上，**人们才能真正驾驭 AI，并让 AI 产生更高的效率与价值。**
+AI时代已经到来。AI可以替代人工编码工作，但难以替代人的认知与思考。只有在深入理解编程核心（数据结构 + 算法）的基础上，**人们才能真正驾驭AI，并让AI产生更高的效率与价值。**
 
-表层的 API、框架与应用方案日新月异，而**数据结构、算法以及底层逻辑思维则历久弥新**。表层技术需要快速学习、不断追新逐热；底层原理与思想则需要反复钻研与琢磨，从而持续提升认知。
+表层的API、框架与应用方案日新月异，而**数据结构、算法以及底层逻辑思维则历久弥新**。表层技术需要快速学习、持续迭代；底层原理与思想则需要反复钻研与沉淀，从而持续提升认知。
 
 ## 🚀 本项目特点
 1. 涵盖了数值计算、字符查找、树遍历、排序、动态规划等不同算法。
