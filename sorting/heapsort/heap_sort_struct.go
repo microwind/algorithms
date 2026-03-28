@@ -1,13 +1,13 @@
 /**
- * Copyright © https://github.com/jarry All rights reserved.
+ * Copyright © https://github.com/microwind All rights reserved.
  * @author: jarryli@gmail.com
  * @version: 1.0
  */
 package main
 
 import (
-  "fmt"
-  "time"
+	"fmt"
+	"time"
 )
 
 /* 根据完全二叉树结构性质，父子节点与数组下标的关系，通过数组下标i得到节点位置 */

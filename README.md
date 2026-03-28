@@ -1,4 +1,4 @@
-# AI编程：算法思想与数据结构知识库
+# AI编程：算法思想与数据结构知识库大全
 
 > AI时代，我们需要理解算法思想与数据结构，学习不同的编程语言 [English](./README_en.md)
 
@@ -88,6 +88,42 @@ AI时代已经到来。AI可以替代人工编码工作，但难以替代人的�
 | 算法 | C语言版 | JS版 | Python版 | Java版 | TS版 | 时间复杂度（平均/最坏） | 空间复杂度 | 适用场景 |
 |------|--------|-------------|---------|-------|-------------|--------------------|---------|--------|
 | [二叉树遍历](./tree/binarytree/) | [C](./tree/binarytree/binary_tree.c) | [JS](./tree/binarytree/binary_tree.js) | [Python](./tree/binarytree/binary_tree.py) | [Java](./tree/binarytree/BinaryTree.java) | [TS](./tree/binarytree/BinaryTree.ts) | O(n) / O(n) | O(n) | 适用于树结构数据的遍历，如 XML 解析、文件系统遍历 |
+
+## 压缩算法详解
+
+| 算法 | C语言版 | Go语言版 | JS版 | Python版 | Java版 | TS版 | 时间复杂度 | 空间复杂度 | 适用场景 |
+|------|--------|---------|-------------|---------|-------|-------------|------------|------------|--------|
+| [Huffman编码](./compression/) | [C](./compression/huffman.c) | [Go](./compression/huffman.go) | [JS](./compression/huffman.js) | [Python](./compression/huffman.py) | [Java](./compression/Huffman.java) | [TS](./compression/Huffman.ts) | O(n log n) | O(n) | 适用于无损数据压缩、文件压缩 |
+| [Run-Length Encoding](./compression/) | [C](./compression/rle.c) | [Go](./compression/rle.go) | [JS](./compression/rle.js) | [Python](./compression/rle.py) | [Java](./compression/RLE.java) | [TS](./compression/RLE.ts) | O(n) | O(n) | 适用于简单重复数据压缩 |
+| [LZ77算法](./compression/) | [C](./compression/lz77.c) | [Go](./compression/lz77.go) | [JS](./compression/lz77.js) | [Python](./compression/lz77.py) | [Java](./compression/LZ77.java) | [TS](./compression/LZ77.ts) | O(n) | O(n) | 适用于文本压缩、ZIP格式基础 |
+| [LZW算法](./compression/) | [C](./compression/lzw.c) | [Go](./compression/lzw.go) | [JS](./compression/lzw.js) | [Python](./compression/lzw.py) | [Java](./compression/LZW.java) | [TS](./compression/LZW.ts) | O(n) | O(n) | 适用于GIF格式、文本压缩 |
+
+## 加密算法详解
+
+| 算法 | C语言版 | Go语言版 | JS版 | Python版 | Java版 | TS版 | 时间复杂度 | 空间复杂度 | 适用场景 |
+|------|--------|---------|-------------|---------|-------|-------------|------------|------------|--------|
+| [AES加密](./cryptography/) | [C](./cryptography/aes.c) | [Go](./cryptography/aes.go) | [JS](./cryptography/aes.js) | [Python](./cryptography/aes.py) | [Java](./cryptography/AES.java) | [TS](./cryptography/AES.ts) | O(n) | O(1) | 适用于对称加密、数据保护 |
+| [RSA加密](./cryptography/) | [C](./cryptography/rsa.c) | [Go](./cryptography/rsa.go) | [JS](./cryptography/rsa.js) | [Python](./cryptography/rsa.py) | [Java](./cryptography/RSA.java) | [TS](./cryptography/RSA.ts) | O(n³) | O(n²) | 适用于非对称加密、数字签名 |
+| [SHA哈希](./cryptography/) | [C](./cryptography/sha.c) | [Go](./cryptography/sha.go) | [JS](./cryptography/sha.js) | [Python](./cryptography/sha.py) | [Java](./cryptography/SHA.java) | [TS](./cryptography/SHA.ts) | O(n) | O(1) | 适用于数据完整性校验、密码存储 |
+| [凯撒密码](./cryptography/) | [C](./cryptography/caesar.c) | [Go](./cryptography/caesar.go) | [JS](./cryptography/caesar.js) | [Python](./cryptography/caesar.py) | [Java](./cryptography/Caesar.java) | [TS](./cryptography/Caesar.ts) | O(n) | O(1) | 适用于古典加密、教学演示 |
+
+## 数值分析算法详解
+
+| 算法 | C语言版 | Go语言版 | JS版 | Python版 | Java版 | TS版 | 时间复杂度 | 空间复杂度 | 适用场景 |
+|------|--------|---------|-------------|---------|-------|-------------|------------|------------|--------|
+| [数值积分](./numerical-analysis/) | [C](./numerical-analysis/integration.c) | [Go](./numerical-analysis/integration.go) | [JS](./numerical-analysis/integration.js) | [Python](./numerical-analysis/integration.py) | [Java](./numerical-analysis/Integration.java) | [TS](./numerical-analysis/Integration.ts) | O(n) | O(1) | 适用于定积分计算、面积计算 |
+| [方程求根](./numerical-analysis/) | [C](./numerical-analysis/root_finding.c) | [Go](./numerical-analysis/root_finding.go) | [JS](./numerical-analysis/root_finding.js) | [Python](./numerical-analysis/root_finding.py) | [Java](./numerical-analysis/RootFinding.java) | [TS](./numerical-analysis/RootFinding.ts) | O(n) | O(1) | 适用于非线性方程求解 |
+| [线性方程组](./numerical-analysis/) | [C](./numerical-analysis/linear_system.c) | [Go](./numerical-analysis/linear_system.go) | [JS](./numerical-analysis/linear_system.js) | [Python](./numerical-analysis/linear_system.py) | [Java](./numerical-analysis/LinearSystem.java) | [TS](./numerical-analysis/LinearSystem.ts) | O(n³) | O(n²) | 适用于线性方程组求解 |
+| [插值拟合](./numerical-analysis/) | [C](./numerical-analysis/interpolation.c) | [Go](./numerical-analysis/interpolation.go) | [JS](./numerical-analysis/interpolation.js) | [Python](./numerical-analysis/interpolation.py) | [Java](./numerical-analysis/Interpolation.java) | [TS](./numerical-analysis/Interpolation.ts) | O(n²) | O(n) | 适用于数据拟合、曲线逼近 |
+
+## 概率统计算法详解
+
+| 算法 | C语言版 | Go语言版 | JS版 | Python版 | Java版 | TS版 | 时间复杂度 | 空间复杂度 | 适用场景 |
+|------|--------|---------|-------------|---------|-------|-------------|------------|------------|--------|
+| [描述统计](./probability-statistics/) | [C](./probability-statistics/descriptive.c) | [Go](./probability-statistics/descriptive.go) | [JS](./probability-statistics/descriptive.js) | [Python](./probability-statistics/descriptive.py) | [Java](./probability-statistics/Descriptive.java) | [TS](./probability-statistics/Descriptive.ts) | O(n) | O(1) | 适用于数据分析、统计描述 |
+| [概率分布](./probability-statistics/) | [C](./probability-statistics/distribution.c) | [Go](./probability-statistics/distribution.go) | [JS](./probability-statistics/distribution.js) | [Python](./probability-statistics/distribution.py) | [Java](./probability-statistics/Distribution.java) | [TS](./probability-statistics/Distribution.ts) | O(1) | O(1) | 适用于概率计算、随机建模 |
+| [假设检验](./probability-statistics/) | [C](./probability-statistics/hypothesis.c) | [Go](./probability-statistics/hypothesis.go) | [JS](./probability-statistics/hypothesis.js) | [Python](./probability-statistics/hypothesis.py) | [Java](./probability-statistics/Hypothesis.java) | [TS](./probability-statistics/Hypothesis.ts) | O(n) | O(1) | 适用于统计推断、显著性检验 |
+| [回归分析](./probability-statistics/) | [C](./probability-statistics/regression.c) | [Go](./probability-statistics/regression.go) | [JS](./probability-statistics/regression.js) | [Python](./probability-statistics/regression.py) | [Java](./probability-statistics/Regression.java) | [TS](./probability-statistics/Regression.ts) | O(n²) | O(n) | 适用于机器学习、数据预测 |
 
 ## 质因数分解
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #-*- encoding: UTF-8-*-
 """
- * Copyright © https://github.com/jarry All rights reserved.
+ * Copyright © https://github.com/microwind All rights reserved.
  * @author: jarryli@gmail.com
  * @date: ${date} ${time}
  * @version: 1.0
