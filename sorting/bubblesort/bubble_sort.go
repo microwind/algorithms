@@ -1,8 +1,10 @@
 /**
  * Copyright © https://github.com/microwind All rights reserved.
+ *
  * @author: jarryli@gmail.com
  * @version: 1.0
  */
+
 package main
 
 import (
@@ -11,192 +13,172 @@ import (
 )
 
 /**
- * 冒泡排序升序，将最大的元素冒泡到最后
- * 时间复杂度：O(n²)，空间复杂度：O(1)
- * 稳定性：稳定
+ * 冒泡排序算法实现
+ * 提供四种不同的实现方式，适合不同场景和性能需求
  */
+
 func bubbleSort1(list []int) []int {
-	var length = len(list)
-	// 外层循环控制排序轮数，每轮确定一个最大值的位置
+	fmt.Println("bubbleSort1 from left to right:")
+	length := len(list)
+	// 外循环：控制排序轮数，每轮确定一个最大值的位置
 	for i := 0; i < length; i++ {
-		fmt.Printf("\nno: %d\n", i)
-		// 内层循环控制比较次数，length-i-1 避免重复比较已排序部分
+		// 内循环：控制比较次数，length-i-1 避免重复比较已排序部分
 		for j := 0; j < length-i-1; j++ {
-			fmt.Printf("j=%d * i=%d | ", j, i)
-			// 比较相邻元素，如果前者大于后者则交换
+			// 关键点：自左往右每两个进行比较，把大的交换到右侧
 			if list[j] > list[j+1] {
-				// 使用临时变量交换相邻元素
-				var tmp = list[j+1]
+				// Go特点：使用临时变量交换
+				tmp := list[j+1]
 				list[j+1] = list[j]
 				list[j] = tmp
 			}
 		}
 	}
+	fmt.Println(list)
 	return list
 }
 
-/**
- * 冒泡排序降序，将最小的元素冒泡到最后
- * 使用无限循环配合交换标志，针对已排序情况做优化
- * 时间复杂度：最好O(n)，最坏O(n²)，空间复杂度：O(1)
- */
 func bubbleSort2(list []int) []int {
-	// 设立是否交换的标志
-	flag := true
-	// 使用无限循环，直到某一轮没有发生任何交换为止
-	for flag == true {
-		flag = false  // 每轮开始时重置标志
-		// 内层循环比较所有相邻元素
-		for i := 0; i < len(list)-1; i++ {
-			fmt.Printf("\n %d * %d\n", i, i+1)
-			// 降序排序：如果前者小于后者则交换
-			if list[i] < list[i+1] {
-				// Go 的多重赋值交换，更简洁
-				list[i], list[i+1] = list[i+1], list[i]
-				flag = true  // 发生交换，设置标志
+	fmt.Println("bubbleSort2 from right to left:")
+	length := len(list)
+	// 外循环：控制排序轮数，每轮确定一个最小值的位置
+	for i := 0; i < length; i++ {
+		// 内循环：从右向左比较，j > i 避免重复比较已排序部分
+		for j := length - 1; j > i; j-- {
+			// 关键点：自右往左每两个进行比较，把小的交换到右侧
+			if list[j-1] < list[j] {
+				// Go特点：使用临时变量交换
+				tmp := list[j]
+				list[j] = list[j-1]
+				list[j-1] = tmp
 			}
+		}
 	}
-	}
+	fmt.Println(list)
 	return list
 }
 
-/**
- * 冒泡排序降序，将最小的元素冒泡到最后
- * 使用交换标志优化，当某一轮无交换时提前终止
- * 时间复杂度：最好O(n)，最坏O(n²)，空间复杂度：O(1)
- */
 func bubbleSort3(list []int) []int {
-	// 设立是否交换的标志
-	flag := true
+	fmt.Println("bubbleSort3 add flag:")
+	// 优化点：增加一个标志，如果某一轮没有进行过任何的交换
+	// 则说明当前数组已排好序，则不必继续后面的遍历
 	length := len(list)
-	// 外层循环增加 flag 条件，当数组已有序时提前终止
+	flag := true
+
+	// 外循环：增加 flag 条件，当数组已有序时提前终止
 	for i := 0; i < length && flag == true; i++ {
-		flag = false  // 每轮开始时重置标志
-		// 内层循环控制比较次数，length-i-1 避免重复比较已排序部分
+		flag = false // 每轮开始时重置标志
+		// 内循环：控制比较次数，length-i-1 避免重复比较已排序部分
 		for j := 0; j < length-i-1; j++ {
-			fmt.Printf("\nj=%d * i=%d | ", j, i)
-			// 降序排序：如果前者小于后者则交换
-			if list[j] < list[j+1] {
-				flag = true  // 发生交换，设置标志
-				// Go 的多重赋值交换，更简洁
-				list[j], list[j+1] = list[j+1], list[j]
+			// 关键点：自左往右每两个进行比较，把大的交换到右侧
+			if list[j] > list[j+1] {
+				flag = true // 发生交换，设置标志
+				// Go特点：使用临时变量交换
+				tmp := list[j+1]
+				list[j+1] = list[j]
+				list[j] = tmp
 			}
 		}
 	}
+	fmt.Println(list)
 	return list
 }
 
-/**
- * 冒泡排序升序，记录最后交换位置的优化版本
- * 通过记录最后一次交换的位置，减少不必要的比较
- * 时间复杂度：最好O(n)，最坏O(n²)，空间复杂度：O(1)
- */
 func bubbleSort4(list []int) []int {
+	fmt.Println("bubbleSort4:")
 	length := len(list)
-	lastSwap := length - 1  // 记录最后一次交换的位置
-	
-	// 外层循环控制排序轮数，最多进行 length-1 轮
-	for i := 0; i < length-1; i++ {
-		isSorted := true  // 标记本轮是否发生交换
-		currentLastSwap := 0  // 记录当前轮次的最后交换位置
-		
-		// 内层循环只比较到 lastSwap 位置，减少不必要的比较
-		for j := 0; j < lastSwap; j++ {
-			if list[j] > list[j+1] {
-				// 交换相邻元素
-				list[j], list[j+1] = list[j+1], list[j]
-				isSorted = false  // 发生交换，标记为未排序
-				currentLastSwap = j  // 更新最后交换位置
+	// 外循环：控制排序轮数，i 从 1 开始，因为第 0 个元素默认为已排序
+	for i := 1; i < length; i++ {
+		// 内循环：在已排序区域中查找插入位置
+		for j := 0; j < i; j++ {
+			// 关键点：如果待插入元素小于已排序区域的某个元素，则交换
+			if list[j] > list[i] {
+				// Go特点：使用临时变量交换
+				tmp := list[i]
+				list[i] = list[j]
+				list[j] = tmp
 			}
 		}
-		
-		lastSwap = currentLastSwap  // 更新下一轮的比较边界
-		if isSorted {
-			break  // 如果本轮没有交换，说明已有序，提前终止
-		}
 	}
-	
+	fmt.Println(list)
 	return list
+}
+
+func printArray(list []int, label string) {
+	fmt.Printf("%s: [%v]\n", label, list)
+}
+
+func performanceTest(sortFunc func([]int) []int, arr []int, name string) {
+	// 创建数组副本，避免修改原数组
+	testArr := make([]int, len(arr))
+	copy(testArr, arr)
+	printArray(testArr, name+"原始数组")
+	
+	// 开始计时
+	start := time.Now()
+	sortFunc(testArr)
+	elapsed := time.Since(start)
+	
+	printArray(testArr, name+"排序结果")
+	fmt.Printf("%s: %v\n", name, elapsed)
+	fmt.Println() // 空行分隔
 }
 
 func main() {
-	fmt.Println("bubble sort1:")
-	time1 := time.Now()
-	data1 := [...]int{3, 2, 10, -4, -10}
-	fmt.Println(bubbleSort1(data1[:]))
-	fmt.Println("sort1 end. cost:", time.Since(time1))
-
-	fmt.Println("bubble sort2:")
-	time2 := time.Now()
-	data2 := [...]int{3, 2, 10, -4, -10}
-	fmt.Println(bubbleSort2(data2[:]))
-	fmt.Println("sort2 end:", time.Since(time2))
-
-	fmt.Println("bubble sort3:")
-	time3 := time.Now()
-	data3 := [...]int{3, 2, 10, -4, -10}
-	fmt.Println(bubbleSort3(data3[:]))
-	fmt.Println("sort3 end:", time.Since(time3))
-
-	fmt.Println("bubble sort4 (optimized):")
-	time4 := time.Now()
-	data4 := [...]int{3, 2, 10, -4, -10}
-	fmt.Println(bubbleSort4(data4[:]))
-	fmt.Println("sort4 end:", time.Since(time4))
+	// 测试数据：包含重复元素和无序情况的典型数组
+	testData := []int{7, 11, 9, 10, 12, 13, 8}
+	
+	fmt.Println("=== 冒泡排序算法演示 ===\n")
+	
+	// 测试1：基础升序版本
+	performanceTest(bubbleSort1, testData, "基础升序版本")
+	
+	// 测试2：基础降序版本
+	performanceTest(bubbleSort2, testData, "基础降序版本")
+	
+	// 测试3：优化版本
+	performanceTest(bubbleSort3, testData, "优化版本")
+	
+	// 测试4：插入式版本
+	performanceTest(bubbleSort4, testData, "插入式版本")
+	
+	fmt.Println("=== 算法对比总结 ===")
+	fmt.Println("1. 基础版本：简单易懂，适合学习算法原理")
+	fmt.Println("2. 降序版本：展示算法的灵活性，可按需排序")
+	fmt.Println("3. 优化版本：通过标志位优化，适合实际应用")
+	fmt.Println("4. 插入式版本：结合其他排序思想，性能更稳定")
 }
 
-/*
-jarry@jarrys-MacBook-Pro bubblesort % go version
-go version go1.15 darwin/amd64
-jarry@jarrys-MacBook-Pro bubblesort % go build bubble_sort.go
-jarry@jarrys-MacBook-Pro bubblesort % ./bubble_sort
-bubble sort1:
+/* 打印结果
+jarry@Mac bubblesort % go run bubble_sort.go
+=== 冒泡排序算法演示 ===
 
-no: 0
-j=0 * i=0 | j=1 * i=0 | j=2 * i=0 | j=3 * i=0 |
-no: 1
-j=0 * i=1 | j=1 * i=1 | j=2 * i=1 |
-no: 2
-j=0 * i=2 | j=1 * i=2 |
-no: 3
-j=0 * i=3 |
-no: 4
-[-10 -4 2 3 10]
-sort1 end. cost: 45.563µs
-bubble sort2:
+基础升序版本原始数组: [[7 11 9 10 12 13 8]]
+bubbleSort1 from left to right:
+[7 8 9 10 11 12 13]
+基础升序版本排序结果: [[7 8 9 10 11 12 13]]
+基础升序版本: 10.xxxµs
 
- 0 * 1
+基础降序版本原始数组: [[7 11 9 10 12 13 8]]
+bubbleSort2 from right to left:
+[13 12 11 10 9 8 7]
+基础降序版本排序结果: [[13 12 11 10 9 8 7]]
+基础降序版本: 1.xxxµs
 
- 1 * 2
+优化版本原始数组: [[7 11 9 10 12 13 8]]
+bubbleSort3 add flag:
+[7 8 9 10 11 12 13]
+优化版本排序结果: [[7 8 9 10 11 12 13]]
+优化版本: 1.xxxµs
 
- 2 * 3
+插入式版本原始数组: [[7 11 9 10 12 13 8]]
+bubbleSort4:
+[7 8 9 10 11 12 13]
+插入式版本排序结果: [[7 8 9 10 11 12 13]]
+插入式版本: 1.xxxµs
 
- 3 * 4
-
- 0 * 1
-
- 1 * 2
-
- 2 * 3
-
- 3 * 4
-
- 0 * 1
-
- 1 * 2
-
- 2 * 3
-
- 3 * 4
-[10 3 2 -4 -10]
-sort2 end: 22.048µs
-bubble sort3:
-
-j=0 * i=0 |
-j=1 * i=0 |
-j=0 * i=1 |
-j=1 * i=1 |
-j=0 * i=2 |
-j=1 * i=2 | [10 3 2 -4 -10]
-sort3 end: 12.25µs
+=== 算法对比总结 ===
+1. 基础版本：简单易懂，适合学习算法原理
+2. 降序版本：展示算法的灵活性，可按需排序
+3. 优化版本：通过标志位优化，适合实际应用
+4. 插入式版本：结合其他排序思想，性能更稳定
 */
