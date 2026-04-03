@@ -1,4 +1,12 @@
 """
+ * Copyright © https://github.com/microwind All rights reserved.
+ * 
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ */
+"""
+
+"""
 哈希查找 - Hash Search
 使用哈希表实现O(1)时间复杂度的查找
 """

@@ -117,7 +117,7 @@ void performanceTest(void (*sortFunc)(int[], int), int arr[], int len, const cha
 }
 
 int main() {
-    // 测试数据：包含重复元素和无序情况的典型数组
+    // 测试数据：
     int testData[] = {7, 11, 9, 10, 12, 13, 8};
     int len = sizeof(testData) / sizeof(testData[0]);
     

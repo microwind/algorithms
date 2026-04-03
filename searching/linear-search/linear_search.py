@@ -1,4 +1,12 @@
 """
+ * Copyright © https://github.com/microwind All rights reserved.
+ * 
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ */
+"""
+
+"""
 搜索算法 - 线性查找 (Linear Search)
 最简单的搜索算法，逐个遍历查找目标元素
 """

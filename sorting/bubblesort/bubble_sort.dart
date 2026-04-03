@@ -115,7 +115,7 @@ void performanceTest(List<int> Function(List<int>) sortFunc, List<int> arr, Stri
 }
 
 void main() {
-  // 测试数据：包含重复元素和无序情况的典型数组
+  // 测试数据：
   List<int> testData = [7, 11, 9, 10, 12, 13, 8];
   
   print('=== 冒泡排序算法演示 ===\n');

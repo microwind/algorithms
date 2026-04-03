@@ -202,7 +202,7 @@ public class BubbleSort {
     public static void main(String[] args) {
         BubbleSort sorter = new BubbleSort();
         
-        // 测试数据：包含重复元素和无序情况的典型数组
+        // 测试数据：
         int[] testData = {7, 11, 9, 10, 12, 13, 8};
         
         System.out.println("=== 冒泡排序算法演示 ===\n");

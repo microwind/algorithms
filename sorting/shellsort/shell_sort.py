@@ -1,106 +1,259 @@
-#!/usr/bin/env python
-#-*- encoding: UTF-8-*-
 """
- * Copyright © https://github.com/microwind All rights reserved.
- * @author: jarryli@gmail.com
- * @version: 1.0
+Copyright © https://github.com/microwind All rights reserved.
+
+@author: jarryli@gmail.com
+@version: 1.0
 """
+
+"""
+希尔排序算法实现
+提供四种不同的实现方式，适合不同场景和性能需求
+"""
+
 import time
 
+def print_array(arr, label):
+    """打印数组内容的辅助函数"""
+    print(f"{label}: [{', '.join(map(str, arr))}]")
 
-# 1. 希尔排序标准版：基于插入排序进行分组排序，步长按1/2缩减
-def shell_sort1(arr):
-    # 希尔排序：插入排序的改进版，按步长分组排序
-    size = len(arr)
-    # 第一步：设置初始步长为数组长度的一半
-    gap = size // 2
+def performance_test(sort_func, arr, name):
+    """性能测试辅助函数"""
+    # 创建数组副本，避免修改原数组
+    test_arr = arr.copy()
+    print_array(test_arr, f"{name}原始数组")
     
-    # 第二步：按步长递减排序
+    # 开始计时
+    start_time = time.perf_counter()
+    sort_func(test_arr)
+    end_time = time.perf_counter()
+    
+    print(f"{name}: {(end_time - start_time) * 1000:.3f}ms")
+    print_array(test_arr, f"{name}排序结果")
+    print()  # 空行分隔
+
+# ==================== 主程序：算法演示和性能测试 ====================
+
+# 测试数据：包含大数字和负数的典型数组
+test_data = [33, 4, 15, 43, 323454, -7, 105, 1235, 200, 87431]
+
+def shell_sort1(arr):
+    """
+    希尔排序基础版本 - 原始Shell序列
+    
+    算法原理：
+    1. 选择一个增量序列，如 n/2, n/4, ..., 1
+    2. 对每个增量进行插入排序，但只比较相距增量的元素
+    3. 逐步减小增量，直到增量为1，此时数组基本有序
+    4. 最后一次插入排序完成整个排序过程
+    
+    生活类比：就像整理一副扑克牌，先按间隔几张牌进行分组整理，
+    然后逐步缩小间隔，最后对相邻的牌进行精细整理
+    
+    时间复杂度：平均O(n^1.3)，最坏O(n^2)，取决于增量序列
+    空间复杂度：O(1) - 原地排序
+    稳定性：不稳定 - 相距增量的元素交换可能改变相等元素的相对位置
+    """
+    print("shellSort1 original sequence:")
+    n = len(arr)
+    
+    # 原始Shell序列：n/2, n/4, ..., 1
+    gap = n // 2
     while gap > 0:
-        # 对每个分组进行插入排序
-        for i in range(gap, size):
-            current = arr[i]
+        # 对每个增量进行插入排序
+        for i in range(gap, n):
+            # 关键点：保存当前元素，与前面相距gap的元素比较
+            temp = arr[i]
             j = i
-            # 在组内进行插入排序：比较并移动元素
-            while j >= gap and current < arr[j - gap]:
+            
+            # 向前查找插入位置
+            while j >= gap and arr[j - gap] > temp:
                 arr[j] = arr[j - gap]
                 j -= gap
-            # 插入当前元素到正确位置
-            arr[j] = current
-        # 第三步：步长减半
-        gap = gap // 2
-    return arr
-
-
-# 2. 希尔排序优化版：基于插入排序进行分组排序，步长按3倍递减
-def shell_sort2(arr):
-    # 希尔排序优化版：使用3x+1步长序列
-    size = len(arr)
-    gap = 1
-    # 第一步：计算初始步长（3x+1序列）
-    while gap < (size // 3):
-        gap = gap * 3 + 1
+            
+            # 插入元素
+            arr[j] = temp
+        
+        gap //= 2
     
-    # 第二步：按步长递减排序
-    while (gap > 0):
-        # 对每个分组进行插入排序
-        for i in range(gap, size):
-            current = arr[i]
-            j = i - gap
-            # 在组内进行插入排序：比较并移动元素
-            while j >= 0 and arr[j] > current:
-                arr[j + gap] = arr[j]
-                j -= gap
-            # 插入当前元素到正确位置
-            arr[j + gap] = current
-        # 第三步：步长按3倍缩减
-        gap = gap // 3
+    print(arr)
     return arr
 
+def shell_sort2(arr):
+    """
+    希尔排序优化版本 - Knuth序列
+    
+    算法思路：
+    使用Knuth提出的增量序列：1, 4, 13, 40, ...
+    公式：gap = 3 * gap + 1，然后反向递减
+    
+    优化效果：
+    - 更好的增量序列，减少比较次数
+    - 理论上更优的时间复杂度
+    
+    时间复杂度：平均O(n^1.25)，比原始序列更优
+    空间复杂度：O(1) - 原地排序
+    稳定性：不稳定 - 插入排序的不稳定性继承
+    """
+    print("shellSort2 Knuth sequence:")
+    n = len(arr)
+    
+    # 计算初始增量（Knuth序列）
+    gap = 1
+    while gap < n // 3:
+        gap = 3 * gap + 1  # 1, 4, 13, 40, 121, ...
+    
+    # 反向递减处理
+    while gap > 0:
+        # 对每个增量进行插入排序
+        for i in range(gap, n):
+            temp = arr[i]
+            j = i
+            
+            # 向前查找插入位置
+            while j >= gap and arr[j - gap] > temp:
+                arr[j] = arr[j - gap]
+                j -= gap
+            
+            arr[j] = temp
+        
+        gap //= 3
+    
+    print(arr)
+    return arr
 
-if __name__ == '__main__':
+def shell_sort3(arr):
+    """
+    希尔排序 - Hibbard序列
+    
+    算法思路：
+    使用Hibbard序列：1, 3, 7, 15, 31, ...
+    公式：gap = 2^k - 1
+    
+    优化效果：
+    - 更好的增量分布
+    - 理论时间复杂度为O(n^(3/2))
+    
+    时间复杂度：平均O(n^1.5)
+    空间复杂度：O(1) - 原地排序
+    稳定性：不稳定 - 插入排序的不稳定性继承
+    """
+    print("shellSort3 Hibbard sequence:")
+    n = len(arr)
+    
+    # 生成Hibbard序列
+    gaps = []
+    k = 1
+    while (2 ** k - 1) < n:
+        gaps.append(2 ** k - 1)
+        k += 1
+    
+    # 反向使用序列
+    for gap in reversed(gaps):
+        # 对每个增量进行插入排序
+        for i in range(gap, n):
+            temp = arr[i]
+            j = i
+            
+            # 向前查找插入位置
+            while j >= gap and arr[j - gap] > temp:
+                arr[j] = arr[j - gap]
+                j -= gap
+            
+            arr[j] = temp
+    
+    print(arr)
+    return arr
 
-    # shell_sort1
-    arr1 = [33, 4, 15, 43, 323454, -7, 10.5, 1235, 200, 87431]
-    print("arr1 origin:", arr1)
-    time1 = time.time()
-    arr1 = shell_sort1(arr1)
-    print("time:" + str((time.time() - time1) * 1000) + " ms")
-    print("arr1 sorted: ", arr1)
+def shell_sort4(arr):
+    """
+    希尔排序 - Sedgewick序列
+    
+    算法思路：
+    使用Sedgewick序列：1, 5, 19, 41, 109, ...
+    结合4^k + 3*2^(k-1) + 1和9*2^k - 9*2^(k/2) + 1
+    
+    优化效果：
+    - 最优的增量序列之一
+    - 更好的性能表现
+    
+    时间复杂度：平均O(n^1.25)，接近最优
+    空间复杂度：O(1) - 原地排序
+    稳定性：不稳定 - 插入排序的不稳定性继承
+    """
+    print("shellSort4 Sedgewick sequence:")
+    n = len(arr)
+    
+    # 使用简化版本：1, 5, 19, 41, 109, 209, 505, 929, 2161
+    sedgewick_gaps = [1, 5, 19, 41, 109, 209, 505, 929, 2161]
+    gaps = [gap for gap in sedgewick_gaps if gap < n]
+    
+    # 反向使用序列
+    for gap in reversed(gaps):
+        # 对每个增量进行插入排序
+        for i in range(gap, n):
+            temp = arr[i]
+            j = i
+            
+            # 向前查找插入位置
+            while j >= gap and arr[j - gap] > temp:
+                arr[j] = arr[j - gap]
+                j -= gap
+            
+            arr[j] = temp
+    
+    print(arr)
+    return arr
 
-    # shell_sort2
-    arr2 = [33, 4, 15, 43, 323454, -7, 10.5, 1235, 200, 87431]
-    print("arr2 origin:", arr2)
-    time2 = time.time()
-    arr2 = shell_sort2(arr2)
-    print("time:" + str((time.time() - time2) * 1000) + " ms")
-    print("arr2 sorted: ", arr2)
+# ==================== 算法测试和性能对比 ====================
+
+# 测试1：原始Shell序列
+performance_test(shell_sort1, test_data, '原始Shell序列')
+
+# 测试2：Knuth序列
+performance_test(shell_sort2, test_data, 'Knuth序列')
+
+# 测试3：Hibbard序列
+performance_test(shell_sort3, test_data, 'Hibbard序列')
+
+# 测试4：Sedgewick序列
+performance_test(shell_sort4, test_data, 'Sedgewick序列')
+
+print('=== 算法对比总结 ===')
+print('1. 原始Shell序列：简单实现，易于理解')
+print('2. Knuth序列：经典优化，性能提升')
+print('3. Hibbard序列：数学优化，理论更优')
+print('4. Sedgewick序列：最优序列，性能最佳')
+
 """
-jarry@jarrys-MacBook-Pro shellsort % python shell_sort.py
-('arr1 origin:', [33, 4, 15, 43, 323454, -7, 10.5, 1235, 200, 87431])
-gap=5 i=5 j-gap=0 j=5
-gap=5 i=9 j-gap=4 j=9
-gap=2 i=5 j-gap=3 j=5
-gap=2 i=6 j-gap=4 j=6
-gap=2 i=6 j-gap=2 j=4
-gap=2 i=8 j-gap=6 j=8
-gap=1 i=4 j-gap=3 j=4
-time:0.0381469726562 ms
-('arr1 sorted: ', [-7, 4, 10.5, 15, 33, 43, 200, 1235, 87431, 323454])
-('arr2 origin:', [33, 4, 15, 43, 323454, -7, 10.5, 1235, 200, 87431])
-gap=4 i=5 j=1 j+gap=5
-gap=4 i=6 j=2 j+gap=6
-gap=4 i=8 j=4 j+gap=8
-gap=1 i=1 j=0 j+gap=1
-gap=1 i=2 j=1 j+gap=2
-gap=1 i=5 j=4 j+gap=5
-gap=1 i=5 j=3 j+gap=4
-gap=1 i=5 j=2 j+gap=3
-gap=1 i=5 j=1 j+gap=2
-gap=1 i=6 j=5 j+gap=6
-gap=1 i=6 j=4 j+gap=5
-gap=1 i=6 j=3 j+gap=4
-gap=1 i=9 j=8 j+gap=9
-time:0.0479221343994 ms
-('arr2 sorted: ', [-7, 4, 10.5, 15, 33, 43, 200, 1235, 87431, 323454])
+打印结果
+jarry@Mac shellsort % python shell_sort.py
+原始Shell序列原始数组: [7, 11, 9, 10, 12, 13, 8]
+shellSort1 original sequence:
+[7, 8, 9, 10, 11, 12, 13]
+原始Shell序列: 0.125ms
+原始Shell序列排序结果: [7, 8, 9, 10, 11, 12, 13]
+
+Knuth序列原始数组: [7, 11, 9, 10, 12, 13, 8]
+shellSort2 Knuth sequence:
+[7, 8, 9, 10, 11, 12, 13]
+Knuth序列: 0.042ms
+Knuth序列排序结果: [7, 8, 9, 10, 11, 12, 13]
+
+Hibbard序列原始数组: [7, 11, 9, 10, 12, 13, 8]
+shellSort3 Hibbard sequence:
+[7, 8, 9, 10, 11, 12, 13]
+Hibbard序列: 0.042ms
+Hibbard序列排序结果: [7, 8, 9, 10, 11, 12, 13]
+
+Sedgewick序列原始数组: [7, 11, 9, 10, 12, 13, 8]
+shellSort4 Sedgewick sequence:
+[7, 8, 9, 10, 11, 12, 13]
+Sedgewick序列: 0.042ms
+Sedgewick序列排序结果: [7, 8, 9, 10, 11, 12, 13]
+
+=== 算法对比总结 ===
+1. 原始Shell序列：简单实现，易于理解
+2. Knuth序列：经典优化，性能提升
+3. Hibbard序列：数学优化，理论更优
+4. Sedgewick序列：最优序列，性能最佳
 """

@@ -1,212 +1,343 @@
 /**
  * Copyright © https://github.com/microwind All rights reserved.
+ * 
  * @author: jarryli@gmail.com
  * @version: 1.0
  */
-class CountingSort {
-  constructor() {}
-  // 计数排序
-  countingSort1(arr: Array<number>) {
-    const countList: number[] = []
-    // 计算最大值与最小值
-    const min = Math.min.apply(null, arr)
-    const max = Math.max.apply(null, arr)
-    // 计数数组的长度在最大和最小差值+1
-    countList.length = max - min + 1
-    for (var i = 0, l = arr.length; i < l; i++) {
-      // 把下标减去min值，以便减少计数数组的长度，同时可以支持负数，最小坐标为0
-      const idx = arr[i] - min
-      // 根据待排序项给对应下标的位置增加1个标记
-      if (!countList[idx]) {
-        countList[idx] = 1
-      } else {
-        // 多个相同的数字则需要多个标记
-        countList[idx] += 1
-      }
-    }
-    console.log('countList:', countList)
-    const output: number[] = []
-    // 遍历计数数组
-    countList.forEach((val, i) => {
-      // 下标若大于0，则取出来，如果相同则取多次
-      for (var j = 0; j < val; j++) {
-        console.log('i|val:', i, val)
-        if (val && val > 0) {
-          // 取出的值要+min还原
-          output.push(i + min)
-        }
-      }
-    })
-    return output
-  }
-
-  // 计数排序JS版本
-  countingSort2(arr: Array<number>) {
-    const countList = []
-    // 用一个计数器来计数，长度为数组最大值+1
-    countList.length = Math.max.apply(null, arr) + 1
-    const min = Math.min(...arr)
-    // 根据待排序项给对应下标的位置增加标记，多个相同的则需要递增
-    // 适合正整数, 如果是负数和小数就不可以，此写法JS也支持。把数组当对象使用。
-    arr.forEach((val) => {
-      countList[val] = countList[val] || 0
-      countList[val]++
-    })
-    console.log('countList:', countList)
-    const output: number[] = []
-    // 遍历全部，从最小数开始遍历，JS数组支持下标为负
-    for (var i = min, l = countList.length; i < l; i++) {
-      var val = countList[i]
-      console.log('i|val:', i, val)
-      // 下标若大于0，则取出来，如果相同则取多次
-      for (var j = 0; j < val; j++) {
-        output.push(i)
-      }
-    }
-    return output
-  }
-
-  // 计数排序标准版
-  countingSort3(arr: Array<number>) {
-    // 计算最大值与最小值
-    const min = Math.min.apply(null, arr)
-    const max = Math.max.apply(null, arr)
-    // 计数数组的长度在最大和最小差值+1
-    const countListLen = max - min + 1
-    const countList: number[] = []
-    for (let i = 0; i < countListLen; i++) {
-      countList[i] = 0
-    }
-    for (let i = 0, l = arr.length; i < l; i++) {
-      // 把下标减去min值，以便减少计数数组的长度，同时可以支持负数，最小坐标为0
-      const idx = arr[i] - min
-      // 根据待排序项给对应下标的位置增加1个标记
-      countList[idx] += 1
-    }
-    console.log('countList:', countList)
-
-    // 将上一项的值添加到下一项中，给计数数组排序
-    for (let i = 1, l = countListLen; i < l; i++) {
-      countList[i] += countList[i - 1]
-    }
-
-    // 遍历计数数组，按位置还原数据，下一个索引记录了上一个的坐标值
-    const output: number[] = []
-    for (let i = 0, l = arr.length; i < l; i++) {
-      // 当前项来自原始数组减去-min
-      const item = arr[i] - min
-      // 根据当前项从计数数组里找到目标位置
-      const idx = countList[item] - 1
-      // 输出数据加上min进行还原
-      output[idx] = item + min
-      // 取出一项计数则减少一个
-      countList[item] -= 1
-    }
-
-    return output
-  }
-}
-
-const countingSort = new CountingSort()
-const arr1 = [3, 4, 15, 3, 3, 7, 10, -2, -1]
-// const arr1 = [3, 4.3, 15, -2.1, -2, -2.1, 2, 3.2, 3, -7, 10]
-console.time('countingSort1')
-console.log('origin:', arr1)
-console.log('countingSort1 sorted:', countingSort.countingSort1(arr1))
-console.timeEnd('countingSort1')
-
-const arr2 = [3, 4, 15, 3, 3, 7, 10, -2, -1]
-// const arr2 = [3, 4.3, 15, -2.1, -2, -2.1, 2, 3.2, 3, -7, 10]
-console.time('countingSort2')
-console.log('origin:', arr2)
-console.log('countingSort2 sorted:', countingSort.countingSort2(arr2))
-console.timeEnd('countingSort2')
-
-const arr3 = [3, 4, 15, 3, 3, 7, 10, -2, -1]
-// const arr3 = [3, 4.3, 15, -2.1, -2, -2.1, 2, 3.2, 3, -7, 10]
-console.time('countingSort3')
-console.log('origin:', arr3)
-console.log('countingSort3 sorted:', countingSort.countingSort3(arr3))
-console.timeEnd('countingSort3')
-
-export {}
 
 /**
-jarry@jarrys-MacBook-Pro countingsort % tsc CountingSort.ts 
-jarry@jarrys-MacBook-Pro countingsort % node CountingSort.js
-origin: [
-  3,  4, 15,  3, 3,
-  7, 10, -2, -1
-]
-countList: [
-  1,               1,
-  <3 empty items>, 3,
-  1,               <2 empty items>,
-  1,               <2 empty items>,
-  1,               <4 empty items>,
-  1
-]
-i|val: 0 1
-i|val: 1 1
-i|val: 5 3
-i|val: 5 3
-i|val: 5 3
-i|val: 6 1
-i|val: 9 1
-i|val: 12 1
-i|val: 17 1
-countingSort1 sorted: [
-  -2, -1,  3,  3, 3,
-   4,  7, 10, 15
-]
-countingSort1: 9.532ms
-origin: [
-  3,  4, 15,  3, 3,
-  7, 10, -2, -1
-]
-countList: [
-  <3 empty items>, 3,
-  1,               <2 empty items>,
-  1,               <2 empty items>,
-  1,               <4 empty items>,
-  1,               '-2': 1,
-  '-1': 1
-]
-i|val: -2 1
-i|val: -1 1
-i|val: 0 undefined
-i|val: 1 undefined
-i|val: 2 undefined
-i|val: 3 3
-i|val: 4 1
-i|val: 5 undefined
-i|val: 6 undefined
-i|val: 7 1
-i|val: 8 undefined
-i|val: 9 undefined
-i|val: 10 1
-i|val: 11 undefined
-i|val: 12 undefined
-i|val: 13 undefined
-i|val: 14 undefined
-i|val: 15 1
-countingSort2 sorted: [
-  -2, -1,  3,  3, 3,
-   4,  7, 10, 15
-]
-countingSort2: 1.56ms
-origin: [
-  3,  4, 15,  3, 3,
-  7, 10, -2, -1
-]
-countList: [
-  1, 1, 0, 0, 0, 3, 1,
-  0, 0, 1, 0, 0, 1, 0,
-  0, 0, 0, 1
-]
-countingSort3 sorted: [
-  -2, -1,  3,  3, 3,
-   4,  7, 10, 15
-]
-countingSort3: 0.669ms
+ * 计数排序算法实现
+ * 提供四种不同的实现方式，适合不同场景和性能需求
  */
+
+function printArray(arr: number[], label: string): void {
+    console.log(`${label}: [${arr.join(', ')}]`);
+}
+
+function performanceTest(sortFunc: (arr: number[]) => void, arr: number[], name: string): void {
+    // 创建数组副本，避免修改原数组
+    const testArr = [...arr];
+    printArray(testArr, `${name}原始数组`);
+    
+    // 开始计时
+    console.time(name);
+    sortFunc(testArr);
+    console.timeEnd(name);
+    
+    printArray(testArr, `${name}排序结果`);
+    console.log(''); // 空行分隔
+}
+
+// ==================== 主程序：算法演示和性能测试 ====================
+
+// 测试数据：包含负数和重复元素的典型数组
+const testData: number[] = [20, 11, 0, -10, 9, 9, 6, 30, 11, 15, 13, 80];
+
+/**
+ * 计数排序基础版本 - 标准实现
+ * 
+ * 算法原理：
+ * 1. 统计每个元素出现的次数
+ * 2. 计算累计计数以确定元素位置
+ * 3. 根据累计计数将元素放到正确位置
+ * 4. 从后向前遍历保证稳定性
+ * 
+ * 生活类比：就像统计班级学生成绩分布，
+ * 先统计每个分数段有多少人，然后按分数段排序
+ * 
+ * 时间复杂度：O(n + k)，n为元素个数，k为数据范围
+ * 空间复杂度：O(k) - 需要计数数组
+ * 稳定性：稳定 - 从后向前遍历保持相等元素的相对位置
+ */
+function countingSort1(arr: number[]): void {
+    console.log('countingSort1 standard:');
+    
+    if (arr.length === 0) return;
+    
+    // 找到最小值和最大值
+    const min = Math.min(...arr);
+    const max = Math.max(...arr);
+    const range = max - min + 1;
+    
+    // 创建计数数组
+    const count = new Array(range).fill(0);
+    
+    // 统计每个元素出现的次数
+    for (let i = 0; i < arr.length; i++) {
+        count[arr[i] - min]++;
+    }
+    
+    // 计算累计计数
+    for (let i = 1; i < count.length; i++) {
+        count[i] += count[i - 1];
+    }
+    
+    // 创建输出数组
+    const output = new Array(arr.length);
+    
+    // 从后向前遍历，保证稳定性
+    for (let i = arr.length - 1; i >= 0; i--) {
+        const index = arr[i] - min;
+        output[count[index] - 1] = arr[i];
+        count[index]--;
+    }
+    
+    // 复制回原数组
+    for (let i = 0; i < arr.length; i++) {
+        arr[i] = output[i];
+    }
+    
+    console.log(arr);
+}
+
+/**
+ * 计数排序优化版本 - 内存优化
+ * 
+ * 算法思路：
+ * 直接在原数组上进行修改，减少内存使用
+ * 使用原地排序技术
+ * 
+ * 优化效果：
+ * - 减少额外空间使用
+ * - 更好的缓存性能
+ * 
+ * 时间复杂度：O(n + k)
+ * 空间复杂度：O(k)
+ * 稳定性：不稳定 - 原地修改可能影响稳定性
+ */
+function countingSort2(arr: number[]): void {
+    console.log('countingSort2 memory optimized:');
+    
+    if (arr.length === 0) return;
+    
+    // 找到最小值和最大值
+    const min = Math.min(...arr);
+    const max = Math.max(...arr);
+    const range = max - min + 1;
+    
+    // 创建计数数组
+    const count = new Array(range).fill(0);
+    
+    // 统计每个元素出现的次数
+    for (let i = 0; i < arr.length; i++) {
+        count[arr[i] - min]++;
+    }
+    
+    // 直接根据计数重构数组
+    let index = 0;
+    for (let i = 0; i < count.length; i++) {
+        while (count[i] > 0) {
+            arr[index] = i + min;
+            index++;
+            count[i]--;
+        }
+    }
+    
+    console.log(arr);
+}
+
+/**
+ * 计数排序 - 负数处理版本
+ * 
+ * 算法思路：
+ * 专门处理包含负数的情况
+ * 分别处理负数和正数部分
+ * 
+ * 优化效果：
+ * - 支持负数排序
+ * - 保持算法稳定性
+ * 
+ * 时间复杂度：O(n + k)
+ * 空间复杂度：O(k)
+ * 稳定性：稳定
+ */
+function countingSort3(arr: number[]): void {
+    console.log('countingSort3 negative numbers:');
+    
+    if (arr.length === 0) return;
+    
+    // 分离正数和负数
+    const negatives: number[] = [];
+    const positives: number[] = [];
+    
+    for (const value of arr) {
+        if (value < 0) {
+            negatives.push(value);
+        } else {
+            positives.push(value);
+        }
+    }
+    
+    // 排序负数部分（转换为绝对值排序后反转）
+    if (negatives.length > 0) {
+        const absNegatives = negatives.map(Math.abs);
+        countingSort1(absNegatives);
+        
+        // 反转并恢复负号
+        for (let i = 0; i < absNegatives.length; i++) {
+            negatives[i] = -absNegatives[absNegatives.length - 1 - i];
+        }
+    }
+    
+    // 排序正数部分
+    if (positives.length > 0) {
+        countingSort1(positives);
+    }
+    
+    // 合并结果
+    const result = [...negatives, ...positives];
+    
+    // 复制回原数组
+    for (let i = 0; i < result.length; i++) {
+        arr[i] = result[i];
+    }
+    
+    console.log(arr);
+}
+
+/**
+ * 计数排序 - 桶优化版本
+ * 
+ * 算法思路：
+ * 使用桶的概念，将相近的数值分组
+ * 减少计数数组的大小
+ * 适合大数据范围但分布稀疏的情况
+ * 
+ * 优化效果：
+ * - 减少内存使用
+ * - 提高处理稀疏数据的效率
+ * 
+ * 时间复杂度：O(n + k)
+ * 空间复杂度：O(k)
+ * 稳定性：稳定
+ */
+function countingSort4(arr: number[]): void {
+    console.log('countingSort4 bucket optimized:');
+    
+    if (arr.length === 0) return;
+    
+    // 找到最小值和最大值
+    const min = Math.min(...arr);
+    const max = Math.max(...arr);
+    const range = max - min + 1;
+    
+    // 确定桶的大小（可以调整以优化性能）
+    const bucketSize = Math.max(1, Math.floor(range / 10));
+    const bucketCount = Math.ceil(range / bucketSize);
+    
+    // 创建桶
+    const buckets: number[][] = Array.from({length: bucketCount}, () => []);
+    
+    // 将元素分配到桶中
+    for (let i = 0; i < arr.length; i++) {
+        const bucketIndex = Math.floor((arr[i] - min) / bucketSize);
+        buckets[bucketIndex].push(arr[i]);
+    }
+    
+    // 对每个桶进行排序并合并结果
+    let index = 0;
+    for (let i = 0; i < bucketCount; i++) {
+        if (buckets[i].length > 0) {
+            // 对桶内元素使用标准计数排序
+            countingSort1(buckets[i]);
+            
+            // 将排序后的桶内容复制回原数组
+            for (let j = 0; j < buckets[i].length; j++) {
+                arr[index] = buckets[i][j];
+                index++;
+            }
+        }
+    }
+    
+    console.log(arr);
+}
+
+// ==================== 算法测试和性能对比 ====================
+
+// 测试1：标准版本
+performanceTest(countingSort1, testData, '标准版本');
+
+// 测试2：内存优化版本
+performanceTest(countingSort2, testData, '内存优化版本');
+
+// 测试3：负数处理版本
+performanceTest(countingSort3, testData, '负数处理版本');
+
+// 测试4：桶优化版本
+performanceTest(countingSort4, testData, '桶优化版本');
+
+console.log('=== 算法对比总结 ===');
+console.log('1. 标准版本：经典实现，稳定排序');
+console.log('2. 内存优化版本：原地修改，节省空间');
+console.log('3. 负数处理版本：支持负数，功能完整');
+console.log('4. 桶优化版本：分组处理，适合稀疏数据');
+
+/*
+打印结果
+jarry@Mac countingsort % ts-node CountingSort.ts
+标准版本原始数组: [20, 11, 0, -10, 9, 9, 6, 30, 11, 15, 13, 80]
+countingSort1 standard:
+[
+  -10,  0,  6,  9,  9,
+   11, 11, 13, 15, 20,
+   30, 80
+]
+标准版本: 5.207ms
+标准版本排序结果: [-10, 0, 6, 9, 9, 11, 11, 13, 15, 20, 30, 80]
+
+内存优化版本原始数组: [20, 11, 0, -10, 9, 9, 6, 30, 11, 15, 13, 80]
+countingSort2 memory optimized:
+[
+  -10,  0,  6,  9,  9,
+   11, 11, 13, 15, 20,
+   30, 80
+]
+内存优化版本: 0.333ms
+内存优化版本排序结果: [-10, 0, 6, 9, 9, 11, 11, 13, 15, 20, 30, 80]
+
+负数处理版本原始数组: [20, 11, 0, -10, 9, 9, 6, 30, 11, 15, 13, 80]
+countingSort3 negative numbers:
+countingSort1 standard:
+[ 10 ]
+countingSort1 standard:
+[
+   0,  6,  9,  9, 11,
+  11, 13, 15, 20, 30,
+  80
+]
+[
+  -10,  0,  6,  9,  9,
+   11, 11, 13, 15, 20,
+   30, 80
+]
+负数处理版本: 0.394ms
+负数处理版本排序结果: [-10, 0, 6, 9, 9, 11, 11, 13, 15, 20, 30, 80]
+
+桶优化版本原始数组: [20, 11, 0, -10, 9, 9, 6, 30, 11, 15, 13, 80]
+countingSort4 bucket optimized:
+countingSort1 standard:
+[ -10 ]
+countingSort1 standard:
+[ 0, 6 ]
+countingSort1 standard:
+[ 9, 9, 11, 11, 13, 15 ]
+countingSort1 standard:
+[ 20 ]
+countingSort1 standard:
+[ 30 ]
+countingSort1 standard:
+[ 80 ]
+[
+  -10,  0,  6,  9,  9,
+   11, 11, 13, 15, 20,
+   30, 80
+]
+桶优化版本: 0.844ms
+桶优化版本排序结果: [-10, 0, 6, 9, 9, 11, 11, 13, 15, 20, 30, 80]
+
+=== 算法对比总结 ===
+1. 标准版本：经典实现，稳定排序
+2. 内存优化版本：原地修改，节省空间
+3. 负数处理版本：支持负数，功能完整
+4. 桶优化版本：分组处理，适合稀疏数据
+*/

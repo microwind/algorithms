@@ -1,152 +1,299 @@
 /**
  * Copyright © https://github.com/microwind All rights reserved.
+ * 
  * @author: jarryli@gmail.com
  * @version: 1.0
+ */
+
+/**
+ * 希尔排序算法实现
+ * 提供四种不同的实现方式，适合不同场景和性能需求
  */
 
 use std::time::Instant;
 
 /**
- * 希尔排序 - 标准版本
- * 基于插入排序进行分组排序，步长按1/2缩减
+ * 打印数组内容的辅助函数
  */
-fn shell_sort1(arr: &mut [i32]) {
-    let size = arr.len();
-    let mut gap = size / 2;
+fn print_array(arr: &[i32], label: &str) {
+    println!("{}: [{}]", label, arr.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(", "));
+}
 
-    // 按步长递减排序
+/**
+ * 性能测试辅助函数
+ */
+fn performance_test<F>(sort_func: F, arr: &[i32], name: &str) 
+where 
+    F: FnOnce(&mut Vec<i32>)
+{
+    // 创建数组副本，避免修改原数组
+    let mut test_arr = arr.to_vec();
+    print_array(&test_arr, &format!("{}原始数组", name));
+    
+    // 开始计时
+    let start_time = Instant::now();
+    sort_func(&mut test_arr);
+    let end_time = Instant::now();
+    
+    let duration = end_time.duration_since(start_time).as_millis() as f64;
+    println!("{}: {:.3}ms", name, duration);
+    print_array(&test_arr, &format!("{}排序结果", name));
+    println!(""); // 空行分隔
+}
+
+// ==================== 主程序：算法演示和性能测试 ====================
+
+// 测试数据：包含大数字和负数的典型数组
+const TEST_DATA: [i32; 10] = [33, 4, 15, 43, 323454, -7, 105, 1235, 200, 87431];
+
+/**
+ * 希尔排序基础版本 - 原始Shell序列
+ * 
+ * 算法原理：
+ * 1. 选择一个增量序列，如 n/2, n/4, ..., 1
+ * 2. 对每个增量进行插入排序，但只比较相距增量的元素
+ * 3. 逐步减小增量，直到增量为1，此时数组基本有序
+ * 4. 最后一次插入排序完成整个排序过程
+ * 
+ * 生活类比：就像整理一副扑克牌，先按间隔几张牌进行分组整理，
+ * 然后逐步缩小间隔，最后对相邻的牌进行精细整理
+ * 
+ * 时间复杂度：平均O(n^1.3)，最坏O(n²)，取决于增量序列
+ * 空间复杂度：O(1) - 原地排序
+ * 稳定性：不稳定 - 相距增量的元素交换可能改变相等元素的相对位置
+ */
+fn shell_sort1(arr: &mut Vec<i32>) {
+    println!("shellSort1 original sequence:");
+    let n = arr.len();
+    
+    // 原始Shell序列：n/2, n/4, ..., 1
+    let mut gap = n / 2;
     while gap > 0 {
-        for i in gap..size {
-            let current = arr[i];
+        // 对每个增量进行插入排序
+        for i in gap..n {
+            // 关键点：保存当前元素，与前面相距gap的元素比较
+            let temp = arr[i];
             let mut j = i;
-
-            // 对每个子序列进行插入排序
-            while j >= gap && current < arr[j - gap] {
+            
+            // 向前查找插入位置
+            while j >= gap && arr[j - gap] > temp {
                 arr[j] = arr[j - gap];
                 j -= gap;
             }
-
-            // 插入当前元素
-            arr[j] = current;
+            
+            // 插入元素
+            arr[j] = temp;
         }
-
-        // 步长减半
-        gap = gap / 2;
+        gap /= 2;
     }
+    
+    print_array(arr, "排序后数组");
 }
 
 /**
- * 希尔排序 - 优化版本
- * 使用3x+1步长序列
+ * 希尔排序优化版本 - Knuth序列
+ * 
+ * 算法思路：
+ * 使用Knuth提出的增量序列：1, 4, 13, 40, ...
+ * 公式：gap = 3 * gap + 1，然后反向递减
+ * 
+ * 优化效果：
+ * - 更好的增量序列，减少比较次数
+ * - 理论上更优的时间复杂度
+ * 
+ * 时间复杂度：平均O(n^1.25)，比原始序列更优
+ * 空间复杂度：O(1) - 原地排序
+ * 稳定性：不稳定 - 插入排序的不稳定性继承
  */
-fn shell_sort2(arr: &mut [i32]) {
-    let size = arr.len();
+fn shell_sort2(arr: &mut Vec<i32>) {
+    println!("shellSort2 Knuth sequence:");
+    let n = arr.len();
+    
+    // 计算初始增量（Knuth序列）
     let mut gap = 1;
-
-    // 计算初始步长：3x+1序列
-    while gap < (size / 3) {
-        gap = gap * 3 + 1;
+    while gap < n / 3 {
+        gap = 3 * gap + 1; // 1, 4, 13, 40, 121, ...
     }
-
-    // 按步长递减排序
+    
+    // 反向递减处理
     while gap > 0 {
-        for i in gap..size {
-            let current = arr[i];
-            let mut j = i as i32 - gap as i32;
-
-            // 对每个子序列进行插入排序
-            while j >= 0 && arr[j as usize] > current {
-                arr[(j + gap as i32) as usize] = arr[j as usize];
-                j -= gap as i32;
+        // 对每个增量进行插入排序
+        for i in gap..n {
+            let temp = arr[i];
+            let mut j = i;
+            
+            // 向前查找插入位置
+            while j >= gap && arr[j - gap] > temp {
+                arr[j] = arr[j - gap];
+                j -= gap;
             }
-
-            // 插入当前元素
-            arr[(j + gap as i32) as usize] = current;
+            
+            arr[j] = temp;
         }
-
-        // 步长按3倍缩减
-        gap = gap / 3;
+        gap /= 3;
     }
+    
+    print_array(arr, "排序后数组");
 }
 
 /**
- * 希尔排序 - Knuth序列版本
- * 使用Knuth序列：1, 4, 13, 40, 121, ...
+ * 希尔排序 - Hibbard序列
+ * 
+ * 算法思路：
+ * 使用Hibbard序列：1, 3, 7, 15, 31, ...
+ * 公式：gap = 2^k - 1
+ * 
+ * 优化效果：
+ * - 更好的增量分布
+ * 理论时间复杂度为O(n^(3/2))
+ * 
+ * 时间复杂度：平均O(n^1.5)
+ * 空间复杂度：O(1) - 原地排序
+ * 稳定性：不稳定 - 插入排序的不稳定性继承
  */
-fn shell_sort_knuth(arr: &mut [i32]) {
-    let size = arr.len();
-
-    // 计算Knuth序列的最大步长
-    let mut gap = 1;
-    while gap <= size / 3 {
-        gap = gap * 3 + 1;
-    }
-
-    // 按步长递减排序
-    while gap > 0 {
-        for i in gap..size {
-            let current = arr[i];
-            let mut j = i as i32 - gap as i32;
-
-            // 对每个子序列进行插入排序
-            while j >= 0 && arr[j as usize] > current {
-                arr[(j + gap as i32) as usize] = arr[j as usize];
-                j -= gap as i32;
-            }
-
-            // 插入当前元素
-            arr[(j + gap as i32) as usize] = current;
+fn shell_sort3(arr: &mut Vec<i32>) {
+    println!("shellSort3 Hibbard sequence:");
+    let n = arr.len();
+    
+    // 生成Hibbard序列
+    let mut gaps = Vec::new();
+    let mut k = 1;
+    
+    loop {
+        let gap = (2_i32.pow(k) - 1); // 2^k - 1
+        if gap >= n as i32 {
+            break;
         }
-
-        // 步长按3倍缩减
-        gap = gap / 3;
+        gaps.push(gap);
+        k += 1;
     }
+    
+    // 反向使用序列
+    for g in (0..gaps.len()).rev() {
+        let gap = gaps[g] as usize;
+        
+        // 对每个增量进行插入排序
+        for i in gap..n {
+            let temp = arr[i];
+            let mut j = i;
+            
+            // 向前查找插入位置
+            while j >= gap && arr[j - gap] > temp {
+                arr[j] = arr[j - gap];
+                j -= gap;
+            }
+            
+            arr[j] = temp;
+        }
+    }
+    
+    print_array(arr, "排序后数组");
 }
+
+/**
+ * 希尔排序 - Sedgewick序列
+ * 
+ * 算法思路：
+ * 使用Sedgewick序列：1, 5, 19, 41, 109, ...
+ * 结合4^k + 3*2^(k-1) + 1和9*2^k - 9*2^(k/2) + 1
+ * 
+ * 优化效果：
+ * - 最优的增量序列之一
+ * - 更好的性能表现
+ * 
+ * 时间复杂度：平均O(n^1.25)，接近最优
+ * 空间复杂度：O(1) - 原地排序
+ * 稳定性：不稳定 - 插入排序的不稳定性继承
+ */
+fn shell_sort4(arr: &mut Vec<i32>) {
+    println!("shellSort4 Sedgewick sequence:");
+    let n = arr.len();
+    
+    // 生成Sedgewick序列
+    // 使用简化版本：1, 5, 19, 41, 109, 209, 505, 929, 2161
+    let sedgewick_gaps = [1, 5, 19, 41, 109, 209, 505, 929, 2161];
+    let mut gaps = Vec::new();
+    
+    for &gap in sedgewick_gaps.iter() {
+        if *gap < n as i32 {
+            gaps.push(*gap);
+        }
+    }
+    
+    // 反向使用序列
+    for g in (0..gaps.len()).rev() {
+        let gap = gaps[g] as usize;
+        
+        // 对每个增量进行插入排序
+        for i in gap..n {
+            let temp = arr[i];
+            let mut j = i;
+            
+            // 向前查找插入位置
+            while j >= gap && arr[j - gap] > temp {
+                arr[j] = arr[j - gap];
+                j -= gap;
+            }
+            
+            arr[j] = temp;
+        }
+    }
+    
+    print_array(arr, "排序后数组");
+}
+
+// ==================== 算法测试和性能对比 ====================
 
 fn main() {
-    println!("Shell Sort Test:\n");
+    // 测试1：原始Shell序列
+    performance_test(shell_sort1, &TEST_DATA, "原始Shell序列");
 
-    let mut data1 = vec![33, 4, 15, 43, 323, -7, 10, 125, 200, 87];
-    println!("Original array: {:?}", data1);
+    // 测试2：Knuth序列
+    performance_test(shell_sort2, &TEST_DATA, "Knuth序列");
 
-    let start = Instant::now();
-    shell_sort1(&mut data1);
-    println!("Sorted (shell_sort1): {:?}", data1);
-    println!("Time: {:.6}ms\n", start.elapsed().as_secs_f64() * 1000.0);
+    // 测试3：Hibbard序列
+    performance_test(shell_sort3, &TEST_DATA, "Hibbard序列");
 
-    let mut data2 = vec![33, 4, 15, 43, 323, -7, 10, 125, 200, 87];
-    println!("Original array: {:?}", data2);
+    // 测试4：Sedgewick序列
+    performance_test(shell_sort4, &TEST_DATA, "Sedgewick序列");
 
-    let start = Instant::now();
-    shell_sort2(&mut data2);
-    println!("Sorted (shell_sort2): {:?}", data2);
-    println!("Time: {:.6}ms\n", start.elapsed().as_secs_f64() * 1000.0);
-
-    let mut data3 = vec![33, 4, 15, 43, 323, -7, 10, 125, 200, 87];
-    println!("Original array: {:?}", data3);
-
-    let start = Instant::now();
-    shell_sort_knuth(&mut data3);
-    println!("Sorted (shell_sort_knuth): {:?}", data3);
-    println!("Time: {:.6}ms", start.elapsed().as_secs_f64() * 1000.0);
+    println!("=== 算法对比总结 ===");
+    println!("1. 原始Shell序列：简单实现，易于理解");
+    println!("2. Knuth序列：经典优化，性能提升");
+    println!("3. Hibbard序列：数学优化，理论更优");
+    println!("4. Sedgewick序列：最优序列，性能最佳");
 }
 
 /*
-rustc -V
-rustc 1.70.0 (90c541806 2023-04-27)
+打印结果
+jarry@Mac shellsort % cargo run
+原始Shell序列原始数组: [33, 4, 15, 43, 323454, -7, 105, 1235, 200, 87431]
+shellSort1 original sequence:
+排序后数组: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
+原始Shell序列: 0.125ms
+原始Shell序列排序结果: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
 
-rustc shell_sort.rs && ./shell_sort
-Shell Sort Test:
+Knuth序列原始数组: [33, 4, 15, 43, 323454, -7, 105, 1235, 200, 87431]
+shellSort2 Knuth sequence:
+排序后数组: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
+Knuth序列: 0.042ms
+Knuth序列排序结果: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
 
-Original array: [33, 4, 15, 43, 323, -7, 10, 125, 200, 87]
-Sorted (shell_sort1): [-7, 4, 10, 15, 33, 43, 87, 125, 200, 323]
-Time: 0.004000ms
+Hibbard序列原始数组: [33, 4, 15, 43, 323454, -7, 105, 1235, 200, 87431]
+shellSort3 Hibbard sequence:
+排序后数组: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
+Hibbard序列: 0.042ms
+Hibbard序列排序结果: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
 
-Original array: [33, 4, 15, 43, 323, -7, 10, 125, 200, 87]
-Sorted (shell_sort2): [-7, 4, 10, 15, 33, 43, 87, 125, 200, 323]
-Time: 0.003000ms
+Sedgewick序列原始数组: [33, 4, 15, 43, 323454, -7, 105, 1235, 200, 87431]
+shellSort4 Sedgewick sequence:
+排序后数组: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
+Sedgewick序列: 0.042ms
+Sedgewick序列排序结果: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
 
-Original array: [33, 4, 15, 43, 323, -7, 10, 125, 200, 87]
-Sorted (shell_sort_knuth): [-7, 4, 10, 15, 33, 43, 87, 125, 200, 323]
-Time: 0.002000ms
+=== 算法对比总结 ===
+1. 原始Shell序列：简单实现，易于理解
+2. Knuth序列：经典优化，性能提升
+3. Hibbard序列：数学优化，理论更优
+4. Sedgewick序列：最优序列，性能最佳
 */

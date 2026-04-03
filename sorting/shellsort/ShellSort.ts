@@ -1,232 +1,277 @@
 /**
  * Copyright © https://github.com/microwind All rights reserved.
+ * 
  * @author: jarryli@gmail.com
  * @version: 1.0
  */
 
-/* 1. 希尔排序标准版，基于插入排序进行分组排序，步长按1/2缩减。 */
-class ShellSort {
-  shellSort1(arr: number[]): number[] {
-    const len = arr.length
-    // 设置分组增量值（步长）为1/2的数组长度
-    let gap = Math.floor(len / 2)
-    // 根据步长得到子序列，如果间隔大于0，则表示还可以继续分组
-    while (gap > 0) {
-      for (let i = gap; i < len; i++) {
-        const current = arr[i]
-        let j = i
-        // 对子序列按照插入排序
-        while (j >= gap && current < arr[j - gap]) {
-          console.log(
-            'gap=' + gap + ' i=' + i + ' j=' + j + ' (j - gap)=' + (j - gap),
-            'arr:',
-            arr
-          )
-          arr[j] = arr[j - gap]
-          j -= gap
-        }
-        // 交换当前项
-        arr[j] = current
-      }
-      // 调整步长为1/2
-      gap = Math.floor(gap / 2)
-    }
-    return arr
-  }
+/**
+ * 希尔排序算法实现
+ * 提供四种不同的实现方式，适合不同场景和性能需求
+ */
 
-  /* 2. 希尔排序，基于插入排序进行分组排序，步长按3倍递减。 */
-  shellSort2(arr: number[]): number[] {
-    const len = arr.length
-    let gap = 1
-    // 初始步长按3倍递增，小于1/3数组长度
-    while (gap < Math.floor(len / 3)) {
-      gap = gap * 3 + 1
-    }
-    // 根据步长得到子序列，如果间隔大于0，则表示还可以继续分组
-    while (gap > 0) {
-      for (let i = gap; i < len; i++) {
-        const current = arr[i]
-        let j = i - gap
-        // 对子序列按照插入排序
-        for (; j >= 0 && arr[j] > current; j -= gap) {
-          console.log(
-            'gap=' + gap + ' i=' + i + ' j=' + j + ' (j + gap)=' + (j + gap),
-            'arr:',
-            arr
-          )
-          arr[j + gap] = arr[j]
-        }
-        arr[j + gap] = current
-      }
-      // 步长按3倍缩减
-      gap = Math.floor(gap / 3)
-    }
-    return arr
-  }
+function printArray(arr: number[], label: string): void {
+    console.log(`${label}: [${arr.join(', ')}]`);
 }
 
-;(function () {
-  const shellSort = new ShellSort()
-  const arr1 = [33, 4, 15, 43, 323454, -7, 10.5, 1235, 200, 87431]
-  console.time('shellSort1')
-  console.log('origin shellSort1:', arr1)
-  console.log('shellSort1 sorted:', shellSort.shellSort1(arr1))
-  console.timeEnd('shellSort1')
+function performanceTest(sortFunc: (arr: number[]) => void, arr: number[], name: string): void {
+    // 创建数组副本，避免修改原数组
+    const testArr = [...arr];
+    printArray(testArr, `${name}原始数组`);
+    
+    // 开始计时
+    console.time(name);
+    sortFunc(testArr);
+    console.timeEnd(name);
+    
+    printArray(testArr, `${name}排序结果`);
+    console.log(''); // 空行分隔
+}
 
-  const arr2 = [33, 4, 15, 43, 323454, -7, 10.5, 1235, 200, 87431]
-  console.time('shellSort2')
-  console.log('origin shellSort2:', arr2)
-  console.log('shellSort2 sorted:', shellSort.shellSort2(arr2))
-  console.timeEnd('shellSort2')
-})()
+// ==================== 主程序：算法演示和性能测试 ====================
+
+// 测试数据：包含大数字和负数的典型数组
+const shellTestData: number[] = [33, 4, 15, 43, 323454, -7, 105, 1235, 200, 87431];
+
+function shellSort1(arr: number[]): void {
+    /**
+     * 希尔排序基础版本 - 原始Shell序列
+     * 
+     * 算法原理：
+     * 1. 选择一个增量序列，如 n/2, n/4, ..., 1
+     * 2. 对每个增量进行插入排序，但只比较相距增量的元素
+     * 3. 逐步减小增量，直到增量为1，此时数组基本有序
+     * 4. 最后一次插入排序完成整个排序过程
+     * 
+     * 生活类比：就像整理一副扑克牌，先按间隔几张牌进行分组整理，
+     * 然后逐步缩小间隔，最后对相邻的牌进行精细整理
+     * 
+     * 时间复杂度：平均O(n^1.3)，最坏O(n^2)，取决于增量序列
+     * 空间复杂度：O(1) - 原地排序
+     * 稳定性：不稳定 - 相距增量的元素交换可能改变相等元素的相对位置
+     */
+    console.log('shellSort1 original sequence:');
+    const n = arr.length;
+    
+    // 原始Shell序列：n/2, n/4, ..., 1
+    for (let gap = Math.floor(n / 2); gap > 0; gap = Math.floor(gap / 2)) {
+        // 对每个增量进行插入排序
+        for (let i = gap; i < n; i++) {
+            // 关键点：保存当前元素，与前面相距gap的元素比较
+            const temp = arr[i];
+            let j = i;
+            
+            // 向前查找插入位置
+            while (j >= gap && arr[j - gap] > temp) {
+                arr[j] = arr[j - gap];
+                j -= gap;
+            }
+            
+            // 插入元素
+            arr[j] = temp;
+        }
+    }
+    
+    console.log(arr);
+}
+
+function shellSort2(arr: number[]): void {
+    /**
+     * 希尔排序优化版本 - Knuth序列
+     * 
+     * 算法思路：
+     * 使用Knuth提出的增量序列：1, 4, 13, 40, ...
+     * 公式：gap = 3 * gap + 1，然后反向递减
+     * 
+     * 优化效果：
+     * - 更好的增量序列，减少比较次数
+     * - 理论上更优的时间复杂度
+     * 
+     * 时间复杂度：平均O(n^1.25)，比原始序列更优
+     * 空间复杂度：O(1) - 原地排序
+     * 稳定性：不稳定 - 插入排序的不稳定性继承
+     */
+    console.log('shellSort2 Knuth sequence:');
+    const n = arr.length;
+    
+    // 计算初始增量（Knuth序列）
+    let gap = 1;
+    while (gap < Math.floor(n / 3)) {
+        gap = 3 * gap + 1; // 1, 4, 13, 40, 121, ...
+    }
+    
+    // 反向递减处理
+    for (; gap > 0; gap = Math.floor(gap / 3)) {
+        // 对每个增量进行插入排序
+        for (let i = gap; i < n; i++) {
+            const temp = arr[i];
+            let j = i;
+            
+            // 向前查找插入位置
+            while (j >= gap && arr[j - gap] > temp) {
+                arr[j] = arr[j - gap];
+                j -= gap;
+            }
+            
+            arr[j] = temp;
+        }
+    }
+    
+    console.log(arr);
+}
+
+function shellSort3(arr: number[]): void {
+    /**
+     * 希尔排序 - Hibbard序列
+     * 
+     * 算法思路：
+     * 使用Hibbard序列：1, 3, 7, 15, 31, ...
+     * 公式：gap = 2^k - 1
+     * 
+     * 优化效果：
+     * - 更好的增量分布
+     * 理论时间复杂度为O(n^(3/2))
+     * 
+     * 时间复杂度：平均O(n^1.5)
+     * 空间复杂度：O(1) - 原地排序
+     * 稳定性：不稳定 - 插入排序的不稳定性继承
+     */
+    console.log('shellSort3 Hibbard sequence:');
+    const n = arr.length;
+    
+    // 生成Hibbard序列
+    const gaps: number[] = [];
+    let k = 1;
+    while (true) {
+        const gap = Math.pow(2, k) - 1; // 2^k - 1
+        if (gap >= n) break;
+        gaps.push(gap);
+        k++;
+    }
+    
+    // 反向使用序列
+    for (let g = gaps.length - 1; g >= 0; g--) {
+        const gap = gaps[g];
+        
+        // 对每个增量进行插入排序
+        for (let i = gap; i < n; i++) {
+            const temp = arr[i];
+            let j = i;
+            
+            // 向前查找插入位置
+            while (j >= gap && arr[j - gap] > temp) {
+                arr[j] = arr[j - gap];
+                j -= gap;
+            }
+            
+            arr[j] = temp;
+        }
+    }
+    
+    console.log(arr);
+}
+
+function shellSort4(arr: number[]): void {
+    /**
+     * 希尔排序 - Sedgewick序列
+     * 
+     * 算法思路：
+     * 使用Sedgewick序列：1, 5, 19, 41, 109, ...
+     * 结合4^k + 3*2^(k-1) + 1和9*2^k - 9*2^(k/2) + 1
+     * 
+     * 优化效果：
+     * - 最优的增量序列之一
+     * - 更好的性能表现
+     * 
+     * 时间复杂度：平均O(n^1.25)，接近最优
+     * 空间复杂度：O(1) - 原地排序
+     * 稳定性：不稳定 - 插入排序的不稳定性继承
+     */
+    console.log('shellSort4 Sedgewick sequence:');
+    const n = arr.length;
+    
+    // 生成Sedgewick序列
+    // 使用简化版本：1, 5, 19, 41, 109, 209, 505, 929, 2161
+    const sedgewickGaps = [1, 5, 19, 41, 109, 209, 505, 929, 2161];
+    const gaps: number[] = [];
+    for (const gap of sedgewickGaps) {
+        if (gap < n) {
+            gaps.push(gap);
+        }
+    }
+    
+    // 反向使用序列
+    for (let g = gaps.length - 1; g >= 0; g--) {
+        const gap = gaps[g];
+        
+        // 对每个增量进行插入排序
+        for (let i = gap; i < n; i++) {
+            const temp = arr[i];
+            let j = i;
+            
+            // 向前查找插入位置
+            while (j >= gap && arr[j - gap] > temp) {
+                arr[j] = arr[j - gap];
+                j -= gap;
+            }
+            
+            arr[j] = temp;
+        }
+    }
+    
+    console.log(arr);
+}
+
+// ==================== 算法测试和性能对比 ====================
+
+// 测试1：原始Shell序列
+performanceTest(shellSort1, shellTestData, '原始Shell序列');
+
+// 测试2：Knuth序列
+performanceTest(shellSort2, shellTestData, 'Knuth序列');
+
+// 测试3：Hibbard序列
+performanceTest(shellSort3, shellTestData, 'Hibbard序列');
+
+// 测试4：Sedgewick序列
+performanceTest(shellSort4, shellTestData, 'Sedgewick序列');
+
+console.log('=== 算法对比总结 ===');
+console.log('1. 原始Shell序列：简单实现，易于理解');
+console.log('2. Knuth序列：经典优化，性能提升');
+console.log('3. Hibbard序列：数学优化，理论更优');
+console.log('4. Sedgewick序列：最优序列，性能最佳');
 
 /*
-jarry@jarrys-MacBook-Pro shellsort % tsc ShellSort.ts -t es2020
-jarry@jarrys-MacBook-Pro shellsort % node ShellSort.js
-origin shellSort1: [
-     33,      4,  15,
-     43, 323454,  -7,
-   10.5,   1235, 200,
-  87431
-]
-gap=5 i=5 j=5 (j - gap)=0 arr: [
-     33,      4,  15,
-     43, 323454,  -7,
-   10.5,   1235, 200,
-  87431
-]
-gap=5 i=9 j=9 (j - gap)=4 arr: [
-     -7,      4,  15,
-     43, 323454,  33,
-   10.5,   1235, 200,
-  87431
-]
-gap=2 i=5 j=5 (j - gap)=3 arr: [
-      -7,     4,  15,
-      43, 87431,  33,
-    10.5,  1235, 200,
-  323454
-]
-gap=2 i=6 j=6 (j - gap)=4 arr: [
-      -7,     4,  15,
-      33, 87431,  43,
-    10.5,  1235, 200,
-  323454
-]
-gap=2 i=6 j=4 (j - gap)=2 arr: [
-      -7,     4,  15,
-      33, 87431,  43,
-   87431,  1235, 200,
-  323454
-]
-gap=2 i=8 j=8 (j - gap)=6 arr: [
-      -7,    4, 10.5,
-      33,   15,   43,
-   87431, 1235,  200,
-  323454
-]
-gap=1 i=4 j=4 (j - gap)=3 arr: [
-      -7,    4,  10.5,
-      33,   15,    43,
-     200, 1235, 87431,
-  323454
-]
-shellSort1 sorted: [
-      -7,    4,  10.5,
-      15,   33,    43,
-     200, 1235, 87431,
-  323454
-]
-shellSort1: 10.398ms
-origin shellSort2: [
-     33,      4,  15,
-     43, 323454,  -7,
-   10.5,   1235, 200,
-  87431
-]
-gap=4 i=5 j=1 (j + gap)=5 arr: [
-     33,      4,  15,
-     43, 323454,  -7,
-   10.5,   1235, 200,
-  87431
-]
-gap=4 i=6 j=2 (j + gap)=6 arr: [
-     33,     -7,  15,
-     43, 323454,   4,
-   10.5,   1235, 200,
-  87431
-]
-gap=4 i=8 j=4 (j + gap)=8 arr: [
-     33,     -7, 10.5,
-     43, 323454,    4,
-     15,   1235,  200,
-  87431
-]
-gap=1 i=1 j=0 (j + gap)=1 arr: [
-     33,   -7,   10.5,
-     43,  200,      4,
-     15, 1235, 323454,
-  87431
-]
-gap=1 i=2 j=1 (j + gap)=2 arr: [
-     -7,   33,   10.5,
-     43,  200,      4,
-     15, 1235, 323454,
-  87431
-]
-gap=1 i=5 j=4 (j + gap)=5 arr: [
-     -7, 10.5,     33,
-     43,  200,      4,
-     15, 1235, 323454,
-  87431
-]
-gap=1 i=5 j=3 (j + gap)=4 arr: [
-     -7, 10.5,     33,
-     43,  200,    200,
-     15, 1235, 323454,
-  87431
-]
-gap=1 i=5 j=2 (j + gap)=3 arr: [
-     -7, 10.5,     33,
-     43,   43,    200,
-     15, 1235, 323454,
-  87431
-]
-gap=1 i=5 j=1 (j + gap)=2 arr: [
-     -7, 10.5,     33,
-     33,   43,    200,
-     15, 1235, 323454,
-  87431
-]
-gap=1 i=6 j=5 (j + gap)=6 arr: [
-     -7,    4,   10.5,
-     33,   43,    200,
-     15, 1235, 323454,
-  87431
-]
-gap=1 i=6 j=4 (j + gap)=5 arr: [
-     -7,    4,   10.5,
-     33,   43,    200,
-    200, 1235, 323454,
-  87431
-]
-gap=1 i=6 j=3 (j + gap)=4 arr: [
-     -7,    4,   10.5,
-     33,   43,     43,
-    200, 1235, 323454,
-  87431
-]
-gap=1 i=9 j=8 (j + gap)=9 arr: [
-     -7,    4,   10.5,
-     15,   33,     43,
-    200, 1235, 323454,
-  87431
-]
-shellSort2 sorted: [
-      -7,    4,  10.5,
-      15,   33,    43,
-     200, 1235, 87431,
-  323454
-]
-shellSort2: 1.812ms
+打印结果
+jarry@Mac shellsort % ts-node shell_sort.ts
+原始Shell序列原始数组: [33, 4, 15, 43, 323454, -7, 105, 1235, 200, 87431]
+shellSort1 original sequence:
+[-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
+原始Shell序列: 0.791ms
+原始Shell序列排序结果: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
+
+Knuth序列原始数组: [33, 4, 15, 43, 323454, -7, 105, 1235, 200, 87431]
+shellSort2 Knuth sequence:
+[-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
+Knuth序列: 0.093ms
+Knuth序列排序结果: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
+
+Hibbard序列原始数组: [33, 4, 15, 43, 323454, -7, 105, 1235, 200, 87431]
+shellSort3 Hibbard sequence:
+[-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
+Hibbard序列: 0.091ms
+Hibbard序列排序结果: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
+
+Sedgewick序列原始数组: [33, 4, 15, 43, 323454, -7, 105, 1235, 200, 87431]
+shellSort4 Sedgewick sequence:
+[-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
+Sedgewick序列: 0.07ms
+Sedgewick序列排序结果: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
+
+=== 算法对比总结 ===
+1. 原始Shell序列：简单实现，易于理解
+2. Knuth序列：经典优化，性能提升
+3. Hibbard序列：数学优化，理论更优
+4. Sedgewick序列：最优序列，性能最佳
 */

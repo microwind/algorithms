@@ -1,4 +1,12 @@
 """
+ * Copyright © https://github.com/microwind All rights reserved.
+ * 
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ */
+"""
+
+"""
 插值查找 - Interpolation Search
 适用于均匀分布的有序数组
 """

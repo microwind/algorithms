@@ -1,38 +1,139 @@
-## 【合并两个已排序数组算法详解】Java/Go/Python/JS不同语言实现
+## 【合并已排序数组的三种实现策略，哪一种更可取？】
 
 ## 说明
 
-合并两个已排序的数组，这再算法中经常遇到。
+合并两个已排序的数组，这在算法中经常遇到，特别是在归并排序算法中。这里分析下几种实现策略。
 
-策略：
-策略一：双指针法，建立1个新数组，长度为两个数组的长度之和。从两个数组的第1项开始比较，将数值小的一项添加到新数组中，并将数值小的指针右移1位，继续两两比较，哪个小就添加到新数组中，并且右移小项的指针，直到遍历完其中一个数组，也就是把1个数组项全部添加到新数组时终止。最后再将剩余那个数组项追击到新数组即可。
+## **三种实现策略**
 
-策略二：将数组1和数组2先合在一起，然后当成一个新数组排序，这样的排序采用普通排序算法即可。因为两个都是已排序了的数组，在遍历时，可以从后面的数组开始，前面已排序数组无需再排。
+### 策略一：双指针法
 
-策略三：将一个数组的长度扩展成两个数组之和，按照任意一种排序，将这个数组当成是已排序部分，遍历另外1个数组，将另外1个数组项逐个插入到这个数组中的位置中去。
+*   **思路**：使用两个指针分别指向两个数组，同时遍历比较
+*   **优势**：时间复杂度最优，逻辑清晰
+*   **适用场景**：大多数情况下的首选方案
 
-## 实现过程
+### 策略二：插入法
 
-1. 新建1个空数组，长度为两个数组之和
-2. 同时遍历数组1和数组2，比较数组1和数组2里的第一项，哪个小就追加到新数组中，小项的指针后移1位
-3. 继续遍历，直到数组1或数组2完成遍历
-4. 将另外1个数组剩余的内容追加到新数组
+*   **思路**：将一个数组的元素逐个插入到另一个数组中
+*   **优势**：空间复杂度低，原地操作
+*   **适用场景**：内存受限，小数据量
 
-## 示意图
+### 策略三：合并排序法
 
-![合并已排序](../../resources/images/sort/merge-sorted1.png)
-![合并已排序](../../resources/images/sort/merge-sorted2.gif)
+*   **思路**：先合并数组再进行排序
+*   **优势**：实现简单，易于理解
+*   **适用场景**：快速原型，教学演示
+
+## 流程图
+
+### 双指针法流程图
+
+```mermaid
+graph LR
+    A[开始] --> B[初始化结果数组和三个指针]
+    B --> C[两个数组都未遍历完]
+    C -->|是| D[arr1当前元素 <= arr2当前元素]
+    D -->|是| E[将arr1当前元素放入结果<br>移动arr1指针]
+    D -->|否| F[将arr2当前元素放入结果<br>移动arr2指针]
+    E --> G[结果指针后移]
+    F --> G
+    G --> C
+    C -->|否| H[将未遍历完的数组剩余元素<br>复制到结果数组]
+    H --> I[返回结果数组]
+
+    %% 样式定义
+    style A fill:#111827,color:#ffffff,stroke:#000000,stroke-width:2px,rx:12,ry:12
+    style B fill:#11908A,stroke:#0F6E56,color:#ffffff,rx:10,ry:10
+    style C fill:#534AB7,stroke:#3C3489,color:#ffffff,rx:10,ry:10
+    style D fill:#D85A30,stroke:#993C1D,color:#ffffff,rx:10,ry:10
+    style E fill:#BA7517,stroke:#854F0B,color:#ffffff,rx:10,ry:10
+    style F fill:#185FA5,stroke:#0C447C,color:#ffffff,rx:10,ry:10
+    style G fill:#11908A,stroke:#0F6E56,color:#ffffff,rx:10,ry:10
+    style H fill:#534AB7,stroke:#3C3489,color:#ffffff,rx:10,ry:10
+    style I fill:#D85A30,stroke:#993C1D,color:#ffffff,rx:10,ry:10
+```
+
+### 插入法流程图
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 50, 'rankSpacing': 30, 'padding': 20}}}%%
+graph LR
+    A[开始] --> B[遍历数组1的每个元素]
+    B --> C[在数组2中找到插入位置]
+    C --> D["找到合适位置?"]
+    D -->|是| E[插入元素并移动后续元素]
+    D -->|否| F[添加到数组2末尾]
+    E --> G["数组1遍历完成?"]
+    F --> G
+    G -->|否| B
+    G -->|是| H[返回合并后的数组2]
+
+    %% 样式定义
+    style A fill:#111827,color:#ffffff,stroke:#000000,stroke-width:2px,rx:12,ry:12
+    style B fill:#11908A,stroke:#0F6E56,color:#ffffff,rx:10,ry:10
+    style C fill:#534AB7,stroke:#3C3489,color:#ffffff,rx:10,ry:10
+    style D fill:#D85A30,stroke:#993C1D,color:#ffffff,rx:10,ry:10
+    style E fill:#BA7517,stroke:#854F0B,color:#ffffff,rx:10,ry:10
+    style F fill:#185FA5,stroke:#0C447C,color:#ffffff,rx:10,ry:10
+    style G fill:#11908A,stroke:#0F6E56,color:#ffffff,rx:10,ry:10
+    style H fill:#111827,color:#ffffff,stroke:#000000,stroke-width:2px,rx:12,ry:12
+```
+
+### 合并排序法流程图
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 50, 'rankSpacing': 30, 'padding': 20}}}%%
+graph LR
+    A[开始] --> B[合并两个数组]
+    B --> C[创建结果数组]
+    C --> D[复制数组1元素]
+    D --> E[复制数组2元素]
+    E --> F[从数组2开始位置进行插入排序]
+    F --> G["排序完成?"]
+    G -->|否| H[继续插入排序]
+    G -->|是| I[返回排序后的数组]
+    H --> G
+
+    %% 样式定义
+    style A fill:#111827,color:#ffffff,stroke:#000000,stroke-width:2px,rx:12,ry:12
+    style B fill:#11908A,stroke:#0F6E56,color:#ffffff,rx:10,ry:10
+    style C fill:#534AB7,stroke:#3C3489,color:#ffffff,rx:10,ry:10
+    style D fill:#D85A30,stroke:#993C1D,color:#ffffff,rx:10,ry:10
+    style E fill:#BA7517,stroke:#854F0B,color:#ffffff,rx:10,ry:10
+    style F fill:#185FA5,stroke:#0C447C,color:#ffffff,rx:10,ry:10
+    style G fill:#11908A,stroke:#0F6E56,color:#ffffff,rx:10,ry:10
+    style H fill:#534AB7,stroke:#3C3489,color:#ffffff,rx:10,ry:10
+    style I fill:#111827,color:#ffffff,stroke:#000000,stroke-width:2px,rx:12,ry:12
+```
 
 ## 性能分析
 
-平均时间复杂度：O(nlogn)
-最佳时间复杂度：O(n)
-最差时间复杂度：O(nlogn)
-空间复杂度：O(n)
-排序方式：In-place
-稳定性：稳定
+| 算法        | 时间复杂度     | 空间复杂度  | 稳定性 | 推荐场景        |
+| --------- | --------- | ------ | --- | ----------- |
+| **双指针法**  | O(n+m)    | O(n+m) | 稳定  | ⭐⭐⭐⭐⭐ 大多数场景 |
+| **插入法**   | O(n\*m)   | O(1)   | 稳定  | ⭐⭐⭐ 内存受限    |
+| **合并排序法** | O((n+m)²) | O(n+m) | 稳定  | ⭐⭐ 快速原型     |
 
-# 代码
+### 选择建议
+
+1.  **大数据量** → 双指针法（最优性能）
+2.  **内存受限** → 插入法（原地操作）
+3.  **快速实现** → 合并排序法（逻辑简单）
+4.  **稳定性要求** → 三种都稳定，优先双指针法
+
+
+## 相关算法
+
+*   [归并排序算法](https://github.com/microwind/algorithms/tree/main/sorting/mergesort)
+*   [插入排序算法](https://github.com/microwind/algorithms/tree/main/sorting/insertsort)
+*   [快速排序算法](https://github.com/microwind/algorithms/tree/main/sorting/quicksort)
+
+## 示意图
+
+![合并已排序转存失败，建议直接上传图片文件](<转存失败，建议直接上传图片文件 ../../resources/images/sort/merge-sorted1.png>)
+![合并已排序转存失败，建议直接上传图片文件](<转存失败，建议直接上传图片文件 ../../resources/images/sort/merge-sorted2.gif>)
+
+# 代码实现
 
 ## Java
 
@@ -40,7 +141,7 @@
 public class MergeSortedArray {
 
   /**
-   * @desc 移动指针，两两比较移动指针实现已排序数组合并
+   * 移动指针，两两比较移动指针实现已排序数组合并
    */
   static int[] mergeSorted1(int[] one, int[] two) {
     // 新数组长度是两个数组长度之和
@@ -73,8 +174,8 @@ public class MergeSortedArray {
   }
 
   /**
-   * @desc 逐个取出1项插入到另外1个已排序数组中去，相当于选择最小项插入到已排序数组中
-   *       从第1个数组里依次取出项插入到第2个数组合适位置中，这里采用List以便动态调整
+   * 逐个取出1项插入到另外1个已排序数组中去，相当于选择最小项插入到已排序数组中
+   * 从第1个数组里依次取出项插入到第2个数组合适位置中，这里采用List以便动态调整
    */
   static List<Integer> mergeSorted2(List<Integer> one, List<Integer> two) {
     int twoLen = two.size();
@@ -115,7 +216,7 @@ public class MergeSortedArray {
   }
 
   /**
-   * @desc 先将两个数组合并，然后采用普通排序方式排序
+   * 先将两个数组合并，然后采用普通排序方式排序
    */
   static int[] mergeSorted3(int[] one, int[] two) {
     int oneLen = one.length;
@@ -372,8 +473,6 @@ func mergeSorted3(one []int, two []int) []int {
   /**
    * 双指针合并两个已排序数组。
    * 新建数组复制法，比较数组1和数组2的当前项，将小的添加到新数组中
-   * @param {Arary} one
-   * @param {Array} two
    */
   function mergeSorted1(one, two) {
     const result = []
@@ -414,8 +513,6 @@ func mergeSorted3(one []int, two []int) []int {
   /**
    * 合并两个已排序数组。
    * 插入法，从第一个数组里取出一项，自前往后逐个与第二个数组项进行比较，插入到第二个数组中
-   * @param {Arary} one
-   * @param {Array} two
    */
   function mergeSorted2(one, two) {
     const oneLen = one.length
@@ -449,8 +546,6 @@ func mergeSorted3(one []int, two []int) []int {
   /**
    * 合并两个已排序数组。
    * 插入法，从第一个数组里取出一项，自后往前逐个与第二个数组项进行比较，插入到第二个数组中
-   * @param {Arary} one
-   * @param {Array} two
    */
   function mergeSorted3(one, two) {
     const oneLen = one.length
@@ -483,8 +578,6 @@ func mergeSorted3(one []int, two []int) []int {
   /**
    * 合并两个已排序数组。
    * 新建数组push法，比较数组1和数组2的当前项，将小的添加到新数组中
-   * @param {Arary} one
-   * @param {Array} two
    */
   function mergeSorted4(one, two) {
     const result = []
@@ -505,7 +598,6 @@ func mergeSorted3(one []int, two []int) []int {
         result.push(two[j])
         j++
       }
-      // console.log(`while one[i] < two[j] ${i} < ${j}`, result)
     }
 
     // 如果数组1还有剩余的没有添加完，就全部追加到新数组最后
@@ -526,8 +618,6 @@ func mergeSorted3(one []int, two []int) []int {
   /**
    * 合并两个已排序数组。
    * 合并数组再采取普通排序法
-   * @param {Arary} one
-   * @param {Array} two
    */
   function mergeSorted5(one, two) {
     const oneLen = one.length
@@ -552,6 +642,6 @@ func mergeSorted3(one []int, two []int) []int {
 
 # 链接
 
-归并排序算法源码：[https://github.com/microwind/algorithms/tree/main/sorting/mergesort](https://github.com/microwind/algorithms/tree/main/sorting/mergesort)
+归并排序算法源码：<https://github.com/microwind/algorithms/tree/main/sorting/mergesort>
 
-其他排序算法源码：[https://github.com/microwind/algorithms](https://github.com/microwind/algorithms)
+其他排序算法源码：<https://github.com/microwind/algorithms>
