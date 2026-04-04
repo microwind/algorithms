@@ -1,138 +1,122 @@
 /**
- * Copyright © https://github.com/microwind All rights reserved.
+ * Copyright https://github.com/microwind All rights reserved.
  * @author: jarryli@gmail.com
  * @version: 1.0
  */
 
-// 选择排序优化版，同时找出最小和最大值进行交换，可减少1半遍历
-// 把数列分为前中后三个区间，分别代表最小已排序、中间待排序以及最大已排序区间
-// 遍历中间待排序同时找最大和最小值，分别交换到最小值区间和最大值区间
+/**
+ * 选择排序双向选择优化版本
+ *
+ * 算法原理：
+ * 1. 每轮同时选择最小和最大元素
+ * 2. 将最小元素放到左侧，最大元素放到右侧
+ * 3. 减少排序轮数，提高效率
+ *
+ * ## 实现步骤
+ * 1. 初始化左右边界指针
+ * 2. 外循环控制排序轮数，同时处理两端
+ * 3. 内循环在未排序区域查找最小和最大元素
+ * 4. 交换最小元素到左侧，最大元素到右侧
+ * 5. 调整边界指针
+ *
+ * @param arr - 待排序的整数数组
+ * @return Array - 排序后的数组
+ */
 function selectionSort(arr) {
+  console.log('selectionSort bidirectional:');
   let minValue, maxValue, minIdx, maxIdx
   let minListIdx, maxListIdx
   const arrLen = arr.length
-  // 外循环，从第1项开始与后面待排序项逐个对比，最后1位无需再比较
+  
   for (let i = 0; i < arrLen - 1; i++) {
-    // 待排序里面初始最小值和下标
+    // 初始化最小值和下标
     minIdx = i
     minValue = arr[minIdx]
-    // 待排序里面初始最大值和下标
+    // 初始化最大值和下标
     maxIdx = i
     maxValue = arr[maxIdx]
-    // 最小和最大序列里最新待交换的下标
-    // 最小序列的下标从0开始，自前往后递加
+    
+    // 设置左右边界交换位置
+    // 左边界从前往后递增，右边界从后往前递减
     minListIdx = minIdx
-    // 最大序列的下标从数组最后1位开始，自后往前递减
     maxListIdx = arrLen - 1 - i
-    // 如果最小和最大下标相同，说明只剩下1个数字，则终止循环
+    
+    // 如果左右边界相遇，说明只剩一个元素，终止循环
     if (minListIdx === maxListIdx) {
       break
     }
 
-    // 逐一遍历待排序区间，找出最小和最大值
-    // 待排序区间在最小值序列和和最大值序列之间
-    // 待比较区间的下标j从i+1开始，到最大已排序前结束
-    for (let j = i + 1; j < arrLen - i; j++) {
-      // 从待排序列表中分别找到最小值和最大值
+    // 在待排序区间查找最小和最大值
+    // 待排序区间：从i+1到arrLen-i-1
+    let j
+    for (j = i + 1; j < arrLen - i; j++) {
+      // 更新最小值
       if (arr[j] < minValue) {
         minIdx = j
         minValue = arr[minIdx]
       } else if (arr[j] > maxValue) {
+        // 更新最大值
         maxIdx = j
         maxValue = arr[maxIdx]
       }
     }
 
-    // 如果最小值等于最小序列待交换的值，且最大值等于最大序列里待交换的值，则跳过
+    // 如果元素已在正确位置，跳过交换
     if (arr[minIdx] === arr[minListIdx] && arr[maxIdx] === arr[maxListIdx]) {
       continue
     }
-    console.log('minValue=', minValue, 'maxValue=', maxValue, 'minIdx=', minIdx, 'maxIdx=', maxIdx, 'minListIdx=', minListIdx, 'maxListIdx=', maxListIdx)
-    // 先交换小值，再交换大值
-    ;[arr[minListIdx], arr[minIdx]] = [arr[minIdx], arr[minListIdx]]
-    // 如果最大值被交换了，则需要更新最大值的下标
+
+    console.log('i=' + i + ' j=' + j + ' min=' + minValue + ' max=' + maxValue + ' minIdx=' + minIdx + ' maxIdx=' + maxIdx + ' minListIdx=' + minListIdx + ' maxListIdx=' + maxListIdx + ' arr[]=[' + arr.join(', ') + ']')
+
+    // 主要步骤：执行双向交换，先交换最小值到左边界
+    arr[minIdx] = arr[minListIdx]
+    arr[minListIdx] = minValue
+    
+    // 处理最大值位置变化的特殊情况
     if (arr[minIdx] === maxValue) {
       maxIdx = minIdx
     }
-    ;[arr[maxListIdx], arr[maxIdx]] = [arr[maxIdx], arr[maxListIdx]]
+    
+    // 交换最大值到右边界
+    arr[maxIdx] = arr[maxListIdx]
+    arr[maxListIdx] = maxValue
   }
-
+  
   return arr
 }
 
-// test
-;
-(function () {
-  const arr1 = [7, 11, -9, 10, -12, 13, 8]
-  console.time('sort1')
-  console.log('origin arr1:', arr1)
-  console.log('\r\narr1 sorted:', selectionSort(arr1))
-  console.timeEnd('sort1')
+// 测试数据
+const testData = [7, 11, 9, 10, 12, 13, 8]
 
-  const arr2 = [7, 11, 121, -9, 545, 110, -210, 12.45, -132, 192, 153, 19, 8]
-  console.time('sort2')
-  console.log('origin arr2:', arr2)
-  console.log('\r\narr2 sorted:', selectionSort(arr2))
-  console.timeEnd('sort2')
+// 性能测试方法
+function performanceTest(sortFunction, data, versionName) {
+  const testData = [...data]
+  console.log(`${versionName}原始数组: ${JSON.stringify(testData)}`)
+  
+  const startTime = performance.now()
+  const result = sortFunction(testData)
+  const endTime = performance.now()
+  
+  console.log(`${versionName}: ${(endTime - startTime).toFixed(3)}ms`)
+  console.log(`${versionName}排序结果: ${JSON.stringify(result)}`)
+  console.log()
+}
 
-  const arr3 = [57, 311, 131, -9, 415, 10, 1330, 1245, -12, 1942, 123, 129, 80]
-  console.time('sort3')
-  console.log('origin arr3:', arr3)
-  console.log('\r\narr3 sorted:', selectionSort(arr3))
-  console.timeEnd('sort3')
-})()
-/**
-jarry@jarrys-MacBook-Pro selectionsort % node selection_sort2.js
-origin arr1: [
-    7, 11, -9, 10,
-  -12, 13,  8
-]
-minValue= -12 maxValue= 13 minIdx= 4 maxIdx= 5 minListIdx= 0 maxListIdx= 6
-minValue= -9 maxValue= 11 minIdx= 2 maxIdx= 1 minListIdx= 1 maxListIdx= 5
-minValue= 7 maxValue= 10 minIdx= 4 maxIdx= 3 minListIdx= 2 maxListIdx= 4
+// 测试：双向选择优化版本
+performanceTest(selectionSort, testData, "双向选择优化版本")
 
-arr1 sorted: [
-  -12, -9,  7, 8,
-   10, 11, 13
-]
-sort1: 8.097ms
-origin arr2: [
-     7,  11,  121,    -9,
-   545, 110, -210, 12.45,
-  -132, 192,  153,    19,
-     8
-]
-minValue= -210 maxValue= 545 minIdx= 6 maxIdx= 4 minListIdx= 0 maxListIdx= 12
-minValue= -132 maxValue= 192 minIdx= 8 maxIdx= 9 minListIdx= 1 maxListIdx= 11
-minValue= -9 maxValue= 153 minIdx= 3 maxIdx= 10 minListIdx= 2 maxListIdx= 10
-minValue= 7 maxValue= 121 minIdx= 6 maxIdx= 3 minListIdx= 3 maxListIdx= 9
-minValue= 8 maxValue= 110 minIdx= 4 maxIdx= 5 minListIdx= 4 maxListIdx= 8
-minValue= 11 maxValue= 19 minIdx= 5 maxIdx= 6 minListIdx= 5 maxListIdx= 7
+console.log("=== 算法对比总结 ===")
+console.log("1. 双向选择优化版本：同时选择最大最小，效率提升")
 
-arr2 sorted: [
-  -210, -132,    -9,   7,
-     8,   11, 12.45,  19,
-   110,  121,   153, 192,
-   545
-]
-sort2: 1.405ms
-origin arr3: [
-   57,  311,  131,   -9,
-  415,   10, 1330, 1245,
-  -12, 1942,  123,  129,
-   80
-]
-minValue= -12 maxValue= 1942 minIdx= 8 maxIdx= 9 minListIdx= 0 maxListIdx= 12
-minValue= -9 maxValue= 1330 minIdx= 3 maxIdx= 6 minListIdx= 1 maxListIdx= 11
-minValue= 10 maxValue= 1245 minIdx= 5 maxIdx= 7 minListIdx= 2 maxListIdx= 10
-minValue= 57 maxValue= 415 minIdx= 8 maxIdx= 4 minListIdx= 3 maxListIdx= 9
-minValue= 123 maxValue= 131 minIdx= 7 maxIdx= 5 minListIdx= 5 maxListIdx= 7
+/*打印结果
+jarry@Mac selectionsort % node selection_sort2.js 
+双向选择优化版本原始数组: [7,11,9,10,12,13,8]
+selectionSort bidirectional:
+i=0 j=7 min=7 max=13 minIdx=0 maxIdx=5 minListIdx=0 maxListIdx=6 arr[]=[7, 11, 9, 10, 12, 13, 8]
+i=1 j=6 min=8 max=12 minIdx=5 maxIdx=4 minListIdx=1 maxListIdx=5 arr[]=[7, 11, 9, 10, 12, 8, 13]
+双向选择优化版本: 0.076ms
+双向选择优化版本排序结果: [7,8,9,10,11,12,13]
 
-arr3 sorted: [
-   -12,  -9,   10,   57,
-    80, 123,  129,  131,
-   311, 415, 1245, 1330,
-  1942
-]
-sort3: 0.81ms
+=== 算法对比总结 ===
+1. 双向选择优化版本：同时选择最大最小，效率提升
  */

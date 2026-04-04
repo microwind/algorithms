@@ -5,9 +5,14 @@
  * @version: 1.0
  */
 
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * 选择排序算法实现
- * 提供四种不同的实现方式，适合不同场景和性能需求
+ * 提供五种不同的实现方式，适合不同场景和性能需求
  */
 public class SelectionSort {
 
@@ -59,64 +64,121 @@ public class SelectionSort {
     private static final int[] testData = {7, 11, 9, 10, 12, 13, 8};
 
     /**
-     * 选择排序基础版本
-     * 
+     * 选择排序基础版本 - 标准版：原地交换
+     *
      * 算法原理：
      * 1. 将数组分为两部分：左侧已排序区域，右侧待排序区域
      * 2. 每次从待排序区域中选择最小元素
      * 3. 将最小元素与待排序区域的第一个元素交换
      * 4. 重复以上过程，直到所有元素排序完成
-     * 
-     * 生活类比：就像在队伍中挑选最矮的人站到最前面，
-     * 然后在剩下的人中再挑选最矮的站到第二个位置，依此类推
-     * 
-     * 时间复杂度：O(n²) - 需要比较 n*(n-1)/2 次
-     * 空间复杂度：O(1) - 只使用常数个额外变量
-     * 稳定性：不稳定 - 交换可能改变相等元素的相对位置
-     * 
+     *
+     * ## 实现步骤
+     * 1. 外循环遍历数组，每轮确定一个最小值的位置
+     * 2. 内循环在未排序区域中查找最小元素
+     * 3. 记录最小值和其索引位置
+     * 4. 将最小元素交换到当前轮次的起始位置
+     *
      * @param arr 待排序的数字数组
+     * @return 排序后的数组
      */
-    public static void selectionSort1(int[] arr) {
-        System.out.println("selectionSort1 basic:");
-        int n = arr.length;
-        // 外循环：控制排序轮数，每轮确定一个最小值的位置
-        for (int i = 0; i < n - 1; i++) {
-            int minIndex = i; // 记录最小元素的索引
-            
-            // 内循环：在未排序区域中查找最小元素
-            for (int j = i + 1; j < n; j++) {
-                // 关键点：找到更小的元素，更新最小值索引
-                if (arr[j] < arr[minIndex]) {
-                    minIndex = j;
+    static int[] selectionSort1(final int[] arr) {
+    System.out.println("selectionSort1 basic:");
+    int min;
+    int minIdx;
+    int tmp;
+    int l = arr.length;
+        // 外循环：每轮确定一个最小值
+        for (int i = 0; i < l - 1; i++) {
+            min = arr[i];
+            minIdx = i;
+            int j = i + 1;
+            // 内循环：在未排序部分找最小元素
+            for (; j < l; j++) {
+                // 从待排序列表找到最小值和位置
+                if (arr[j] < min) {
+                    min = arr[j];
+                    minIdx = j;
                 }
             }
-            
-            // 交换最小元素到当前轮次的起始位置
-            if (minIndex != i) {
-                // Java特点：使用临时变量交换
-                int temp = arr[i];
-                arr[i] = arr[minIndex];
-                arr[minIndex] = temp;
+            System.out.println("i=" + i + " j=" + j + " min=" + min + " minIdx=" + minIdx + " arr[]" + Arrays.toString(arr));
+            // 将待排序里最小值交换到已排序最后面
+            if (minIdx != i) {
+                tmp = arr[i];
+                arr[i] = min;
+                arr[minIdx] = tmp;
             }
         }
-        printArray(arr, "排序后数组");
+        return arr;
     }
 
     /**
+     * 选择排序新建数组版本 - 无需交换
+     *
+     * 算法思路：
+     * 1. 创建一个新数组来存储排序结果
+     * 2. 每次从原数组中找到最小值
+     * 3. 将最小值添加到新数组
+     * 4. 从原数组中删除该最小值
+     * 5. 重复直到原数组为空
+     *
+     * ## 实现步骤
+     * 1. 初始化新数组和剩余数组
+     * 2. 外循环控制选择轮数
+     * 3. 内循环查找当前最小值
+     * 4. 将最小值添加到新数组
+     * 5. 从原数组中移除已选择的元素
+     * 6. 重复直到原数组为空
+     *
+     * @param arr 待排序的数字数组
+     * @return 排序后的新数组
+     */
+    static int[] selectionSort2(int arr[]) {
+    System.out.println("selectionSort2 new array:");
+    int min;
+    int minIdx;
+        // int[] to List
+        List<Integer> listArr = Arrays.stream(arr).boxed().collect(Collectors.toList());
+        int len = listArr.size();
+        List<Integer> newArr = new ArrayList<>();
+        // 外循环：每次选择一个最小值
+        for (int i = 0; i < len; i++) {
+            min = listArr.get(i);
+            minIdx = i;
+            int j = i + 1;
+            // 内循环：在未排序部分找最小元素
+            for (; j < len; j++) {
+                if (listArr.get(j) < min) {
+                    min = listArr.get(j);
+                    minIdx = j;
+                }
+            }
+            newArr.add(min);
+            listArr.remove(minIdx);
+            System.out.println("i=" + i + " j=" + j + " min=" + min + " minIdx=" + minIdx + " listArr[]" + listArr.toString()
+                + " newArr[]" + newArr.toString());
+            len--;
+            i--;
+        }
+        // convert to int[]
+        return newArr.stream().mapToInt(Integer::intValue).toArray();
+    }
+     /**
      * 选择排序降序版本
-     * 
+     *
      * 算法思路：
      * 与基础版本相反，每次选择最大元素
      * 将最大元素与待排序区域的第一个元素交换
-     * 
-     * 时间复杂度：O(n²) - 需要比较 n*(n-1)/2 次
-     * 空间复杂度：O(1) - 只使用常数个额外变量
-     * 稳定性：不稳定 - 交换可能改变相等元素的相对位置
-     * 
+     *
+     * ## 实现步骤
+     * 1. 外循环控制排序轮数，每轮确定一个最大值的位置
+     * 2. 内循环在未排序区域中查找最大元素
+     * 3. 记录最大值和其索引位置
+     * 4. 将最大元素交换到当前轮次的起始位置
+     *
      * @param arr 待排序的数字数组
      */
-    public static void selectionSort2(int[] arr) {
-        System.out.println("selectionSort2 descending:");
+    public static void selectionSort3(int[] arr) {
+        System.out.println("selectionSort3 descending:");
         int n = arr.length;
         // 外循环：控制排序轮数，每轮确定一个最大值的位置
         for (int i = 0; i < n - 1; i++) {
@@ -143,23 +205,23 @@ public class SelectionSort {
 
     /**
      * 选择排序优化版本 - 双向选择
-     * 
+     *
      * 优化思路：
      * 每轮同时选择最小和最大元素
      * 将最小元素放到左侧，最大元素放到右侧
      * 减少排序轮数，提高效率
-     * 
-     * 优化效果：
-     * - 减少了排序轮数，从n轮减少到n/2轮
-     * - 每轮需要进行两次查找，但总体效率提升
-     * 
-     * 时间复杂度：O(n²)，空间复杂度：O(1)
-     * 稳定性：不稳定 - 交换可能改变相等元素的相对位置
-     * 
+     *
+     * ## 实现步骤
+     * 1. 初始化左右边界指针
+     * 2. 外循环控制排序轮数，同时处理两端
+     * 3. 内循环在未排序区域中查找最小和最大元素
+     * 4. 交换最小元素到左侧，最大元素到右侧
+     * 5. 调整边界指针
+     *
      * @param arr 待排序的数字数组
      */
-    public static void selectionSort3(int[] arr) {
-        System.out.println("selectionSort3 bidirectional:");
+    public static void selectionSort4(int[] arr) {
+        System.out.println("selectionSort4 bidirectional:");
         int n = arr.length;
         int left = 0;
         int right = n - 1;
@@ -207,19 +269,23 @@ public class SelectionSort {
 
     /**
      * 选择排序 - 堆优化版本
-     * 
+     *
      * 算法思路：
      * 利用堆的性质来快速找到最大/最小元素
      * 每次从堆顶取出最大/最小元素
      * 重新调整堆结构
-     * 
-     * 时间复杂度：O(n log n)，空间复杂度：O(1)
-     * 稳定性：不稳定 - 交换可能改变相等元素的相对位置
-     * 
+     *
+     * ## 实现步骤
+     * 1. 构建最大堆
+     * 2. 逐个取出堆顶元素（最大值）
+     * 3. 将堆顶元素与末尾元素交换
+     * 4. 重新调整堆结构
+     * 5. 重复直到堆为空
+     *
      * @param arr 待排序的数字数组
      */
-    public static void selectionSort4(int[] arr) {
-        System.out.println("selectionSort4 heap optimized:");
+    public static void selectionSort5(int[] arr) {
+        System.out.println("selectionSort5 heap optimized:");
         int n = arr.length;
         
         // 构建最大堆
@@ -275,55 +341,77 @@ public class SelectionSort {
     
     public static void main(String[] args) {
         // 测试1：基础选择版本
-        performanceTest(SelectionSort::selectionSort1, testData, "基础选择版本");
+        performanceTest(arr -> selectionSort1(arr), testData, "基础选择版本");
 
-        // 测试2：降序版本
-        performanceTest(SelectionSort::selectionSort2, testData, "降序版本");
+        // 测试2：新建数组版本
+        performanceTest(arr -> selectionSort2(arr), testData, "新建数组版本");
 
-        // 测试3：双向选择版本
-        performanceTest(SelectionSort::selectionSort3, testData, "双向选择版本");
+        // 测试3：降序版本
+        performanceTest(SelectionSort::selectionSort3, testData, "降序版本");
 
-        // 测试4：堆优化版本
-        performanceTest(SelectionSort::selectionSort4, testData, "堆优化版本");
+        // 测试4：双向选择版本
+        performanceTest(SelectionSort::selectionSort4, testData, "双向选择版本");
+
+        // 测试5：堆优化版本
+        performanceTest(SelectionSort::selectionSort5, testData, "堆优化版本");
 
         System.out.println("=== 算法对比总结 ===");
-        System.out.println("1. 基础版本：简单易懂，适合学习算法原理");
-        System.out.println("2. 降序版本：展示算法灵活性，可按需排序");
-        System.out.println("3. 双向版本：同时选择最大最小，效率提升");
-        System.out.println("4. 堆优化版本：利用堆结构，复杂度优化");
+        System.out.println("1. 基础版本：标准版，原地交换，包含详细调试信息");
+        System.out.println("2. 新建数组版本：无需交换，避免交换操作");
+        System.out.println("3. 降序版本：展示算法灵活性，可按需排序");
+        System.out.println("4. 双向版本：同时选择最大最小，效率提升");
+        System.out.println("5. 堆优化版本：利用堆结构，复杂度优化");
     }
 }
 
 /*
 打印结果
-jarry@Mac selectionsort % java SelectionSort
+jarry@Mac selectionsort % java SelectionSort.java 
 基础选择版本原始数组: [7, 11, 9, 10, 12, 13, 8]
 selectionSort1 basic:
-排序后数组: [7, 8, 9, 10, 11, 12, 13]
-基础选择版本: 0.446ms
+i=0 j=7 min=7 minIdx=0 arr[][7, 11, 9, 10, 12, 13, 8]
+i=1 j=7 min=8 minIdx=6 arr[][7, 11, 9, 10, 12, 13, 8]
+i=2 j=7 min=9 minIdx=2 arr[][7, 8, 9, 10, 12, 13, 11]
+i=3 j=7 min=10 minIdx=3 arr[][7, 8, 9, 10, 12, 13, 11]
+i=4 j=7 min=11 minIdx=6 arr[][7, 8, 9, 10, 12, 13, 11]
+i=5 j=7 min=12 minIdx=6 arr[][7, 8, 9, 10, 11, 13, 12]
+基础选择版本: 4.154458ms
 基础选择版本排序结果: [7, 8, 9, 10, 11, 12, 13]
 
+新建数组版本原始数组: [7, 11, 9, 10, 12, 13, 8]
+selectionSort2 new array:
+i=0 j=7 min=7 minIdx=0 listArr[][11, 9, 10, 12, 13, 8] newArr[][7]
+i=0 j=6 min=8 minIdx=5 listArr[][11, 9, 10, 12, 13] newArr[][7, 8]
+i=0 j=5 min=9 minIdx=1 listArr[][11, 10, 12, 13] newArr[][7, 8, 9]
+i=0 j=4 min=10 minIdx=1 listArr[][11, 12, 13] newArr[][7, 8, 9, 10]
+i=0 j=3 min=11 minIdx=0 listArr[][12, 13] newArr[][7, 8, 9, 10, 11]
+i=0 j=2 min=12 minIdx=0 listArr[][13] newArr[][7, 8, 9, 10, 11, 12]
+i=0 j=1 min=13 minIdx=0 listArr[][] newArr[][7, 8, 9, 10, 11, 12, 13]
+新建数组版本: 3.319667ms
+新建数组版本排序结果: [7, 11, 9, 10, 12, 13, 8]
+
 降序版本原始数组: [7, 11, 9, 10, 12, 13, 8]
-selectionSort2 descending:
+selectionSort3 descending:
 排序后数组: [13, 12, 11, 10, 9, 8, 7]
-降序版本: 0.095ms
+降序版本: 0.081125ms
 降序版本排序结果: [13, 12, 11, 10, 9, 8, 7]
 
 双向选择版本原始数组: [7, 11, 9, 10, 12, 13, 8]
-selectionSort3 bidirectional:
+selectionSort4 bidirectional:
 排序后数组: [7, 8, 9, 10, 11, 12, 13]
-双向选择版本: 0.078ms
+双向选择版本: 0.061334ms
 双向选择版本排序结果: [7, 8, 9, 10, 11, 12, 13]
 
 堆优化版本原始数组: [7, 11, 9, 10, 12, 13, 8]
-selectionSort4 heap optimized:
+selectionSort5 heap optimized:
 排序后数组: [7, 8, 9, 10, 11, 12, 13]
-堆优化版本: 0.083ms
+堆优化版本: 0.060583ms
 堆优化版本排序结果: [7, 8, 9, 10, 11, 12, 13]
 
 === 算法对比总结 ===
-1. 基础版本：简单易懂，适合学习算法原理
-2. 降序版本：展示算法灵活性，可按需排序
-3. 双向版本：同时选择最大最小，效率提升
-4. 堆优化版本：利用堆结构，复杂度优化
+1. 基础版本：标准版，原地交换，包含详细调试信息
+2. 新建数组版本：无需交换，避免交换操作
+3. 降序版本：展示算法灵活性，可按需排序
+4. 双向版本：同时选择最大最小，效率提升
+5. 堆优化版本：利用堆结构，复杂度优化
 */

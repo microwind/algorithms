@@ -1,13 +1,13 @@
 /**
  * Copyright © https://github.com/microwind All rights reserved.
- * 
+ *
  * @author: jarryli@gmail.com
  * @version: 1.0
  */
 
 /**
  * 基数排序算法实现
- * 提供四种不同的实现方式，适合不同场景和性能需求
+ * 提供5种不同的实现方式，适合不同场景和性能需求
  */
 
 import 'dart:io';
@@ -15,371 +15,687 @@ import 'dart:io';
 /**
  * 打印数组内容的辅助函数
  */
-void printArray(List<int> arr, String label) {
-  print('$label: [${arr.join(', ')}]');
+void printArray(List<int> arr, String label)
+{
+    print('$label: [${arr.join(', ')}]');
 }
 
 /**
  * 性能测试辅助函数
  */
-void performanceTest(Function(List<int>) sortFunc, List<int> arr, String name) {
-  // 创建数组副本，避免修改原数组
-  List<int> testArr = List.from(arr);
-  printArray(testArr, '${name}原始数组');
-  
-  // 开始计时
-  Stopwatch stopwatch = Stopwatch()..start();
-  sortFunc(testArr);
-  stopwatch.stop();
-  
-  print('$name: ${stopwatch.elapsedMilliseconds.toDouble() / 1000.0}');
-  printArray(testArr, '${name}排序结果');
-  print(''); // 空行分隔
+void performanceTest(Function(List<int>) sortFunc, List<int> arr, String name)
+{
+    // 创建数组副本，避免修改原数组
+    List<int> testArr = List.from(arr);
+    printArray(testArr, name);
+
+    // 开始计时
+    Stopwatch stopwatch = Stopwatch()..start();
+    sortFunc(testArr);
+    stopwatch.stop();
+
+    double duration = stopwatch.elapsedMicroseconds / 1000.0;
+    print('$name: ${duration.toStringAsFixed(3)}ms');
+    printArray(testArr, '$name排序结果');
 }
 
-// ==================== 主程序：算法演示和性能测试 ====================
+// ==================== 测试数据 ====================
 
-// 测试数据：包含大数字和负数的典型数组
+// 测试数据：包含大数字的典型数组
 const List<int> testData = [33, 4, 15, 43, 323454, 7, 10, 1235, 200, 87431];
+
+// 负数测试数据
+const List<int> negativeTestData = [170, 45, 75, -90, -802, 24, 2, 66, -5, 0];
+
+/**
+ * 栈项结构体，用于迭代MSD排序
+ */
+class StackItem {
+    int left;
+    int right;
+    int exp;
+
+    StackItem(this.left, this.right, this.exp);
+}
 
 /**
  * 获取数字的指定位数
  */
-int getDigit(int num, int exp) {
-  return (num.abs() ~/ exp) % 10;
+int getDigit(int num, int exp)
+{
+    return (num.abs() ~/ exp) % 10;
 }
 
 /**
- * 计数排序辅助函数 - 按位数排序
+ * 计数排序，根据基数按位进行计数
+ *
+ * ## 算法特点
+ * - 按位进行计数排序，支持负数处理
+ * - 使用最小值偏移处理负数
+ * - 稳定排序：保持相等元素的相对位置
+ * - 适用于基数排序的按位处理
+ *
+ * ## 复杂度分析
+ * - 时间复杂度：O(n + k)，k为基数范围（通常为10）
+ * - 空间复杂度：O(n + k) - 需要计数数组和输出数组
+ * - 稳定性：稳定 - 计数排序保持相等元素的相对位置
+ *
+ * @param arr - 待排序的数字数组
+ * @param len - 数组长度
+ * @param exponent - 当前处理的位数基数（1, 10, 100, ...）
+ * @return void 无返回值，直接修改原数组
  */
-void countingSortByDigit(List<int> arr, int exp) {
-  int n = arr.length;
-  List<int> output = List.filled(n, 0);
-  List<int> count = List.filled(10, 0);
-  
-  // 统计每个数字的出现次数
-  for (int i = 0; i < n; i++) {
-    int digit = getDigit(arr[i], exp);
-    count[digit]++;
-  }
-  
-  // 计算累计计数
-  for (int i = 1; i < 10; i++) {
-    count[i] += count[i - 1];
-  }
-  
-  // 构建输出数组
-  for (int i = n - 1; i >= 0; i--) {
-    int digit = getDigit(arr[i], exp);
-    output[count[digit] - 1] = arr[i];
-    count[digit]--;
-  }
-  
-  // 复制回原数组
-  for (int i = 0; i < n; i++) {
-    arr[i] = output[i];
-  }
+void countingSort(List<int> arr, int len, int exponent)
+{
+    // 第一步：初始化变量和数组，按10个桶大小，0-9的个位数
+    List<int> sortedList = List.filled(len, 0);
+    int range = 10;
+    List<int> countList = List.filled(range, 0);
+
+    // 第二步：找出最小值
+    // 关键点：处理负数情况，需要找到最小值进行偏移
+    int minValue = arr[0];
+    for (int i = 1; i < len; i++)
+    {
+        if (arr[i] < minValue)
+            minValue = arr[i];
+    }
+
+    // 第三步：初始化计数数组
+    // 关键点：将计数数组清零
+    for (int i = 0; i < range; i++)
+    {
+        countList[i] = 0;
+    }
+
+    // 第四步：根据数字所在位置进行计数
+    // 关键点：使用arr[i] - minValue来处理负数，确保索引为正数
+    for (int i = 0; i < len; i++)
+    {
+        int item = arr[i] - minValue;
+        int idx = (item ~/ exponent) % range;
+        countList[idx]++;
+    }
+
+    // 第五步：构建计数排序
+    // 关键点：后面的位数为前面的累加之和，形成累积计数
+    for (int i = 1; i < range; i++)
+    {
+        countList[i] += countList[i - 1];
+    }
+
+    // 第六步：构建输出数组
+    // 关键点：从后向前遍历，保持排序的稳定性
+    for (int i = len - 1; i >= 0; i--)
+    {
+        int item = arr[i] - minValue;
+        int idx = (item ~/ exponent) % range;
+        sortedList[countList[idx] - 1] = arr[i];
+        countList[idx]--;
+    }
+
+    // 第七步：复制到数组重排原始数组
+    // 关键点：将排序结果复制回原数组
+    for (int i = 0; i < len; i++)
+    {
+        arr[i] = sortedList[i];
+    }
 }
 
 /**
- * 基数排序基础版本 - LSD（最低位优先）
- * 
- * 算法原理：
- * 1. 从个位开始，对每一位进行计数排序
- * 2. 逐步处理十位、百位、千位等
- * 3. 经过所有位数处理后，数组完全有序
- * 
- * 生活类比：就像整理学生成绩，先按个位数排序，
- * 再按十位数排序，最后按百位数排序，最终得到完整排序
- * 
- * 时间复杂度：O(d * (n + k))，d为位数，k为基数（通常为10）
- * 空间复杂度：O(n + k) - 需要额外的计数和输出数组
- * 稳定性：稳定 - 计数排序保持相等元素的相对位置
+ * 基数排序，从低位到高位LSD版，基于计数排序
+ *
+ * ## 算法特点
+ * - 从低位到高位进行排序（LSD - Least Significant Digit）
+ * - 基于计数排序实现，支持负数处理
+ * - 稳定排序：保持相等元素的相对位置
+ * - 适用于整数排序，特别是大范围数字
+ *
+ * ## 复杂度分析
+ * - 时间复杂度：O(d * (n + k))，d为位数，k为基数（通常为10）
+ * - 空间复杂度：O(n + k) - 需要额外的计数和输出数组
+ * - 稳定性：稳定 - 计数排序保持相等元素的相对位置
+ *
+ * @param arr - 待排序的数字数组
+ * @return void 无返回值，直接修改原数组
  */
-void radixSort1(List<int> arr) {
-  print('radixSort1 LSD:');
-  
-  // 找到最大值以确定位数
-  int max = arr.reduce((a, b) => a > b ? a : b);
-  
-  // 对每个位数进行计数排序
-  int exp = 1;
-  while (max ~/ exp > 0) {
-    countingSortByDigit(arr, exp);
-    exp *= 10;
-  }
-  
-  printArray(arr, '排序后数组');
+void radixSort1(List<int> arr)
+{
+    // 第一步：递归终止条件检查
+    // 关键点：空数组直接返回
+    if (arr.isEmpty) return;
+
+    int len = arr.length;
+
+    // 第二步：找出最大值
+    // 关键点：确定排序的位数范围
+    int maxValue = arr[0];
+    for (int i = 1; i < len; i++)
+    {
+        if (arr[i] > maxValue)
+            maxValue = arr[i];
+    }
+
+    // 第三步：找出最小值
+    // 关键点：处理负数情况，需要找到最小值进行偏移
+    int minValue = arr[0];
+    for (int i = 1; i < len; i++)
+    {
+        if (arr[i] < minValue)
+            minValue = arr[i];
+    }
+
+    // 第四步：根据最大值，逐个按进位(基数)来应用排序
+    // 关键点：exponent即数位基数，按个十百千递增
+    for (int exponent = 1; (maxValue - minValue) ~/ exponent > 0; exponent *= 10)
+    {
+        countingSort(arr, len, exponent);
+    }
 }
 
 /**
  * MSD递归排序函数
+ *
+ * ## 算法特点
+ * - 从最高位开始排序（MSD - Most Significant Digit）
+ * - 使用递归处理子数组
+ * - 桶排序实现，动态分配内存
+ * - 适合处理字符串或变长数据
+ *
+ * @param arr - 待排序的数字数组
+ * @param left - 左边界索引
+ * @param right - 右边界索引
+ * @param exp - 当前处理的位数基数
+ * @return void 无返回值，直接修改原数组
  */
-void msdSort(List<int> arr, int left, int right, int exp) {
-  if (left >= right || exp < 1) {
-    return;
-  }
-  
-  // 创建桶
-  List<List<int>> buckets = List.generate(10, (_) => []);
-  
-  // 分配到桶中
-  for (int i = left; i <= right; i++) {
-    int digit = getDigit(arr[i], exp);
-    buckets[digit].add(arr[i]);
-  }
-  
-  // 重新排序并递归处理每个桶
-  int index = left;
-  for (int i = 0; i < 10; i++) {
-    if (buckets[i].isNotEmpty) {
-      // 复制桶中元素回原数组
-      for (int value in buckets[i]) {
-        arr[index] = value;
-        index++;
-      }
-      
-      // 递归处理下一个位数
-      msdSort(arr, left, index - 1, exp ~/ 10);
-      left = index;
+void msdSort(List<int> arr, int left, int right, int exp)
+{
+    // 第一步：递归终止条件检查
+    // 关键点：范围无效或位数不足时返回
+    if (left >= right || exp < 1)
+    {
+        return;
     }
-  }
-}
 
-/**
- * 基数排序优化版本 - MSD（最高位优先）
- * 
- * 算法思路：
- * 从最高位开始排序，使用递归处理子数组
- * 适合处理字符串或变长数据
- * 
- * 优化效果：
- * - 更好的内存局部性
- * 适合大数据集
- * 
- * 时间复杂度：O(d * (n + k))
- * 空间复杂度：O(n + k)
- * 稳定性：稳定
- */
-void radixSort2(List<int> arr) {
-  print('radixSort2 MSD:');
-  
-  if (arr.isEmpty) {
-    return;
-  }
-  
-  // 找到最大值以确定位数
-  int max = arr.reduce((a, b) => a > b ? a : b);
-  int exp = 1;
-  while (max ~/ exp > 0) {
-    exp *= 10;
-  }
-  
-  msdSort(arr, 0, arr.length - 1, exp ~/ 10);
-  
-  printArray(arr, '排序后数组');
-}
-
-/**
- * 基数排序 - 迭代MSD版本
- * 
- * 算法思路：
- * 使用迭代方式实现MSD排序
- * 使用栈来模拟递归调用
- * 
- * 优化效果：
- * - 避免递归开销
- * - 更好的性能控制
- * 
- * 时间复杂度：O(d * (n + k))
- * 空间复杂度：O(n + k)
- * 稳定性：稳定
- */
-void radixSort3(List<int> arr) {
-  print('radixSort3 iterative MSD:');
-  
-  if (arr.isEmpty) {
-    return;
-  }
-  
-  // 找到最大值以确定位数
-  int max = arr.reduce((a, b) => a > b ? a : b);
-  int exp = 1;
-  while (max ~/ exp > 0) {
-    exp *= 10;
-  }
-  
-  // 使用栈模拟递归
-  class StackItem {
-    int left;
-    int right;
-    int exp;
-    
-    StackItem(this.left, this.right, this.exp);
-  }
-  
-  List<StackItem> stack = [];
-  stack.add(StackItem(0, arr.length - 1, exp ~/ 10));
-  
-  while (stack.isNotEmpty) {
-    StackItem item = stack.removeLast();
-    int left = item.left;
-    int right = item.right;
-    int currentExp = item.exp;
-    
-    if (left >= right || currentExp < 1) {
-      continue;
-    }
-    
-    // 创建桶
+    // 第二步：创建桶
+    // 关键点：创建10个桶，对应0-9的数字
     List<List<int>> buckets = List.generate(10, (_) => []);
-    
-    // 分配到桶中
-    for (int i = left; i <= right; i++) {
-      int digit = getDigit(arr[i], currentExp);
-      buckets[digit].add(arr[i]);
+
+    // 第三步：分配到桶中
+    // 关键点：根据当前位数将元素分配到对应桶中
+    for (int i = left; i <= right; i++)
+    {
+        int digit = getDigit(arr[i], exp);
+        buckets[digit].add(arr[i]);
     }
-    
-    // 重新排序并将子问题入栈
+
+    // 第四步：重新排序并递归处理每个桶
+    // 关键点：将桶中元素复制回原数组，并递归处理子数组
     int index = left;
-    for (int i = 0; i < 10; i++) {
-      if (buckets[i].isNotEmpty) {
-        // 复制桶中元素回原数组
-        for (int value in buckets[i]) {
-          arr[index] = value;
-          index++;
+    for (int i = 0; i < 10; i++)
+    {
+        if (buckets[i].isNotEmpty)
+        {
+            // 步骤4.1：复制桶中元素回原数组
+            // 关键点：按桶的顺序复制元素，保持稳定性
+            for (int value in buckets[i])
+            {
+                arr[index] = value;
+                index++;
+            }
+
+            // 步骤4.2：递归处理下一个位数
+            // 关键点：递归处理当前桶的子数组
+            msdSort(arr, left, index - 1, exp ~/ 10);
+            left = index;
         }
-        
-        // 将子问题入栈（逆序处理以保持正确顺序）
-        stack.add(StackItem(left, index - 1, currentExp ~/ 10));
-        left = index;
-      }
     }
-  }
-  
-  printArray(arr, '排序后数组');
 }
 
 /**
- * 基数排序 - 桶优化版本
- * 
- * 算法思路：
- * 使用动态桶大小，优化内存使用
- * 适合处理稀疏数据
- * 
- * 优化效果：
- * - 减少内存占用
- * 提高处理效率
- * 
- * 时间复杂度：O(d * (n + k))
- * 空间复杂度：O(n + k)
- * 稳定性：稳定
+ * MSD基数排序版本
+ *
+ * ## 算法特点
+ * - 从最高位开始排序（MSD - Most Significant Digit）
+ * - 使用递归处理子数组
+ * - 桶排序实现，动态分配内存
+ * - 适合处理字符串或变长数据
+ *
+ * ## 复杂度分析
+ * - 时间复杂度：O(d * (n + k))，d为位数，k为基数
+ * - 空间复杂度：O(n + k) - 需要桶和计数数组
+ * - 稳定性：稳定 - 保持相等元素的相对位置
+ *
+ * @param arr - 待排序的数字数组
+ * @return void 无返回值，直接修改原数组
  */
-void radixSort4(List<int> arr) {
-  print('radixSort4 bucket optimized:');
-  
-  // 找到最大值以确定位数
-  int max = arr.reduce((a, b) => a > b ? a : b);
-  
-  // 对每个位数进行计数排序
-  int exp = 1;
-  while (max ~/ exp > 0) {
-    int n = arr.length;
-    List<int> output = List.filled(n, 0);
-    
-    // 动态确定桶范围
-    int minDigit = 9;
-    int maxDigit = 0;
-    for (int i = 0; i < n; i++) {
-      int digit = getDigit(arr[i], exp);
-      if (digit < minDigit) minDigit = digit;
-      if (digit > maxDigit) maxDigit = digit;
+void radixSort2(List<int> arr)
+{
+    print('radixSort2 MSD:');
+
+    // 第一步：递归终止条件检查
+    // 关键点：空数组直接返回
+    if (arr.isEmpty) return;
+
+    // 第二步：找到最大值以确定位数
+    // 关键点：遍历数组找出最大值，用于确定最高位数
+    int max = arr[0];
+    for (int i = 1; i < arr.length; i++)
+    {
+        if (arr[i] > max)
+        {
+            max = arr[i];
+        }
     }
-    
-    int bucketSize = maxDigit - minDigit + 1;
-    List<int> count = List.filled(bucketSize, 0);
-    
-    // 统计每个数字的出现次数
-    for (int i = 0; i < n; i++) {
-      int digit = getDigit(arr[i], exp);
-      count[digit - minDigit]++;
+
+    // 第三步：计算最高位对应的基数
+    // 关键点：exp从1开始，不断乘以10直到超过最大值
+    int exp = 1;
+    while (max ~/ exp > 0)
+    {
+        exp *= 10;
     }
-    
-    // 计算累计计数
-    for (int i = 1; i < count.length; i++) {
-      count[i] += count[i - 1];
+
+    // 第四步：调用MSD递归排序
+    // 关键点：从最高位开始递归排序
+    msdSort(arr, 0, arr.length - 1, exp ~/ 10);
+
+    // 第五步：输出排序结果
+    printArray(arr, '排序后数组');
+}
+
+/**
+ * 迭代MSD基数排序版本
+ *
+ * ## 算法特点
+ * - 使用栈模拟递归，避免递归深度过大
+ * - 从最高位开始排序（MSD - Most Significant Digit）
+ * - 桶排序实现，动态分配内存
+ * - 适合处理大数据集
+ *
+ * ## 复杂度分析
+ * - 时间复杂度：O(d * (n + k))，d为位数，k为基数
+ * - 空间复杂度：O(n + k + s) - s为栈空间
+ * - 稳定性：稳定 - 保持相等元素的相对位置
+ *
+ * @param arr - 待排序的数字数组
+ * @return void 无返回值，直接修改原数组
+ */
+void radixSort3(List<int> arr)
+{
+    print('radixSort3 iterative MSD:');
+
+    // 第一步：递归终止条件检查
+    // 关键点：空数组直接返回
+    if (arr.isEmpty) return;
+
+    // 第二步：找到最大值以确定位数
+    // 关键点：遍历数组找出最大值，用于确定最高位数
+    int max = arr[0];
+    for (int i = 1; i < arr.length; i++)
+    {
+        if (arr[i] > max)
+        {
+            max = arr[i];
+        }
     }
-    
-    // 构建输出数组
-    for (int i = n - 1; i >= 0; i--) {
-      int digit = getDigit(arr[i], exp);
-      output[count[digit - minDigit] - 1] = arr[i];
-      count[digit - minDigit]--;
+
+    // 第三步：计算最高位对应的基数
+    // 关键点：exp从1开始，不断乘以10直到超过最大值
+    int exp = 1;
+    while (max ~/ exp > 0)
+    {
+        exp *= 10;
     }
-    
-    // 复制回原数组
-    for (int i = 0; i < n; i++) {
-      arr[i] = output[i];
+
+    // 第四步：使用栈模拟递归
+    // 关键点：定义栈结构体，存储左右边界和当前位数
+
+    // 第五步：初始化栈
+    // 关键点：创建栈数组，初始化栈顶指针
+    List<StackItem> stack = [];
+    stack.add(StackItem(0, arr.length - 1, exp ~/ 10));
+
+    // 第六步：循环处理栈中的范围
+    // 关键点：栈不为空时继续处理，模拟递归调用过程
+    while (stack.isNotEmpty)
+    {
+        // 步骤6.1：从栈中取出待处理的范围
+        // 关键点：后进先出，取出栈顶元素
+        StackItem item = stack.removeLast();
+        int left = item.left;
+        int right = item.right;
+        int currentExp = item.exp;
+
+        // 步骤6.2：递归终止条件检查
+        // 关键点：范围无效或位数不足时跳过
+        if (left >= right || currentExp < 1)
+        {
+            continue;
+        }
+
+        // 步骤6.3：创建桶
+        // 关键点：创建10个桶，对应0-9的数字
+        List<List<int>> buckets = List.generate(10, (_) => []);
+
+        // 步骤6.4：分配到桶中
+        // 关键点：根据当前位数将元素分配到对应桶中
+        for (int i = left; i <= right; i++)
+        {
+            int digit = getDigit(arr[i], currentExp);
+            buckets[digit].add(arr[i]);
+        }
+
+        // 步骤6.5：重新排序并将子问题入栈
+        // 关键点：将桶中元素复制回原数组，并将子问题入栈
+        int index = left;
+        for (int i = 0; i < 10; i++)
+        {
+            if (buckets[i].isNotEmpty)
+            {
+                // 步骤6.5.1：复制桶中元素回原数组
+                // 关键点：按桶的顺序复制元素，保持稳定性
+                for (int value in buckets[i])
+                {
+                    arr[index] = value;
+                    index++;
+                }
+
+                // 步骤6.5.2：将子问题入栈
+                // 关键点：将子数组范围和下一位数入栈，逆序处理保持正确顺序
+                stack.add(StackItem(left, index - 1, currentExp ~/ 10));
+                left = index;
+            }
+        }
     }
-    
-    exp *= 10;
-  }
-  
-  printArray(arr, '排序后数组');
+
+    // 第七步：输出排序结果
+    printArray(arr, '排序后数组');
+}
+
+/**
+ * 桶优化基数排序版本
+ *
+ * ## 算法特点
+ * - 使用动态桶大小，优化内存使用
+ * - 适合处理稀疏数据
+ * - 减少不必要的内存分配
+ * - 提高处理效率
+ *
+ * ## 复杂度分析
+ * - 时间复杂度：O(d * (n + k))，d为位数，k为实际使用的基数范围
+ * - 空间复杂度：O(n + k') - k'为实际使用的基数范围（≤k）
+ * - 稳定性：稳定 - 保持相等元素的相对位置
+ *
+ * @param arr - 待排序的数字数组
+ * @return void 无返回值，直接修改原数组
+ */
+void radixSort4(List<int> arr)
+{
+    print('radixSort4 bucket optimized:');
+
+    // 第一步：找到最大值以确定位数
+    // 关键点：遍历数组找出最大值，用于确定处理位数
+    int max = arr[0];
+    for (int i = 1; i < arr.length; i++)
+    {
+        if (arr[i] > max)
+        {
+            max = arr[i];
+        }
+    }
+
+    // 第二步：对每个位数进行计数排序
+    // 关键点：从个位开始，逐位处理，直到最高位
+    for (int exp = 1; max ~/ exp > 0; exp *= 10)
+    {
+        // 步骤2.1：分配输出数组
+        // 关键点：为当前位数的排序结果分配内存
+        List<int> output = List.filled(arr.length, 0);
+
+        // 步骤2.2：动态确定桶范围
+        // 关键点：统计当前位数的最小和最大值，减少桶数量
+        int minDigit = 9;
+        int maxDigit = 0;
+        for (int i = 0; i < arr.length; i++)
+        {
+            int digit = getDigit(arr[i], exp);
+            if (digit < minDigit)
+                minDigit = digit;
+            if (digit > maxDigit)
+                maxDigit = digit;
+        }
+
+        // 步骤2.3：创建动态大小的计数数组
+        // 关键点：只创建实际需要的桶大小，优化内存使用
+        int bucketSize = maxDigit - minDigit + 1;
+        List<int> count = List.filled(bucketSize, 0);
+
+        // 步骤2.4：统计每个数字的出现次数
+        // 关键点：使用偏移量处理，支持任意范围的数字
+        for (int i = 0; i < arr.length; i++)
+        {
+            int digit = getDigit(arr[i], exp);
+            count[digit - minDigit]++;
+        }
+
+        // 步骤2.5：计算累计计数
+        // 关键点：当前位置加上左侧位置，形成累积计数
+        for (int i = 1; i < bucketSize; i++)
+        {
+            count[i] += count[i - 1];
+        }
+
+        // 步骤2.6：构建输出数组
+        // 关键点：从后向前遍历，保持排序的稳定性
+        for (int i = arr.length - 1; i >= 0; i--)
+        {
+            int digit = getDigit(arr[i], exp);
+            output[count[digit - minDigit] - 1] = arr[i];
+            count[digit - minDigit]--;
+        }
+
+        // 步骤2.7：复制回原数组
+        // 关键点：将排序结果复制回原数组，准备下一位处理
+        for (int i = 0; i < arr.length; i++)
+        {
+            arr[i] = output[i];
+        }
+    }
+
+    // 第三步：输出排序结果
+    printArray(arr, '排序后数组');
+}
+
+/**
+ * 递归基数排序辅助函数
+ *
+ * ## 算法特点
+ * - 递归处理每一位的计数排序
+ * - 从最低位开始递归到最高位
+ * - 基于计数排序实现
+ * - 使用计数排序作为基础
+ *
+ * @param arr - 待排序的数字数组
+ * @param size - 数组大小
+ * @param exponent - 当前处理的位数基数
+ * @param minValue - 数组最小值，用于负数处理
+ * @param maxValue - 数组最大值，用于确定递归终止条件
+ * @return void 无返回值，直接修改原数组
+ */
+void recursiveRadixSort(List<int> arr, int size, int exponent, int minValue, int maxValue)
+{
+    // 第一步：递归终止条件检查
+    // 关键点：当基数超过最大值时停止递归
+    if ((maxValue - minValue) ~/ exponent == 0)
+    {
+        return;
+    }
+
+    // 第二步：初始化计数排序变量
+    // 关键点：为当前位数的计数排序准备变量
+    int range = 10;
+    List<int> countList = List.filled(range, 0);
+    List<int> sortedList = List.filled(size, 0);
+
+    // 第三步：初始化计数数组
+    // 关键点：将计数数组清零
+    for (int i = 0; i < range; i++)
+    {
+        countList[i] = 0;
+    }
+
+    // 第四步：根据数字所在位置进行计数
+    // 关键点：使用arr[i] - minValue来处理负数，确保索引为正数
+    for (int i = 0; i < size; i++)
+    {
+        int item = arr[i] - minValue;
+        int idx = (item ~/ exponent) % range;
+        countList[idx]++;
+    }
+
+    // 第五步：构建计数排序
+    // 关键点：后面的位数为前面的累加之和，形成累积计数
+    for (int i = 1; i < range; i++)
+    {
+        countList[i] += countList[i - 1];
+    }
+
+    // 第六步：构建输出数组
+    // 关键点：从后向前遍历，保持排序的稳定性
+    for (int i = size - 1; i >= 0; i--)
+    {
+        int item = arr[i] - minValue;
+        int idx = (item ~/ exponent) % range;
+        sortedList[countList[idx] - 1] = arr[i];
+        countList[idx]--;
+    }
+
+    // 第七步：复制到数组重排原始数组
+    // 关键点：将排序结果复制回原数组
+    for (int i = 0; i < size; i++)
+    {
+        arr[i] = sortedList[i];
+    }
+
+    // 第八步：递归处理下一位
+    // 关键点：递归调用处理更高位数
+    recursiveRadixSort(arr, size, exponent * 10, minValue, maxValue);
+}
+
+/**
+ * 递归基数排序版本
+ *
+ * ## 算法特点
+ * - 使用递归处理每一位的排序
+ * - 基于计数排序的LSD实现
+ * - 支持负数处理
+ * - 递归深度由数字位数决定
+ *
+ * ## 复杂度分析
+ * - 时间复杂度：O(d * (n + k))，d为位数，k为基数（通常为10）
+ * - 空间复杂度：O(n + k + d) - 需要额外空间和递归栈
+ * - 稳定性：稳定 - 计数排序保持相等元素的相对位置
+ *
+ * @param arr - 待排序的数字数组
+ * @return void 无返回值，直接修改原数组
+ */
+void radixSort5(List<int> arr)
+{
+    // 第一步：输出测试信息
+    // 关键点：标识当前测试的算法类型
+    print('radixSort5 递归基数排序:');
+
+    // 第二步：找出最大值和最小值
+    // 关键点：确定排序的位数范围和处理负数
+    int maxValue = arr[0];
+    int minValue = arr[0];
+    for (int i = 1; i < arr.length; i++)
+    {
+        if (arr[i] > maxValue)
+            maxValue = arr[i];
+        if (arr[i] < minValue)
+            minValue = arr[i];
+    }
+
+    // 第三步：调用递归基数排序
+    // 关键点：从最低位（个位）开始递归排序
+    recursiveRadixSort(arr, arr.length, 1, minValue, maxValue);
+
+    // 第四步：输出排序结果
+    // 关键点：显示排序后的数组，验证算法正确性
+    printArray(arr, '排序后数组');
 }
 
 // ==================== 算法测试和性能对比 ====================
 
-void main() {
-  // 测试1：LSD版本
-  performanceTest(radixSort1, testData, 'LSD版本');
+void main()
+{
+    // 测试1：radixSort1 - 计数排序基数排序版本（支持负数）
+    performanceTest(radixSort1, testData, 'radixSort1 - 计数排序基数排序版本');
 
-  // 测试2：MSD版本
-  performanceTest(radixSort2, testData, 'MSD版本');
+    // 测试2：radixSort2 - MSD基数排序版本
+    performanceTest(radixSort2, testData, 'radixSort2 - MSD基数排序版本');
 
-  // 测试3：迭代MSD版本
-  performanceTest(radixSort3, testData, '迭代MSD版本');
+    // 测试3：radixSort3 - 迭代MSD基数排序版本
+    performanceTest(radixSort3, testData, 'radixSort3 - 迭代MSD基数排序版本');
 
-  // 测试4：桶优化版本
-  performanceTest(radixSort4, testData, '桶优化版本');
+    // 测试4：radixSort4 - 桶优化基数排序版本
+    performanceTest(radixSort4, testData, 'radixSort4 - 桶优化基数排序版本');
 
-  print('=== 算法对比总结 ===');
-  print('1. LSD版本：经典实现，从低到高');
-  print('2. MSD版本：高位优先，递归处理');
-  print('3. 迭代MSD版本：避免递归，性能稳定');
-  print('4. 桶优化版本：动态桶大小，内存优化');
+    // 测试5：radixSort5 - 递归基数排序版本
+    performanceTest(radixSort5, testData, 'radixSort5 - 递归基数排序版本');
+
+    // 测试6：负数数据处理
+    print('\n=== 负数测试 ===');
+    performanceTest(radixSort5, negativeTestData, 'radixSort5 - 递归基数排序版本（负数测试）');
+
+    print('=== 算法对比总结 ===');
+    print('1. radixSort1：计数排序基数排序版本，支持负数');
+    print('2. radixSort2：MSD基数排序版本，高位优先递归处理');
+    print('3. radixSort3：迭代MSD基数排序版本，避免递归性能稳定');
+    print('4. radixSort4：桶优化基数排序版本，动态桶大小内存优化');
+    print('5. radixSort5：递归基数排序版本，递归处理每一位');
+
+    return;
 }
 
-/*
-打印结果
+/*打印结果
 jarry@Mac radixsort % dart radix_sort.dart
-LSD版本原始数组: [33, 4, 15, 43, 323454, 7, 10, 1235, 200, 87431]
-radixSort1 LSD:
-排序后数组: [4, 7, 10, 15, 33, 43, 200, 1235, 87431, 323454]
-LSD版本: 0.125ms
-LSD版本排序结果: [4, 7, 10, 15, 33, 43, 200, 1235, 87431, 323454]
-
-MSD版本原始数组: [33, 4, 15, 43, 323454, 7, 10, 1235, 200, 87431]
+radixSort1 - 计数排序基数排序版本: [33, 4, 15, 43, 323454, 7, 10, 1235, 200, 87431]
+radixSort1 - 计数排序基数排序版本: 0.215ms
+radixSort1 - 计数排序基数排序版本排序结果: [4, 7, 10, 15, 33, 43, 200, 1235, 87431, 323454]
+radixSort2 - MSD基数排序版本: [33, 4, 15, 43, 323454, 7, 10, 1235, 200, 87431]
 radixSort2 MSD:
 排序后数组: [4, 7, 10, 15, 33, 43, 200, 1235, 87431, 323454]
-MSD版本: 0.042ms
-MSD版本排序结果: [4, 7, 10, 15, 33, 43, 200, 1235, 87431, 323454]
-
-迭代MSD版本原始数组: [33, 4, 15, 43, 323454, 7, 10, 1235, 200, 87431]
+radixSort2 - MSD基数排序版本: 0.475ms
+radixSort2 - MSD基数排序版本排序结果: [4, 7, 10, 15, 33, 43, 200, 1235, 87431, 323454]
+radixSort3 - 迭代MSD基数排序版本: [33, 4, 15, 43, 323454, 7, 10, 1235, 200, 87431]
 radixSort3 iterative MSD:
 排序后数组: [4, 7, 10, 15, 33, 43, 200, 1235, 87431, 323454]
-迭代MSD版本: 0.042ms
-迭代MSD版本排序结果: [4, 7, 10, 15, 33, 43, 200, 1235, 87431, 323454]
-
-桶优化版本原始数组: [33, 4, 15, 43, 323454, 7, 10, 1235, 200, 87431]
+radixSort3 - 迭代MSD基数排序版本: 0.300ms
+radixSort3 - 迭代MSD基数排序版本排序结果: [4, 7, 10, 15, 33, 43, 200, 1235, 87431, 323454]
+radixSort4 - 桶优化基数排序版本: [33, 4, 15, 43, 323454, 7, 10, 1235, 200, 87431]
 radixSort4 bucket optimized:
 排序后数组: [4, 7, 10, 15, 33, 43, 200, 1235, 87431, 323454]
-桶优化版本: 0.042ms
-桶优化版本排序结果: [4, 7, 10, 15, 33, 43, 200, 1235, 87431, 323454]
+radixSort4 - 桶优化基数排序版本: 0.143ms
+radixSort4 - 桶优化基数排序版本排序结果: [4, 7, 10, 15, 33, 43, 200, 1235, 87431, 323454]
+radixSort5 - 递归基数排序版本: [33, 4, 15, 43, 323454, 7, 10, 1235, 200, 87431]
+radixSort5 递归基数排序:
+排序后数组: [4, 7, 10, 15, 33, 43, 200, 1235, 87431, 323454]
+radixSort5 - 递归基数排序版本: 0.147ms
+radixSort5 - 递归基数排序版本排序结果: [4, 7, 10, 15, 33, 43, 200, 1235, 87431, 323454]
 
+=== 负数测试 ===
+radixSort5 - 递归基数排序版本（负数测试）: [170, 45, 75, -90, -802, 24, 2, 66, -5, 0]
+radixSort5 递归基数排序:
+排序后数组: [-802, -90, -5, 0, 2, 24, 45, 66, 75, 170]
+radixSort5 - 递归基数排序版本（负数测试）: 0.010ms
+radixSort5 - 递归基数排序版本（负数测试）排序结果: [-802, -90, -5, 0, 2, 24, 45, 66, 75, 170]
 === 算法对比总结 ===
-1. LSD版本：经典实现，从低到高
-2. MSD版本：高位优先，递归处理
-3. 迭代MSD版本：避免递归，性能稳定
-4. 桶优化版本：动态桶大小，内存优化
+1. radixSort1：计数排序基数排序版本，支持负数
+2. radixSort2：MSD基数排序版本，高位优先递归处理
+3. radixSort3：迭代MSD基数排序版本，避免递归性能稳定
+4. radixSort4：桶优化基数排序版本，动态桶大小内存优化
+5. radixSort5：递归基数排序版本，递归处理每一位
 */
