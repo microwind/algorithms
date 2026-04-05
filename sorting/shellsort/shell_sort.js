@@ -17,7 +17,7 @@
    * @param {string} label - 数组的标签说明
    */
   function printArray(arr, label) {
-    console.log(`${label}: [${arr.join(', ')}]`);
+    console.log(`${label}: [${arr.join(', ')}]`)
   }
 
   /**
@@ -37,7 +37,7 @@
     console.timeEnd(name);
     
     printArray(testArr, `${name}排序结果`);
-    console.log(''); // 空行分隔
+    console.log('') // 空行分隔
   }
 
   // ==================== 主程序：算法演示和性能测试 ====================
@@ -65,7 +65,7 @@
    * @returns {number[]} 排序后的数组
    */
   function shellSort1(arr) {
-    console.log('shellSort1 original sequence:');
+    console.log('shellSort1 original sequence:')
     const n = arr.length;
     
     // 原始Shell序列：n/2, n/4, ..., 1
@@ -74,11 +74,13 @@
       for (let i = gap; i < n; i++) {
         // 关键点：保存当前元素，与前面相距gap的元素比较
         const temp = arr[i];
-        let j;
+        let j = i;
         
         // 向前查找插入位置
-        for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {
+        while (j >= gap && arr[j - gap] > temp) {
+          console.log('gap=' + gap + ' i=' + i + ' j=' + j + ' (j-gap)=' + (j - gap) + ' arr:' + arr)
           arr[j] = arr[j - gap];
+          j -= gap;
         }
         
         // 插入元素
@@ -86,7 +88,6 @@
       }
     }
     
-    console.log(arr);
     return arr;
   }
 
@@ -109,7 +110,7 @@
    * @returns {number[]} 排序后的数组
    */
   function shellSort2(arr) {
-    console.log('shellSort2 Knuth sequence:');
+    console.log('shellSort2 Knuth sequence:')
     const n = arr.length;
     
     // 计算初始增量（Knuth序列）
@@ -123,18 +124,17 @@
       // 对每个增量进行插入排序
       for (let i = gap; i < n; i++) {
         const temp = arr[i];
-        let j;
+        let j = i - gap;
         
         // 向前查找插入位置
-        for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {
-          arr[j] = arr[j - gap];
+        for (; j >= 0 && arr[j] > temp; j -= gap) {
+          console.log('gap=' + gap + ' i=' + i + ' j=' + j + ' (j+gap)=' + (j + gap) + ' arr:' + arr)
+          arr[j + gap] = arr[j];
         }
-        
-        arr[j] = temp;
+        arr[j + gap] = temp;
       }
     }
     
-    console.log(arr);
     return arr;
   }
 
@@ -157,7 +157,7 @@
    * @returns {number[]} 排序后的数组
    */
   function shellSort3(arr) {
-    console.log('shellSort3 Hibbard sequence:');
+    console.log('shellSort3 Hibbard sequence:')
     const n = arr.length;
     
     // 生成Hibbard序列
@@ -209,7 +209,7 @@
    * @returns {number[]} 排序后的数组
    */
   function shellSort4(arr) {
-    console.log('shellSort4 Sedgewick sequence:');
+    console.log('shellSort4 Sedgewick sequence:')
     const n = arr.length;
     
     // 生成Sedgewick序列
@@ -246,6 +246,43 @@
     return arr;
   }
 
+  /**
+   * 希尔排序 - 递归版本（尾递归实现）
+   * 
+   * 算法思路：
+   * 递归处理增量（分组）序列，每个增量插入排序
+   * 增量序列采用 Math.floor(gap/2)（希尔原始序列）
+   * 
+   * 递归结构：
+   * - 外层尾递归：处理递减的增量序列
+   * - 内层循环：对每个位置进行插入排序
+   */
+  function shellSort5(arr, gap) {
+    // 递归终止条件
+    if (gap <= 0) {
+      return arr;
+    }
+    
+    // 对当前增量（分组）进行插入排序
+    const n = arr.length;
+    for (let i = gap; i < n; i++) {
+      const temp = arr[i];
+      let j = i;
+      
+      // 向前查找插入位置
+      while (j >= gap && arr[j - gap] > temp) {
+        arr[j] = arr[j - gap];
+        j -= gap;
+      }
+      
+      // 插入到对应位置
+      arr[j] = temp;
+    }
+    
+    // 尾递归调用：递归是函数的最后操作
+    return shellSort5(arr, Math.floor(gap / 2));
+  }
+
   // ==================== 算法测试和性能对比 ====================
   
   // 测试1：原始Shell序列
@@ -260,10 +297,68 @@
   // 测试4：Sedgewick序列
   performanceTest(shellSort4, testData, 'Sedgewick序列');
 
-  console.log('=== 算法对比总结 ===');
-  console.log('1. 原始Shell序列：简单实现，易于理解');
-  console.log('2. Knuth序列：经典优化，性能提升');
-  console.log('3. Hibbard序列：数学优化，理论更优');
-  console.log('4. Sedgewick序列：最优序列，性能最佳');
+  // 测试5：递归版本（尾递归）
+  const result5 = shellSort5([...testData], Math.floor(testData.length / 2));
+  console.log(`递归版本: [${result5}]`);
+
+  console.log('=== 算法对比总结 ===')
+  console.log('1. 原始Shell序列：简单实现，易于理解')
+  console.log('2. Knuth序列：经典优化，性能提升')
+  console.log('3. Hibbard序列：数学优化，理论更优')
+  console.log('4. Sedgewick序列：最优序列，性能最佳')
+  console.log('5. 递归版本：尾递归优化实现')
 
 })();
+
+/*打印结果
+jarry@Mac shellsort % node shell_sort.js
+原始Shell序列原始数组: [7, 11, 9, 10, 12, 13, 8]
+shellSort1 original sequence:
+gap=3 i=6 j=6 (j-gap)=3 arr:7,11,9,10,12,13,8
+gap=1 i=2 j=2 (j-gap)=1 arr:7,11,9,8,12,13,10
+gap=1 i=3 j=3 (j-gap)=2 arr:7,9,11,8,12,13,10
+gap=1 i=3 j=2 (j-gap)=1 arr:7,9,11,11,12,13,10
+gap=1 i=6 j=6 (j-gap)=5 arr:7,8,9,11,12,13,10
+gap=1 i=6 j=5 (j-gap)=4 arr:7,8,9,11,12,13,13
+gap=1 i=6 j=4 (j-gap)=3 arr:7,8,9,11,12,12,13
+原始Shell序列: 0.106ms
+原始Shell序列排序结果: [7, 8, 9, 10, 11, 12, 13]
+
+Knuth序列原始数组: [7, 11, 9, 10, 12, 13, 8]
+shellSort2 Knuth sequence:
+gap=4 i=6 j=2 (j+gap)=6 arr:7,11,9,10,12,13,8
+gap=1 i=2 j=1 (j+gap)=2 arr:7,11,8,10,12,13,9
+gap=1 i=3 j=2 (j+gap)=3 arr:7,8,11,10,12,13,9
+gap=1 i=6 j=5 (j+gap)=6 arr:7,8,10,11,12,13,9
+gap=1 i=6 j=4 (j+gap)=5 arr:7,8,10,11,12,13,13
+gap=1 i=6 j=3 (j+gap)=4 arr:7,8,10,11,12,12,13
+gap=1 i=6 j=2 (j+gap)=3 arr:7,8,10,11,11,12,13
+Knuth序列: 0.051ms
+Knuth序列排序结果: [7, 8, 9, 10, 11, 12, 13]
+
+Hibbard序列原始数组: [7, 11, 9, 10, 12, 13, 8]
+shellSort3 Hibbard sequence:
+[
+   7,  8,  9, 10,
+  11, 12, 13
+]
+Hibbard序列: 0.223ms
+Hibbard序列排序结果: [7, 8, 9, 10, 11, 12, 13]
+
+Sedgewick序列原始数组: [7, 11, 9, 10, 12, 13, 8]
+shellSort4 Sedgewick sequence:
+[
+   7,  8,  9, 10,
+  11, 12, 13
+]
+Sedgewick序列: 0.066ms
+Sedgewick序列排序结果: [7, 8, 9, 10, 11, 12, 13]
+
+递归版本: [7,8,9,10,11,12,13]
+=== 算法对比总结 ===
+1. 原始Shell序列：简单实现，易于理解
+2. Knuth序列：经典优化，性能提升
+3. Hibbard序列：数学优化，理论更优
+4. Sedgewick序列：最优序列，性能最佳
+5. 递归版本：尾递归优化实现
+ */

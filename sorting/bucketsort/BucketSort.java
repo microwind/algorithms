@@ -6,7 +6,6 @@
 
 import java.util.Arrays;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Collections;
 
 /**
@@ -636,38 +635,38 @@ jarry@Mac bucketsort % java BucketSort.java
 
 arrData origin: [20, 11, 0, -10, 9, 6, 30, 15, 13, 80]
 bucketSort1 with negative numbers:
-bucketSort1: 0.140ms
+bucketSort1: 0.059ms
 [-10, 0, 6, 9, 11, 13, 15, 20, 30, 80]
 
 
 arrData origin: [0.7, 0.11, -0.9, 0.011, 0.034, 0.62, 0.93, 0.68]
 bucketSort2 positive numbers only:
-bucketSort2: 0.182ms
+bucketSort2: 0.143ms
 [0.011, 0.034, 0.11, 0.62, 0.68, 0.7, 0.93, 0.0]
 
 
 arrData origin: [20, 11, 0, -10, 9, 6, 30, 15, 13, 80]
 bucketSort3 with move sorting:
-bucketSort3: 0.099ms
+bucketSort3: 0.069ms
 [-10, 0, 6, 9, 11, 13, 15, 20, 30, 80]
 
 
 arrData origin: [20, 11, 0, -10, 9, 6, 30, 15, 13, 80]
 bucketSort4 separate negative sorting:
 bucketSort1 with negative numbers:
-bucketSort4: 0.461ms
+bucketSort4: 0.340ms
 [-10, 0, 6, 9, 11, 13, 15, 20, 30, 80]
 
 
 arrData origin: [20, 11, 0, -10, 9, 6, 30, 15, 13, 80]
 bucketSort5 real-time bubble sorting:
-bucketSort5: 0.021ms
+bucketSort5: 0.022ms
 [-10, 0, 6, 9, 11, 13, 15, 20, 30, 80]
 
 
 arrData origin: [20, 11, 0, -10, 9, 6, 30, 15, 13, 80]
 bucketSort6 optimized version:
-bucketSort6: 0.028ms
+bucketSort6: 0.031ms
 [-10, 0, 6, 9, 11, 13, 15, 20, 30, 80]
 
 === 算法对比总结 ===

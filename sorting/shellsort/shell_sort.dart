@@ -239,6 +239,43 @@ void shellSort4(List<int> arr) {
   printArray(arr, '排序后数组');
 }
 
+/**
+ * 希尔排序 - 递归版本（尾递归实现）
+ * 
+ * 算法思路：
+ * 递归处理增量（分组）序列，每个增量插入排序
+ * 增量序列采用 gap/2（希尔原始序列）
+ * 
+ * 递归结构：
+ * - 外层尾递归：处理递减的增量序列
+ * - 内层循环：对每个位置进行插入排序
+ */
+void shellSort5(List<int> arr, int gap) {
+  // 递归终止条件
+  if (gap <= 0) {
+    return;
+  }
+  
+  // 对当前增量（分组）进行插入排序
+  int n = arr.length;
+  for (int i = gap; i < n; i++) {
+    int temp = arr[i];
+    int j = i;
+    
+    // 向前查找插入位置
+    while (j >= gap && arr[j - gap] > temp) {
+      arr[j] = arr[j - gap];
+      j -= gap;
+    }
+    
+    // 插入到对应位置
+    arr[j] = temp;
+  }
+  
+  // 尾递归调用：递归是函数的最后操作
+  shellSort5(arr, gap ~/ 2);
+}
+
 // ==================== 算法测试和性能对比 ====================
 
 void main() {
@@ -254,43 +291,53 @@ void main() {
   // 测试4：Sedgewick序列
   performanceTest(shellSort4, testData, 'Sedgewick序列');
 
+  // 测试5：递归版本（尾递归）
+  print('shellSort5 递归版本:');
+  List<int> testDataCopy = List.from(testData);
+  shellSort5(testDataCopy, testDataCopy.length ~/ 2);
+  printArray(testDataCopy, '递归版本');
+
   print('=== 算法对比总结 ===');
   print('1. 原始Shell序列：简单实现，易于理解');
   print('2. Knuth序列：经典优化，性能提升');
   print('3. Hibbard序列：数学优化，理论更优');
   print('4. Sedgewick序列：最优序列，性能最佳');
+  print('5. 递归版本：尾递归优化实现');
 }
 
 /*
 打印结果
-jarry@Mac shellsort % dart shell_sort.dart
+jarry@Mac shellsort % dart shell_sort.dart 
 原始Shell序列原始数组: [33, 4, 15, 43, 323454, -7, 105, 1235, 200, 87431]
 shellSort1 original sequence:
 排序后数组: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
-原始Shell序列: 0.125ms
+原始Shell序列: 0.0
 原始Shell序列排序结果: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
 
 Knuth序列原始数组: [33, 4, 15, 43, 323454, -7, 105, 1235, 200, 87431]
 shellSort2 Knuth sequence:
 排序后数组: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
-Knuth序列: 0.042ms
+Knuth序列: 0.0
 Knuth序列排序结果: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
 
 Hibbard序列原始数组: [33, 4, 15, 43, 323454, -7, 105, 1235, 200, 87431]
 shellSort3 Hibbard sequence:
 排序后数组: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
-Hibbard序列: 0.042ms
+Hibbard序列: 0.0
 Hibbard序列排序结果: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
 
 Sedgewick序列原始数组: [33, 4, 15, 43, 323454, -7, 105, 1235, 200, 87431]
 shellSort4 Sedgewick sequence:
 排序后数组: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
-Sedgewick序列: 0.042ms
+Sedgewick序列: 0.0
 Sedgewick序列排序结果: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
 
+shellSort5 递归版本:
+递归版本: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
 === 算法对比总结 ===
 1. 原始Shell序列：简单实现，易于理解
 2. Knuth序列：经典优化，性能提升
 3. Hibbard序列：数学优化，理论更优
 4. Sedgewick序列：最优序列，性能最佳
+5. 递归版本：尾递归优化实现
 */

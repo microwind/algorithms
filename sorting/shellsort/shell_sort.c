@@ -59,56 +59,52 @@ int testData[] = {33, 4, 15, 43, 323454, -7, 105, 1235, 200, 87431};
 int testDataSize = sizeof(testData) / sizeof(testData[0]);
 
 /**
- * 希尔排序基础版本 - 原始Shell序列
+ * 希尔排序标准版 - 基于插入排序进行分组排序，步长按1/2缩减
  * 
  * 算法原理：
- * 1. 选择一个增量序列，如 n/2, n/4, ..., 1
- * 2. 对每个增量进行插入排序，但只比较相距增量的元素
- * 3. 逐步减小增量，直到增量为1，此时数组基本有序
- * 4. 最后一次插入排序完成整个排序过程
+ * 1. 设置分组增量值（步长）为1/2的数组长度
+ * 2. 根据步长得到子序列，如果间隔大于0，则表示还可以继续分组
+ * 3. 对子序列按照插入排序
+ * 4. 调整步长为1/2
  * 
- * 生活类比：就像整理一副扑克牌，先按间隔几张牌进行分组整理，
- * 然后逐步缩小间隔，最后对相邻的牌进行精细整理
- * 
- * 时间复杂度：平均O(n^1.3)，最坏O(n^2)，取决于增量序列
+ * 时间复杂度：平均O(n^1.3)，最坏O(n^2)
  * 空间复杂度：O(1) - 原地排序
- * 稳定性：不稳定 - 相距增量的元素交换可能改变相等元素的相对位置
+ * 稳定性：不稳定 - 插入排序的不稳定性继承
  */
 void shellSort1(int arr[], int size) {
     printf("shellSort1 original sequence:\n");
     
-    // 原始Shell序列：n/2, n/4, ..., 1
-    for (int gap = size / 2; gap > 0; gap /= 2) {
-        // 对每个增量进行插入排序
+    // 设置分组增量值（步长）为1/2的数组长度
+    int gap = size / 2;
+    // 根据步长得到子序列，如果间隔大于0，则表示还可以继续分组
+    while (gap > 0) {
         for (int i = gap; i < size; i++) {
-            // 关键点：保存当前元素，与前面相距gap的元素比较
-            int temp = arr[i];
+            int current = arr[i];
             int j = i;
-            
-            // 向前查找插入位置
-            while (j >= gap && arr[j - gap] > temp) {
+            // 对子序列按照插入排序
+            while (j >= gap && current < arr[j - gap]) {
+                printf("\r\n gap=%d, i=%d, (j-gap)=%d, j=%d", gap, i, (j - gap), j);
                 arr[j] = arr[j - gap];
                 j -= gap;
             }
-            
-            // 插入元素
-            arr[j] = temp;
+            // 交换当前项
+            arr[j] = current;
         }
+        // 调整步长为1/2
+        gap = gap / 2;
     }
-    
     printArray(arr, size, "排序后数组");
 }
 
 /**
- * 希尔排序优化版本 - Knuth序列
+ * 希尔排序优化版 - 基于插入排序进行分组排序，步长按3倍递减
  * 
- * 算法思路：
- * 使用Knuth提出的增量序列：1, 4, 13, 40, ...
- * 公式：gap = 3 * gap + 1，然后反向递减
- * 
- * 优化效果：
- * - 更好的增量序列，减少比较次数
- * - 理论上更优的时间复杂度
+ * 算法原理：
+ * 1. 设置分组增量值（步长）为1/2的数组长度
+ * 2. 初始步长按3倍递增，小于1/3数组长度（Knuth序列）
+ * 3. 根据步长得到子序列，如果间隔大于0，则表示还可以继续分组
+ * 4. 对子序列按照插入排序
+ * 5. 步长按3倍缩减
  * 
  * 时间复杂度：平均O(n^1.25)，比原始序列更优
  * 空间复杂度：O(1) - 原地排序
@@ -117,29 +113,28 @@ void shellSort1(int arr[], int size) {
 void shellSort2(int arr[], int size) {
     printf("shellSort2 Knuth sequence:\n");
     
-    // 计算初始增量（Knuth序列）
+    // 设置分组增量值（步长）为1/2的数组长度
     int gap = 1;
+    // 初始步长按3倍递增，小于1/3数组长度
     while (gap < size / 3) {
-        gap = 3 * gap + 1; // 1, 4, 13, 40, 121, ...
+        // Knuth 序列：1, 4, 13, 40...
+        gap = gap * 3 + 1;
     }
-    
-    // 反向递减处理
-    for (; gap > 0; gap /= 3) {
-        // 对每个增量进行插入排序
+    // 根据步长得到子序列，如果间隔大于0，则表示还可以继续分组
+    while (gap > 0) {
         for (int i = gap; i < size; i++) {
-            int temp = arr[i];
-            int j = i;
-            
-            // 向前查找插入位置
-            while (j >= gap && arr[j - gap] > temp) {
-                arr[j] = arr[j - gap];
-                j -= gap;
+            int current = arr[i];
+            int j = i - gap;
+            // 对子序列按照插入排序
+            for (; j >= 0 && arr[j] > current; j -= gap) {
+                printf("\r\n gap=%d, i=%d, j=%d, (j+gap)=%d", gap, i, j, (j + gap));
+                arr[j + gap] = arr[j];
             }
-            
-            arr[j] = temp;
+            arr[j + gap] = current;
         }
+        // 步长按3倍缩减
+        gap = (gap / 3);
     }
-    
     printArray(arr, size, "排序后数组");
 }
 
@@ -249,6 +244,42 @@ void shellSort4(int arr[], int size) {
     printArray(arr, size, "排序后数组");
 }
 
+/**
+ * 希尔排序 - 递归版本（尾递归实现）
+ * 
+ * 算法思路：
+ * 递归处理增量（分组）序列，每个增量插入排序
+ * 增量序列采用 gap/2（希尔原始序列）
+ * 
+ * 递归结构：
+ * - 外层尾递归：处理递减的增量序列
+ * - 内层循环：对每个位置进行插入排序
+ */
+void shellSort5(int arr[], int size, int gap) {
+    // 递归终止条件
+    if (gap <= 0) {
+        return;
+    }
+    
+    // 对当前增量（分组）进行插入排序
+    for (int i = gap; i < size; i++) {
+        int temp = arr[i];
+        int j = i;
+        
+        // 向前查找插入位置
+        while (j >= gap && arr[j - gap] > temp) {
+            arr[j] = arr[j - gap];
+            j -= gap;
+        }
+        
+        // 插入到对应位置
+        arr[j] = temp;
+    }
+    
+    // 尾递归调用：递归是函数的最后操作
+    shellSort5(arr, size, gap / 2);
+}
+
 // ==================== 算法测试和性能对比 ====================
 
 int main() {
@@ -264,11 +295,18 @@ int main() {
     // 测试4：Sedgewick序列
     performanceTest(shellSort4, testData, testDataSize, "Sedgewick序列");
 
+    // 测试5：递归版本（尾递归）
+    printf("shellSort5 递归版本: ");
+    printArray(testData, testDataSize, "");
+    shellSort5(testData, testDataSize, testDataSize / 2);
+    printArray(testData, testDataSize, "递归版本排序后");
+
     printf("=== 算法对比总结 ===\n");
     printf("1. 原始Shell序列：简单实现，易于理解\n");
     printf("2. Knuth序列：经典优化，性能提升\n");
     printf("3. Hibbard序列：数学优化，理论更优\n");
     printf("4. Sedgewick序列：最优序列，性能最佳\n");
+    printf("5. 递归版本：尾递归优化实现\n");
 
     return 0;
 }
@@ -278,31 +316,50 @@ int main() {
 jarry@Mac shellsort % gcc shell_sort.c -o shell_sort && ./shell_sort
 原始Shell序列: [33, 4, 15, 43, 323454, -7, 105, 1235, 200, 87431]
 shellSort1 original sequence:
-排序后数组: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
-原始Shell序列: 0.125ms
-原始Shell序列排序结果: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
+
+ gap=5, i=5, (j-gap)=0, j=5
+ gap=5, i=9, (j-gap)=4, j=9
+ gap=2, i=5, (j-gap)=3, j=5
+ gap=2, i=6, (j-gap)=4, j=6
+ gap=2, i=8, (j-gap)=6, j=8
+ gap=1, i=5, (j-gap)=4, j=5排序后数组: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
+原始Shell序列: 0.007ms
+原始Shell序列: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
 
 Knuth序列: [33, 4, 15, 43, 323454, -7, 105, 1235, 200, 87431]
 shellSort2 Knuth sequence:
-排序后数组: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
-Knuth序列: 0.042ms
-Knuth序列排序结果: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
+
+ gap=4, i=5, j=1, (j+gap)=5
+ gap=4, i=8, j=4, (j+gap)=8
+ gap=1, i=1, j=0, (j+gap)=1
+ gap=1, i=2, j=1, (j+gap)=2
+ gap=1, i=5, j=4, (j+gap)=5
+ gap=1, i=5, j=3, (j+gap)=4
+ gap=1, i=5, j=2, (j+gap)=3
+ gap=1, i=5, j=1, (j+gap)=2
+ gap=1, i=6, j=5, (j+gap)=6
+ gap=1, i=9, j=8, (j+gap)=9排序后数组: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
+Knuth序列: 0.009ms
+Knuth序列: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
 
 Hibbard序列: [33, 4, 15, 43, 323454, -7, 105, 1235, 200, 87431]
 shellSort3 Hibbard sequence:
 排序后数组: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
-Hibbard序列: 0.042ms
-Hibbard序列排序结果: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
+Hibbard序列: 0.004ms
+Hibbard序列: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
 
 Sedgewick序列: [33, 4, 15, 43, 323454, -7, 105, 1235, 200, 87431]
 shellSort4 Sedgewick sequence:
 排序后数组: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
-Sedgewick序列: 0.042ms
-Sedgewick序列排序结果: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
+Sedgewick序列: 0.003ms
+Sedgewick序列: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
 
+shellSort5 递归版本: : [33, 4, 15, 43, 323454, -7, 105, 1235, 200, 87431]
+递归版本排序后: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
 === 算法对比总结 ===
 1. 原始Shell序列：简单实现，易于理解
 2. Knuth序列：经典优化，性能提升
 3. Hibbard序列：数学优化，理论更优
 4. Sedgewick序列：最优序列，性能最佳
+5. 递归版本：尾递归优化实现
 */

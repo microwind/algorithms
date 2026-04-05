@@ -70,11 +70,13 @@ public class ShellSort {
             for (int i = gap; i < n; i++) {
                 // 关键点：保存当前元素，与前面相距gap的元素比较
                 int temp = arr[i];
-                int j;
+                int j = i;
                 
                 // 向前查找插入位置
-                for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {
+                while (j >= gap && arr[j - gap] > temp) {
+                    System.out.println("gap=" + gap + " i=" + i + " j-gap=" + (j - gap) + " j=" + j + " arr:" + java.util.Arrays.toString(arr));
                     arr[j] = arr[j - gap];
+                    j -= gap;
                 }
                 
                 // 插入元素
@@ -115,14 +117,14 @@ public class ShellSort {
             // 对每个增量进行插入排序
             for (int i = gap; i < n; i++) {
                 int temp = arr[i];
-                int j;
+                int j = i - gap;
                 
                 // 向前查找插入位置
-                for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {
-                    arr[j] = arr[j - gap];
+                for (; j >= 0 && arr[j] > temp; j -= gap) {
+                    System.out.println("gap=" + gap + " i=" + i + " j=" + j + " j+gap=" + (j + gap) + " arr:" + java.util.Arrays.toString(arr));
+                    arr[j + gap] = arr[j];
                 }
-                
-                arr[j] = temp;
+                arr[j + gap] = temp;
             }
         }
         
@@ -223,8 +225,48 @@ public class ShellSort {
                 arr[j] = temp;
             }
         }
+    }
+    
+    /**
+     * 希尔排序 - 递归版本（尾递归实现）
+     * 
+     * 算法思路：
+     * 递归处理增量（分组）序列，每个增量插入排序
+     * 增量序列采用 gap/2（希尔原始序列）
+     * 
+     * 递归结构：
+     * - 外层尾递归：处理递减的增量序列
+     * - 内层循环：对每个位置进行插入排序
+     */
+    /**
+     * 递归希尔排序版 - 尾递归实现
+     * 
+     * @param arr 待排序数组
+     * @param gap 当前增量
+     */
+    public static void shellSort5(int[] arr, int gap) {
+        // 递归终止条件
+        if (gap <= 0) {
+            return;
+        }
         
-        printArray(arr, "排序后数组");
+        // 对当前增量（分组）进行插入排序
+        for (int i = gap; i < arr.length; i++) {
+            int temp = arr[i];
+            int j = i;
+            
+            // 向前查找插入位置
+            while (j >= gap && arr[j - gap] > temp) {
+                arr[j] = arr[j - gap];
+                j -= gap;
+            }
+            
+            // 插入到对应位置
+            arr[j] = temp;
+        }
+        
+        // 尾递归调用：递归是函数的最后操作
+        shellSort5(arr, gap / 2);
     }
 
     // ==================== 算法测试和性能对比 ====================
@@ -247,44 +289,70 @@ public class ShellSort {
         // 测试4：Sedgewick序列
         performanceTest(ShellSort::shellSort4, testData, "Sedgewick序列");
 
+        // 测试5：递归版本
+        performanceTest(arr -> {
+            shellSort5(arr, arr.length / 2);
+        }, testData, "递归版本");
+
         System.out.println("=== 算法对比总结 ===");
         System.out.println("1. 原始Shell序列：简单实现，易于理解");
         System.out.println("2. Knuth序列：经典优化，性能提升");
         System.out.println("3. Hibbard序列：数学优化，理论更优");
         System.out.println("4. Sedgewick序列：最优序列，性能最佳");
+        System.out.println("5. 递归版本：尾递归优化实现");
     }
 }
 
 /*
 打印结果
-jarry@Mac shellsort % javac ShellSort.java && java ShellSort
+jarry@Mac shellsort % java ShellSort.java
 原始Shell序列原始数组: [33, 4, 15, 43, 323454, -7, 105, 1235, 200, 87431]
 shellSort1 original sequence:
+gap=5 i=5 j-gap=0 j=5 arr:[33, 4, 15, 43, 323454, -7, 105, 1235, 200, 87431]
+gap=5 i=9 j-gap=4 j=9 arr:[-7, 4, 15, 43, 323454, 33, 105, 1235, 200, 87431]
+gap=2 i=5 j-gap=3 j=5 arr:[-7, 4, 15, 43, 87431, 33, 105, 1235, 200, 323454]
+gap=2 i=6 j-gap=4 j=6 arr:[-7, 4, 15, 33, 87431, 43, 105, 1235, 200, 323454]
+gap=2 i=8 j-gap=6 j=8 arr:[-7, 4, 15, 33, 105, 43, 87431, 1235, 200, 323454]
+gap=1 i=5 j-gap=4 j=5 arr:[-7, 4, 15, 33, 105, 43, 200, 1235, 87431, 323454]
 排序后数组: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
-原始Shell序列: 0.125ms
+原始Shell序列: 2.780ms
 原始Shell序列排序结果: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
 
 Knuth序列原始数组: [33, 4, 15, 43, 323454, -7, 105, 1235, 200, 87431]
 shellSort2 Knuth sequence:
+gap=4 i=5 j=1 j+gap=5 arr:[33, 4, 15, 43, 323454, -7, 105, 1235, 200, 87431]
+gap=4 i=8 j=4 j+gap=8 arr:[33, -7, 15, 43, 323454, 4, 105, 1235, 200, 87431]
+gap=1 i=1 j=0 j+gap=1 arr:[33, -7, 15, 43, 200, 4, 105, 1235, 323454, 87431]
+gap=1 i=2 j=1 j+gap=2 arr:[-7, 33, 15, 43, 200, 4, 105, 1235, 323454, 87431]
+gap=1 i=5 j=4 j+gap=5 arr:[-7, 15, 33, 43, 200, 4, 105, 1235, 323454, 87431]
+gap=1 i=5 j=3 j+gap=4 arr:[-7, 15, 33, 43, 200, 200, 105, 1235, 323454, 87431]
+gap=1 i=5 j=2 j+gap=3 arr:[-7, 15, 33, 43, 43, 200, 105, 1235, 323454, 87431]
+gap=1 i=5 j=1 j+gap=2 arr:[-7, 15, 33, 33, 43, 200, 105, 1235, 323454, 87431]
+gap=1 i=6 j=5 j+gap=6 arr:[-7, 4, 15, 33, 43, 200, 105, 1235, 323454, 87431]
+gap=1 i=9 j=8 j+gap=9 arr:[-7, 4, 15, 33, 43, 105, 200, 1235, 323454, 87431]
 排序后数组: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
-Knuth序列: 0.042ms
+Knuth序列: 0.230ms
 Knuth序列排序结果: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
 
 Hibbard序列原始数组: [33, 4, 15, 43, 323454, -7, 105, 1235, 200, 87431]
 shellSort3 Hibbard sequence:
 排序后数组: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
-Hibbard序列: 0.042ms
+Hibbard序列: 0.074ms
 Hibbard序列排序结果: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
 
 Sedgewick序列原始数组: [33, 4, 15, 43, 323454, -7, 105, 1235, 200, 87431]
 shellSort4 Sedgewick sequence:
-排序后数组: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
-Sedgewick序列: 0.042ms
+Sedgewick序列: 0.009ms
 Sedgewick序列排序结果: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
+
+递归版本原始数组: [33, 4, 15, 43, 323454, -7, 105, 1235, 200, 87431]
+递归版本: 0.002ms
+递归版本排序结果: [-7, 4, 15, 33, 43, 105, 200, 1235, 87431, 323454]
 
 === 算法对比总结 ===
 1. 原始Shell序列：简单实现，易于理解
 2. Knuth序列：经典优化，性能提升
 3. Hibbard序列：数学优化，理论更优
 4. Sedgewick序列：最优序列，性能最佳
+5. 递归版本：尾递归优化实现
 */
