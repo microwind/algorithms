@@ -60,7 +60,7 @@ AI时代已经到来。AI可以替代人工编码工作，但难以替代人的�
     
 ## 10大经典排序算法
 
-| 排序算法 | C | C++ | Java | Python | JavaScript | TypeScript | Go | Rust | Swift | Kotlin | Dart | 适用场景 |
+| 排序算法 | C | C++ | Java | Py | JS | TS | Go | Rust | Swift | Kotlin | Dart | 适用场景 |
 |---------|--------|--------|---------|---------|-------------|-------------|-----|------|------|--------|------|--------|
 | [冒泡排序 bubble sort](./sorting/bubblesort/) | [C](./sorting/bubblesort/bubble_sort.c) | [C++](./sorting/bubblesort/bubble_sort.cpp) | [Java](./sorting/bubblesort/BubbleSort.java) | [Python](./sorting/bubblesort/bubble_sort.py) | [JS](./sorting/bubblesort/bubble_sort.js) | [TS](./sorting/bubblesort/BubbleSort.ts) | [Go](./sorting/bubblesort/bubble_sort.go) | [Rust](./sorting/bubblesort/bubble_sort.rs) | [Swift](./sorting/bubblesort/BubbleSort.swift) | [Kotlin](./sorting/bubblesort/BubbleSort.kt) | [Dart](./sorting/bubblesort/BubbleSort.dart) | 适用于小规模数据排序，教学用途 |
 | [插入排序 insert sort](./sorting/insertsort/) | [C](./sorting/insertsort/insert_sort.c) | [C++](./sorting/insertsort/insert_sort.cpp) | [Java](./sorting/insertsort/InsertSort.java) | [Python](./sorting/insertsort/insert_sort.py) | [JS](./sorting/insertsort/insert_sort.js) | [TS](./sorting/insertsort/InsertSort.ts) | [Go](./sorting/insertsort/insert_sort.go) | [Rust](./sorting/insertsort/insert_sort.rs) | [Swift](./sorting/insertsort/InsertSort.swift) | [Kotlin](./sorting/insertsort/InsertSort.kt) | [Dart](./sorting/insertsort/InsertSort.dart) | 适用于小规模数据，少量元素已基本有序的情况 |
@@ -78,7 +78,7 @@ AI时代已经到来。AI可以替代人工编码工作，但难以替代人的�
 
 ## 字符串搜索与查找
 
-| 算法 | C | C++ | Java | Python | JavaScript | TypeScript | Go | Rust | Swift | Kotlin | Dart | 适用场景 |
+| 算法 | C | C++ | Java | Py | JS | TS | Go | Rust | Swift | Kotlin | Dart | 适用场景 |
 |------|--------|--------|---------|---------|-------------|-------------|-----|------|------|--------|------|--------|
 | [朴素搜索](./string/nativesearch/) | [C](./string/nativesearch/string_search.c) | [C++](./string/nativesearch/string_search.cpp) | [Java](./string/nativesearch/StringSearch.java) | [Python](./string/nativesearch/string_search.py) | [JS](./string/nativesearch/string_search.js) | [TS](./string/nativesearch/StringSearch.ts) | [Go](./string/nativesearch/string_search.go) | [Rust](./string/nativesearch/string_search.rs) | [Swift](./string/nativesearch/StringSearch.swift) | [Kotlin](./string/nativesearch/StringSearch.kt) | [Dart](./string/nativesearch/StringSearch.dart) | 适用于小规模文本搜索 |
 | [二分查找](./searching/binarysearch/) | [C](./searching/binarysearch/binary_search.c) | [C++](./searching/binarysearch/binary_search.cpp) | [Java](./searching/binarysearch/BinarySearch.java) | [Python](./searching/binarysearch/binary_search.py) | [JS](./searching/binarysearch/binary_search.js) | [TS](./searching/binarysearch/BinarySearch.ts) | [Go](./searching/binarysearch/binary_search.go) | [Rust](./searching/binarysearch/binary_search.rs) | [Swift](./searching/binarysearch/BinarySearch.swift) | [Kotlin](./searching/binarysearch/BinarySearch.kt) | [Dart](./searching/binarysearch/BinarySearch.dart) | 适用于已排序数组的查找 |
@@ -87,13 +87,13 @@ AI时代已经到来。AI可以替代人工编码工作，但难以替代人的�
 
 ## 树搜索与遍历
 
-| 算法 | C | C++ | Java | Python | JavaScript | TypeScript | Go | Rust | Swift | Kotlin | Dart | 适用场景 |
+| 算法 | C | C++ | Java | Py | JS | TS | Go | Rust | Swift | Kotlin | Dart | 适用场景 |
 |------|--------|--------|---------|---------|-------------|-------------|-----|------|------|--------|------|--------|
 | [二叉树遍历](./tree/binarytree/) | [C](./tree/binarytree/binary_tree.c) | [C++](./tree/binarytree/binary_tree.cpp) | [Java](./tree/binarytree/BinaryTree.java) | [Python](./tree/binarytree/binary_tree.py) | [JS](./tree/binarytree/binary_tree.js) | [TS](./tree/binarytree/BinaryTree.ts) | [Go](./tree/binarytree/binary_tree.go) | [Rust](./tree/binarytree/binary_tree.rs) | [Swift](./tree/binarytree/BinaryTree.swift) | [Kotlin](./tree/binarytree/BinaryTree.kt) | [Dart](./tree/binarytree/BinaryTree.dart) | 适用于树结构数据的遍历，如 XML 解析、文件系统遍历 |
 
 ## 压缩算法详解
 
-| 算法 | C | C++ | Java | Python | JavaScript | TypeScript | Go | Rust | Swift | Kotlin | Dart | 适用场景 |
+| 算法 | C | C++ | Java | Py | JS | TS | Go | Rust | Swift | Kotlin | Dart | 适用场景 |
 |------|--------|--------|---------|---------|-------------|-------------|-----|------|------|--------|------|--------|
 | [Huffman编码](./compression/huffman/) | [C](./compression/huffman/huffman.c) | [C++](./compression/huffman/huffman.cpp) | [Java](./compression/huffman/Huffman.java) | [Python](./compression/huffman/huffman.py) | [JS](./compression/huffman/huffman.js) | [TS](./compression/huffman/Huffman.ts) | [Go](./compression/huffman/huffman.go) | [Rust](./compression/huffman/huffman.rs) | [Swift](./compression/huffman/Huffman.swift) | [Kotlin](./compression/huffman/Huffman.kt) | [Dart](./compression/huffman/huffman.dart) | 适用于无损数据压缩、文件压缩 |
 | [Run-Length Encoding](./compression/rle/) | [C](./compression/rle/rle.c) | [C++](./compression/rle/rle.cpp) | [Java](./compression/rle/RLE.java) | [Python](./compression/rle/rle.py) | [JS](./compression/rle/rle.js) | [TS](./compression/rle/RLE.ts) | [Go](./compression/rle/rle.go) | [Rust](./compression/rle/rle.rs) | [Swift](./compression/rle/RLE.swift) | [Kotlin](./compression/rle/RLE.kt) | [Dart](./compression/rle/rle.dart) | 适用于简单重复数据压缩 |
@@ -102,7 +102,7 @@ AI时代已经到来。AI可以替代人工编码工作，但难以替代人的�
 
 ## 加密算法详解
 
-| 算法 | C | C++ | Java | Python | JavaScript | TypeScript | Go | Rust | Swift | Kotlin | Dart | 适用场景 |
+| 算法 | C | C++ | Java | Py | JS | TS | Go | Rust | Swift | Kotlin | Dart | 适用场景 |
 |------|--------|--------|---------|---------|-------------|-------------|-----|------|------|--------|------|--------|
 | [AES加密](./cryptography/aes/) | [C](./cryptography/aes/aes.c) | [C++](./cryptography/aes/aes.cpp) | [Java](./cryptography/aes/AES.java) | [Python](./cryptography/aes/aes.py) | [JS](./cryptography/aes/aes.js) | [TS](./cryptography/aes/AES.ts) | [Go](./cryptography/aes/aes.go) | [Rust](./cryptography/aes/aes.rs) | [Swift](./cryptography/aes/AES.swift) | [Kotlin](./cryptography/aes/AES.kt) | [Dart](./cryptography/aes/AES.dart) | 适用于对称加密、数据保护 |
 | [RSA加密](./cryptography/rsa/) | [C](./cryptography/rsa/rsa.c) | [C++](./cryptography/rsa/rsa.cpp) | [Java](./cryptography/rsa/RSA.java) | [Python](./cryptography/rsa/rsa.py) | [JS](./cryptography/rsa/rsa.js) | [TS](./cryptography/rsa/RSA.ts) | [Go](./cryptography/rsa/rsa.go) | [Rust](./cryptography/rsa/rsa.rs) | [Swift](./cryptography/rsa/RSA.swift) | [Kotlin](./cryptography/rsa/RSA.kt) | [Dart](./cryptography/rsa/RSA.dart) | 适用于非对称加密、数字签名 |
@@ -111,7 +111,7 @@ AI时代已经到来。AI可以替代人工编码工作，但难以替代人的�
 
 ## 数值分析算法详解
 
-| 算法 | C | C++ | Java | Python | JavaScript | TypeScript | Go | Rust | Swift | Kotlin | Dart | 适用场景 |
+| 算法 | C | C++ | Java | Py | JS | TS | Go | Rust | Swift | Kotlin | Dart | 适用场景 |
 |------|--------|--------|---------|---------|-------------|-------------|-----|------|------|--------|------|--------|
 | [数值积分](./numerical-analysis/integration/) | [C](./numerical-analysis/integration/integration.c) | [C++](./numerical-analysis/integration/integration.cpp) | [Java](./numerical-analysis/integration/Integration.java) | [Python](./numerical-analysis/integration/integration.py) | [JS](./numerical-analysis/integration/integration.js) | [TS](./numerical-analysis/integration/Integration.ts) | [Go](./numerical-analysis/integration/integration.go) | [Rust](./numerical-analysis/integration/integration.rs) | [Swift](./numerical-analysis/integration/Integration.swift) | [Kotlin](./numerical-analysis/integration/Integration.kt) | [Dart](./numerical-analysis/integration/integration.dart) | 适用于定积分计算、面积计算 |
 | [方程求根](./numerical-analysis/root-finding/) | [C](./numerical-analysis/root-finding/root_finding.c) | [C++](./numerical-analysis/root-finding/root_finding.cpp) | [Java](./numerical-analysis/root-finding/RootFinding.java) | [Python](./numerical-analysis/root-finding/root_finding.py) | [JS](./numerical-analysis/root-finding/root_finding.js) | [TS](./numerical-analysis/root-finding/RootFinding.ts) | [Go](./numerical-analysis/root-finding/root_finding.go) | [Rust](./numerical-analysis/root-finding/root_finding.rs) | [Swift](./numerical-analysis/root-finding/RootFinding.swift) | [Kotlin](./numerical-analysis/root-finding/RootFinding.kt) | [Dart](./numerical-analysis/root-finding/root_finding.dart) | 适用于非线性方程求解 |
@@ -120,7 +120,7 @@ AI时代已经到来。AI可以替代人工编码工作，但难以替代人的�
 
 ## 概率统计算法详解
 
-| 算法 | C | C++ | Java | Python | JavaScript | TypeScript | Go | Rust | Swift | Kotlin | Dart | 适用场景 |
+| 算法 | C | C++ | Java | Py | JS | TS | Go | Rust | Swift | Kotlin | Dart | 适用场景 |
 |------|--------|--------|---------|---------|-------------|-------------|-----|------|------|--------|------|--------|
 | [描述统计](./probability-statistics/descriptive/) | [C](./probability-statistics/descriptive/descriptive.c) | [C++](./probability-statistics/descriptive/descriptive.cpp) | [Java](./probability-statistics/descriptive/Descriptive.java) | [Python](./probability-statistics/descriptive/descriptive.py) | [JS](./probability-statistics/descriptive/descriptive.js) | [TS](./probability-statistics/descriptive/Descriptive.ts) | [Go](./probability-statistics/descriptive/descriptive.go) | [Rust](./probability-statistics/descriptive/descriptive.rs) | [Swift](./probability-statistics/descriptive/Descriptive.swift) | [Kotlin](./probability-statistics/descriptive/Descriptive.kt) | [Dart](./probability-statistics/descriptive/Descriptive.dart) | 适用于数据分析、统计描述 |
 | [概率分布](./probability-statistics/distribution/) | [C](./probability-statistics/distribution/distribution.c) | [C++](./probability-statistics/distribution/distribution.cpp) | [Java](./probability-statistics/distribution/Distribution.java) | [Python](./probability-statistics/distribution/distribution.py) | [JS](./probability-statistics/distribution/distribution.js) | [TS](./probability-statistics/distribution/Distribution.ts) | [Go](./probability-statistics/distribution/distribution.go) | [Rust](./probability-statistics/distribution/distribution.rs) | [Swift](./probability-statistics/distribution/Distribution.swift) | [Kotlin](./probability-statistics/distribution/Distribution.kt) | [Dart](./probability-statistics/distribution/Distribution.dart) | 适用于概率计算、随机建模 |
