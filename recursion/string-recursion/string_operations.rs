@@ -1,4 +1,10 @@
 /**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ */
+
+/**
  * 字符串递归操作示例
  * 
  * 算法特点：
@@ -79,52 +85,47 @@ fn count_vowels(s: &str) -> i32 {
  * 主函数 - 测试字符串递归操作
  */
 fn main() {
-    println!("========================================");
-    println!("字符串递归操作示例");
-    println!("========================================");
-    
     // 测试1：字符串反转
     let test_str1 = "Hello";
-    println!("\n1. 字符串反转:");
+    println!("1. 字符串反转:");
     println!("   原字符串: '{}'", test_str1);
     println!("   反转后:   '{}'", reverse_string(test_str1));
+    println!("===");
     
     // 测试2：回文检查
-    println!("\n2. 回文检查:");
-    let test_cases = ["radar", "hello", "Aba", "level"];
+    println!("2. 回文检查:");
+    let test_cases = ["radar", "hello", "Aba", "level", "aabbaa", "cc", "ddd"];
     for s in test_cases.iter() {
         let result = if is_palindrome(s) { "是回文" } else { "不是回文" };
         println!("   '{}' -> {}", s, result);
     }
+    println!("===");
     
     // 测试3：元音计数
     let test_str2 = "Hello World";
-    println!("\n3. 元音计数:");
+    println!("3. 元音计数:");
     println!("   字符串: '{}'", test_str2);
     println!("   元音数量: {}", count_vowels(test_str2));
-    
-    println!("\n========================================");
+    println!("===");
 }
 
 /*打印结果
 jarry@Mac string-recursion % cargo run
-========================================
-字符串递归操作示例
-========================================
-
 1. 字符串反转:
    原字符串: 'Hello'
    反转后:   'olleH'
-
+===
 2. 回文检查:
    'radar' -> 是回文
    'hello' -> 不是回文
    'Aba' -> 是回文
    'level' -> 是回文
-
+   'aabbaa' -> 是回文
+   'cc' -> 是回文
+   'ddd' -> 是回文
+===
 3. 元音计数:
    字符串: 'Hello World'
    元音数量: 3
-
-========================================
+===
 */

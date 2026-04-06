@@ -1,4 +1,10 @@
 /**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ */
+
+/**
  * 字符串递归操作示例
  * 
  * 算法特点：
@@ -72,54 +78,49 @@ function countVowels(s: string): number {
  * 主函数 - 测试字符串递归操作
  */
 function main(): void {
-    console.log("========================================");
-    console.log("字符串递归操作示例");
-    console.log("========================================");
-    
     // 测试1：字符串反转
     const testStr1 = "Hello";
-    console.log("\n1. 字符串反转:");
+    console.log("1. 字符串反转:");
     console.log(`   原字符串: '${testStr1}'`);
     console.log(`   反转后:   '${reverseString(testStr1)}'`);
+    console.log("===");
     
     // 测试2：回文检查
-    console.log("\n2. 回文检查:");
-    const testCases = ["radar", "hello", "Aba", "level"];
+    console.log("2. 回文检查:");
+    const testCases = ["radar", "hello", "Aba", "level", "aabbaa", "cc", "ddd"];
     for (const s of testCases) {
         const result = isPalindrome(s) ? "是回文" : "不是回文";
         console.log(`   '${s}' -> ${result}`);
     }
+    console.log("===");
     
     // 测试3：元音计数
     const testStr2 = "Hello World";
-    console.log("\n3. 元音计数:");
+    console.log("3. 元音计数:");
     console.log(`   字符串: '${testStr2}'`);
     console.log(`   元音数量: ${countVowels(testStr2)}`);
-    
-    console.log("\n========================================");
+    console.log("===");
 }
 
 /*打印结果
 jarry@Mac string-recursion % npx ts-node StringOperations.ts
-========================================
-字符串递归操作示例
-========================================
-
 1. 字符串反转:
    原字符串: 'Hello'
    反转后:   'olleH'
-
+===
 2. 回文检查:
    'radar' -> 是回文
    'hello' -> 不是回文
    'Aba' -> 是回文
    'level' -> 是回文
-
+   'aabbaa' -> 是回文
+   'cc' -> 是回文
+   'ddd' -> 是回文
+===
 3. 元音计数:
    字符串: 'Hello World'
    元音数量: 3
-
-========================================
+===
 */
 
 // 运行主函数

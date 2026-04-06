@@ -21,6 +21,8 @@
  * 递归反转字符串
  * 时间复杂度: O(n)，空间复杂度: O(n)
  * @param s 要反转的字符串
+ * @param start 起始位置
+ * @param end 结束位置
  * @return 反转后的字符串
  */
 void reverseString(char *s, int start, int end) {
@@ -96,21 +98,25 @@ int main() {
     printf("   原字符串: '%s'\n", testStr1);
     reverseString(testStr1, 0, strlen(testStr1) - 1);
     printf("   反转后:   '%s'\n", testStr1);
+    printf("===\n");
     
     // 测试2：回文检查
-    printf("\n2. 回文检查:\n");
-    char *testCases[] = {"radar", "hello", "Aba", "level"};
-    for (int i = 0; i < 4; i++) {
+    printf("2. 回文检查:\n");
+    char *testCases[] = {"radar", "hello", "Aba", "level", "aabbaa", "cc", "ddd"};
+    int testCasesLen = sizeof(testCases) / sizeof(testCases[0]);
+    for (int i = 0; i < testCasesLen; i++) {
         char *s = testCases[i];
         int result = isPalindrome(s, 0, strlen(s) - 1);
         printf("   '%s' -> %s\n", s, result ? "是回文" : "不是回文");
     }
+    printf("===\n");
     
     // 测试3：元音计数
+    printf("3. 元音计数:\n");
     char testStr2[] = "Hello World";
-    printf("\n3. 元音计数:\n");
     printf("   字符串: '%s'\n", testStr2);
     printf("   元音数量: %d\n", countVowels(testStr2, 0));
+    printf("===\n");
     
     printf("\n========================================\n");
     
@@ -126,16 +132,20 @@ jarry@Mac string-recursion % gcc string_operations.c -o string_operations && ./s
 1. 字符串反转:
    原字符串: 'Hello'
    反转后:   'olleH'
-
+===
 2. 回文检查:
    'radar' -> 是回文
    'hello' -> 不是回文
    'Aba' -> 是回文
    'level' -> 是回文
-
+   'aabbaa' -> 是回文
+   'cc' -> 是回文
+   'ddd' -> 是回文
+===
 3. 元音计数:
    字符串: 'Hello World'
    元音数量: 3
+===
 
 ========================================
 */

@@ -79,53 +79,47 @@ public class StringOperations {
      * 主函数 - 测试字符串递归操作
      */
     public static void main(String[] args) {
-        System.out.println("========================================");
-        System.out.println("字符串递归操作示例");
-        System.out.println("========================================");
-        
         // 测试1：字符串反转
         String testStr1 = "Hello";
-        System.out.println("\n1. 字符串反转:");
+        System.out.println("1. 字符串反转:");
         System.out.println("   原字符串: '" + testStr1 + "'");
         System.out.println("   反转后:   '" + reverseString(testStr1) + "'");
+        System.out.println("===");
         
         // 测试2：回文检查
-        System.out.println("\n2. 回文检查:");
-        String[] testCases = {"radar", "hello", "Aba", "level"};
+        System.out.println("2. 回文检查:");
+        String[] testCases = {"radar", "hello", "Aba", "level", "aabbaa", "cc", "ddd"};
         for (String s : testCases) {
             String result = isPalindrome(s) ? "是回文" : "不是回文";
             System.out.println("   '" + s + "' -> " + result);
         }
+        System.out.println("===");
         
         // 测试3：元音计数
-        String testStr2 = "Hello World";
-        System.out.println("\n3. 元音计数:");
+        System.out.println("3. 元音计数:");
         System.out.println("   字符串: '" + testStr2 + "'");
         System.out.println("   元音数量: " + countVowels(testStr2));
-        
-        System.out.println("\n========================================");
+        System.out.println("===");
     }
 }
 
 /*打印结果
 jarry@Mac string-recursion % javac StringOperations.java && java StringOperations
-========================================
-字符串递归操作示例
-========================================
-
 1. 字符串反转:
    原字符串: 'Hello'
    反转后:   'olleH'
-
+===
 2. 回文检查:
    'radar' -> 是回文
    'hello' -> 不是回文
    'Aba' -> 是回文
    'level' -> 是回文
-
+   'aabbaa' -> 是回文
+   'cc' -> 是回文
+   'ddd' -> 是回文
+===
 3. 元音计数:
    字符串: 'Hello World'
    元音数量: 3
-
-========================================
+===
 */
