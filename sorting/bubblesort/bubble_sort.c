@@ -1,4 +1,11 @@
 /**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * 
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ */
+
+/**
  * 冒泡排序算法实现
  * 提供四种不同的实现方式，适合不同场景和性能需求
  */

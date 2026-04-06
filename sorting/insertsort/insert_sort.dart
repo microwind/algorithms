@@ -46,8 +46,8 @@ const List<int> testData = [7, 11, 9, 10, 12, 13, 8];
  * 二分查找插入位置
  */
 int binarySearch(List<int> arr, int value, int left, int right) {
-  int left = left;
-  int right = right;
+  // int left = left;
+  // int right = right;
   
   while (left <= right) {
     int mid = left + (right - left) ~/ 2;
@@ -265,25 +265,25 @@ jarry@Mac insertsort % dart insert_sort.dart
 标准版本原始数组: [7, 11, 9, 10, 12, 13, 8]
 insertSort1 standard:
 排序后数组: [7, 8, 9, 10, 11, 12, 13]
-标准版本: 0.125ms
+标准版本: 0.0
 标准版本排序结果: [7, 8, 9, 10, 11, 12, 13]
 
 二分查找版本原始数组: [7, 11, 9, 10, 12, 13, 8]
 insertSort2 binary search:
 排序后数组: [7, 8, 9, 10, 11, 12, 13]
-二分查找版本: 0.042ms
+二分查找版本: 0.0
 二分查找版本排序结果: [7, 8, 9, 10, 11, 12, 13]
 
 哨兵版本原始数组: [7, 11, 9, 10, 12, 13, 8]
 insertSort3 sentinel:
 排序后数组: [7, 8, 9, 10, 11, 12, 13]
-哨兵版本: 0.042ms
+哨兵版本: 0.0
 哨兵版本排序结果: [7, 8, 9, 10, 11, 12, 13]
 
 希尔插入版本原始数组: [7, 11, 9, 10, 12, 13, 8]
 insertSort4 shell insertion:
 排序后数组: [7, 8, 9, 10, 11, 12, 13]
-希尔插入版本: 0.042ms
+希尔插入版本: 0.0
 希尔插入版本排序结果: [7, 8, 9, 10, 11, 12, 13]
 
 === 算法对比总结 ===

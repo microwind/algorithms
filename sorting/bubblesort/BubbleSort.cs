@@ -1,3 +1,9 @@
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ */
+ 
 using System;
 using System.Diagnostics;
 

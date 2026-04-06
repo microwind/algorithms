@@ -1,13 +1,27 @@
-/*
-*
- * 本类展示普通递归与尾递归的区别
- * 1. 普通递归：递归调用后仍有计算操作，需要保留当前栈帧
- * 2. 尾递归：最后一步是递归调用，无后续操作，部分JVM可优化
-*/
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ */
+
+/**
+ * 尾递归算法示例
+ * 
+ * 展示普通递归与尾递归的区别：
+ * - 普通递归：递归调用后仍有计算操作，需要保留当前栈帧
+ * - 尾递归：最后一步是递归调用，无后续操作，部分JVM可优化
+ * 
+ * 学习重点：理解尾递归优化原理和性能差异
+ */
 public class TailFactorial {
 
-    // 普通递归实现阶乘
-    // 参数：n为待计算的数，accumulator用于跟踪中间结果
+    /**
+     * 普通递归实现阶乘
+     * 时间复杂度: O(n)，空间复杂度: O(n)
+     * @param n 待计算的数
+     * @param accumulator 用于跟踪中间结果
+     * @return 计算结果
+     */
     public static int factorial(int n, int accumulator) {
         System.out.printf("\ncurrent number: %d, accumulator: %d", n, accumulator);
         
@@ -20,8 +34,13 @@ public class TailFactorial {
         return n * factorial(n - 1, n * accumulator);
     }
 
-    // 尾递归核心函数
-    // 参数：n为待计算的数，accumulator用于累积计算结果
+    /**
+     * 尾递归核心函数
+     * 时间复杂度: O(n)，空间复杂度: O(1)（编译器优化后）
+     * @param n 待计算的数
+     * @param accumulator 用于累积计算结果
+     * @return 计算结果
+     */
     private static int tailFactorial(int n, int accumulator) {
         System.out.printf("\ncurrent number: %d, accumulator: %d", n, accumulator);
         
@@ -34,19 +53,26 @@ public class TailFactorial {
         return tailFactorial(n - 1, n * accumulator);
     }
 
-    // 尾递归包装函数，提供更友好的接口
+    /**
+     * 尾递归包装函数，提供更友好的接口
+     * @param n 待计算的数
+     * @return 计算结果
+     */
     public static int factorialTail(int n) {
         return tailFactorial(n, 1);
     }
 
+    /**
+     * 主函数 - 测试递归性能对比
+     */
     public static void main(String[] args) {
-        // 测试普通递归
+        // 测试1：普通递归
         long startTime = System.nanoTime();
         System.out.printf("\nfactorial(5) result: %d", factorial(5, 1));
         double elapsedTime = (System.nanoTime() - startTime) / 1_000_000.0;
         System.out.printf("\ntime: %.6f ms.", elapsedTime);
         
-        // 测试尾递归
+        // 测试2：尾递归
         long startTime2 = System.nanoTime();
         System.out.printf("\n===============\n");
         System.out.printf("\nfactorialTail(5) result: %d", factorialTail(5));

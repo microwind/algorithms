@@ -3,7 +3,7 @@
  * @author: jarryli@gmail.com
  * @version: 1.0
  */
-
+import 'dart:math';
 /**
  * 搜索算法综合对比
  * 对比不同搜索算法的性能特点
@@ -83,13 +83,14 @@ int binarySearch(List<int> arr, int target) {
  */
 int jumpSearch(List<int> arr, int target) {
     int n = arr.length;
-    int step = (n).toInt().sqrt();
+    int step = sqrt(n).toInt();
     
     // 找到目标所在的块
     int prev = 0;
     while (arr[step < n ? step - 1 : n - 1] < target) {
         prev = step;
-        step += (n).toInt().sqrt();
+        int stepSize = sqrt(n).toInt();
+        step += stepSize;
         if (prev >= n) {
             return -1;
         }

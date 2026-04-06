@@ -1,3 +1,7 @@
+// Copyright © https://github.com/microwind All rights reserved.
+//
+// @author: jarryli@gmail.com
+// @version: 1.0
 import Foundation
 
 // BubbleSort 冒泡排序算法实现

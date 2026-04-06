@@ -1,3 +1,20 @@
+/**
+ * Copyright https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ */
+
+/**
+ * 斐波那契数列示例
+ * 
+ * 包含多种实现方式：
+ * - 递归版本：基础递归实现
+ * - 迭代版本：空间优化实现
+ * 
+ * 核心公式：F(n) = F(n-1) + F(n-2), F(0) = 0, F(1) = 1
+ * 
+ * 学习重点：理解递归与迭代的性能差异
+ */
 #include <stdio.h>
 
 /*
@@ -37,7 +54,7 @@ fibonacci(5) = fibonacci(4) + fibonacci(3)
              = ((fibonacci(2) + fibonacci(1)) + fibonacci(1)) + (fibonacci(1) + fibonacci(0)) + fibonacci(1)
              = (((fibonacci(1) + fibonacci(0)) + fibonacci(1)) + fibonacci(1)) + (fibonacci(1) + fibonacci(0)) + fibonacci(1)
              = (((1 + 0) + 1) + 1) + (1 + 0) + 1
-             = (1 + 1 + 1) + 1 + 1 = 5
+             = (1 + 1 + 1) + 1 + 1 + 1 = 5
 
 =======
 
@@ -52,7 +69,6 @@ f(2)  f(1)  f(1)  f(0)   f(1)  f(0)
  /  \
 f(1) f(0)
 */
-
     int num = 6;
     // 递归版
     printf("Fibonacci(%d) = %d\n", num, fibonacci(num));
@@ -60,10 +76,3 @@ f(1) f(0)
     printf("Iterative: Fibonacci(%d) = %d\n", num, fibonacci_iterative(num));
     return 0;
 }
-
-/*
-jarry@MacBook-Pro recursion % gcc fibonacci.c 
-jarry@MacBook-Pro recursion % ./a.out 
-Fibonacci(6) = 8
-Iterative: Fibonacci(6) = 8
-*/

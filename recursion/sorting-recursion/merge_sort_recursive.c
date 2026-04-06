@@ -1,11 +1,28 @@
-/*
- * 递归排序 - 归并排序
- * 使用分治递归实现稳定的排序算法
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ */
+
+/**
+ * 递归排序算法示例 - 归并排序
+ * 
+ * 算法特点：
+ * - 使用分治递归实现稳定的排序算法
+ * - 时间复杂度: O(n log n)，空间复杂度: O(n)
+ * 
+ * 学习重点：理解分治策略在排序中的应用
  */
 #include <stdio.h>
 #include <stdlib.h>
 
-// 合并两个有序数组
+/**
+ * 合并两个有序数组
+ * @param arr 原数组
+ * @param left 左边界
+ * @param mid 中间位置
+ * @param right 右边界
+ */
 void merge(int arr[], int left, int mid, int right) {
     int i, j, k;
     int n1 = mid - left + 1;
@@ -46,7 +63,13 @@ void merge(int arr[], int left, int mid, int right) {
     }
 }
 
-// 归并排序 - 递归实现
+/**
+ * 归并排序 - 递归实现
+ * 时间复杂度: O(n log n)，空间复杂度: O(n)
+ * @param arr 待排序数组
+ * @param left 左边界
+ * @param right 右边界
+ */
 void mergeSort(int arr[], int left, int right) {
     // 基础情况：只有一个元素
     if (left < right) {
@@ -63,7 +86,11 @@ void mergeSort(int arr[], int left, int right) {
     }
 }
 
-// 打印数组
+/**
+ * 打印数组
+ * @param arr 数组
+ * @param size 数组大小
+ */
 void printArray(int arr[], int size) {
     for (int i = 0; i < size; i++) {
         printf("%d ", arr[i]);
@@ -71,19 +98,26 @@ void printArray(int arr[], int size) {
     printf("\n");
 }
 
+/**
+ * 主函数 - 测试归并排序
+ */
 int main() {
     int arr[] = {64, 34, 25, 12, 22, 11, 90};
     int n = sizeof(arr) / sizeof(arr[0]);
     
+    // 测试1：输出原始数组
     printf("归并排序演示:\n\n");
     printf("原始数组: ");
     printArray(arr, n);
     
+    // 测试2：执行归并排序
     mergeSort(arr, 0, n - 1);
     
+    // 测试3：输出排序结果
     printf("排序结果: ");
     printArray(arr, n);
     
+    // 输出递归分解过程
     printf("\n递归分解过程:\n");
     printf("  [64,34,25,12,22,11,90]\n");
     printf("       /        \\\n");
@@ -96,3 +130,22 @@ int main() {
     
     return 0;
 }
+
+/*打印结果
+jarry@Mac sorting-recursion % gcc merge_sort_recursive.c -o merge_sort && ./merge_sort
+归并排序演示:
+
+原始数组: 64 34 25 12 22 11 90 
+排序结果: 11 12 22 25 34 64 90 
+
+递归分解过程:
+  [64,34,25,12,22,11,90]
+       /        \
+  [64,34,25,12]  [22,11,90]
+    /    \       /    \
+[64,34][25,12] [22,11][90]
+  / \    / \    / \    |
+[64][34][25][12][22][11][90]
+
+然后逐层合并...
+*/

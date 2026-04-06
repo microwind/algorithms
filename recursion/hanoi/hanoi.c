@@ -1,26 +1,49 @@
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ */
+
+/**
+ * 汉诺塔问题完整教学示例
+ * 
+ * 问题描述：将 n 个盘子从 A 柱移动到 C 柱，借助 B 柱
+ * 移动规则：
+ * - 每次只能移动一个盘子
+ * - 大盘子不能放在小盘子上面
+ * 
+ * 递归过程：
+ * 1. 将 n-1 个盘子从 A 移到 B（借助 C）
+ * 2. 将第 n 个盘子从 A 移到 C
+ * 3. 将 n-1 个盘子从 B 移到 C（借助 A）
+ * 
+ * 学习重点：理解递归分解和回溯过程
+ */
 #include <stdio.h>
 
-/*
-递归思维：
-
-设有 n 个盘子，目标是从 A 移动到 C，借助 B。
-递归过程：
-先将 n-1 个盘子从 A 移到 B（借助 C）。
-将第 n 个盘子直接从 A 移到 C。
-再将 n-1 个盘子从 B 移到 C（借助 A）。
-*/
-// 汉诺塔解法很适合递归实现
+/**
+ * 汉诺塔递归函数
+ * 时间复杂度: O(2^n)，空间复杂度: O(n)
+ * @param n 盘子数量
+ * @param from 起始柱子
+ * @param aux 辅助柱子
+ * @param to 目标柱子
+ */
 void hanoi(int n, char from, char aux, char to) {
+    // 基本情况：只有一个盘子时直接移动
     if (n == 1) {
         printf("Move disk 1 from %c to %c\n", from, to);
         return;
     }
+    
     // 递归步骤：
     // 1. 将 n-1 个盘子从 from 移到 aux，借助 to
-    // 2. 将第 n 个盘子从 from 移到 to
-    // 3. 将 n-1 个盘子从 aux 移到 to，借助 from
     hanoi(n - 1, from, to, aux); // Step 1
+    
+    // 2. 将第 n 个盘子从 from 移到 to
     printf("Move disk %d from %c to %c\n", n, from, to); // Step 2
+    
+    // 3. 将 n-1 个盘子从 aux 移到 to，借助 from
     hanoi(n - 1, aux, from, to); // Step 3
 }
 

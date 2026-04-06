@@ -1,3 +1,10 @@
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * 
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ */
+
 #include <iostream>
 #include <chrono>
 #include <vector>

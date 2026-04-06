@@ -485,68 +485,6 @@ void mergeSort4(int arr[], int size)
     printArray(arr, size, "排序后数组");
 }
 
-// ==================== 算法测试和性能对比 ====================
-
-int main()
-{
-    // 测试1：递归版本
-    printf("递归版本: [");
-    for (int i = 0; i < testDataSize; i++) {
-        printf("%d", testData[i]);
-        if (i < testDataSize - 1) printf(", ");
-    }
-    printf("]\n");
-    printf("mergeSort1 recursive:\n");
-    mergeSort1(testData, 0, testDataSize - 1);
-    printArray(testData, testDataSize, "排序后数组");
-    printf("递归版本: 0.004ms\n");
-    printArray(testData, testDataSize, "递归版本排序结果");
-    printf("\n");
-
-    // 测试2：原地合并版本
-    printf("原地合并版本: [");
-    for (int i = 0; i < testDataSize; i++) {
-        printf("%d", testData[i]);
-        if (i < testDataSize - 1) printf(", ");
-    }
-    printf("]\n");
-    printf("mergeSort2 in-place:\n");
-    mergeSort2(testData, 0, testDataSize - 1);
-    printArray(testData, testDataSize, "排序后数组");
-    printf("原地合并版本: 0.002ms\n");
-    printArray(testData, testDataSize, "原地合并版本排序结果");
-    printf("\n");
-
-    // 测试3：迭代版本
-    performanceTest(mergeSort3, testData, testDataSize, "迭代版本");
-
-    // 测试4：自底向上版本
-    performanceTest(mergeSort4, testData, testDataSize, "自底向上版本");
-
-    // 测试5：原地范围版本
-    printf("原地范围版本: [");
-    for (int i = 0; i < testDataSize; i++) {
-        printf("%d", testData[i]);
-        if (i < testDataSize - 1) printf(", ");
-    }
-    printf("]\n");
-    printf("mergeSort5 in-place range:\n");
-    mergeSort5(testData, 0, testDataSize - 1);
-    printArray(testData, testDataSize, "排序后数组");
-    printf("原地范围版本: 0.002ms\n");
-    printArray(testData, testDataSize, "原地范围版本排序结果");
-    printf("\n");
-
-    printf("=== 算法对比总结 ===\n");
-    printf("1. 递归版本：经典实现，易于理解\n");
-    printf("2. 原地版本：空间优化，减少内存使用\n");
-    printf("3. 迭代版本：避免递归，性能稳定\n");
-    printf("4. 底向上版本：适合大数据，外部排序\n");
-    printf("5. 原地范围版本：索引操作，高效合并\n");
-
-    return 0;
-}
-
 /**
  * 合并两个子数组，根据中间值分为2个数组
  */
@@ -656,6 +594,69 @@ void mergeSort5(int arr[], int left, int right)
     // 步骤4：合并两个有序部分
     // 关键步骤：将两个相邻的有序子数组合并
     mergeInPlaceRange(arr, left, mid, right);
+}
+
+
+// ==================== 算法测试和性能对比 ====================
+
+int main()
+{
+    // 测试1：递归版本
+    printf("递归版本: [");
+    for (int i = 0; i < testDataSize; i++) {
+        printf("%d", testData[i]);
+        if (i < testDataSize - 1) printf(", ");
+    }
+    printf("]\n");
+    printf("mergeSort1 recursive:\n");
+    mergeSort1(testData, 0, testDataSize - 1);
+    printArray(testData, testDataSize, "排序后数组");
+    printf("递归版本: 0.004ms\n");
+    printArray(testData, testDataSize, "递归版本排序结果");
+    printf("\n");
+
+    // 测试2：原地合并版本
+    printf("原地合并版本: [");
+    for (int i = 0; i < testDataSize; i++) {
+        printf("%d", testData[i]);
+        if (i < testDataSize - 1) printf(", ");
+    }
+    printf("]\n");
+    printf("mergeSort2 in-place:\n");
+    mergeSort2(testData, 0, testDataSize - 1);
+    printArray(testData, testDataSize, "排序后数组");
+    printf("原地合并版本: 0.002ms\n");
+    printArray(testData, testDataSize, "原地合并版本排序结果");
+    printf("\n");
+
+    // 测试3：迭代版本
+    performanceTest(mergeSort3, testData, testDataSize, "迭代版本");
+
+    // 测试4：自底向上版本
+    performanceTest(mergeSort4, testData, testDataSize, "自底向上版本");
+
+    // 测试5：原地范围版本
+    printf("原地范围版本: [");
+    for (int i = 0; i < testDataSize; i++) {
+        printf("%d", testData[i]);
+        if (i < testDataSize - 1) printf(", ");
+    }
+    printf("]\n");
+    printf("mergeSort5 in-place range:\n");
+    mergeSort5(testData, 0, testDataSize - 1);
+    printArray(testData, testDataSize, "排序后数组");
+    printf("原地范围版本: 0.002ms\n");
+    printArray(testData, testDataSize, "原地范围版本排序结果");
+    printf("\n");
+
+    printf("=== 算法对比总结 ===\n");
+    printf("1. 递归版本：经典实现，易于理解\n");
+    printf("2. 原地版本：空间优化，减少内存使用\n");
+    printf("3. 迭代版本：避免递归，性能稳定\n");
+    printf("4. 底向上版本：适合大数据，外部排序\n");
+    printf("5. 原地范围版本：索引操作，高效合并\n");
+
+    return 0;
 }
 
 /*
