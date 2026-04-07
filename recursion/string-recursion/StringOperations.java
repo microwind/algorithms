@@ -96,6 +96,7 @@ public class StringOperations {
         System.out.println("===");
         
         // 测试3：元音计数
+        String testStr2 = "Hello World";
         System.out.println("3. 元音计数:");
         System.out.println("   字符串: '" + testStr2 + "'");
         System.out.println("   元音数量: " + countVowels(testStr2));

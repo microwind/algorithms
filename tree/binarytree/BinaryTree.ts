@@ -48,7 +48,7 @@ class BinaryTree {
       while (queue.length) {
         tree = queue.shift()
         result.push(tree.value)
-        // append children of current Node
+        // 添加当前节点的子节点
         if (tree.left !== undefined) {
           queue.push(tree.left)
         }
@@ -134,8 +134,8 @@ class BinaryTree {
   // 基本结构
   class Node {
     value: number
-    left: Node
-    right: Node
+    left?: Node
+    right?: Node
     constructor(value: number) {
       this.value = value
     }

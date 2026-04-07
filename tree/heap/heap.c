@@ -1,3 +1,9 @@
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ */
+
 /*
  * 树算法 - 最大堆/最小堆实现 (MaxHeap/MinHeap)
  * 完全二叉树，满足堆序性质

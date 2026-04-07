@@ -20,7 +20,7 @@
 // 普通递归实现阶乘
 // 参数：n为待计算阶乘的数，accumulator仅用于跟踪中间结果（非累加器模式）
 int factorial(int n, int accumulator) {
-    // 打印当前递归层级的参数状态，便于观察执行过程
+
     printf("\r\n current number:%d accumulator: %d", n, accumulator);
     
     // 递归终止条件：当n小于等于1时，返回1（阶乘的数学定义）

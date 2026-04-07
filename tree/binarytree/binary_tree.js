@@ -46,7 +46,7 @@ function levelOrder(tree) {
     while (queue.length) {
       tree = queue.shift()
       result.push(tree.value)
-      // append children of current Node
+      // 添加子节点到队列
       if (tree.left !== undefined) {
         queue.push(tree.left)
       }
@@ -204,23 +204,49 @@ console.log('7. postOrderUnRecursive:', result)
 
 /**
 jarry@jarrys-MacBook-Pro binarytree % node binary_tree.js
-
          1
-      /         2         3
-  /         /     4     5    6      7
-      /       8    9
+      /      \
+    2          3
+  /   \      /    \
+ 4     5    6      7
+      /  \
+     8    9
 
-{ value: 1,
-  left:
-   { value: 2,
-     left: { value: 4 },
-     right: { value: 5, left: [Object], right: [Object] } },
-  right: { value: 3, left: { value: 6 }, right: { value: 7 } } }
-preOrderTraverse: [ 1, 2, 4, 5, 8, 9, 3, 6, 7 ]
-inOrderTraverse: [ 4, 2, 8, 5, 9, 1, 6, 3, 7 ]
-postOrderTraverse: [ 4, 8, 9, 5, 2, 6, 7, 3, 1 ]
-levelOrder: [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
-preOrderUnRecursive: [ 1, 2, 4, 5, 8, 9, 3, 6, 7 ]
-inOrderUnRecursive: [ 4, 2, 8, 5, 9, 1, 6, 3, 7 ]
-postOrderUnRecursive: [ 4, 8, 9, 5, 2, 6, 7, 3, 1 ]
+{
+  value: 1,
+  left: {
+    value: 2,
+    left: { value: 4 },
+    right: { value: 5, left: [Object], right: [Object] }
+  },
+  right: { value: 3, left: { value: 6 }, right: { value: 7 } }
+}
+1. preOrderTraverse: [
+  1, 2, 4, 5, 8,
+  9, 3, 6, 7
+]
+2. inOrderTraverse: [
+  4, 2, 8, 5, 9,
+  1, 6, 3, 7
+]
+3. postOrderTraverse: [
+  4, 8, 9, 5, 2,
+  6, 7, 3, 1
+]
+4. levelOrder: [
+  1, 2, 3, 4, 5,
+  6, 7, 8, 9
+]
+5. preOrderUnRecursive: [
+  1, 2, 4, 5, 8,
+  9, 3, 6, 7
+]
+6. inOrderUnRecursive: [
+  4, 2, 8, 5, 9,
+  1, 6, 3, 7
+]
+7. postOrderUnRecursive: [
+  4, 8, 9, 5, 2,
+  6, 7, 3, 1
+]
  */

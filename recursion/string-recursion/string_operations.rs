@@ -110,7 +110,7 @@ fn main() {
 }
 
 /*打印结果
-jarry@Mac string-recursion % cargo run
+jarry@Mac string-recursion % rustc string_operations.rs && ./string_operations
 1. 字符串反转:
    原字符串: 'Hello'
    反转后:   'olleH'

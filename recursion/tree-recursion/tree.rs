@@ -94,9 +94,25 @@ fn main() {
     println!();
     
     // 测试2：执行前序遍历
-    println!("Preorder traversal of binary tree is");
+    println!("1. 前序遍历:");
+    println!("   遍历结果: ");
     pre_order(&Some(root));
     println!();
+    println!("===");
+    
+    // 测试3：执行中序遍历
+    println!("2. 中序遍历:");
+    println!("   遍历结果: ");
+    in_order(&Some(root));
+    println!();
+    println!("===");
+    
+    // 测试4：执行后序遍历
+    println!("3. 后序遍历:");
+    println!("   遍历结果: ");
+    post_order(&Some(root));
+    println!();
+    println!("===");
 }
 
 /*打印结果

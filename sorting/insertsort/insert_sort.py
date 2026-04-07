@@ -7,7 +7,7 @@ Copyright © https://github.com/microwind All rights reserved.
 
 """
 插入排序算法实现
-提供四种不同的实现方式，适合不同场景和性能需求
+提供6种不同的实现方式，适合不同场景和性能需求
 """
 
 import time

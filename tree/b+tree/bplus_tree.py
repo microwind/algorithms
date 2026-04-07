@@ -63,8 +63,11 @@ class BPlusTree:
         child = parent.children[i]
         new_child = BPlusTreeNode(is_leaf=child.is_leaf)
         
-        # 将child的后半部分移到new_child
+        # Save the middle key before truncating
         mid = order - 1
+        middle_key = child.keys[mid]
+        
+        # Move the second half of child to new_child
         new_child.keys = child.keys[mid + 1:]
         child.keys = child.keys[:mid]
         
@@ -75,8 +78,8 @@ class BPlusTree:
             new_child.next = child.next
             child.next = new_child
         
-        # 在parent中插入中间键
-        parent.keys.insert(i, child.keys[mid])
+        # Insert the middle key into parent
+        parent.keys.insert(i, middle_key)
         parent.children.insert(i + 1, new_child)
     
     def search(self, key):
@@ -173,3 +176,28 @@ if __name__ == "__main__":
     print("  • 适合磁盘存储和范围查询")
     print("  • 查找、插入、删除: O(log n)")
     print("  • 应用于数据库索引、文件系统")
+
+"""打印结果
+jarry@Mac b+tree % python bplus_tree.py 
+==================================================
+B+树实现 (B+ Tree)
+==================================================
+
+插入数据: [10, 20, 5, 6, 12, 30, 7, 17]
+中序遍历结果: [5, 6, 7, 10, 12, 17, 20, 30]
+
+搜索测试:
+  查找 6: 找到
+  查找 15: 未找到
+  查找 30: 找到
+
+范围查询 [10, 20]:
+  结果: [12, 17, 20]
+
+B+树特点:
+  • 所有数据存储在叶节点
+  • 叶节点形成有序链表
+  • 适合磁盘存储和范围查询
+  • 查找、插入、删除: O(log n)
+  • 应用于数据库索引、文件系统
+"""
