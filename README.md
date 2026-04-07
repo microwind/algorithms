@@ -201,14 +201,15 @@ AI编程时代已经到来。AI可以替代人工编码工作，但难以替代�
 
 ## 学习文档
 - [推荐学习的编程语言](./start-here/recommand-learning-languages.md)
-- [不同编程语言有哪些差异？如何选择入门语言？](https://www.toutiao.com/article/7122744261904450063) | 
+- [不同编程语言有哪些差异？如何选择入门语言？](https://www.toutiao.com/article/7122744261904450063) 
 - [如何学好编程？一文彻底搞懂](https://zhuanlan.zhihu.com/p/582174773)
 
 ## 相关链接：AI时代程序员成长体系
 
 > AI时代，我们要从编码程序员转变成驱动AI的指挥官，告诉AI该怎么做，什么是好、什么是坏。
 
-- [《AI时代，人人都是Agent工程师》](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Agent-Engineers.md)
+- [《AI时代，程序员必备的算法思想指南》](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-Need-Algorithmic-Thinking.md)
+- [《AI时代，人人都是Agent应用工程师》](https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Agent-Engineers.md)
 - ai-prompt - AI编程提示词库：[https://github.com/microwind/ai-prompt](https://github.com/microwind/ai-prompt)
 - ai-skills - AI编程Skill库：[https://github.com/microwind/ai-skills](https://github.com/microwind/ai-skills)
 - algorithms - 算法思想与数据结构：[https://github.com/microwind/algorithms](https://github.com/microwind/algorithms)
