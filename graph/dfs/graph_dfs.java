@@ -1,0 +1,54 @@
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ */
+
+/**
+ * 图的深度优先搜索（DFS）算法实现
+ * 使用递归方式遍历图
+ * 
+ * 时间复杂度: O(V + E)，其中V是顶点数，E是边数
+ * 空间复杂度: O(V)，用于存储访问标记和递归栈
+ */
+
+class GraphDFS {
+    
+    private static final int V = 5;
+    
+    /**
+     * 深度优先搜索递归函数
+     * @param graph 邻接矩阵表示的图
+     * @param visited 访问标记数组
+     * @param vertex 当前顶点
+     */
+    public static void dfs(int[][] graph, boolean[] visited, int vertex) {
+        // 访问当前顶点
+        System.out.println("Visited " + vertex);
+        visited[vertex] = true;
+        
+        // 遍历所有邻接顶点
+        for (int i = 0; i < V; i++) {
+            // 如果存在边且未被访问，则递归访问
+            if (graph[vertex][i] == 1 && !visited[i]) {
+                dfs(graph, visited, i);
+            }
+        }
+    }
+    
+    public static void main(String[] args) {
+        // 邻接矩阵表示的无向图
+        int[][] graph = {
+            {0, 1, 0, 1, 0},
+            {1, 0, 1, 1, 1},
+            {0, 1, 0, 0, 1},
+            {1, 1, 0, 0, 1},
+            {0, 1, 1, 1, 0}
+        };
+        
+        boolean[] visited = new boolean[V];
+        
+        System.out.println("DFS traversal:");
+        dfs(graph, visited, 0);
+    }
+}
