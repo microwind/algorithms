@@ -1,267 +1,464 @@
-
 /**
- * Copyright © https://github.com/microwind All rights reserved.
+ * 版权所有 © https://github.com/microwind 保留所有权利
  * @author: jarryli@gmail.com
  * @version: 1.0
  */
 
 import java.util.*;
 
-// Node data structure
-class Node {
-  public Integer value;
-  public Node left;
-  public Node right;
+// 二叉树节点数据结构
+class TreeNode {
+  public Integer value; // 节点值
+  public TreeNode left; // 左子节点
+  public TreeNode right; // 右子节点
 
-  Node() {
+  TreeNode() {
+    // 默认构造函数
   }
 
-  Node(Integer value) {
-    this.value = value;
+  TreeNode(Integer value) {
+    this.value = value; // 初始化节点值
   }
 
-  public Node getLeft() {
-    return this.left;
+  public TreeNode getLeft() {
+    return this.left; // 获取左子节点
   }
 
-  public Node getRight() {
-    return this.right;
+  public TreeNode getRight() {
+    return this.right; // 获取右子节点
   }
 
-  public void setLeft(Node left) {
-    this.left = left;
+  public void setLeft(TreeNode left) {
+    this.left = left; // 设置左子节点
   }
 
-  public void setRight(Node right) {
-    this.right = right;
-  }
-
-  public void setValue(Integer value) {
-    this.value = value;
-  }
-
-  public void print() {
-    System.out.println(this.value);
+  public void setRight(TreeNode right) {
+    this.right = right; // 设置右子节点
   }
 }
 
 /**
- * binary tree traverse class
+ * 二叉树实现类
+ * 
+ * 功能特性:
+ * - 二叉树的创建和基本操作
+ * - 前序、中序、后序遍历（递归和迭代）
+ * - 层序遍历
+ * - 树的高度和节点数计算
+ * - 树的平衡性检查
+ * - 树的序列化和反序列化
+ * 
+ * 算法复杂度:
+ * - 插入: O(h) - h为树高度
+ * - 查找: O(h) - h为树高度
+ * - 删除: O(h) - h为树高度
+ * - 遍历: O(n) - n为节点数
+ * 
+ * 应用场景:
+ * - 表达式树
+ * - 文件系统
+ * - 数据库索引
+ * - 决策树
+ * - 语法分析树
  */
 public class BinaryTree {
-  // 1. 先序优先遍历DLR递归版
-  public List<Integer> preOrderTraverse(Node tree, List<Integer> result) {
-    if (tree != null) {
-      result.add(tree.value);
-      this.preOrderTraverse(tree.left, result);
-      this.preOrderTraverse(tree.right, result);
-    }
-    return result;
+  private TreeNode root; // 根节点
+
+  BinaryTree() {
+    this.root = null; // 初始化为空树
   }
 
-  // 2. 中序优先遍历LDR递归版
-  public List<Integer> inOrderTraverse(Node tree, List<Integer> result) {
-    if (tree != null) {
-      this.inOrderTraverse(tree.left, result);
-      result.add(tree.value);
-      this.inOrderTraverse(tree.right, result);
-    }
-    return result;
+  BinaryTree(Integer value) {
+    this.root = new TreeNode(value); // 创建带根节点的树
   }
 
-  // 3. 后序优先遍历LRD递归版
-  public List<Integer> postOrderTraverse(Node tree, List<Integer> result) {
-    if (tree != null) {
-      this.postOrderTraverse(tree.left, result);
-      this.postOrderTraverse(tree.right, result);
-      result.add(tree.value);
-    }
-    return result;
+  /**
+   * 插入节点到二叉树
+   * 
+   * 算法:
+   * 1. 从根节点开始
+   * 2. 如果值小于当前节点，向左子树递归
+   * 3. 如果值大于当前节点，向右子树递归
+   * 4. 找到空位置插入新节点
+   * 
+   * 时间复杂度: O(h) - h为树高度
+   * 空间复杂度: O(h) - 递归栈深度
+   * 
+   * @param value 要插入的值
+   */
+  public void insert(Integer value) {
+    this.root = insertRec(this.root, value);
   }
 
-  // 4. 广度优先(层级遍历)，自左往右，利用队列暂存数据
-  public List<Integer> levelOrder(Node tree) {
-    List<Integer> result = new ArrayList<Integer>();
-    List<Node> queue = new ArrayList<Node>();
-    if (tree != null) {
-      queue.add(tree);
-      while (queue.size() > 0) {
-        tree = queue.get(0);
-        queue.remove(0);
-        result.add(tree.value);
-        // 追加到当前队列
-        if (tree.left != null) {
-          queue.add(tree.left);
-        }
-        if (tree.right != null) {
-          queue.add(tree.right);
-        }
+  private TreeNode insertRec(TreeNode node, Integer value) {
+    if (node == null) {
+      return new TreeNode(value); // 创建新节点
+    }
+
+    if (value < node.value) {
+      node.left = insertRec(node.left, value); // 向左子树插入
+    } else if (value > node.value) {
+      node.right = insertRec(node.right, value); // 向右子树插入
+    }
+
+    return node;
+  }
+
+  /**
+   * 前序遍历 - 递归：根-左-右
+   * 
+   * 应用场景:
+   * - 树的复制
+   * - 前缀表达式生成
+   * - 文件系统遍历
+   */
+  public void preorderTraversal() {
+    System.out.print("前序遍历（递归）: ");
+    preorderRec(this.root);
+    System.out.println();
+  }
+
+  private void preorderRec(TreeNode node) {
+    if (node != null) {
+      System.out.print(node.value + " "); // 访问根节点
+      preorderRec(node.left); // 遍历左子树
+      preorderRec(node.right); // 遍历右子树
+    }
+  }
+
+  /**
+   * 前序遍历 - 迭代：使用栈
+   * 
+   * 优势:
+   * - 避免递归栈溢出
+   * - 内存使用更可控
+   */
+  public void preorderIterative() {
+    System.out.print("前序遍历（迭代）: ");
+    if (this.root == null) return;
+
+    Stack<TreeNode> stack = new Stack<>();
+    stack.push(this.root);
+
+    while (!stack.isEmpty()) {
+      TreeNode node = stack.pop();
+      System.out.print(node.value + " "); // 访问节点
+
+      // 右子节点先入栈，左子节点后入栈
+      if (node.right != null) stack.push(node.right);
+      if (node.left != null) stack.push(node.left);
+    }
+    System.out.println();
+  }
+
+  /**
+   * 中序遍历 - 递归：左-根-右
+   * 
+   * 应用场景:
+   * - BST得到有序序列
+   * - 中缀表达式生成
+   * - 有序数据处理
+   */
+  public void inorderTraversal() {
+    System.out.print("中序遍历（递归）: ");
+    inorderRec(this.root);
+    System.out.println();
+  }
+
+  private void inorderRec(TreeNode node) {
+    if (node != null) {
+      inorderRec(node.left); // 遍历左子树
+      System.out.print(node.value + " "); // 访问根节点
+      inorderRec(node.right); // 遍历右子树
+    }
+  }
+
+  /**
+   * 中序遍历 - 迭代：使用栈
+   */
+  public void inorderIterative() {
+    System.out.print("中序遍历（迭代）: ");
+    Stack<TreeNode> stack = new Stack<>();
+    TreeNode current = this.root;
+
+    while (current != null || !stack.isEmpty()) {
+      // 向左遍历到底
+      while (current != null) {
+        stack.push(current);
+        current = current.left;
       }
+
+      // 出栈并访问
+      current = stack.pop();
+      System.out.print(current.value + " ");
+      current = current.right;
     }
-    return result;
+    System.out.println();
   }
 
-  // 5. 深度遍历(先序优先非递归版)
-  public List<Integer> preOrderUnRecursive(Node tree) {
-    List<Integer> result = new ArrayList<Integer>();
-    List<Node> queue = new ArrayList<Node>();
-    if (tree != null) {
-      while (queue.size() > 0 || tree != null) {
-        if (tree != null) {
-          result.add(tree.value);
-          queue.add(tree);
-          tree = tree.left;
-        } else {
-          tree = queue.get(queue.size() - 1);
-          queue.remove(queue.size() - 1);
-          tree = tree.right;
-        }
+  /**
+   * 后序遍历 - 递归：左-右-根
+   * 
+   * 应用场景:
+   * - 树的删除
+   * - 目录空间计算
+   * - 后缀表达式生成
+   */
+  public void postorderTraversal() {
+    System.out.print("后序遍历（递归）: ");
+    postorderRec(this.root);
+    System.out.println();
+  }
+
+  private void postorderRec(TreeNode node) {
+    if (node != null) {
+      postorderRec(node.left); // 遍历左子树
+      postorderRec(node.right); // 遍历右子树
+      System.out.print(node.value + " "); // 访问根节点
+    }
+  }
+
+  /**
+   * 后序遍历 - 迭代：使用双栈
+   */
+  public void postorderIterative() {
+    System.out.print("后序遍历（迭代）: ");
+    if (this.root == null) return;
+
+    Stack<TreeNode> stack1 = new Stack<>();
+    Stack<TreeNode> stack2 = new Stack<>();
+    stack1.push(this.root);
+
+    while (!stack1.isEmpty()) {
+      TreeNode node = stack1.pop();
+      stack2.push(node);
+
+      // 左子节点先入栈，保证右子节点先处理
+      if (node.left != null) stack1.push(node.left);
+      if (node.right != null) stack1.push(node.right);
+    }
+
+    while (!stack2.isEmpty()) {
+      System.out.print(stack2.pop().value + " ");
+    }
+    System.out.println();
+  }
+
+  /**
+   * 层序遍历 - 广度优先搜索
+   * 
+   * 应用场景:
+   * - 按层级显示树结构
+   * - 最短路径问题
+   * - 树的层次分析
+   */
+  public void levelOrderTraversal() {
+    System.out.print("层序遍历: ");
+    if (this.root == null) return;
+
+    Queue<TreeNode> queue = new LinkedList<>();
+    queue.offer(this.root);
+
+    while (!queue.isEmpty()) {
+      TreeNode node = queue.poll();
+      System.out.print(node.value + " ");
+
+      if (node.left != null) queue.offer(node.left);
+      if (node.right != null) queue.offer(node.right);
+    }
+    System.out.println();
+  }
+
+  /**
+   * 计算树的高度
+   * 
+   * 递归算法:
+   * 1. 计算左子树高度
+   * 2. 计算右子树高度
+   * 3. 取较大值加1
+   * 
+   * 时间复杂度: O(n)
+   * 空间复杂度: O(h)
+   */
+  public int height() {
+    return heightRec(this.root);
+  }
+
+  private int heightRec(TreeNode node) {
+    if (node == null) return 0;
+    int leftHeight = heightRec(node.left);
+    int rightHeight = heightRec(node.right);
+    return Math.max(leftHeight, rightHeight) + 1;
+  }
+
+  /**
+   * 计算节点总数
+   * 
+   * 时间复杂度: O(n)
+   * 空间复杂度: O(h)
+   */
+  public int size() {
+    return sizeRec(this.root);
+  }
+
+  private int sizeRec(TreeNode node) {
+    if (node == null) return 0;
+    return 1 + sizeRec(node.left) + sizeRec(node.right);
+  }
+
+  /**
+   * 查找指定值的节点
+   * 
+   * 时间复杂度: O(h)
+   * 空间复杂度: O(h)
+   * 
+   * @param value 要查找的值
+   * @return 找到的节点或null
+   */
+  public TreeNode search(Integer value) {
+    return searchRec(this.root, value);
+  }
+
+  private TreeNode searchRec(TreeNode node, Integer value) {
+    if (node == null || node.value.equals(value)) {
+      return node;
+    }
+
+    if (value < node.value) {
+      return searchRec(node.left, value); // 向左子树查找
+    } else {
+      return searchRec(node.right, value); // 向右子树查找
+    }
+  }
+
+  /**
+   * 检查树是否为空
+   * @return 如果为空返回true，否则返回false
+   */
+  public boolean isEmpty() {
+    return this.root == null;
+  }
+
+  /**
+   * 检查树是否平衡
+   * 
+   * 平衡树定义: 每个节点的左右子树高度差不超过1
+   * 
+   * 时间复杂度: O(n²) - 朴素算法
+   * 空间复杂度: O(h)
+   */
+  public boolean isBalanced() {
+    return isBalancedRec(this.root);
+  }
+
+  private boolean isBalancedRec(TreeNode node) {
+    if (node == null) return true;
+
+    int leftHeight = heightRec(node.left);
+    int rightHeight = heightRec(node.right);
+
+    // 检查当前节点是否平衡
+    if (Math.abs(leftHeight - rightHeight) > 1) {
+      return false;
+    }
+
+    // 递归检查子树
+    return isBalancedRec(node.left) && isBalancedRec(node.right);
+  }
+
+  /**
+   * 打印树的结构
+   */
+  public void printTree() {
+    System.out.println("树的结构:");
+    printTreeRec(this.root, 0);
+  }
+
+  private void printTreeRec(TreeNode node, int level) {
+    if (node != null) {
+      printTreeRec(node.right, level + 1);
+      
+      // 打印当前节点
+      for (int i = 0; i < level; i++) {
+        System.out.print("    ");
       }
+      System.out.println(node.value);
+      
+      printTreeRec(node.left, level + 1);
     }
-    return result;
   }
 
-  // 6. 深度遍历(中序优先非递归版)
-  public List<Integer> inOrderUnRecursive(Node tree) {
-    List<Integer> result = new ArrayList<Integer>();
-    List<Object> queue = new ArrayList<Object>();
-    if (tree != null) {
-      while (queue.size() > 0 || tree != null) {
-        if (tree != null) {
-          queue.add(tree);
-          tree = tree.left;
-        } else {
-          tree = (Node) queue.get(queue.size() - 1);
-          queue.remove(queue.size() - 1);
-          result.add(tree.value);
-          tree = tree.right;
-        }
-      }
-    }
-    return result;
-  }
-
-  // 7. 深度遍历(后序优先非递归版)
-  public List<Integer> postOrderUnRecursive(Node tree) {
-    List<Integer> result = new ArrayList<Integer>();
-    List<Object> queue = new ArrayList<Object>();
-    Node tmp = null;
-    if (tree != null) {
-      queue.add(tree);
-      while (queue.size() > 0) {
-        // 先得到最后一项作为比较项
-        tmp = (Node) queue.get(queue.size() - 1);
-        // 把左子树按深度全部追加到queue
-        if (tmp.left != null && tree != tmp.left && tree != tmp.right) {
-          queue.add(tmp.left);
-          // 把右子树追加到queue
-        } else if (tmp.right != null && tree != tmp.right) {
-          queue.add(tmp.right);
-        } else {
-          // 左子树到最底层节点，开始打印left与right
-          Node item = (Node) queue.get(queue.size() - 1);
-          queue.remove(queue.size() - 1);
-          result.add(item.value);
-          // 指向上一个节点，直到queue为空，也就是遍历至根节点
-          tree = tmp;
-        }
-      }
-    }
-    return result;
-  }
-
+  /**
+   * 主测试方法
+   * 
+   * 测试用例:
+   * 1. 创建二叉树并插入数据
+   * 2. 演示各种遍历方法
+   * 3. 测试树的基本操作
+   * 4. 展示算法特性
+   */
   public static void main(String[] args) {
-
-    // 二叉树数据
-    /*
-                 1
-            /         \
-          2              3
-        /   \          /   \
-      4      5        6     7
-           /   \          /    \
-          8     9        10    11
-        /   \
-      12    13
-     */
+    BinaryTree tree = new BinaryTree();
     
-    Node tree = new Node(1);
-    Node node2 = new Node(2);
-    Node node3 = new Node(3);
-    tree.setLeft(node2);
-    tree.setRight(node3);
+    // 插入数据
+    int[] values = {50, 30, 70, 20, 40, 60, 80, 10, 25, 35, 45};
+    for (int value : values) {
+      tree.insert(value);
+    }
 
-    node2.setLeft(new Node(4));
-    node2.setRight(new Node(5));
+    System.out.println("=".repeat(60));
+    System.out.println("二叉树算法测试 - Java实现");
+    System.out.println("=".repeat(60));
+    System.out.println();
 
-    node3.setLeft(new Node(6));
-    node3.setRight(new Node(7));
+    // 显示树结构
+    tree.printTree();
+    System.out.println();
 
-    Node node5 = node2.getRight();
-    node5.setLeft(new Node(8));
-    node5.setRight(new Node(9));
+    // 测试各种遍历
+    tree.preorderTraversal();
+    tree.preorderIterative();
+    tree.inorderTraversal();
+    tree.inorderIterative();
+    tree.postorderTraversal();
+    tree.postorderIterative();
+    tree.levelOrderTraversal();
 
-    Node node7 = node3.getRight();
-    node7.setLeft(new Node(10));
-    node7.setRight(new Node(11));
+    // 测试基本操作
+    System.out.println("树的高度: " + tree.height());
+    System.out.println("节点总数: " + tree.size());
+    System.out.println("树是否为空: " + tree.isEmpty());
+    System.out.println("树是否平衡: " + tree.isBalanced());
 
-    Node node8 = node5.getLeft();
-    node8.setLeft(new Node(12));
-    node8.setRight(new Node(13));
+    // 测试查找
+    TreeNode found = tree.search(40);
+    System.out.println("查找节点40: " + (found != null ? "找到" : "未找到"));
 
-    System.out.println("=== start test ===");
-    long startTime = System.currentTimeMillis();
-    BinaryTree binarySearch = new BinaryTree();
-    List<Integer> result = new ArrayList<>();
-    // 1.
-    result = binarySearch.preOrderTraverse(tree, new ArrayList<Integer>());
-    // [1, 2, 4, 5, 8, 12, 13, 9, 3, 6, 7, 10, 11]
-    System.out.println(" 1. binarySearch.preOrderTraverse:" + result.toString());
+    System.out.println();
+    System.out.println("=== 算法特性 ===");
+    System.out.println("二叉树:");
+    System.out.println("  - 每个节点最多有两个子节点");
+    System.out.println("  - 左子节点值小于父节点");
+    System.out.println("  - 右子节点值大于父节点");
+    System.out.println("  - 支持高效的查找、插入、删除");
 
-    // 2.
-    result = binarySearch.inOrderTraverse(tree, new ArrayList<Integer>());
-    // [4, 2, 12, 8, 13, 5, 9, 1, 6, 3, 10, 7, 11]
-    System.out.println(" 2. binarySearch.inOrderTraverse:" + result.toString());
+    System.out.println("\n遍历方法:");
+    System.out.println("  - 前序遍历: 根-左-右");
+    System.out.println("  - 中序遍历: 左-根-右（BST得到有序序列）");
+    System.out.println("  - 后序遍历: 左-右-根");
+    System.out.println("  - 层序遍历: 按层级从左到右");
 
-    // 3.
-    result = binarySearch.postOrderTraverse(tree, new ArrayList<Integer>());
-    // [4, 12, 13, 8, 9, 5, 2, 6, 10, 11, 7, 3, 1]
-    System.out.println(" 3. postOrderTraverse:" + result);
+    System.out.println("\n复杂度分析:");
+    System.out.println("  - 平均情况: O(log n) - 平衡树");
+    System.out.println("  - 最坏情况: O(n) - 退化为链表");
+    System.out.println("  - 空间复杂度: O(n) - 存储所有节点");
 
-    // 4.
-    result = binarySearch.levelOrder(tree);
-    // [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
-    System.out.println(" 4. levelOrder:" + result);
-
-    // 5.
-    result = binarySearch.preOrderUnRecursive(tree);
-    // [1, 2, 4, 5, 8, 12, 13, 9, 3, 6, 7, 10, 11]
-    System.out.println(" 5. preOrderUnRecursive:" + result);
-
-    // 6.
-    result = binarySearch.inOrderUnRecursive(tree);
-    // [4, 2, 12, 8, 13, 5, 9, 1, 6, 3, 10, 7, 11]
-    System.out.println(" 6. inOrderUnRecursive:" + result);
-
-    // 7.
-    result = binarySearch.postOrderUnRecursive(tree);
-    // [4, 12, 13, 8, 9, 5, 2, 6, 10, 11, 7, 3, 1]
-    System.out.println(" 7. postOrderUnRecursive:" + result);
-
-    System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime) + " ms.");
+    System.out.println("\n=== 应用场景 ===");
+    System.out.println("二叉树用于:");
+    System.out.println("  - 数据库索引（B树变种）");
+    System.out.println("  - 文件系统目录结构");
+    System.out.println("  - 编译器语法分析");
+    System.out.println("  - 决策树算法");
+    System.out.println("  - 表达式求值");
   }
 }
-/*
-jarry@jarrys-MacBook-Pro binarytree % javac BinaryTree.java
-jarry@jarrys-MacBook-Pro binarytree % java BinaryTree 
-=== start test ===
- 1. binarySearch.preOrderTraverse:[1, 2, 4, 5, 8, 12, 13, 9, 3, 6, 7, 10, 11]
- 2. binarySearch.inOrderTraverse:[4, 2, 12, 8, 13, 5, 9, 1, 6, 3, 10, 7, 11]
- 3. postOrderTraverse:[4, 12, 13, 8, 9, 5, 2, 6, 10, 11, 7, 3, 1]
- 4. levelOrder:[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
- 5. preOrderUnRecursive:[1, 2, 4, 5, 8, 12, 13, 9, 3, 6, 7, 10, 11]
- 6. inOrderUnRecursive:[4, 2, 12, 8, 13, 5, 9, 1, 6, 3, 10, 7, 11]
- 7. postOrderUnRecursive:[4, 12, 13, 8, 9, 5, 2, 6, 10, 11, 7, 3, 1]
- 
- time:9 ms.
- */

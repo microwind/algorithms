@@ -8,60 +8,84 @@ class MaxHeap:
     """最大堆实现"""
     
     def __init__(self):
+        # 存储堆元素的列表
         self.heap = []
     
     def parent(self, i):
+        # 计算父节点索引
         return (i - 1) // 2
     
     def left_child(self, i):
+        # 计算左子节点索引
         return 2 * i + 1
     
     def right_child(self, i):
+        # 计算右子节点索引
         return 2 * i + 2
     
     def insert(self, val):
         """插入元素"""
+        # 将元素添加到堆尾
         self.heap.append(val)
+        # 向上调整堆，保持堆性质
         self._heapify_up(len(self.heap) - 1)
     
     def _heapify_up(self, i):
         """向上调整堆"""
+        # 将插入的元素向上调整，保持堆性质
+        # 时间复杂度：O(log n)
         while i > 0 and self.heap[i] > self.heap[self.parent(i)]:
+            # 交换元素，向上调整
             self.heap[i], self.heap[self.parent(i)] = self.heap[self.parent(i)], self.heap[i]
             i = self.parent(i)
     
     def extract_max(self):
         """提取最大值"""
+        # 1. 保存堆顶元素
+        # 2. 将最后一个元素移到堆顶
+        # 3. 向下堆化调整
+        # 时间复杂度：O(log n)
         if not self.heap:
             return None
         
+        # 保存堆顶元素（最大值）
         max_val = self.heap[0]
+        # 将最后一个元素移到堆顶
         self.heap[0] = self.heap[-1]
+        # 删除最后一个元素
         self.heap.pop()
+        # 向下调整堆，保持堆性质
         self._heapify_down(0)
         return max_val
     
     def _heapify_down(self, i):
         """向下调整堆"""
+        # 将堆顶元素向下调整，保持堆性质
+        # 时间复杂度：O(log n)
         largest = i
         left = self.left_child(i)
         right = self.right_child(i)
         
+        # 找到最大子节点
         if left < len(self.heap) and self.heap[left] > self.heap[largest]:
             largest = left
         
         if right < len(self.heap) and self.heap[right] > self.heap[largest]:
             largest = right
         
+        # 如果最大子节点不是当前节点，交换元素并继续向下调整
         if largest != i:
             self.heap[i], self.heap[largest] = self.heap[largest], self.heap[i]
             self._heapify_down(largest)
     
     def peek(self):
         """查看最大值"""
+        # 返回堆顶元素（最大堆返回最大值）
+        # 时间复杂度：O(1)
         return self.heap[0] if self.heap else None
     
     def size(self):
+        # 返回堆元素个数
         return len(self.heap)
 
 

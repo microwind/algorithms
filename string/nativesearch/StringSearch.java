@@ -1,4 +1,3 @@
-
 /**
  * Copyright © https://github.com/microwind All rights reserved.
  * 
@@ -6,129 +5,97 @@
  * @version: 1.0
  */
 
+/**
+ * 字符串算法 - 朴素字符串搜索 (Naive String Search)
+ * 
+ * 算法原理：
+ * 1. 最基础的字符串匹配方法，也称为暴力搜索。
+ * 2. 将模式串 (pattern) 与主串 (text) 的每个位置对齐。
+ * 3. 逐个字符比较，若匹配成功则继续比较下一个字符。
+ * 4. 若匹配失败，则将模式串向右移动一位，从头开始比较。
+ * 
+ * 时间复杂度：O(n * m)，其中 n 为主串长度，m 为模式串长度。
+ * 空间复杂度：O(1)，仅使用常数个额外变量。
+ */
 public class StringSearch {
 
-  /**
-   * 朴素字符串搜索双循环
-   */
-  int find(String str, String text) {
-    int strLen = str.length();
-    int textLen = text.length();
-    // 双循环，外循环为目标内容，内循环为查找字符串
-    for (int i = 0; i < textLen; i++) {
-      int j = 0;
-      // 从目标内容的递增下标作为起始点，每次完整对比查找字符串
-      for (; j < strLen; j++) {
-        // 将查找字符串逐个与目标内容进行比较，匹配则继续。
-        // 如果遇到不符合的字符则跳出比较，以目标内容里新的下标作为起始位置重新计算。
-        if (str.charAt(j) != text.charAt(i + j)) {
-          break;
+    /**
+     * 朴素搜索实现 - 双重循环
+     * 
+     * @param pattern 模式串 (要找的内容)
+     * @param text 主串 (被查找的内容)
+     * @return 匹配成功的起始位置，若未找到返回 -1
+     */
+    public int find(String pattern, String text) {
+        int m = pattern.length();
+        int n = text.length();
+        
+        // 外层循环：移动模式串在主串中的起始位置
+        // 关键点：i 的最大值应为 n - m，避免越界
+        for (int i = 0; i <= n - m; i++) {
+            int j = 0;
+            // 内层循环：比较当前位置开始的字符
+            for (; j < m; j++) {
+                if (pattern.charAt(j) != text.charAt(i + j)) {
+                    // 字符不匹配，跳出内层循环
+                    break;
+                }
+            }
+            // 如果 j 走到了 m，说明模式串全部字符匹配成功
+            if (j == m) {
+                return i;
+            }
         }
-      }
-      // 当查询字符串比较完成时，说明已经匹配成功，返回当前位置。
-      if (j == strLen) {
-        return i;
-      }
+        return -1;
     }
-    return -1;
-  }
 
-  /**
-   * 朴素字符串搜索for+while写法，算法与与双循环同
-   */
-  int find2(String str, String text) {
-    int strLen = str.length();
-    int textLen = text.length();
-    int len = textLen - strLen + 1;
-    // 从目标内容逐个开始对比
-    for (int i = 0; i < len; i++) {
-      // 每次以完整对比查找字符串与目标内容
-      int j = 0;
-      while (j < strLen) {
-        // 当目标内容剩余长度不足时退出
-        if (textLen - i < strLen - j) {
-          return -1;
+    /**
+     * 朴素搜索实现 - for + while 写法 (更严谨的边界判断)
+     */
+    public int find2(String pattern, String text) {
+        int m = pattern.length();
+        int n = text.length();
+        
+        if (m == 0) return 0;
+        if (m > n) return -1;
+        
+        for (int i = 0; i <= n - m; i++) {
+            int j = 0;
+            while (j < m && text.charAt(i + j) == pattern.charAt(j)) {
+                j++;
+            }
+            if (j == m) {
+                return i;
+            }
         }
-        // 当遇到有不匹配的情况跳出循环，从目标内容的下一个位置开始重新计算
-        if (str.charAt(j) != text.charAt(i + j)) {
-          break;
-        }
-        j++;
-      }
-      // 当全部匹配后，则返回当前下标
-      if (j == strLen) {
-        return i;
-      }
+        return -1;
     }
-    return -1;
-  }
 
-  public static void main(final String args[]) {
-    StringSearch stringSearch = new StringSearch();
-    String str1 = "ABC";
-    String text1 = "AABABC";
-
-    String str2 = "AAB";
-    String text2 = "AAAABC";
-
-    String str3 = "ABC";
-    String text3 = "AABAC";
-
-    int result = -1;
-    long startTime;
-    // find test
-    startTime = System.currentTimeMillis();
-    result = stringSearch.find(str1, text1);
-    System.out.println("stringSearch.find(" + str1 + ", " + text1 + ")");
-    System.out.println("result:" + result);
-
-    result = stringSearch.find(str2, text2);
-    System.out.println("stringSearch.find(" + str2 + ", " + text2 + ")");
-    System.out.println("result:" + result);
-
-    result = stringSearch.find(str3, text3);
-    System.out.println("stringSearch.find(" + str3 + ", " + text3 + ")");
-    System.out.println("result:" + result);
-    System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime) + " ms.");
-
-    // find2 test
-    startTime = System.currentTimeMillis();
-    result = stringSearch.find2(str1, text1);
-    System.out.println("stringSearch.find2(" + str1 + ", " + text1 + ")");
-
-    System.out.println("result:" + result);
-    result = stringSearch.find2(str2, text2);
-    System.out.println("stringSearch.find2(" + str2 + ", " + text2 + ")");
-
-    System.out.println("result:" + result);
-    result = stringSearch.find2(str3, text3);
-    System.out.println("stringSearch.find2(" + str3 + ", " + text3 + ")");
-    System.out.println("result:" + result);
-    System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime) + " ms.");
-  }
+    /**
+     * 主函数 - 测试搜索算法
+     */
+    public static void main(String[] args) {
+        StringSearch searcher = new StringSearch();
+        
+        String[][] testCases = {
+            {"ABC", "AABABC", "3"},
+            {"AAB", "AAAABC", "2"},
+            {"ABC", "AABAC", "-1"},
+            {"", "ANY", "0"},
+            {"LONG_PATTERN", "SHORT", "-1"}
+        };
+        
+        System.out.println("朴素字符串搜索测试:");
+        for (String[] tc : testCases) {
+            String p = tc[0];
+            String t = tc[1];
+            int expected = Integer.parseInt(tc[2]);
+            
+            int res1 = searcher.find(p, t);
+            int res2 = searcher.find2(p, t);
+            
+            System.out.printf("模式: [%s] | 文本: [%s] | 结果: %d (预期: %d) | 状态: %s\n",
+                p, t, res1, expected, (res1 == expected ? "OK" : "FAIL"));
+        }
+    }
 }
-
-/*
- * jarry@jarrys-MacBook-Pro nativesearch % java -version
- * java version "14.0.1" 2020-04-14
- * Java(TM) SE Runtime Environment (build 14.0.1+7)
- * Java HotSpot(TM) 64-Bit Server VM (build 14.0.1+7, mixed mode, sharing)
- * jarry@jarrys-MacBook-Pro nativesearch % javac StringSearch.java
- * jarry@jarrys-MacBook-Pro nativesearch % java StringSearch
- * stringSearch.find(ABC, AABABC)
- * result:3
- * stringSearch.find(AAB, AAAABC)
- * result:2
- * stringSearch.find(ABC, AABAC)
- * result:-1
- * 
- * time:22 ms.
- * stringSearch.find2(ABC, AABABC)
- * result:3
- * stringSearch.find2(AAB, AAAABC)
- * result:2
- * stringSearch.find2(ABC, AABAC)
- * result:-1
- * 
- * time:2 ms.
- */

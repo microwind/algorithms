@@ -1,175 +1,291 @@
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ */
 
-//  矩阵节点，含up, down, left, right
+/**
+ *  树搜索 - 矩阵节点实现
+ * 矩阵节点，含上、下、左、右四个方向指针
+ * 用于构建二维矩阵网络，支持四向遍历
+ * 包含矩阵创建和最短路径查找功能
+ */
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * 矩阵节点类
+ * 表示二维矩阵中的一个节点，包含四个方向的连接指针
+ */
 public class MatrixNode {
-    private int data;
-    private MatrixNode up;
-    private MatrixNode down;
-    private MatrixNode left;
-    private MatrixNode right;
+    private int data;           // 节点存储的数据值
+    private MatrixNode up;       // 上方节点指针
+    private MatrixNode down;     // 下方节点指针
+    private MatrixNode left;     // 左侧节点指针
+    private MatrixNode right;    // 右侧节点指针
 
+    /**
+     * 构造函数 - 初始化矩阵节点
+     * @param data 节点数据值
+     */
     public MatrixNode(int data) {
-        this.data = data;
+        this.data = data; // 设置节点数据
+        this.up = null;   // 初始化上方指针为空
+        this.down = null; // 初始化下方指针为空
+        this.left = null; // 初始化左侧指针为空
+        this.right = null; // 初始化右侧指针为空
     }
 
+    // Getter方法
+    public int getData() { return data; }
+    public MatrixNode getUp() { return up; }
+    public MatrixNode getDown() { return down; }
+    public MatrixNode getLeft() { return left; }
+    public MatrixNode getRight() { return right; }
+
+    // Setter方法
+    public void setUp(MatrixNode up) { this.up = up; }
+    public void setDown(MatrixNode down) { this.down = down; }
+    public void setLeft(MatrixNode left) { this.left = left; }
+    public void setRight(MatrixNode right) { this.right = right; }
+
+    /**
+     * 创建n×n的矩阵网络并返回左上角起始节点
+     * 
+     * 算法步骤:
+     * 1. 创建n×n的二维节点数组
+     * 2. 为每个位置创建节点并赋值
+     * 3. 建立水平方向的左右连接
+     * 4. 建立垂直方向的上下连接
+     * 5. 返回左上角的起始节点
+     * 
+     * 时间复杂度: O(n²) - 需要处理n²个节点
+     * 空间复杂度: O(n²) - 存储n²个节点
+     * 
+     * @param n 矩阵的维度大小
+     * @return 矩阵左上角的起始节点
+     */
     public static MatrixNode createMatrix(int n) {
         MatrixNode[][] matrix = new MatrixNode[n][n];
         int counter = 1;
 
-        // 初始化n*n
+        // 初始化n×n节点矩阵
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 matrix[i][j] = new MatrixNode(counter++);
             }
         }
 
-        // left,right
+        // 建立水平连接（左右指针）
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n - 1; j++) {
-                // 最后一列，right 指向第一列
-                matrix[i][j + 1].left = matrix[i][j];
-                matrix[i][j].right = matrix[i][j + 1];
+                matrix[i][j].setRight(matrix[i][j + 1]); // 设置右指针
+                matrix[i][j + 1].setLeft(matrix[i][j]);   // 设置左指针
             }
         }
 
-        // up,down
+        // 建立垂直连接（上下指针）
         for (int i = 0; i < n - 1; i++) {
             for (int j = 0; j < n; j++) {
-                // 最后一行，down 指向第一行
-                matrix[i + 1][j].up = matrix[i][j];
-                matrix[i][j].down = matrix[i + 1][j];
+                matrix[i][j].setDown(matrix[i + 1][j]); // 设置下指针
+                matrix[i + 1][j].setUp(matrix[i][j]);   // 设置上指针
             }
         }
-        return matrix[0][0];
+
+        return matrix[0][0]; // 返回左上角起始节点
     }
 
+    /**
+     * 打印矩阵结构
+     * 
+     * 算法步骤:
+     * 1. 从当前节点开始，逐行向下遍历
+     * 2. 在每行中从左向右遍历
+     * 3. 打印每个节点的数据值
+     * 4. 每行结束后换行
+     * 
+     * @param n 矩阵的维度大小
+     */
     public void printMatrix(int n) {
-        MatrixNode head = this;
+        MatrixNode rowHead = this; // 当前行头节点
         for (int i = 0; i < n; i++) {
-            MatrixNode current = head;
+            MatrixNode current = rowHead; // 当前列节点
             for (int j = 0; j < n; j++) {
-                System.out.print(current.data + " ");
-                current = current.right;
+                System.out.print(current.data + " "); // 打印节点数据
+                current = current.right; // 移动到右侧节点
             }
-            System.out.println("");
-            head = head.down;
+            System.out.println(); // 换行
+            rowHead = rowHead.down; // 移动到下一行
         }
     }
 
-    public static void findShorterDistance(MatrixNode start, MatrixNode end) {
-        // 广度优先搜索 - 查找所有最短路径
-        List<List<MatrixNode>> pathList = new ArrayList<>();
-        Set<MatrixNode> visited = new HashSet<>();
-        Map<MatrixNode, List<List<MatrixNode>>> parentMap = new HashMap<>();
-        // 记录到达每个节点的最短距离
-        Map<MatrixNode, Integer> minDistance = new HashMap<>();
-        int shortestLen = Integer.MAX_VALUE;
+    /**
+     * 使用深度优先搜索查找所有最短路径
+     * 
+     * 算法步骤:
+     * 1. 使用递归进行深度优先搜索
+     * 2. 维护当前路径和已访问节点集合
+     * 3. 找到目标节点时记录路径长度
+     * 4. 只保留最短长度的路径
+     * 5. 回溯时清理访问状态
+     * 
+     * 时间复杂度: O(V + E) - V为顶点数，E为边数
+     * 空间复杂度: O(V) - 用于递归栈和路径存储
+     * 
+     * @param start 起始节点
+     * @param end 目标节点
+     * @return 所有最短路径的列表
+     */
+    public static List<List<MatrixNode>> findShortestPaths(MatrixNode start, MatrixNode end) {
+        List<List<MatrixNode>> shortestPaths = new ArrayList<>(); // 存储最短路径
+        int shortestLength = Integer.MAX_VALUE; // 最短路径长度
+        Set<MatrixNode> visited = new HashSet<>(); // 已访问节点集合
 
-        List<MatrixNode> initialPath = new ArrayList<>();
-        initialPath.add(start);
-        pathList.add(initialPath);
-        minDistance.put(start, 0);
+        dfs(start, end, new ArrayList<>(), visited, shortestLength, shortestPaths);
 
-        while (!pathList.isEmpty()) {
-            List<MatrixNode> path = pathList.remove(0);
-            MatrixNode current = path.get(path.size() - 1);
-            int currentDistance = path.size() - 1;
+        return shortestPaths;
+    }
 
-            // 这里注释掉了，因为我们需要找到所有最短路径
-            // if (visited.contains(current)) {
-            //     continue;
-            // }
-            // visited.add(current);
+    /**
+     * 深度优先搜索的递归辅助方法
+     * 
+     * @param current 当前节点
+     * @param end 目标节点
+     * @param currentPath 当前路径
+     * @param visited 已访问节点集合
+     * @param shortestLength 最短路径长度
+     * @param shortestPaths 最短路径列表
+     */
+    private static void dfs(MatrixNode current, MatrixNode end, List<MatrixNode> currentPath,
+                         Set<MatrixNode> visited, int shortestLength, 
+                         List<List<MatrixNode>> shortestPaths) {
+        if (current == null) {
+            return; // 当前节点为空，直接返回
+        }
 
-            // 如果当前节点是目标节点
-            if (current == end) {
-                // 如果当前路径比之前找到的路径更短，更新最短路径
-                if (currentDistance < shortestLen) {
-                    shortestLen = currentDistance;
-                    parentMap.clear();
-                    List<List<MatrixNode>> paths = new ArrayList<>();
-                    paths.add(new ArrayList<>(path));
-                    parentMap.put(current, paths);
-                } else if (currentDistance == shortestLen) {
-                    // 如果当前路径长度等于最短路径长度，则也保留该路径
-                    // 如果还没有保存过该节点的路径，先创建一个列表
-                    if (!parentMap.containsKey(current)) {
-                        parentMap.put(current, new ArrayList<>());
-                    }
-                    parentMap.get(current).add(new ArrayList<>(path));
-                }
-                continue;
+        currentPath.add(current); // 将当前节点添加到路径
+        visited.add(current); // 标记当前节点为已访问
+
+        if (current == end) {
+            // 到达目标节点，记录路径
+            int currentDistance = currentPath.size() - 1;
+
+            if (currentPath.size() < shortestLength) {
+                shortestLength = currentPath.size();
+                shortestPaths.clear();
+                shortestPaths.add(new ArrayList<>(currentPath));
+            } else if (currentPath.size() == shortestLength) {
+                shortestPaths.add(new ArrayList<>(currentPath));
             }
-
-            // 获取当前节点的邻居节点
-            List<MatrixNode> neighbors = new ArrayList<>();
-            if (current.left != null)
-                neighbors.add(current.left);
-            if (current.up != null)
-                neighbors.add(current.up);
-            if (current.down != null)
-                neighbors.add(current.down);
-            if (current.right != null)
-                neighbors.add(current.right);
-
+        } else {
+            // 继续搜索邻居节点
+            List<MatrixNode> neighbors = getNeighbors(current);
             for (MatrixNode neighbor : neighbors) {
-                int newDistance = currentDistance + 1;
-                /**
-                 * 如果这个邻居还没有被访问过，或者新路径长度小于等于已有最短路径，
-                 * 就继续探索这条路径。
-                 */
-                if (!minDistance.containsKey(neighbor) || newDistance <= minDistance.get(neighbor)) {
-                    minDistance.put(neighbor, newDistance);
-                    List<MatrixNode> newPath = new ArrayList<>(path);
-                    newPath.add(neighbor);
-                    pathList.add(newPath);
+                if (!visited.contains(neighbor)) {
+                    dfs(neighbor, end, currentPath, visited, shortestLength, shortestPaths);
                 }
             }
         }
 
-        // 打印所有最短路径
-        int count = 1;
-        for (List<List<MatrixNode>> paths : parentMap.values()) {
-            for (List<MatrixNode> shortestPath : paths) {
-                System.out.print(count + ") ");
-                for (MatrixNode node : shortestPath) {
-                    System.out.print(" " + node.data);
+        // 回溯：移除当前节点
+        currentPath.remove(currentPath.size() - 1);
+        visited.remove(current);
+    }
+
+    /**
+     * 获取节点的所有有效邻居
+     * 
+     * @param node 当前节点
+     * @return 邻居节点列表
+     */
+    private static List<MatrixNode> getNeighbors(MatrixNode node) {
+        List<MatrixNode> neighbors = new ArrayList<>();
+        
+        if (node.left != null) neighbors.add(node.left);   // 左邻居
+        if (node.up != null) neighbors.add(node.up);       // 上邻居
+        if (node.down != null) neighbors.add(node.down);     // 下邻居
+        if (node.right != null) neighbors.add(node.right);  // 右邻居
+        
+        return neighbors;
+    }
+
+    /**
+     * 打印所有找到的路径
+     * 
+     * @param paths 路径列表
+     */
+    public static void printPaths(List<List<MatrixNode>> paths) {
+        if (paths.isEmpty()) {
+            System.out.println("未找到路径"); // 未找到路径提示
+            return;
+        }
+
+        System.out.println("找到 " + paths.size() + " 条最短路径:");
+        for (int i = 0; i < paths.size(); i++) {
+            System.out.print("路径 " + (i + 1) + ": ");
+            for (int j = 0; j < paths.get(i).size(); j++) {
+                System.out.print(paths.get(i).get(j).data);
+                if (j < paths.get(i).size() - 1) {
+                    System.out.print(" -> ");
                 }
-                System.out.println();
-                count++;
             }
+            System.out.println();
         }
     }
 
+    /**
+     * 主测试方法
+     * 
+     * 测试用例:
+     * 1. 创建3×3矩阵网络
+     * 2. 显示矩阵结构
+     * 3. 查找从左上角到右下角的最短路径
+     * 4. 演示路径查找功能
+     */
     public static void main(String[] args) {
-        /**
-         * 打印结构：
-         * 1 2 3
-         * 4 5 6
-         * 7 8 9
-         */
-        int n = 3;
-        MatrixNode node = MatrixNode.createMatrix(n);
-        node.printMatrix(n);
-
-        /**
-         * 打印全部最短路径：
-         * 2 to 9
-         * 1) 2 5 8 9
-         * 2) 2 3 6 9
-         * 3) 2 5 6 9
-         */
-        System.out.println("");
-        System.out.println(node.right.data + " to " + node.down.right.down.right.data);
-        findShorterDistance(node.right, node.down.right.down.right);
+        int n = 3; // 3×3矩阵
+        MatrixNode startNode = createMatrix(n);
+        
+        System.out.println("矩阵结构:");
+        startNode.printMatrix(n);
+        
+        // 查找右下角节点
+        MatrixNode endNode = startNode;
+        for (int i = 0; i < n - 1; i++) {
+            endNode = endNode.right; // 向右移动
+        }
+        for (int i = 0; i < n - 1; i++) {
+            endNode = endNode.down; // 向下移动
+        }
+        
+        System.out.println("\n查找从 " + startNode.data + " 到 " + endNode.data + " 的最短路径:");
+        List<List<MatrixNode>> shortestPaths = findShortestPaths(startNode, endNode);
+        printPaths(shortestPaths);
+        
+        System.out.println("\n=== 算法特性 ===");
+        System.out.println("深度优先搜索路径查找:");
+        System.out.println("  - 使用递归和回溯");
+        System.out.println("  - 能找到所有可能路径");
+        System.out.println("  - 适合探索完整解空间");
+        System.out.println("  - 时间复杂度: O(V + E)");
+        System.out.println("  - 空间复杂度: O(V)");
+        
+        System.out.println("\n=== 应用场景 ===");
+        System.out.println("矩阵路径查找用于:");
+        System.out.println("  - 迷宫求解和路径规划");
+        System.out.println("  - 游戏AI和寻路算法");
+        System.out.println("  - 网络路由优化");
+        System.out.println("  - 电路板布线");
+        System.out.println("  - 图像处理和路径分析");
     }
 
+    @Override
+    public String toString() {
+        return "MatrixNode(" + data + ")"; // 节点字符串表示
+    }
 }

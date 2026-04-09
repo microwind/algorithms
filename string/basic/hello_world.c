@@ -2,7 +2,7 @@
 //#include<string.h>
 #include <stddef.h>
 /**
- * output:
+ * 输出:
  * Hello, World 0 ,  Welcome to here. Hello, World 1 ,  Welcome to here. Hello, World 2 ,  ..
  * 
  */

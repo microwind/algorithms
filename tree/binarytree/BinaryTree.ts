@@ -1,231 +1,323 @@
 /**
- * Copyright © https://github.com/microwind All rights reserved.
+ * 版权所有 © https://github.com/microwind 保留所有权利
  * @author: jarryli@gmail.com
  * @version: 1.0
  */
 
-
-class BinaryTree {
-  constructor() { }
-  // 1. 先序优先遍历DLR递归版
-  preOrderTraverse(tree: any, result: Array<number> = []): Array<number> {
-    if (tree !== undefined) {
-      result.push(tree.value)
-      this.preOrderTraverse(tree.left, result)
-      this.preOrderTraverse(tree.right, result)
-    }
-    return result
-  }
-
-
-  // 2.	中序优先遍历LDR递归版
-  inOrderTraverse(tree: any, result: Array<number> = []) {
-    if (tree !== undefined) {
-      this.inOrderTraverse(tree.left, result)
-      result.push(tree.value)
-      this.inOrderTraverse(tree.right, result)
-    }
-    return result
-  }
-
-  // 3.	后序优先遍历LRD递归版
-  postOrderTraverse(tree: any, result: Array<number> = []) {
-    if (tree !== undefined) {
-      this.postOrderTraverse(tree.left, result)
-      this.postOrderTraverse(tree.right, result)
-      result.push(tree.value)
-    }
-    return result
-  }
-
-
-  // 4. 广度优先(层级遍历)，自左往右，利用队列暂存数据
-  levelOrder(tree: any) {
-    const result = []
-    const queue = []
-    if (tree !== undefined) {
-      queue.push(tree)
-      while (queue.length) {
-        tree = queue.shift()
-        result.push(tree.value)
-        // 添加当前节点的子节点
-        if (tree.left !== undefined) {
-          queue.push(tree.left)
-        }
-        if (tree.right !== undefined) {
-          queue.push(tree.right)
-        }
-      }
-    }
-    return result
-  }
-
-
-  // 5. 深度遍历(先序优先非递归版)
-  preOrderUnRecursive(tree: any) {
-    const result = []
-    const queue = []
-    if (tree !== undefined) {
-      while (queue.length || tree) {
-        if (tree) {
-          result.push(tree.value)
-          queue.push(tree)
-          tree = tree.left
-        } else {
-          tree = queue.pop()
-          tree = tree.right
-        }
-      }
-    }
-    return result
-  }
-
-
-  // 6. 深度遍历(中序优先非递归版)
-  inOrderUnRecursive(tree: any) {
-    var result = []
-    var queue = []
-    if (tree !== undefined) {
-      while (queue.length || tree) {
-        if (tree) {
-          queue.push(tree)
-          tree = tree.left
-        } else {
-          tree = queue.pop()
-          result.push(tree.value)
-          tree = tree.right
-        }
-      }
-    }
-    return result
-  }
-
-  // 7. 深度遍历(后序优先非递归版)
-  postOrderUnRecursive(tree: any) {
-    const result = []
-    const queue = []
-    var item: any
-    if (tree !== undefined) {
-      queue.push(tree)
-      while (queue.length) {
-        // 先得到最后一项作为比较项
-        item = queue[queue.length - 1]
-        // 把左子树按深度全部追加到queue
-        if (item.left && tree !== item.left && tree !== item.right) {
-          queue.push(item.left)
-          // 把右子树追加到queue
-        } else if (item.right && tree !== item.right) {
-          queue.push(item.right)
-        } else {
-          // 左子树到最底层节点，开始打印left与right
-          result.push(queue.pop().value)
-          //  指向上一个节点，直到queue为空，也就是遍历至根节点
-          tree = item
-        }
-      }
-    }
-    return result
-  }
-
+/**
+ * 二叉树节点接口
+ */
+interface TreeNode {
+    value: number;
+    left?: TreeNode;
+    right?: TreeNode;
 }
 
-(function () {
-
-  // 基本结构
-  class Node {
-    value: number
-    left?: Node
-    right?: Node
-    constructor(value: number) {
-      this.value = value
-    }
-  }
-
-  // 二叉树数据
-  const data = `
-                 1
-            /         \
-          2              3
-        /   \          /   \
-      4      5        6     7
-           /   \          /    \
-          8     9        10    11
-        /   \
-      12    13
-`
-  console.table(data)
-
-  const tree = new Node(1)
-  tree.left = new Node(2)
-  tree.right = new Node(3)
-  let node2: any = tree.left
-  let node3: any = tree.right
-  node2.left = new Node(4)
-  node2.right = new Node(5)
-  node3.left = new Node(6)
-  node3.right = new Node(7)
-  let node5 = node2.right
-  node5.left = new Node(8)
-  node5.right = new Node(9)
-  let node7 = node3.right
-  node7.left = new Node(10)
-  node7.right = new Node(11)
-  let node8 = node5.left
-  node8.left = new Node(12)
-  node8.right = new Node(13)
-
-  var result: any
-
-  console.time("time");
-  const binaryTree = new BinaryTree()
-
-  // 1.
-  result = binaryTree.preOrderTraverse(tree)
-  console.log('1. preOrderTraverse:', result)
-  //  [ 1, 2, 4, 5, 8, 12, 13, 9, 3, 6, 7, 10, 11 ]
-
-  // 2.
-  result = binaryTree.inOrderTraverse(tree)
-  // [ 4, 2, 12, 8, 13, 5, 9, 1, 6, 3, 10, 7, 11 ]
-  console.log('2. inOrderTraverse:', result)
-
-  // 3.
-  result = binaryTree.postOrderTraverse(tree)
-  // [ 4, 12, 13, 8, 9, 5, 2, 6, 10, 11, 7, 3, 1 ]
-  console.log('3. postOrderTraverse:', result)
-
-  // 4. 
-  result = binaryTree.levelOrder(tree)
-  // [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 ]
-  console.log('4. levelOrder:', result)
-
-  // 5.
-  result = binaryTree.preOrderUnRecursive(tree)
-  // [ 1, 2, 4, 5, 8, 12, 13, 9, 3, 6, 7, 10, 11 ]
-  console.log('5. preOrderUnRecursive:', result)
-
-  // 6.
-  result = binaryTree.inOrderUnRecursive(tree)
-  // [ 4, 2, 12, 8, 13, 5, 9, 1, 6, 3, 10, 7, 11 ]
-  console.log('6. inOrderUnRecursive:', result)
-
-  // 7.
-  result = binaryTree.postOrderUnRecursive(tree)
-  // [ 4, 12, 13, 8, 9, 5, 2, 6, 10, 11, 7, 3, 1 ]
-  console.log('7. postOrderUnRecursive:', result)
-
-  console.timeEnd("time");
-})();
-
 /**
-jarry@192 binarytree % tsc BinaryTree.ts -t es2020
-jarry@192 binarytree % node BinaryTree.js
-1. preOrderTraverse: [ 1, 2, 4, 5, 8, 12, 13, 9, 3, 6, 7, 10, 11 ]
-2. inOrderTraverse: [ 4, 2, 12, 8, 13, 5, 9, 1, 6, 3, 10, 7, 11 ]
-3. postOrderTraverse: [ 4, 12, 13, 8, 9, 5, 2, 6, 10, 11, 7, 3, 1 ]
-4. levelOrder: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 ]
-5. preOrderUnRecursive: [ 1, 2, 4, 5, 8, 12, 13, 9, 3, 6, 7, 10, 11 ]
-6. inOrderUnRecursive: [ 4, 2, 12, 8, 13, 5, 9, 1, 6, 3, 10, 7, 11 ]
-7. postOrderUnRecursive: [ 4, 12, 13, 8, 9, 5, 2, 6, 10, 11, 7, 3, 1 ]
-time: 2.113ms
+ * 二叉树实现类
+ * 
+ * 功能特性:
+ * - 二叉树的创建和基本操作
+ * - 前序、中序、后序遍历（递归）
+ * - 层序遍历
+ * - 树的高度和节点数计算
+ * - 树的平衡性检查
+ * 
+ * 算法复杂度:
+ * - 插入: O(h) - h为树高度
+ * - 查找: O(h) - h为树高度
+ * - 遍历: O(n) - n为节点数
+ * 
+ * 应用场景:
+ * - 表达式树
+ * - 文件系统
+ * - 数据库索引
+ * - 决策树
  */
+class BinaryTree {
+    constructor() { }
+
+    /**
+     * 前序遍历 - 根-左-右
+     * 
+     * 应用场景:
+     * - 树的复制
+     * - 前缀表达式生成
+     * - 文件系统遍历
+     * 
+     * @param tree 二叉树节点
+     * @param result 存储遍历结果的数组
+     * @returns 遍历结果数组
+     */
+    preOrderTraverse(tree: TreeNode | undefined, result: Array<number> = []): Array<number> {
+        if (tree !== undefined) {
+            result.push(tree.value); // 访问根节点
+            this.preOrderTraverse(tree.left, result); // 遍历左子树
+            this.preOrderTraverse(tree.right, result); // 遍历右子树
+        }
+        return result;
+    }
+
+    /**
+     * 中序遍历 - 左-根-右
+     * 
+     * 应用场景:
+     * - BST得到有序序列
+     * - 中缀表达式生成
+     * - 有序数据处理
+     * 
+     * @param tree 二叉树节点
+     * @param result 存储遍历结果的数组
+     * @returns 遍历结果数组
+     */
+    inOrderTraverse(tree: TreeNode | undefined, result: Array<number> = []): Array<number> {
+        if (tree !== undefined) {
+            this.inOrderTraverse(tree.left, result); // 遍历左子树
+            result.push(tree.value); // 访问根节点
+            this.inOrderTraverse(tree.right, result); // 遍历右子树
+        }
+        return result;
+    }
+
+    /**
+     * 后序遍历 - 左-右-根
+     * 
+     * 应用场景:
+     * - 树的删除
+     * - 目录空间计算
+     * - 后缀表达式生成
+     * 
+     * @param tree 二叉树节点
+     * @param result 存储遍历结果的数组
+     * @returns 遍历结果数组
+     */
+    postOrderTraverse(tree: TreeNode | undefined, result: Array<number> = []): Array<number> {
+        if (tree !== undefined) {
+            this.postOrderTraverse(tree.left, result); // 遍历左子树
+            this.postOrderTraverse(tree.right, result); // 遍历右子树
+            result.push(tree.value); // 访问根节点
+        }
+        return result;
+    }
+
+    /**
+     * 层序遍历 - 广度优先搜索
+     * 
+     * 应用场景:
+     * - 按层级显示树结构
+     * - 最短路径问题
+     * - 树的层次分析
+     * 
+     * @param tree 二叉树节点
+     * @returns 遍历结果数组
+     */
+    levelOrderTraverse(tree: TreeNode | undefined): Array<number> {
+        if (!tree) return [];
+        
+        const result: Array<number> = [];
+        const queue: Array<TreeNode> = [tree]; // 使用队列进行层序遍历
+        
+        while (queue.length > 0) {
+            const node = queue.shift()!; // 出队节点
+            result.push(node.value); // 访问节点
+            
+            // 子节点入队
+            if (node.left) queue.push(node.left);
+            if (node.right) queue.push(node.right);
+        }
+        
+        return result;
+    }
+
+    /**
+     * 计算树的高度
+     * 
+     * 递归算法:
+     * 1. 计算左子树高度
+     * 2. 计算右子树高度
+     * 3. 取较大值加1
+     * 
+     * @param tree 二叉树节点
+     * @returns 树的高度
+     */
+    height(tree: TreeNode | undefined): number {
+        if (!tree) return 0;
+        
+        const leftHeight = this.height(tree.left); // 左子树高度
+        const rightHeight = this.height(tree.right); // 右子树高度
+        
+        return Math.max(leftHeight, rightHeight) + 1;
+    }
+
+    /**
+     * 计算节点总数
+     * 
+     * @param tree 二叉树节点
+     * @returns 节点总数
+     */
+    size(tree: TreeNode | undefined): number {
+        if (!tree) return 0;
+        
+        return 1 + this.size(tree.left) + this.size(tree.right);
+    }
+
+    /**
+     * 查找指定值的节点
+     * 
+     * @param tree 二叉树节点
+     * @param value 要查找的值
+     * @returns 找到的节点或null
+     */
+    search(tree: TreeNode | undefined, value: number): TreeNode | undefined {
+        if (!tree || tree.value === value) {
+            return tree;
+        }
+        
+        if (value < tree.value) {
+            return this.search(tree.left, value); // 向左子树查找
+        } else {
+            return this.search(tree.right, value); // 向右子树查找
+        }
+    }
+
+    /**
+     * 检查树是否平衡
+     * 
+     * 平衡树定义: 每个节点的左右子树高度差不超过1
+     * 
+     * @param tree 二叉树节点
+     * @returns 是否平衡
+     */
+    isBalanced(tree: TreeNode | undefined): boolean {
+        if (!tree) return true;
+        
+        const leftHeight = this.height(tree.left);
+        const rightHeight = this.height(tree.right);
+        
+        // 检查当前节点是否平衡
+        if (Math.abs(leftHeight - rightHeight) > 1) {
+            return false;
+        }
+        
+        // 递归检查子树
+        return this.isBalanced(tree.left) && this.isBalanced(tree.right);
+    }
+
+    /**
+     * 打印树的结构
+     * 
+     * @param tree 二叉树节点
+     * @param level 当前层级
+     */
+    printTree(tree: TreeNode | undefined, level: number = 0): void {
+        if (!tree) return;
+        
+        this.printTree(tree.right, level + 1); // 打印右子树
+        
+        // 打印当前节点
+        let indent = '';
+        for (let i = 0; i < level; i++) {
+            indent += '    ';
+        }
+        console.log(indent + tree.value);
+        
+        this.printTree(tree.left, level + 1); // 打印左子树
+    }
+
+    /**
+     * 创建测试用例的二叉树
+     * 
+     * @returns 测试二叉树
+     */
+    createTestTree(): TreeNode {
+        // 创建测试树:
+        //       50
+        //      /  \
+        //     30   70
+        //    / \   / \
+        //   20 40 60 80
+        const tree: TreeNode = {
+            value: 50,
+            left: {
+                value: 30,
+                left: { value: 20, left: undefined, right: undefined },
+                right: { value: 40, left: undefined, right: undefined }
+            },
+            right: {
+                value: 70,
+                left: { value: 60, left: undefined, right: undefined },
+                right: { value: 80, left: undefined, right: undefined }
+            }
+        };
+        
+        return tree;
+    }
+
+    /**
+     * 测试所有二叉树功能
+     */
+    test(): void {
+        const tree = this.createTestTree();
+        
+        console.log("=".repeat(60));
+        console.log("二叉树算法测试 - TypeScript实现");
+        console.log("=".repeat(60));
+        console.log();
+        
+        // 显示树结构
+        console.log("树的结构:");
+        this.printTree(tree);
+        console.log();
+        
+        // 测试各种遍历
+        console.log("前序遍历（根-左-右）:", this.preOrderTraverse(tree));
+        console.log("中序遍历（左-根-右）:", this.inOrderTraverse(tree));
+        console.log("后序遍历（左-右-根）:", this.postOrderTraverse(tree));
+        console.log("层序遍历:", this.levelOrderTraverse(tree));
+        console.log();
+        
+        // 测试基本操作
+        console.log("树的高度:", this.height(tree));
+        console.log("节点总数:", this.size(tree));
+        console.log("树是否平衡:", this.isBalanced(tree));
+        
+        // 测试查找
+        const found = this.search(tree, 40);
+        console.log("查找节点40:", found ? "找到" : "未找到");
+        
+        console.log();
+        console.log("=== 算法特性 ===");
+        console.log("二叉树:");
+        console.log("  - 每个节点最多有两个子节点");
+        console.log("  - 左子节点值小于父节点");
+        console.log("  - 右子节点值大于父节点");
+        console.log("  - 支持高效的查找、插入、删除");
+        
+        console.log("\n遍历方法:");
+        console.log("  - 前序遍历: 根-左-右");
+        console.log("  - 中序遍历: 左-根-右（BST得到有序序列）");
+        console.log("  - 后序遍历: 左-右-根");
+        console.log("  - 层序遍历: 按层级从左到右");
+        
+        console.log("\n复杂度分析:");
+        console.log("  - 平均情况: O(log n) - 平衡树");
+        console.log("  - 最坏情况: O(n) - 退化为链表");
+        console.log("  - 空间复杂度: O(n) - 存储所有节点");
+        
+        console.log("\n=== 应用场景 ===");
+        console.log("二叉树用于:");
+        console.log("  - 数据库索引（B树变种）");
+        console.log("  - 文件系统目录结构");
+        console.log("  - 编译器语法分析");
+        console.log("  - 决策树算法");
+        console.log("  - 表达式求值");
+    }
+}
+
+// 运行测试
+if (require.main === module) {
+    const binaryTree = new BinaryTree();
+    binaryTree.test();
+}
+
+export { BinaryTree, TreeNode };
