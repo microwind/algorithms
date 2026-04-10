@@ -66,3 +66,12 @@ class GraphBFS {
         bfs(graph, 0);
     }
 }
+
+/*打印结果
+jarry@Mac bfs % java GraphBFS.java
+BFS traversal:
+Visited 0
+Visited 1
+Visited 3
+Visited 2
+*/

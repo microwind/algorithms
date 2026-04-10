@@ -1,8 +1,18 @@
-/**
- * @file: calendar.c
- * @author: jarryli
- * @desc: 根据年月输出当月日历
- * @date: 2003-2-1
+/*
+ * Copyright  https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * 
+ * 完整版日历打印程序 (Calendar - Full Version)
+ * 根据年月输出当月日历，支持显示前后月份日期
+ * 
+ * 核心算法：
+ * 1. 以1900年1月1日（星期一）为基准日期
+ * 2. 使用累加天数法计算任意日期是星期几
+ * 3. 支持1900年之前日期的计算（反向推算）
+ * 4. 日历显示包含上个月末尾几天和下个月开头几天
+ * 
+ * 闰年判断：能被4整除且不能被100整除，或能被400整除
  */
 #include <stdio.h>
 #include <ctype.h>
@@ -10,6 +20,7 @@
 #include <stddef.h>
 #include <math.h>
 #include <stdlib.h>
+// 布尔类型定义，兼容C89/C90标准
 typedef enum
 {
      false,
@@ -17,8 +28,11 @@ typedef enum
      FLASE,
      TRUE
 } BOOL;
-typedef int bool;
-typedef char *string;
+typedef int bool;      // 简化布尔类型别名
+typedef char *string;  // 字符串类型别名
+
+// 星期枚举定义，0=周日，1=周一，...，6=周六
+// 符合国际标准ISO 8601中星期的编号方式
 #define SUNDAY 0
 #define MONDAY 1
 #define TUESDAY 2
@@ -27,15 +41,15 @@ typedef char *string;
 #define FRIDAY 5
 #define SATURDAY 6
 
-/*
- * 设定一个初始值日期对应星期，通过这个日期来推算其他时间对应的星期
- * 初始值为1900年1月1日，星期一
- */
-#define START_YEAR 1900
-#define START_MONTH 1
-#define START_DAY 1
-#define START_WEEKDAY 1
+// 基准日期设定：1900年1月1日，星期一
+// 这是计算任意日期星期几的参考起点
+// 算法原理：计算目标日期与基准日期的天数差，然后用模7运算得到星期
+#define START_YEAR 1900    // 基准年份
+#define START_MONTH 1      // 基准月份（1月）
+#define START_DAY 1        // 基准日期（1日）
+#define START_WEEKDAY 1    // 基准星期（1=星期一，与MONDAY宏对应）
 
+// 星期名称数组（英文缩写）
 static string weeklyArray[] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 
 /**
@@ -120,27 +134,24 @@ long getDaysFromPassedDate(int month, int day, int year);
 int getWeekdayOfPassedDays(long passedDays);
 
 /**
- * 输出日历
- * output:
- * ---------------------------
- *           Jan. 2003
- * Sun  Mon  Tue  Wed  Thu  Fri  Sat
- *                 1    2    3    4
- *  5    6    7    8    9   10   11
- * 12   13   14   15   16   17   18
- * 19   20   21   22   23   24   25
- * 26   27   28   29   30   31
+ * main函数：测试入口
+ * 测试内容：
+ * 1. 验证getMonthDays函数：计算2003年12月有31天
+ * 2. 验证getWeekdayOfDate函数：计算2003年12月30日是周几
+ * 3. 循环打印48个月的日历（从2003年12月开始，连续打印4年）
  */
 int main()
 {
      int month, day, year;
 
+     // 测试数据：2003年12月30日
      month = 12;
      day = 30;
      year = 2003;
 
-     // Test
+     // 测试1：获取月份天数
      int days = getMonthDays(month, year);
+     // 测试2：计算指定日期是星期几
      int weekday = getWeekdayOfDate(month, day, year);
 
      printf("[%d] = %s\n", weekday, weeklyArray[weekday]);
@@ -148,11 +159,10 @@ int main()
      printf("TEST : \n-------------------------\n %s %d days = %d", getMonthName(month), year, days);
      printf("\n%d-%d-%d is %s = weeklyArray[%d]", year, month, day, weeklyArray[weekday], weekday);
      printf("\n---------------------------\n");
-     // Test end
 
-     // output the calander
+     // 测试3：循环打印48个月的日历（4年）
      int tmp_month = 0, tmp_year = year;
-     int max_month = 48; // two years
+     int max_month = 48; // 4年的月份数
      for (month = 0; month < max_month; month++)
      {
           tmp_month++;
@@ -168,152 +178,52 @@ int main()
      return 0;
 }
 
+/**
+ * printCalender函数实现：打印完整日历（包含前后月份日期）
+ * 执行流程：
+ * 1. 打印标题（月份年份）
+ * 2. 打印星期标题行
+ * 3. 计算当月第一天是周几
+ * 4. 打印上个月末尾几天（填充第一行）
+ * 5. 循环打印当月所有日期
+ * 6. 打印下个月开头几天（填充最后一行）
+ */
 void printCalender(int month, int year)
 {
      int firstWeekday, lastWeekday, weekday, ndays, day;
-     printCalanderTitle(month, year); // 日历标题
-     printWeeklyTitle();              // 星期名称
+     
+     // 步骤1-2：打印标题和星期标题
+     printCalanderTitle(month, year);
+     printWeeklyTitle();
      printf("\n");
-     firstWeekday = getFirstWeekdayOfMonth(month, year); // 当月第一天是周几
-                                                         //printIndentFirstLine(firstWeekday);                        // 根据第一天是周几打印缩进
+     
+     // 步骤3：计算当月第一天是周几
+     firstWeekday = getFirstWeekdayOfMonth(month, year);
+     
+     // 步骤4：打印上个月最后几天（用"]"标记）
+     weekday = firstWeekday;
+     printLastMonthLastDays(weekday, month, year);
+     
+     // 获取当月总天数
+     ndays = getMonthDays(month, year);
 
-     weekday = firstWeekday;                       // 设当前星期为当月的第一个星期几
-     printLastMonthLastDays(weekday, month, year); // 打印上个月的最后几天
-     ndays = getMonthDays(month, year);            // 当月一共多少天
-
+     // 步骤5：循环输出当月所有日期
      for (day = 1; day <= ndays; day++)
-     { // 循环输出日历
-          printf("%2s", "");
-          printf("%3d", day);
+     {
+          printf("%2s", "");         // 前导空格保持对齐
+          printf("%3d", day);        // 输出日期数字
           if (weekday == SATURDAY)
-               printf("\n");           // 设定星期六换行换行
-          weekday = (weekday + 1) % 7; // weekday按7天轮循
+               printf("\n");         // 周六换行
+          weekday = (weekday + 1) % 7; // 星期循环
      }
 
+     // 步骤6：打印下个月开头几天（用"]"标记）
      lastWeekday = getLastWeekdayOfMonth(month, year);
      printNextMonthStartDays(lastWeekday);
 }
 
-void printWeeklyTitle()
-{
-     int i;
-     int len = sizeof(weeklyArray) / sizeof(weeklyArray[0]);
-     for (i = 0; i < len; i++)
-     {
-          printf("%5s", weeklyArray[i]); // 根据静态数组循环输出星期名
-     }
-}
-
-void printLastMonthLastDays(int weekday, int month, int year)
-{
-     int lastDays = getLastMonthDays(month, year);
-     int i = lastDays - weekday + 1;
-     for (; i <= lastDays; i++)
-     {
-          printf("%2s%2d]", "", i); // 根据第一天是周几打印上个月最后几天
-     }
-}
-
-void printIndentFirstLine(int weekday)
-{
-     int i;
-     for (i = 0; i < weekday; i++)
-     {
-          printf("%5s", ""); // 根据第一行是周几打印空行或者输入日期
-     }
-}
-
-void printNextMonthStartDays(int weekday)
-{
-     int i;
-     int nextDays = 7 - weekday;
-     for (i = 1; i < nextDays; i++)
-     {
-          printf("%2s%2d]", "", i);
-     }
-}
-
-void printCalanderTitle(int month, int year)
-{
-     printf("%12s%4s %d\n", "", getMonthName(month), year);
-}
-
-/*
- * 返回某月的天数
- * 4 6 9 11为30天，1 3 5 7 8 10 12为31天
- * 2月如果是闰年29，否则28天
- * @param  month
- * @parma  year
- * @return days 天数
- */
-int getMonthDays(int month, int year)
-{
-     switch (month)
-     {
-     case 2:
-          return (isLeapYear(year) ? 29 : 28);
-     case 4:
-     case 6:
-     case 9:
-     case 11:
-          return (30);
-     default:
-          return (31);
-     }
-}
-
 /**
- * 得到上个月最后一天有多少天
- * @see getMonthDays(int month, int year)
- */
-int getLastMonthDays(int month, int year)
-{
-     int nextMonth;
-     nextMonth = month > 1 ? month - 1 : 12; // 上个月是当前月减去1
-     year = month > 1 ? year : year - 1;     // 如果是1月份则是12月，年也减去1
-     return getMonthDays(nextMonth, year);
-}
-
-int getFirstWeekdayOfMonth(int month, int year)
-{
-     return getWeekdayOfDate(month, 1, year);
-}
-
-int getLastWeekdayOfMonth(int month, int year)
-{
-     int lastDay = getMonthDays(month, year);
-     return getWeekdayOfDate(month, lastDay, year);
-}
-
-/**
- * 从过去的一个日期里得到总天数
- * ndays可以是int或long类型
- */
-long getDaysFromPassedDate(int month, int day, int year)
-{
-     int i, weekday;
-     long ndays;              // 一共有多少天
-     weekday = START_WEEKDAY; // 当前周几取自define常量
-     ndays = weekday - 1;     // 减去自身的这1天
-
-     for (i = year; i < START_YEAR; i++)
-     {
-          ndays -= 365;
-          if (isLeapYear(i))
-               ndays -= 1; // 闰年366
-     }
-     for (i = START_MONTH; i < month; i++)
-     {
-          ndays += getMonthDays(i, year); // 若月份大于1，则根据每月的天数增加
-     }
-     if (day > START_DAY)
-          ndays += (day - START_DAY); // 如果比初始天要大，初始天加上与k天之间的差
-
-     return ndays;
-}
-
-/**
- * 根据当前是周几返回多少天以前是周几
+ * 根据过去N天和当前是周几计算得到过去N天是周几
  * 分析：过去的天数等于除7取余数
  * - ndays = ndasy % 7
  * - 比较ndays 与 开始的周几
@@ -340,22 +250,6 @@ int getWeekdayOfPassedDays(long passedDays)
      return weekday;
 }
 
-/**
- * 根据得到N天前是星期几，时间早于设定的初日期
- * 
- * @param  month 
- * @parma  dya  
- * @return year 
- * @see int getWeekdayOfPassedDays (int weekday, int passedDays)
- * @see int getDaysFromPassedDate (int month, int day, int year)
- */
-int getWeekdayBeforeStartYear(int month, int day, int year)
-{
-     int weekday;
-     long ndays = getDaysFromPassedDate(month, day, year);
-     weekday = getWeekdayOfPassedDays(ndays);
-     return weekday;
-}
 /**
  * 本例是用来得到N天后是星期几的函数
  * 根据1900-1-1是星期一
@@ -394,8 +288,16 @@ int getWeekdayOfDate(int month, int day, int year)
 }
 
 /**
- * 返回闰年
- * 闰年每4年一次，凡00结尾的除外，00结尾中能整除400的也是闰年
+ * isLeapYear函数实现：闰年判断
+ * 闰年规则（格里高利历）：
+ * 1. 能被4整除但不能被100整除，或
+ * 2. 能被400整除
+ * 
+ * 逻辑表达式解析：
+ * - (year % 4 == 0 && year % 100 != 0)：能被4整除但不能被100整除
+ * - || (year % 400 == 0)：或者能被400整除（如2000年是闰年）
+ * 
+ * 注意：1900年能被4整除也能被100整除，但不能被400整除，所以不是闰年
  */
 bool isLeapYear(int year)
 {
@@ -434,3 +336,162 @@ string getMonthName(int month)
           return ("Illegal month");
      }
 }
+
+/**
+ * 获取某月的天数
+ * 根据月份和年份（考虑闰年）返回该月天数
+ */
+int getMonthDays(int month, int year)
+{
+     switch (month)
+     {
+     case 2:
+          return isLeapYear(year) ? 29 : 28;
+     case 4:
+     case 6:
+     case 9:
+     case 11:
+          return 30;
+     default:
+          return 31;
+     }
+}
+
+/**
+ * 获取上个月的天数
+ */
+int getLastMonthDays(int month, int year)
+{
+     int lastMonth = (month > 1) ? month - 1 : 12;
+     int lastYear = (month > 1) ? year : year - 1;
+     return getMonthDays(lastMonth, lastYear);
+}
+
+/**
+ * 打印日历标题
+ * 格式：月份名称 + 年份，居中显示
+ */
+void printCalanderTitle(int month, int year)
+{
+     printf("%12s%s %d\n", "", getMonthName(month), year);
+}
+
+/**
+ * 打印星期标题
+ * 输出：Sun Mon Tue Wed Thu Fri Sat
+ */
+void printWeeklyTitle()
+{
+     int i;
+     for (i = 0; i < 7; i++)
+     {
+          printf("%5s", weeklyArray[i]);
+     }
+}
+
+/**
+ * 打印上个月最后几天（用"]"标记）
+ * 根据当月第一天是周几，计算并打印上个月末尾的日期
+ */
+void printLastMonthLastDays(int weekday, int month, int year)
+{
+     int lastDays = getLastMonthDays(month, year);
+     int startDay = lastDays - weekday + 1;
+     int i;
+     for (i = startDay; i <= lastDays; i++)
+     {
+          printf("%2s%2d]", "", i);
+     }
+}
+
+/**
+ * 打印下个月开始几天（用"]"标记）
+ * 根据当月最后一天是周几，计算并打印下个月开头的日期
+ */
+void printNextMonthStartDays(int weekday)
+{
+     int nextDays = 7 - weekday;
+     int i;
+     for (i = 1; i < nextDays; i++)
+     {
+          printf("%2s%2d]", "", i);
+     }
+}
+
+/**
+ * 获取某月第一天是星期几
+ * 调用getWeekdayOfDate计算该月1日的星期
+ */
+int getFirstWeekdayOfMonth(int month, int year)
+{
+     return getWeekdayOfDate(month, 1, year);
+}
+
+/**
+ * 获取某月最后一天是星期几
+ * 调用getWeekdayOfDate计算该月最后一天的星期
+ */
+int getLastWeekdayOfMonth(int month, int year)
+{
+     int lastDay = getMonthDays(month, year);
+     return getWeekdayOfDate(month, lastDay, year);
+}
+
+/**
+ * 获取早于基准日期（1900年前）的某个日期是星期几
+ * 通过计算从目标日期到1900年1月1日的天数差，反向推算
+ */
+int getWeekdayBeforeStartYear(int month, int day, int year)
+{
+     long days = getDaysFromPassedDate(month, day, year);
+     return getWeekdayOfPassedDays(days);
+}
+
+/**
+ * 获取过去日期一共有多少天
+ * 计算从目标日期到1900年1月1日之间的天数
+ */
+long getDaysFromPassedDate(int month, int day, int year)
+{
+     long ndays = 0;
+     int i;
+
+     // 累加从目标年份到1900年的年天数
+     for (i = year; i < START_YEAR; i++)
+     {
+          ndays += 365;
+          if (isLeapYear(i))
+               ndays += 1;
+     }
+
+     // 累加从目标月份到1月的天数
+     for (i = month; i > START_MONTH; i--)
+     {
+          ndays += getMonthDays(i - 1, year);
+     }
+
+     // 累加从目标日期到1日的天数
+     if (day > START_DAY)
+          ndays += (day - START_DAY);
+
+     return ndays;
+}
+
+/*打印结果
+jarry@Mac calendar % gcc calendar.c -o calendar && ./calendar
+[2] = Tue
+TEST : 
+-------------------------
+ Dec. 2003 days = 31
+2003-12-30 is Tue = weeklyArray[2]
+---------------------------
+1-2003
+            Jan. 2003
+  Sun  Mon  Tue  Wed  Thu  Fri  Sat
+  29]  30]  31]    1    2    3    4
+    5    6    7    8    9   10   11
+   12   13   14   15   16   17   18
+   19   20   21   22   23   24   25
+   26   27   28   29   30   31   1]
+2-2003
+*/

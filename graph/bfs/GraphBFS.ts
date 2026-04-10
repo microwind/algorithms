@@ -55,3 +55,13 @@ function main(): void {
 
 main();
 export { bfs };
+
+/*打印结果
+jarry@Mac bfs % ts-node GraphBFS.ts
+BFS traversal:
+Visited 0
+Visited 1
+Visited 3
+Visited 2
+Visited 4
+*/

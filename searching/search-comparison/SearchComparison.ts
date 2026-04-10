@@ -327,7 +327,7 @@ main();
 
 /*
 打印结果
-jarry@Mac search-comparison % tsc search_comparison.ts && node search_comparison.js
+jarry@Mac search-comparison % ts-node SearchComparison.ts
 ============================================================
 搜索算法综合对比
 ============================================================
