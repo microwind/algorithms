@@ -1,5 +1,7 @@
 # 【质因数分解算法详解】C/Java/Go/Python/JS/Dart/Swift/Rust等不同语言实现
 
+> 即任意一个合数可以分解为多个质数相乘的算法实现。
+
 ## 关于质因数分解算法的不同语言实现，通过实例来看不同语言的差异
 
 ## 什么是质因数算法？
@@ -11,7 +13,7 @@
     210 = 2 * 3 * 5 * 7
     520 = 2 * 2 * 2 * 5 * 13
 
-![质因数分解示例](../../../07-resources/images/factor1.png)
+![质因数分解示例](../../resources/images/factor1.png)
 
 按数学运算：列竖式或左右分解，拿能被整除的最小的素数做除数，不断整除得到新的得数，最后把所有的除数和最后的得数连起来就是。
 
@@ -25,8 +27,34 @@
 - 继续从2开始整除，如果2无法整除，则递加到新的质数作为除数
 - 直到将数字分解完，也就是递增数的平方大于被分解数时为止
 
+### 流程图
 
-![质因数分解示例](../../../07-resources/images/factor2.png)
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 5}}}%%
+graph LR
+    S(["开始"]) --> INIT["i=2<br/>num=待分解数"]
+    INIT --> CHECK{"i*i ≤ num?"}
+    CHECK -->|"否"| FINAL{"num > 1?"}
+    CHECK -->|"是"| DIV{"num % i == 0?"}
+    DIV -->|"是"| RECORD["记录因数i<br/>num = num / i"]
+    DIV -->|"否"| INC["i = i + 1"]
+    RECORD --> CHECK
+    INC --> CHECK
+    FINAL -->|"是"| RECORD_LAST["记录num"]
+    FINAL -->|"否"| OUTPUT["输出所有因数"]
+    RECORD_LAST --> OUTPUT
+    OUTPUT --> END(["结束"])
+
+    classDef start fill:#0b8457,color:#fff,stroke:#065535
+    classDef decision fill:#1a1a2e,color:#fff,stroke:#16213e
+    classDef process fill:#0f3460,color:#fff,stroke:#0a2647
+
+    class S,END start
+    class CHECK,DIV,FINAL decision
+    class INIT,RECORD,INC,RECORD_LAST,OUTPUT process
+```
+
+![质因数分解示例](../../resources/images/factor2.png)
 
 
 ## 代码实现思路
@@ -383,6 +411,33 @@ fn main() {
   println!("{:?}", arr);
 }
 ```
+
+## 实现列表
+
+| 语言 | 文件名 | 说明 |
+|------|--------|------|
+| C | [factor.c](./factor.c) | 动态数组实现 |
+| C++ | [factor.cpp](./factor.cpp) | 与C相同实现 |
+| Java | [Factor.java](./Factor.java) | ArrayList实现 |
+| Go | [factor.go](./factor.go) | slice实现 |
+| Python | [factor.py](./factor.py) | 简洁实现 |
+| JavaScript | [factor.js](./factor.js) | 数组实现 |
+| TypeScript | [PrimeFactor.ts](./PrimeFactor.ts) | 类封装 |
+| Kotlin | [factor.kt](./factor.kt) | 面向对象 |
+| Dart | [factor.dart](./factor.dart) | 整除法差异 |
+| Swift | [factor.swift](./factor.swift) | 函数式风格 |
+| Rust | [factor.rs](./factor.rs) | Vector实现 |
+
+---
+
+## 复杂度分析
+
+| 指标 | 复杂度 | 说明 |
+|------|--------|------|
+| **时间复杂度** | O(√n) | 试除到√n |
+| **空间复杂度** | O(log n) | 存储质因数 |
+
+---
 
 ## 源码
 不同语言实现质因数分解算法代码：

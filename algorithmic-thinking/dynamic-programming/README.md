@@ -1,6 +1,14 @@
-## 动态规划 Dynamic Programming
+# 动态规划 Dynamic Programming
 
-### 概述
+> 解决具有"最优子结构"和"重叠子问题"的问题，通过记忆化保存已计算结果避免重复计算，大幅提高效率。
+
+## 导航
+
+| [算法原理](#概述) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
+
+---
+
+## 概述
 动态规划（Dynamic Programming, DP）是一种强大的算法设计方法，用于解决具有"最优子结构"和"重叠子问题"的问题。核心思想是将复杂问题分解为重叠的子问题，通过保存（"记忆化"）已计算的子问题结果，避免重复计算，从而大幅提高效率。
 
 动态规划通常用于优化问题（如最长公共子序列、背包问题）和计数问题（如路径计数）。
@@ -30,6 +38,31 @@
 注意：fib(3) 被计算了两次，fib(2) 被计算了三次！
 
 动态规划（记忆化）：每个子问题只计算一次
+```
+
+### 流程图
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 5}}}%%
+graph TD
+    S(["开始"]) --> DEFINE["定义状态"]
+    DEFINE --> INIT["初始化基础状态"]
+    INIT --> TRANSFER["状态转移方程"]
+    TRANSFER --> FILL["填充DP表格"]
+    FILL --> CHECK{"所有状态计算完成?"}
+    CHECK -->|"否"| COMPUTE["计算当前状态"]
+    COMPUTE --> SAVE["保存结果"]
+    SAVE --> TRANSFER
+    CHECK -->|"是"| RESULT["返回最终结果"]
+    RESULT --> END(["结束"])
+
+    classDef start fill:#0b8457,color:#fff,stroke:#065535
+    classDef decision fill:#1a1a2e,color:#fff,stroke:#16213e
+    classDef process fill:#0f3460,color:#fff,stroke:#0a2647
+
+    class S,END start
+    class CHECK decision
+    class DEFINE,INIT,TRANSFER,FILL,COMPUTE,SAVE,RESULT process
 ```
 
 ### 特点

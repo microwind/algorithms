@@ -1,5 +1,13 @@
 # 深度优先搜索（DFS - Depth First Search）
 
+> 尽可能深地探索每条分支后再回溯，优先在深度方向上探索，适用于树和图结构。
+
+## 导航
+
+| [算法原理](#定义) | [复杂度分析](#时间和空间复杂度) | [实现列表](#实现列表) |
+
+---
+
 ## 定义
 
 深度优先搜索是一种图遍历算法，它尽可能深地探索每条完整的分支后再回溯。优先在深度方向上探索，适用于树和图结构。
@@ -31,6 +39,32 @@ def dfs(graph, node, visited):
     for neighbor in graph[node]:
         if neighbor not in visited:
             dfs(graph, neighbor, visited)
+```
+
+### 流程图
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 5}}}%%
+graph TD
+    S(["开始"]) --> INIT["初始化栈/递归<br/>标记起点已访问"]
+    INIT --> CURRENT["取当前顶点"]
+    CURRENT --> VISIT["访问该顶点"]
+    VISIT --> NEIGHBORS["遍历邻接点"]
+    NEIGHBORS --> CHECK{"有未访问邻接点?"}
+    CHECK -->|"是"| PUSH["压栈/递归访问"]
+    CHECK -->|"否"| POP["弹出/回溯"]
+    PUSH --> NEIGHBORS
+    POP --> MORE{"还有更多?"}
+    MORE -->|"是"| CURRENT
+    MORE -->|"否"| END(["结束"])
+
+    classDef start fill:#0b8457,color:#fff,stroke:#065535
+    classDef decision fill:#1a1a2e,color:#fff,stroke:#16213e
+    classDef process fill:#0f3460,color:#fff,stroke:#0a2647
+
+    class S,END start
+    class CHECK,MORE decision
+    class INIT,CURRENT,VISIT,NEIGHBORS,PUSH,POP process
 ```
 
 **优点**：代码简洁直观  
@@ -104,6 +138,22 @@ def dfs(graph, start):
 - 时间：O(V²) 即使无边
 - 空间：O(V²) 存储矩阵
 
-## 实现语言
+## 实现列表
 
-包括 C、Go、Java、JavaScript、Python、Rust 等语言的实现。
+| 语言 | 文件名 | 说明 |
+|------|--------|------|
+| C | [dfs.c](./dfs.c) | 递归/栈实现 |
+| Java | [DFS.java](./DFS.java) | DFS类 |
+| Python | [dfs.py](./dfs.py) | 简洁实现 |
+| Go | [dfs.go](./dfs.go) | 并发优化 |
+| JavaScript | [dfs.js](./dfs.js) | ES6实现 |
+| TypeScript | [DFS.ts](./DFS.ts) | 类型安全 |
+| Rust | [dfs.rs](./dfs.rs) | 内存安全 |
+
+---
+
+## 扩展阅读
+
+- 迭代深化搜索（IDDFS）
+- 双向DFS
+- Tarjan强连通分量算法

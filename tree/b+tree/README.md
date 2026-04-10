@@ -1,20 +1,7 @@
 # B+树 (B+ Tree)
 
-## 目录
-- [概述](#概述)
-- [特点](#b树的特点)
-  - [核心特性](#1-核心特性)
-  - [B+树 vs B树](#2-b树-vs-b树)
-- [操作](#b树的操作)
-  - [查找](#1-查找操作)
-  - [插入](#2-插入操作)
-  - [删除](#3-删除操作)
-  - [范围查询](#4-范围查询)
-- [复杂度分析](#复杂度分析)
-- [应用场景](#应用场景)
-- [代码实现](#代码实现)
-- [学习建议](#学习建议)
-- [参考资源](#参考资源)
+> 自平衡的多路搜索树，数据库和文件系统中索引结构的基础，特别适合磁盘存储和范围查询。
+
 
 ## 概述
 
@@ -134,18 +121,43 @@ B+树结构特点:
 - O(k): 遍历k个结果
 ```
 
-## 时间复杂度
+### 流程图
 
-| 操作 | 时间复杂度 | 说明 |
-|------|----------|------|
-| 查找 | O(log n) | 树的高度 |
-| 插入 | O(log n) | 可能需要分裂 |
-| 删除 | O(log n) | 可能需要合并 |
-| 范围查询 | O(log n + k) | k是结果数量 |
-| 顺序遍历 | O(n) | 利用叶节点链表 |
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 5}}}%%
+graph TD
+    S(["开始"]) --> INIT["current = 根节点<br/>target = 目标键"]
+    INIT --> CHECK_LEAF{"current是叶节点?"}
+    CHECK_LEAF -->|"否"| FIND_CHILD["在current中找到合适的子节点指针"]
+    FIND_CHILD --> NEXT["current = 子节点"]
+    NEXT --> CHECK_LEAF
+    CHECK_LEAF -->|"是"| SEARCH_KEY["在叶节点中线性/二分查找target"]
+    SEARCH_KEY --> FOUND{"找到target?"}
+    FOUND -->|"是"| RETURN_VAL["返回对应的值/数据"]
+    FOUND -->|"否"| RETURN_NULL["返回未找到"]
+    RETURN_VAL --> END(["结束"])
+    RETURN_NULL --> END
 
-## 空间复杂度
-- **空间复杂度**: O(n)
+    classDef start fill:#0b8457,color:#fff,stroke:#065535
+    classDef decision fill:#1a1a2e,color:#fff,stroke:#16213e
+    classDef process fill:#0f3460,color:#fff,stroke:#0a2647
+
+    class S,END start
+    class CHECK_LEAF,FOUND decision
+    class INIT,FIND_CHILD,NEXT,SEARCH_KEY,RETURN_VAL,RETURN_NULL process
+```
+
+## 复杂度分析
+
+| 操作 | 时间复杂度 | 空间复杂度 | 说明 |
+|------|-----------|-----------|------|
+| 查找 | O(log n) | O(1) | 树的高度 |
+| 插入 | O(log n) | O(1) | 可能需要分裂 |
+| 删除 | O(log n) | O(1) | 可能需要合并 |
+| 范围查询 | O(log n + k) | O(1) | k是结果数量 |
+| 顺序遍历 | O(n) | O(1) | 利用叶节点链表 |
+
+- **总空间复杂度**: O(n)
 - **填充因子**: 通常保持在50%以上（除根节点外）
 
 ## 应用场景
@@ -177,17 +189,17 @@ SELECT * FROM users WHERE age BETWEEN 20 AND 30;
 - **日志系统**: 按时间范围查询
 - **地理信息系统**: 空间索引
 
-## 代码实现
+## 实现列表
 
-本目录提供多语言B+树实现，点击文件名查看源码：
-
-| 文件 | 语言 | 特点 | 代码行数 |
-|------|------|------|----------|
-| [`bplus_tree.py`](./bplus_tree.py) | Python | 简洁易读，适合学习理解原理 | ~150行 |
-| [`bplus_tree.c`](./bplus_tree.c) | C | 高效内存管理，适合嵌入式 | ~140行 |
-| [`BPlusTree.java`](./BPlusTree.java) | Java | 面向对象设计，企业级应用 | ~130行 |
-| [`bplus_tree.go`](./bplus_tree.go) | Go | 并发安全考虑，云原生友好 | ~120行 |
-| [`bplus_tree.js`](./bplus_tree.js) | JavaScript | 现代ES6语法，前端可用 | ~110行 |
+| 语言 | 文件名 | 说明 |
+|------|--------|------|
+| C | [bplus_tree.c](./bplus_tree.c) | 高效内存管理 |
+| Java | [BPlusTree.java](./BPlusTree.java) | 面向对象设计 |
+| Go | [bplus_tree.go](./bplus_tree.go) | 并发安全 |
+| Python | [bplus_tree.py](./bplus_tree.py) | 简洁易读 |
+| JavaScript | [bplus_tree.js](./bplus_tree.js) | ES6语法 |
+| TypeScript | [BPlusTree.ts](./BPlusTree.ts) | 类型安全 |
+| Rust | [bplus_tree.rs](./bplus_tree.rs) | 内存安全 |
 
 ### 使用示例（Python）
 

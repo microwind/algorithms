@@ -1,4 +1,12 @@
-# Bin Packing Problem
+# Bin Packing Problem（装箱问题）
+
+> 将n个物品装入最少数量的容量相同的箱子中，每个物品不可分割。经典NP-hard组合优化问题。
+
+## 导航
+
+| [问题定义](#问题定义) | [分支定界策略](#分支定界策略) | [复杂度分析](#时间复杂度) | [实现列表](#实现列表) |
+
+---
 
 ## 问题定义
 将n个物品装入最少数量的容量相同的箱子中，每个物品不可分割。
@@ -28,6 +36,36 @@ LB = ⌈(∑ 物品重量) / 箱容量⌉
 ### 剪枝条件
 若 `当前箱子数 + 下界 ≥ 当前最优` → 剪枝该分支
 
+### 流程图
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 5}}}%%
+graph TD
+    S(["开始"]) --> INIT["初始化<br/>FFD计算上界"]
+    INIT --> SORT["物品按重量降序"]
+    SORT --> ITEMS{"还有未装物品?"}
+    ITEMS -->|"否"| RETURN["返回最优解"]
+    ITEMS -->|"是"| CURRENT["取当前物品"]
+    CURRENT --> TRY{"能放入现有箱子?"}
+    TRY -->|"是"| PLACE["放入箱子"]
+    TRY -->|"否"| NEW{"创建新箱子<br/>+下界<上界?"}
+    NEW -->|"是"| CREATE["创建新箱子"]
+    NEW -->|"否"| PRUNE["剪枝"]
+    PLACE --> UPDATE["更新状态"]
+    CREATE --> UPDATE
+    PRUNE --> ITEMS
+    UPDATE --> ITEMS
+    RETURN --> END(["结束"])
+
+    classDef start fill:#0b8457,color:#fff,stroke:#065535
+    classDef decision fill:#1a1a2e,color:#fff,stroke:#16213e
+    classDef process fill:#0f3460,color:#fff,stroke:#0a2647
+
+    class S,END start
+    class ITEMS,TRY,NEW decision
+    class INIT,SORT,CURRENT,PLACE,CREATE,UPDATE,RETURN,PRUNE process
+```
+
 ## 时间复杂度
 - **最坏情况**：O(2^n)
 - **FFD贪心**：O(n log n) + O(n*m_opt)
@@ -54,7 +92,24 @@ LB = ⌈(∑ 物品重量) / 箱容量⌉
 - **存储**：磁盘块分配、内存分页
 - **制造**：零件装配、批量生产
 
-## 相关问题
+---
+
+## 实现列表
+
+| 语言 | 文件名 | 说明 |
+|------|--------|------|
+| C | [bin_packing.c](./bin_packing.c) | 分支定界实现 |
+| Java | [BinPacking.java](./BinPacking.java) | 装箱问题类 |
+| Python | [bin_packing.py](./bin_packing.py) | 简洁实现 |
+| Go | [bin_packing.go](./bin_packing.go) | 并发优化 |
+
+---
+
+## 扩展阅读
+
+- FFD近似算法的性能保证
+- 三维装箱问题变体
+- 在线装箱算法## 相关问题
 - **带权Bin Packing**：物品有不同重要性
 - **多维Bin Packing**：物品占用多个维度空间
 - **在线Bin Packing**：物品动态到达

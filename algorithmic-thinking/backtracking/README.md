@@ -1,5 +1,13 @@
 # 回溯算法 Backtracking
 
+> 一种通用的递归求解问题的方法，采用**选择-探索-撤销**的模式，适用于排列、组合、N皇后等经典问题。
+
+## 导航
+
+| [算法原理](#概述) | [复杂度分析](#复杂度分析总结) | [实现列表](#实现列表) |
+
+---
+
 ## 概述
 
 回溯算法是一种通用的递归求解问题的方法，采用 **选择-探索-撤销** 的模式：
@@ -14,6 +22,34 @@
 - 约束条件可以被逐步验证
 
 **常见应用**：排列、组合、N皇后、迷宫、数独等
+
+### 流程图
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 5}}}%%
+graph TD
+    S(["开始"]) --> INIT["初始化路径<br/>设置约束条件"]
+    INIT --> CHOICE{"还有可选元素?"}
+    CHOICE -->|"否"| CHECK_SOL{"是完整解?"}
+    CHOICE -->|"是"| SELECT["选择一个元素"]
+    SELECT --> VALID{"满足约束?"}
+    VALID -->|"否"| CHOICE
+    VALID -->|"是"| ADD["加入当前路径"]
+    ADD --> RECURSION["递归探索"]
+    RECURSION --> REMOVE["撤销选择<br/>（回溯）"]
+    REMOVE --> CHOICE
+    CHECK_SOL -->|"是"| SAVE["保存解"]
+    CHECK_SOL -->|"否"| END_NODE(["结束"])
+    SAVE --> END_NODE
+
+    classDef start fill:#0b8457,color:#fff,stroke:#065535
+    classDef decision fill:#1a1a2e,color:#fff,stroke:#16213e
+    classDef process fill:#0f3460,color:#fff,stroke:#0a2647
+
+    class S,END_NODE start
+    class CHOICE,VALID,CHECK_SOL decision
+    class INIT,SELECT,ADD,RECURSION,REMOVE,SAVE process
+```
 
 ---
 
@@ -343,3 +379,31 @@ def solve_n_queens(n):
 | Permutation(n) | O(n! × n) | O(n) | n! |
 | Combination(n,k) | O(C(n,k) × k) | O(k) | C(n,k) |
 | N-Queens(n) | O(n!) | O(n) | 变化 |
+
+---
+
+## 实现列表
+
+| 语言 | 文件名 | 说明 |
+|------|--------|------|
+| C | [permutation.c](./permutation.c) | 全排列实现 |
+| C | [combination.c](./combination.c) | 组合实现 |
+| C | [nqueens.c](./nqueens.c) | N皇后实现 |
+| Java | [Permutation.java](./Permutation.java) | 全排列类 |
+| Java | [Combination.java](./Combination.java) | 组合类 |
+| Java | [NQueens.java](./NQueens.java) | N皇后类 |
+| Go | [backtracking.go](./backtracking.go) | 综合实现 |
+| Python | [permutation.py](./permutation.py) | 简洁实现 |
+| Python | [combination.py](./combination.py) | 组合生成 |
+| Python | [nqueens.py](./nqueens.py) | N皇后求解 |
+| JavaScript | [backtracking.js](./backtracking.js) | 递归实现 |
+| TypeScript | [Backtracking.ts](./Backtracking.ts) | 类型安全 |
+| Rust | [backtracking.rs](./backtracking.rs) | 内存安全 |
+
+---
+
+## 扩展阅读
+
+- 回溯算法的剪枝优化技巧
+-  Dancing Links算法（精确覆盖问题）
+- 约束传播（CSP求解）

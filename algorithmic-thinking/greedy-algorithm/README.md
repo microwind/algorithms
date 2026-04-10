@@ -1,6 +1,14 @@
-## 贪心算法 Greedy Algorithm
+# 贪心算法 Greedy Algorithm
 
-### 概述
+> 在每个步骤中做出局部最优选择，期望获得全局最优解。适用于具有"贪心选择性质"的问题。
+
+## 导航
+
+| [算法原理](#概述) | [复杂度分析](#贪心-vs-动态规划) | [实现列表](#实现列表) |
+
+---
+
+## 概述
 贪心算法（Greedy Algorithm）是一种在每个步骤中做出局部最优选择，期望从而获得全局最优解的算法设计方法。与动态规划需要保存历史信息不同，贪心算法通常更简单高效，但只适用于具有"贪心选择性质"的问题。
 
 贪心算法的核心思想：**每一步都选择当前看起来最优的选择**。
@@ -23,6 +31,33 @@
   7      9        12   ✓ 选择（不与5重叠）
 
 最终选择：活动1、2、5、7（共4个）
+```
+
+### 流程图
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 5}}}%%
+graph TD
+    S(["开始"]) --> SORT["按某种规则排序"]
+    SORT --> INIT["初始化结果集"]
+    INIT --> LOOP{"还有候选元素?"}
+    LOOP -->|"否"| RETURN["返回结果"]
+    LOOP -->|"是"| SELECT["选择当前最优元素"]
+    SELECT --> FEASIBLE{"满足约束?"}
+    FEASIBLE -->|"是"| ADD["加入结果集"]
+    FEASIBLE -->|"否"| SKIP["跳过该元素"]
+    ADD --> NEXT["移动到下一个元素"]
+    SKIP --> NEXT
+    NEXT --> LOOP
+    RETURN --> END(["结束"])
+
+    classDef start fill:#0b8457,color:#fff,stroke:#065535
+    classDef decision fill:#1a1a2e,color:#fff,stroke:#16213e
+    classDef process fill:#0f3460,color:#fff,stroke:#0a2647
+
+    class S,END start
+    class LOOP,FEASIBLE decision
+    class SORT,INIT,SELECT,ADD,SKIP,NEXT,RETURN process
 ```
 
 ### 特点
@@ -324,3 +359,27 @@ def greedy_algorithm(problem):
 4. 尝试寻找反例来证伪不合适的贪心策略
 5. 对比贪心和其他方法（如动态规划）的结果
 6. 学会证明贪心的正确性（数学归纳法）
+
+---
+
+## 实现列表
+
+| 语言 | 文件名 | 说明 |
+|------|--------|------|
+| C | [activity_selection.c](./activity_selection.c) | 活动选择实现 |
+| C | [fractional_knapsack.c](./fractional_knapsack.c) | 分数背包实现 |
+| Java | [ActivitySelection.java](./ActivitySelection.java) | 活动选择类 |
+| Java | [FractionalKnapsack.java](./FractionalKnapsack.java) | 分数背包类 |
+| Go | [greedy_algorithm.go](./greedy_algorithm.go) | 综合实现 |
+| Python | [greedy_algorithm.py](./greedy_algorithm.py) | 简洁实现 |
+| JavaScript | [greedyAlgorithm.js](./greedyAlgorithm.js) | 贪心实现 |
+| TypeScript | [GreedyAlgorithm.ts](./GreedyAlgorithm.ts) | 类型安全 |
+| Rust | [greedy_algorithm.rs](./greedy_algorithm.rs) | 泛型实现 |
+
+---
+
+## 扩展阅读
+
+- 拟阵理论（Matroid Theory）与贪心算法
+- 交换论证法证明贪心正确性
+- 区间调度问题的变形

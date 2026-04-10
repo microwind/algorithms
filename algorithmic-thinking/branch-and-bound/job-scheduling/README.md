@@ -1,4 +1,12 @@
-# Job Scheduling Problem
+# Job Scheduling Problem（任务调度问题）
+
+> 将n个任务分配给m台机器，最小化所有任务完成的时间（最大完成时间）。经典调度优化问题。
+
+## 导航
+
+| [问题定义](#问题定义) | [分支定界策略](#分支定界策略) | [复杂度分析](#时间复杂度) | [实现列表](#实现列表) |
+
+---
 
 ## 问题定义
 将n个任务分配给m台机器，最小化所有任务完成的时间（最大完成时间）。
@@ -23,6 +31,34 @@ LB = max(
 
 ### 剪枝条件
 若 `下界(task) ≥ 当前最优` → 剪枝该分支
+
+### 流程图
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 5}}}%%
+graph TD
+    S(["开始"]) --> INIT["初始化机器负载<br/>计算下界"]
+    INIT --> TASKS{"还有未分配任务?"}
+    TASKS -->|"否"| UPDATE["更新最优解"]
+    TASKS -->|"是"| NEXT["取下一个任务"]
+    NEXT --> MACHINES["尝试分配给每台机器"]
+    MACHINES --> BOUND{"新负载+下界<最优?"}
+    BOUND -->|"是"| ASSIGN["分配任务"]
+    BOUND -->|"否"| PRUNE["剪枝"]
+    ASSIGN --> RECURSE["递归处理"]
+    RECURSE --> UNDO["撤销分配"]
+    UNDO --> MACHINES
+    PRUNE --> MACHINES
+    UPDATE --> END(["结束"])
+
+    classDef start fill:#0b8457,color:#fff,stroke:#065535
+    classDef decision fill:#1a1a2e,color:#fff,stroke:#16213e
+    classDef process fill:#0f3460,color:#fff,stroke:#0a2647
+
+    class S,END start
+    class TASKS,BOUND decision
+    class INIT,NEXT,MACHINES,ASSIGN,RECURSE,UNDO,PRUNE,UPDATE process
+```
 
 ## 时间复杂度
 - **最坏情况**：O(m^n)（每个任务有m种选择）
@@ -76,3 +112,22 @@ current_assignment = [[...] for _ in range(m)]  # 当前分配方案
 - **带通信成本**：任务间有依赖关系
 - **带机器差异**：不同机器性能不同
 - **在线调度**：任务动态到达
+
+---
+
+## 实现列表
+
+| 语言 | 文件名 | 说明 |
+|------|--------|------|
+| C | [job_scheduling.c](./job_scheduling.c) | 分支定界实现 |
+| Java | [JobScheduling.java](./JobScheduling.java) | 调度问题类 |
+| Python | [job_scheduling.py](./job_scheduling.py) | 简洁实现 |
+| Go | [job_scheduling.go](./job_scheduling.go) | 并发优化 |
+
+---
+
+## 扩展阅读
+
+- List Scheduling近似算法
+- 异构机器调度问题
+- 带优先级约束的调度

@@ -1,5 +1,13 @@
 # 随机快速排序（Randomized QuickSort）
 
+> 快速排序的随机化版本，通过随机选择枢轴避免最坏情况，实现稳定的O(n log n)期望性能。
+
+## 导航
+
+| [算法原理](#定义) | [复杂度分析](#时间和空间复杂度) | [实现列表](#实现列表) |
+
+---
+
 ## 定义
 
 随机快速排序是快速排序的一个变种，通过随机选择枢轴元素而不是固定选择，来改进平均性能和避免最坏情况。
@@ -28,6 +36,29 @@
    - 大于枢轴的元素
 3. **递归排序**：分别递归排序左右两部分
 4. **合并**：按顺序组合三部分
+
+### 流程图
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 5}}}%%
+graph TD
+    S(["开始"]) --> CHECK{"left < right?"}
+    CHECK -->|"否"| END(["结束"])
+    CHECK -->|"是"| RANDOM["随机选择枢轴"]
+    RANDOM --> PARTITION["分区操作"]
+    PARTITION --> RECURSE1["递归排序左半"]
+    PARTITION --> RECURSE2["递归排序右半"]
+    RECURSE1 --> END
+    RECURSE2 --> END
+
+    classDef start fill:#0b8457,color:#fff,stroke:#065535
+    classDef decision fill:#1a1a2e,color:#fff,stroke:#16213e
+    classDef process fill:#0f3460,color:#fff,stroke:#0a2647
+
+    class S,END start
+    class CHECK decision
+    class RANDOM,PARTITION,RECURSE1,RECURSE2 process
+```
 
 ## 伪代码
 
@@ -86,6 +117,22 @@ Partition(arr, left, right, pivotIdx):
 | 堆排序 | O(n log n) | O(n log n) | O(1) | 否 |
 | 内省排序 | O(n log n) | O(n log n) | O(log n) | 否 |
 
-## 实现语言
+## 实现列表
 
-包括 C、Go、Java、JavaScript、Python、Rust 等语言的实现。
+| 语言 | 文件名 | 说明 |
+|------|--------|------|
+| C | [randomized_quicksort.c](./randomized_quicksort.c) | 随机快排实现 |
+| Java | [RandomizedQuickSort.java](./RandomizedQuickSort.java) | 快排类 |
+| Python | [randomized_quicksort.py](./randomized_quicksort.py) | 简洁实现 |
+| Go | [randomized_quicksort.go](./randomized_quicksort.go) | 并发优化 |
+| JavaScript | [randomizedQuickSort.js](./randomizedQuickSort.js) | ES6实现 |
+| TypeScript | [RandomizedQuickSort.ts](./RandomizedQuickSort.ts) | 类型安全 |
+| Rust | [randomized_quicksort.rs](./randomized_quicksort.rs) | 内存安全 |
+
+---
+
+## 扩展阅读
+
+- 快速排序的三向分区优化
+- 内省排序（Introsort）
+- 排序网络理论

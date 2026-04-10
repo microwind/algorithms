@@ -39,10 +39,10 @@ graph LR
     SORT --> PUSH["前三个点入栈"]
     PUSH --> LOOP{"还有未处理点？"}
     LOOP -->|"是"| CHECK["检查转向"]
-    CHECK -->{"左转？"}
-    CHECK -->|"是"| ADD["点入栈"]
+    CHECK --> ISLEFT{"左转？"}
+    ISLEFT -->|"是"| ADD["点入栈"]
     ADD --> LOOP
-    CHECK -->|"右转"| POP["弹出栈顶"]
+    ISLEFT -->|"右转"| POP["弹出栈顶"]
     POP --> CHECK
     LOOP -->|"否"| RESULT(["输出凸包"])
 

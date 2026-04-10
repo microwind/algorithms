@@ -1,6 +1,14 @@
-## 分支限界 Branch and Bound
+# 分支限界 Branch and Bound
 
-### 核心思想
+> 在回溯基础上，为每个分支计算代价上/下界，提前剪除不可能优于当前最优解的分支，适用于求解优化问题。
+
+## 导航
+
+| [算法原理](#核心思想) | [复杂度分析](#与其他范式对比) | [实现列表](#实现列表) |
+
+---
+
+## 核心思想
 在回溯基础上，为每个分支计算代价上/下界，提前剪除不可能优于当前最优解的分支。
 
 ### 与回溯的核心区别
@@ -25,6 +33,35 @@ def branch_and_bound(node, bound):
         if 子界限 < 当前最优值:  # 有希望
             branch_and_bound(子节点, 子界限)
         # else: 剪枝
+```
+
+### 流程图
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 5}}}%%
+graph TD
+    S(["开始"]) --> INIT["初始化最优值<br/>设置根节点"]
+    INIT --> QUEUE{"待处理节点队列?"}
+    QUEUE -->|"空"| RETURN["返回最优解"]
+    QUEUE -->|"非空"| DEQUEUE["取出节点"]
+    DEQUEUE --> BOUND["计算节点下界"]
+    BOUND --> PRUNE{"下界 >= 最优值?"}
+    PRUNE -->|"是"| QUEUE
+    PRUNE -->|"否"| LEAF{"是叶子节点?"}
+    LEAF -->|"是"| UPDATE["更新最优解"]
+    LEAF -->|"否"| BRANCH["生成子节点"]
+    BRANCH --> ENQUEUE["加入队列"]
+    ENQUEUE --> QUEUE
+    UPDATE --> QUEUE
+    RETURN --> END(["结束"])
+
+    classDef start fill:#0b8457,color:#fff,stroke:#065535
+    classDef decision fill:#1a1a2e,color:#fff,stroke:#16213e
+    classDef process fill:#0f3460,color:#fff,stroke:#0a2647
+
+    class S,END start
+    class QUEUE,PRUNE,LEAF decision
+    class INIT,DEQUEUE,BOUND,BRANCH,ENQUEUE,UPDATE,RETURN process
 ```
 
 ### 关键要素

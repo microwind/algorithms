@@ -1,11 +1,38 @@
+/*
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * 
+ * 数组反转算法 (Array Reversal)
+ * 
+ * 算法原理：
+ * - 使用双指针技术，交换数组首尾元素
+ * - 向中间移动指针，继续交换，直到相遇
+ * - 只需遍历数组的一半，时间复杂度O(n/2) = O(n)
+ * 
+ * 时间复杂度: O(n)
+ * 空间复杂度: O(1) - 仅使用一个临时变量
+ * 
+ * 应用场景：
+ * - 字符串反转
+ * - 回文检查
+ * - 数据预处理
+ */
+
 #include <stdio.h>
 
 /**
  * 反转数组的函数
+ * 使用双指针法，从数组两端向中间交换元素
  * 
  * @param arr 待反转的整型数组
  * @param n 数组的元素个数
- * @return 无返回值，直接修改原数组
+ * 
+ * 算法步骤：
+ * 1. 初始化：i=0（头指针），j=n-1（尾指针）
+ * 2. 交换arr[i]和arr[j]
+ * 3. i++，j--，向中间移动
+ * 4. 重复直到i >= j
  */
 void reverseArray(int arr[], int n)
 {

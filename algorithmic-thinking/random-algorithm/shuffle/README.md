@@ -1,5 +1,13 @@
 # 洗牌算法（Shuffle Algorithm）
 
+> 随机重新排列数组元素，使所有可能排列概率相等（均匀分布）。Fisher-Yates算法是最优的洗牌算法。
+
+## 导航
+
+| [算法原理](#定义) | [复杂度分析](#时间和空间复杂度) | [实现列表](#实现列表) |
+
+---
+
 ## 定义
 
 洗牌算法用于随机重新排列数组或集合中的元素，使得结果是所有可能排列之一，且每个排列出现的概率相等（均匀分布）。
@@ -28,6 +36,28 @@ FisherYates(arr):
     for i from n-1 down to 1:
         j = random(0, i)  // 在 [0, i] 内随机选择
         swap(arr[i], arr[j])
+```
+
+### 流程图
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 5}}}%%
+graph TD
+    S(["开始"]) --> INIT["i = n-1"]
+    INIT --> LOOP{"i > 0?"}
+    LOOP -->|"否"| END(["结束"])
+    LOOP -->|"是"| RANDOM["j = random(0, i)"]
+    RANDOM --> SWAP["交换arr[i]和arr[j]"]
+    SWAP --> DEC["i--"]
+    DEC --> LOOP
+
+    classDef start fill:#0b8457,color:#fff,stroke:#065535
+    classDef decision fill:#1a1a2e,color:#fff,stroke:#16213e
+    classDef process fill:#0f3460,color:#fff,stroke:#0a2647
+
+    class S,END start
+    class LOOP decision
+    class INIT,RANDOM,SWAP,DEC process
 ```
 
 ### Python 示例
@@ -79,6 +109,22 @@ def shuffle(arr):
 | 随机排序 | O(n log n) | ✗ | 简单但不均匀 |
 | 递归洗牌 | O(n) | ✓ | 思想相同 |
 
-## 实现语言
+## 实现列表
 
-包括 C、Go、Java、JavaScript、Python、Rust 等语言的实现。
+| 语言 | 文件名 | 说明 |
+|------|--------|------|
+| C | [shuffle.c](./shuffle.c) | Fisher-Yates实现 |
+| Java | [Shuffle.java](./Shuffle.java) | 洗牌类 |
+| Python | [shuffle.py](./shuffle.py) | 简洁实现 |
+| Go | [shuffle.go](./shuffle.go) | 原地洗牌 |
+| JavaScript | [shuffle.js](./shuffle.js) | ES6实现 |
+| TypeScript | [Shuffle.ts](./Shuffle.ts) | 类型安全 |
+| Rust | [shuffle.rs](./shuffle.rs) | 内存安全 |
+
+---
+
+## 扩展阅读
+
+- Sattolo循环（随机循环排列）
+- 完美洗牌
+- 加密安全随机数生成器

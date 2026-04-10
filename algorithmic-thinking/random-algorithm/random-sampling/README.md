@@ -1,5 +1,13 @@
 # 随机采样（Random Sampling）
 
+> 从大数据集中随机选择k个元素，使得每个元素被选中的概率相等。水库采样（Reservoir Sampling）可高效处理流式数据。
+
+## 导航
+
+| [算法原理](#定义) | [复杂度分析](#时间和空间复杂度) | [实现列表](#实现列表) |
+
+---
+
 ## 定义
 
 随机采样是从一个大数据集中随机选择 k 个元素的过程，使得每个元素被选中的概率相等。特别是 Reservoir Sampling 方法可以高效处理流式或无限数据。
@@ -24,6 +32,33 @@
    - 如果 j < k，用第 i 个元素替换水池中第 j 个元素
    - 否则，忽略第 i 个元素
 4. 继续处理所有元素后，水池即为采样结果
+
+### 流程图
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 5}}}%%
+graph TD
+    S(["开始"]) --> INIT["初始化水池(大小k)<br/>填充前k个元素"]
+    INIT --> SET["i = k"]
+    SET --> LOOP{"i < n?"}
+    LOOP -->|"否"| RETURN["返回水池"]
+    LOOP -->|"是"| RANDOM["生成随机数j∈[0,i]"]
+    RANDOM --> CHECK{"j < k?"}
+    CHECK -->|"是"| REPLACE["用元素i替换水池[j]"]
+    CHECK -->|"否"| SKIP["跳过"]
+    REPLACE --> INC["i++"]
+    SKIP --> INC
+    INC --> LOOP
+    RETURN --> END(["结束"])
+
+    classDef start fill:#0b8457,color:#fff,stroke:#065535
+    classDef decision fill:#1a1a2e,color:#fff,stroke:#16213e
+    classDef process fill:#0f3460,color:#fff,stroke:#0a2647
+
+    class S,END start
+    class LOOP,CHECK decision
+    class INIT,SET,RANDOM,REPLACE,SKIP,INC,RETURN process
+```
 
 ### 伪代码
 
@@ -137,6 +172,22 @@ def generator():
 sample = reservoir_sampling(generator(), 1000)
 ```
 
-## 实现语言
+## 实现列表
 
-包括 C、Go、Java、JavaScript、Python、Rust 等语言的实现。
+| 语言 | 文件名 | 说明 |
+|------|--------|------|
+| C | [reservoir_sampling.c](./reservoir_sampling.c) | 水库采样实现 |
+| Java | [ReservoirSampling.java](./ReservoirSampling.java) | 采样类 |
+| Python | [reservoir_sampling.py](./reservoir_sampling.py) | 简洁实现 |
+| Go | [reservoir_sampling.go](./reservoir_sampling.go) | 流式处理 |
+| JavaScript | [reservoirSampling.js](./reservoirSampling.js) | ES6实现 |
+| TypeScript | [ReservoirSampling.ts](./ReservoirSampling.ts) | 类型安全 |
+| Rust | [reservoir_sampling.rs](./reservoir_sampling.rs) | 内存安全 |
+
+---
+
+## 扩展阅读
+
+- 加权水库采样
+- 分布式水库采样
+- 滑动窗口采样

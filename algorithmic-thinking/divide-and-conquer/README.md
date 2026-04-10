@@ -1,6 +1,14 @@
-## 分治算法 Divide and Conquer
+# 分治算法 Divide and Conquer
 
-### 概述
+> 将复杂大问题分解为规模较小的相同子问题，递归求解后合并结果。是许多高效算法（快速排序、归并排序、二分查找）的基础。
+
+## 导航
+
+| [算法原理](#概述) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
+
+---
+
+## 概述
 分治（Divide and Conquer）是一种重要的算法设计思想，其核心理念是"分而治之"。该算法将一个复杂的大问题分解为规模较小的相同子问题，递归地解决这些子问题，然后将子问题的解合并为原问题的解。分治是许多高效算法（如快速排序、归并排序、二分查找）的基础。
 
 ### 分治算法的三个步骤
@@ -50,6 +58,31 @@
 - **递归分解**：将问题递归分解为子问题
 - **递归求解**：对每个子问题递归调用相同函数
 - **合并结果**：将子问题的结果合并为最终答案
+
+### 流程图
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 5}}}%%
+graph TD
+    S(["开始"]) --> PROBLEM{"问题规模足够小?"}
+    PROBLEM -->|"是"| SOLVE["直接求解"]
+    PROBLEM -->|"否"| DIVIDE["分解为子问题"]
+    DIVIDE --> CONQUER1["递归求解子问题1"]
+    DIVIDE --> CONQUER2["递归求解子问题2"]
+    CONQUER1 --> MERGE["合并子问题结果"]
+    CONQUER2 --> MERGE
+    MERGE --> RETURN["返回结果"]
+    SOLVE --> RETURN
+    RETURN --> END(["结束"])
+
+    classDef start fill:#0b8457,color:#fff,stroke:#065535
+    classDef decision fill:#1a1a2e,color:#fff,stroke:#16213e
+    classDef process fill:#0f3460,color:#fff,stroke:#0a2647
+
+    class S,END start
+    class PROBLEM decision
+    class DIVIDE,CONQUER1,CONQUER2,MERGE,SOLVE,RETURN process
+```
 
 ### 复杂度分析
 
@@ -723,4 +756,25 @@ if __name__ == "__main__":
     print(f"   时间复杂度: O(n log n)（分治），也可用 O(n) 的贪心解法）")
     
     print("\n" + "=" * 70)
-```
+
+## 实现列表
+
+| 语言 | 文件名 | 说明 |
+|------|--------|------|
+| C | [binary_search.c](./binary_search.c) | 二分查找实现 |
+| C | [merge_sort.c](./merge_sort.c) | 归并排序实现 |
+| C | [quick_sort.c](./quick_sort.c) | 快速排序实现 |
+| Java | [BinarySearch.java](./BinarySearch.java) | 二分查找类 |
+| Java | [MergeSort.java](./MergeSort.java) | 归并排序类 |
+| Java | [QuickSort.java](./QuickSort.java) | 快速排序类 |
+| Go | [divide_and_conquer.go](./divide_and_conquer.go) | 综合实现 |
+| Python | [divide_and_conquer.py](./divide_and_conquer.py) | 综合实现 |
+| JavaScript | [divideAndConquer.js](./divideAndConquer.js) | 递归实现 |
+| TypeScript | [DivideAndConquer.ts](./DivideAndConquer.ts) | 类型安全 |
+| Rust | [divide_and_conquer.rs](./divide_and_conquer.rs) | 泛型实现 |
+
+## 扩展阅读
+
+- 主定理（Master Theorem）复杂度分析
+- Strassen矩阵乘法算法
+- Karatsuba快速乘法算法

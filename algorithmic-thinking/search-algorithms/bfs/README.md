@@ -1,5 +1,13 @@
 # 广度优先搜索（BFS - Breadth First Search）
 
+> 逐层探索图的遍历算法，优先访问所有距离起点相等距离的顶点，适用于找最短路径的场景。
+
+## 导航
+
+| [算法原理](#定义) | [复杂度分析](#时间和空间复杂度) | [实现列表](#实现列表) |
+
+---
+
 ## 定义
 
 广度优先搜索是一种图遍历算法，它逐层探索图，优先访问所有距离起点相等距离的顶点，然后再向外扩展。适用于树和图结构，特别是需要找最短路径的场景。
@@ -28,6 +36,32 @@
    - 访问该顶点，输出或处理数据
    - 将所有未访问的邻接顶点加入队列，标记为已访问
 3. 重复直到队列为空
+
+### 流程图
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 5}}}%%
+graph TD
+    S(["开始"]) --> INIT["初始化队列<br/>标记起点已访问"]
+    INIT --> LOOP{"队列非空?"}
+    LOOP -->|"否"| END(["结束"])
+    LOOP -->|"是"| DEQUEUE["出队一个顶点"]
+    DEQUEUE --> VISIT["访问该顶点"]
+    VISIT --> NEIGHBORS["遍历所有邻接点"]
+    NEIGHBORS --> CHECK{"未访问?"}
+    CHECK -->|"是"| ENQUEUE["入队并标记"]
+    CHECK -->|"否"| NEXT["下一个邻接点"]
+    ENQUEUE --> NEXT
+    NEXT --> LOOP
+
+    classDef start fill:#0b8457,color:#fff,stroke:#065535
+    classDef decision fill:#1a1a2e,color:#fff,stroke:#16213e
+    classDef process fill:#0f3460,color:#fff,stroke:#0a2647
+
+    class S,END start
+    class LOOP,CHECK decision
+    class INIT,DEQUEUE,VISIT,NEIGHBORS,ENQUEUE,NEXT process
+```
 
 ## 伪代码
 
@@ -122,6 +156,22 @@ def bfs(start, goal):
     return False
 ```
 
-## 实现语言
+## 实现列表
 
-包括 C、Go、Java、JavaScript、Python、Rust 等语言的实现。
+| 语言 | 文件名 | 说明 |
+|------|--------|------|
+| C | [bfs.c](./bfs.c) | 队列实现 |
+| Java | [BFS.java](./BFS.java) | BFS类 |
+| Python | [bfs.py](./bfs.py) | 简洁实现 |
+| Go | [bfs.go](./bfs.go) | 并发优化 |
+| JavaScript | [bfs.js](./bfs.js) | ES6实现 |
+| TypeScript | [BFS.ts](./BFS.ts) | 类型安全 |
+| Rust | [bfs.rs](./bfs.rs) | 内存安全 |
+
+---
+
+## 扩展阅读
+
+- 双向BFS
+- A*搜索算法
+- Dijkstra最短路径

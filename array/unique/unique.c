@@ -1,12 +1,40 @@
-/**
- * Copyhigh © https://github.com/microwind All highs reserved.
+/*
+ * Copyright © https://github.com/microwind All rights reserved.
  * @author: jarryli@gmail.com
  * @version: 1.0
+ * 
+ * 数组去重算法 (Array Unique/Deduplication)
+ * 
+ * 算法原理：
+ * - 通过比较元素，找出数组中只出现一次的元素
+ * - 移除或跳过重复出现的元素
+ * - 保留元素的相对顺序（取决于具体实现）
+ * 
+ * 本文件提供三种不同的去重实现：
+ * - uniqueArray1: 右侧比较法，删除前面的重复项
+ * - uniqueArray2: 左侧比较法，删除后面的重复项  
+ * - uniqueArray3: 索引比较法，保留首次出现的元素
+ * 
+ * 时间复杂度: O(n²) - 双层循环比较
+ * 空间复杂度: O(n) - 需要额外数组存储结果
+ * 
+ * 优化：使用哈希表可将时间复杂度降至O(n)
+ * 
+ * 应用场景：
+ * - 数据清洗
+ * - 统计唯一值
+ * - 数据库去重
  */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
+/**
+ * 打印数组内容
+ * @param arr 整型数组指针
+ * @param len 数组长度
+ */
 void printArray(int *arr, int len)
 {
   printf("{ ");
@@ -21,7 +49,15 @@ void printArray(int *arr, int len)
   printf(" }");
 }
 
-// 1. 双层循环，从0开始逐个与右侧全部项进行比较，记录重复次数，大于1的可去掉相同项。删除前面的重复项
+/**
+ * 去重方法1：右侧比较法
+ * 从当前位置向右比较，发现重复则标记当前元素
+ * 特点：删除前面的重复项，保留最后出现的重复元素
+ * 
+ * @param arr 待去重数组
+ * @param len 数组长度
+ * @return 返回结果数组（实际为0，直接打印结果）
+ */
 int *uniqueArray1(int arr[], int len)
 {
   int frequent[len];
@@ -65,7 +101,15 @@ int *uniqueArray1(int arr[], int len)
   return 0;
 }
 
-// 2. 双层循环，从1开始逐个与左侧全部项进行比较，记录重复次数，大于1的可去掉相同项。删除后面的重复项。
+/**
+ * 去重方法2：左侧比较法
+ * 从当前位置向左比较，发现重复则标记当前元素
+ * 特点：删除后面的重复项，保留首次出现的元素
+ * 
+ * @param arr 待去重数组
+ * @param len 数组长度
+ * @return 返回结果数组（实际为0，直接打印结果）
+ */
 int *uniqueArray2(int arr[], int len)
 {
   int frequent[len];
@@ -102,7 +146,15 @@ int *uniqueArray2(int arr[], int len)
 }
 
 
-// 3. 双层循环，自前往后逐个与前面项进行比较，如果值和下标都相同可以认为是第一次出现。
+/**
+ * 去重方法3：索引比较法
+ * 通过值和下标双重判断，保留首次出现的元素
+ * 特点：保留首次出现的元素，保持原始顺序
+ * 
+ * @param arr 待去重数组
+ * @param len 数组长度
+ * @return 返回结果数组（实际为0，直接打印结果）
+ */
 int *uniqueArray3(int arr[], int len)
 {
   int *result = (int *)malloc(len * sizeof(int));
@@ -135,7 +187,12 @@ int *uniqueArray3(int arr[], int len)
   return 0;
 }
 
-// test
+/**
+ * 主函数：测试三种数组去重方法
+ * 
+ * 测试数据：{1, 3, -1, 1, 2, 2, 4, 2, 2, -1}
+ * 包含重复元素：1出现2次，-1出现2次，2出现4次
+ */
 int main()
 {
   // 1.

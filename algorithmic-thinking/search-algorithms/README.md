@@ -1,4 +1,14 @@
-## 搜索（Search）算法总览
+# 搜索（Search）算法总览
+
+> 在给定的数据结构（数组、树、图等）中找到满足条件的元素或路径。包含线性搜索、二分搜索、DFS、BFS等经典算法。
+
+## 导航
+
+| [算法分类](#一搜索算法分类与选择) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
+
+---
+
+## 概述
 
 搜索的目标是在给定的数据结构（数组、树、图等）中**找到满足条件的元素或路径**。  
 本目录提供：
@@ -30,6 +40,33 @@
 问题是否在图 / 树上？
   ├─ 是 → 需要最短步数 → BFS
   └─ 是 → 更关注是否存在路径 / 遍历 → DFS / BFS
+```
+
+### 流程图
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 5}}}%%
+graph TD
+    S(["开始"]) --> DATA{"数据结构类型?"}
+    DATA -->|"线性/数组"| ORDERED{"数据是否有序?"}
+    DATA -->|"树/图"| PATH{"搜索目标?"}
+    ORDERED -->|"是"| BINARY["二分搜索"]
+    ORDERED -->|"否"| LINEAR["线性搜索"]
+    PATH -->|"最短路径"| BFS["BFS广度优先"]
+    PATH -->|"遍历/存在性"| DFS["DFS深度优先"]
+    BINARY --> RESULT["返回结果"]
+    LINEAR --> RESULT
+    BFS --> RESULT
+    DFS --> RESULT
+    RESULT --> END(["结束"])
+
+    classDef start fill:#0b8457,color:#fff,stroke:#065535
+    classDef decision fill:#1a1a2e,color:#fff,stroke:#16213e
+    classDef process fill:#0f3460,color:#fff,stroke:#0a2647
+
+    class S,END start
+    class DATA,ORDERED,PATH decision
+    class BINARY,LINEAR,BFS,DFS,RESULT process
 ```
 
 ---
@@ -381,3 +418,32 @@ def bfs_shortest_path(graph, start, end):
   - “为什么二分搜索必须要求数据有序？”  
   - “什么时候 DFS 比 BFS 更合适？”  
 - 在此基础上，可以继续扩展到 A\*、双向 BFS、IDA\* 等更高级搜索算法。
+
+---
+
+## 实现列表
+
+| 语言 | 文件名 | 说明 |
+|------|--------|------|
+| C | [linear_search.c](./linear_search.c) | 线性搜索实现 |
+| C | [binary_search.c](./binary_search.c) | 二分搜索实现 |
+| C | [dfs.c](./dfs.c) | DFS实现 |
+| C | [bfs.c](./bfs.c) | BFS实现 |
+| Java | [LinearSearch.java](./LinearSearch.java) | 线性搜索类 |
+| Java | [BinarySearch.java](./BinarySearch.java) | 二分搜索类 |
+| Java | [DFS.java](./DFS.java) | DFS类 |
+| Java | [BFS.java](./BFS.java) | BFS类 |
+| Go | [search_algorithms.go](./search_algorithms.go) | 综合实现 |
+| Python | [search.py](./search.py) | 基础实现 |
+| Python | [search_enhanced.py](./search_enhanced.py) | 增强实现 |
+| JavaScript | [searchAlgorithms.js](./searchAlgorithms.js) | 搜索算法实现 |
+| TypeScript | [SearchAlgorithms.ts](./SearchAlgorithms.ts) | 类型安全 |
+| Rust | [search_algorithms.rs](./search_algorithms.rs) | 搜索实现 |
+
+---
+
+## 扩展阅读
+
+- A*搜索算法（启发式搜索）
+- 双向BFS优化
+- IDA*迭代加深搜索

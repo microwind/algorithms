@@ -1,464 +1,413 @@
 # 数组（Array）算法概述
 
-## 1. 什么是数组？
-数组（Array）是一种基础的线性数据结构，用于存储固定大小的同类型元素集合。所有元素在内存中是连续存储的，每个元素都可以通过索引进行访问。数组是编程中最基本的数据结构之一，也是许多高级算法和数据结构的基础。
+> 数组是一种基础的线性数据结构，用于存储固定大小的同类型元素集合。所有元素在内存中连续存储，支持通过索引进行 O(1) 随机访问。本目录涵盖数组的经典操作算法，包括反转、旋转、去重、查找、合并等常用操作的多语言实现。
 
-**数组内存结构示意**：
+## 导航总览
+
+| 算法 | 时间复杂度 | 空间复杂度 | 核心技巧 | 目录 |
+|------|-----------|-----------|---------|------|
+| [数组反转 Reverse](#31-数组反转reverse) | O(n) | O(1) | 双指针 | [`reverse/`](./reverse/) |
+| [数组旋转 Rotate](#32-数组旋转rotate) | O(n) | O(1) | 三次翻转 | [`rotate/`](./rotate/) |
+| [数组去重 Unique](#33-数组去重unique) | O(n) | O(n) | 哈希表 | [`unique/`](./unique/) |
+| [两数之和 Two Sum](#34-两数之和two-sum) | O(n) | O(n) | 哈希表 | [`two-sum/`](./two-sum/) |
+| [移动零 Move Zeroes](#35-移动零move-zeroes) | O(n) | O(1) | 双指针 | [`move-zeroes/`](./move-zeroes/) |
+| [最大子数组和 Maximum Subarray](#36-最大子数组和maximum-subarray) | O(n) | O(1) | 动态规划 | [`maximum-subarray/`](./maximum-subarray/) |
+| [合并有序数组 Merge Sorted Array](#37-合并有序数组merge-sorted-array) | O(m+n) | O(1) | 从后向前 | [`merge-sorted-array/`](./merge-sorted-array/) |
+
+---
+
+## 1. 数组基础
+
+### 1.1 数组内存结构
+
 ```
 索引:    0      1      2      3      4      5
       ┌──────┬──────┬──────┬──────┬──────┬──────┐
       │  10  │  20  │  30  │  40  │  50  │  60  │
       └──────┴──────┴──────┴──────┴──────┴──────┘
-      
+
 内存地址: 1000   1004   1008   1012   1016   1020  (假设每个元素4字节)
          ↑                         ↑
       基地址                    随机访问: O(1)
 ```
 
-**多维数组结构示意**：
+### 1.2 数组操作复杂度
+
+| 操作 | 时间复杂度 | 说明 |
+|------|-----------|------|
+| 随机访问 | O(1) | 通过索引直接访问 |
+| 线性搜索 | O(n) | 逐个遍历查找 |
+| 插入/删除 | O(n) | 需要移动后续元素 |
+| 反转 | O(n) | 双指针交换 |
+| 排序 | O(n log n) | 基于比较的排序 |
+
+---
+
+## 2. 数组算法分类
+
+### 2.1 算法分类树
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 10}}}%%
+graph TD
+    ROOT(["数组算法"])
+    ROOT --> PTR["双指针技术"]
+    ROOT --> HASH["哈希表辅助"]
+    ROOT --> DP["动态规划"]
+    ROOT --> MERGE["合并与重排"]
+
+    PTR --> REVERSE["反转数组"]
+    PTR --> MOVE["移动零"]
+    PTR --> TWO["两数之和<br/>已排序版本"]
+
+    HASH --> SUM["两数之和"]
+    HASH --> DUP["数组去重"]
+
+    DP --> MAX["最大子数组和<br/>Kadane算法"]
+
+    MERGE --> MERGEARR["合并有序数组"]
+    MERGE --> ROTATE["数组旋转"]
+
+    classDef root fill:#1a1a2e,color:#fff,stroke:#16213e
+    classDef cat fill:#0f3460,color:#fff,stroke:#0a2647
+    classDef leaf fill:#e94560,color:#fff,stroke:#c81e45
+
+    class ROOT root
+    class PTR,HASH,DP,MERGE cat
+    class REVERSE,MOVE,TWO,SUM,DUP,MAX,MERGEARR,ROTATE leaf
 ```
-二维数组 (3×4):
-     列0   列1   列2   列3
-行0  [ 1 ] [ 2 ] [ 3 ] [ 4 ]
-行1  [ 5 ] [ 6 ] [ 7 ] [ 8 ]
-行2  [ 9 ] [10 ] [11 ] [12 ]
 
-内存中的存储方式 (行优先):
-┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
-│  1  │  2  │  3  │  4  │  5  │  6  │  7  │  8  │  9  │ 10  │ 11  │ 12  │
-└─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘
-```
+---
 
-## 2. 数组的基本特性
-
-### 2.1 数组的分类
-- **一维数组**：线性排列的元素集合
-- **多维数组**：矩阵形式的数据组织
-- **动态数组**：可以自动扩容的数组实现
-- **静态数组**：固定大小的数组
-
-### 2.2 数组的优缺点
-**优点**：
-- **快速访问**：O(1)时间复杂度的随机访问
-- **内存连续**：缓存友好的内存布局
-- **简单直观**：易于理解和使用
-
-**缺点**：
-- **大小固定**：静态数组无法动态调整大小
-- **插入删除低效**：需要移动大量元素
-- **内存浪费**：可能分配过多未使用的空间
-
-## 3. 常见的数组算法
+## 3. 经典数组算法
 
 ### 3.1 数组反转（Reverse）
-**概述**：
-- 将数组中的元素顺序完全反转。
-- 使用双指针技术，一个在头部，一个在尾部。
 
-**算法过程示意**：
-```
-初始数组: [1, 2, 3, 4, 5, 6]
-           ↑              ↑
-         left           right
+**简介**：使用双指针技术，一个在数组头部，一个在尾部，向中间移动并交换元素，直到相遇。
 
-步骤1: 交换 1 和 6
-       [6, 2, 3, 4, 5, 1]
-           ↑           ↑
-         left+1      right-1
+| 时间复杂度 | 空间复杂度 | 稳定性 |
+|-----------|-----------|--------|
+| O(n) | O(1) | 稳定 |
 
-步骤2: 交换 2 和 5
-       [6, 5, 3, 4, 2, 1]
-              ↑     ↑
-           left+2 right-2
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 5}}}%%
+graph LR
+    S(["开始"]) --> INIT["left=0<br/>right=n-1"]
+    INIT --> CHECK{"left < right?"}
+    CHECK -->|"否"| END(["结束"])
+    CHECK -->|"是"| SWAP["交换 arr[left]<br/>和 arr[right]"]
+    SWAP --> MOVE["left++<br/>right--"]
+    MOVE --> CHECK
 
-步骤3: 交换 3 和 4
-       [6, 5, 4, 3, 2, 1]
-                 ↑
-            left ≥ right (停止)
+    classDef start fill:#0b8457,color:#fff,stroke:#065535
+    classDef decision fill:#1a1a2e,color:#fff,stroke:#16213e
+    classDef process fill:#0f3460,color:#fff,stroke:#0a2647
 
-结果: [6, 5, 4, 3, 2, 1]
+    class S,END start
+    class CHECK decision
+    class INIT,SWAP,MOVE process
 ```
 
-**核心思想**：
-- 左右指针同时向中间移动
-- 交换对应位置的元素
-- 当指针相遇或交叉时停止
+**适用场景**：字符串反转、数据预处理、算法辅助操作。
 
-**应用**：
-- 字符串反转
-- 数据预处理
-- 算法中的辅助操作
+**实现目录**：[`reverse/`](./reverse/)
 
-**实现文件**：
-- `reverse/` - 多语言实现
+---
 
 ### 3.2 数组旋转（Rotate）
-**概述**：
-- 将数组向左或向右旋转k个位置。
-- 可以使用三次翻转法实现原地旋转。
 
-**算法过程示意 (向右旋转2位)**：
-```
-初始数组: [1, 2, 3, 4, 5, 6, 7], k=2
+**简介**：将数组元素向左或向右旋转 k 个位置。使用三次翻转法实现原地旋转：翻转整个数组，再分别翻转两部分。
 
-第1步 - 翻转整个数组:
-[7, 6, 5, 4, 3, 2, 1]
+| 时间复杂度 | 空间复杂度 | 稳定性 |
+|-----------|-----------|--------|
+| O(n) | O(1) | 不稳定 |
 
-第2步 - 翻转前k个元素 (前2个):
-[6, 7, 5, 4, 3, 2, 1]
- ↑  ↑
- 翻转后
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 5}}}%%
+graph LR
+    S(["开始"]) --> REV1["翻转整个数组"]
+    REV1 --> REV2["翻转前 k 个元素"]
+    REV2 --> REV3["翻转后 n-k 个元素"]
+    REV3 --> END(["结束"])
 
-第3步 - 翻转后n-k个元素 (后5个):
-[6, 7, 1, 2, 3, 4, 5]
-     ↑─────────────↑
-        翻转后
+    classDef start fill:#0b8457,color:#fff,stroke:#065535
+    classDef process fill:#0f3460,color:#fff,stroke:#0a2647
 
-结果: [6, 7, 1, 2, 3, 4, 5]
+    class S,END start
+    class REV1,REV2,REV3 process
 ```
 
-**核心思想**：
-- 翻转整个数组
-- 翻转前k个元素
-- 翻转后n-k个元素
+**适用场景**：循环队列、字符串轮转、数据重排。
 
-**应用**：
-- 循环队列实现
-- 字符串轮转
-- 数组元素重排
+**实现目录**：[`rotate/`](./rotate/)
 
-**实现文件**：
-- `rotate/` - 多语言实现
+---
 
 ### 3.3 数组去重（Unique）
-**概述**：
-- 移除数组中的重复元素，只保留唯一的元素。
-- 多种实现方式：哈希表、双指针、排序等。
 
-**哈希表法过程示意**：
-```
-初始数组: [1, 2, 2, 3, 4, 4, 5]
+**简介**：移除数组中的重复元素，保留唯一值。使用哈希表记录已出现元素，或先排序后用双指针。
 
-遍历过程:
-┌─────────────────┬─────────────────┬─────────────────┐
-│   当前元素      │    哈希表状态    │    结果数组     │
-├─────────────────┼─────────────────┼─────────────────┤
-│       1         │    {1}          │      [1]        │
-│       2         │    {1,2}        │      [1,2]      │
-│       2         │    {1,2} ✗已存在 │      [1,2]      │
-│       3         │    {1,2,3}      │      [1,2,3]    │
-│       4         │    {1,2,3,4}    │      [1,2,3,4]  │
-│       4         │    {1,2,3,4} ✗  │      [1,2,3,4]  │
-│       5         │    {1,2,3,4,5}  │      [1,2,3,4,5]│
-└─────────────────┴─────────────────┴─────────────────┘
+| 时间复杂度 | 空间复杂度 | 稳定性 |
+|-----------|-----------|--------|
+| O(n) | O(n) | 不稳定 |
 
-结果: [1, 2, 3, 4, 5]
-```
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 5}}}%%
+graph LR
+    S(["开始"]) --> INIT["创建哈希表<br/>i=0"]
+    INIT --> LOOP{"i < n?"}
+    LOOP -->|"否"| END(["返回结果"])
+    LOOP -->|"是"| CHECK{"元素在哈希表中?"}
+    CHECK -->|"是"| SKIP["跳过"]
+    CHECK -->|"否"| ADD["加入结果<br/>存入哈希表"]
+    SKIP --> INC["i++"]
+    ADD --> INC
+    INC --> LOOP
 
-**核心思想**：
-- 哈希表法：记录已见过的元素
-- 双指针法：适用于已排序数组
-- 排序法：先排序再去重
+    classDef start fill:#0b8457,color:#fff,stroke:#065535
+    classDef decision fill:#1a1a2e,color:#fff,stroke:#16213e
+    classDef process fill:#0f3460,color:#fff,stroke:#0a2647
 
-**应用**：
-- 数据清洗
-- 统计分析
-- 缓存优化
-
-**实现文件**：
-- `unique/` - 多语言实现
-
-### 3.4 最大子数组和（Maximum Subarray）
-**概述**：
-- 找到数组中连续子数组的最大和。
-- 经典的Kadane算法，动态规划思想。
-
-**Kadane算法过程示意**：
-```
-初始数组: [-2, 1, -3, 4, -1, 2, 1, -5, 4]
-
-遍历过程:
-┌────────┬────────────┬─────────────┬──────────────────┐
-│  元素  │ current_sum│   max_sum   │      说明        │
-├────────┼────────────┼─────────────┼──────────────────┤
-│   -2   │    -2      │     -2      │ 初始值           │
-│    1   │     1      │      1      │ max(-2+1,1)=1   │
-│   -3   │    -2      │      1      │ max(1-3,-3)=-2  │
-│    4   │     4      │      4      │ max(-2+4,4)=4   │
-│   -1   │     3      │      4      │ max(4-1,-1)=3   │
-│    2   │     5      │      5      │ max(3+2,2)=5    │
-│    1   │     6      │      6      │ max(5+1,1)=6    │
-│   -5   │     1      │      6      │ max(6-5,-5)=1   │
-│    4   │     5      │      6      │ max(1+4,4)=5    │
-└────────┴────────────┴─────────────┴──────────────────┘
-
-最大和: 6
-子数组: [4, -1, 2, 1] (从下标3到6)
+    class S,END start
+    class LOOP,CHECK decision
+    class INIT,ADD,SKIP,INC process
 ```
 
-**核心思想**：
-- 维护当前子数组和
-- 维护全局最大和
-- 当前和为负数时重新开始
+**适用场景**：数据清洗、统计分析、缓存优化。
 
-**应用**：
-- 股票最大收益
-- 信号处理
-- 数据分析
+**实现目录**：[`unique/`](./unique/)
 
-**实现文件**：
-- `maximum-subarray/` - 多语言实现
+---
 
-### 3.5 两数之和（Two Sum）
-**概述**：
-- 在数组中找到两个数，使其和等于目标值。
-- 使用哈希表实现O(n)时间复杂度。
+### 3.4 两数之和（Two Sum）
 
-**算法过程示意 (target=9)**：
-```
-初始数组: [2, 7, 11, 15], target=9
+**简介**：在数组中找到两个数，使其和等于目标值。使用哈希表存储已遍历元素，实现 O(n) 查找。
 
-遍历过程:
-┌────────┬────────────────────┬──────────────────────┐
-│  元素  │   补数=target-元素  │     哈希表状态       │
-├────────┼────────────────────┼──────────────────────┤
-│   2    │   9-2=7            │    {} → {2:0}       │
-│   7    │   9-7=2 ✓存在!     │  返回 [0,1]         │
-└────────┴────────────────────┴──────────────────────┘
+| 时间复杂度 | 空间复杂度 | 稳定性 |
+|-----------|-----------|--------|
+| O(n) | O(n) | - |
 
-完整过程示意:
-步骤1: 遍历到2, 哈希表={}, 7不在表中, 存入{2:0}
-步骤2: 遍历到7, 哈希表={2:0}, 2在表中, 返回[0,1]
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 5}}}%%
+graph LR
+    S(["开始"]) --> INIT["创建哈希表<br/>i=0"]
+    INIT --> LOOP{"i < n?"}
+    LOOP -->|"否"| END(["未找到"])
+    LOOP -->|"是"| CALC["补数 = target - arr[i]"]
+    CALC --> CHECK{"补数在哈希表中?"}
+    CHECK -->|"是"| FOUND(["返回结果"])
+    CHECK -->|"否"| STORE["存入哈希表<br/>arr[i]:i"]
+    STORE --> INC["i++"]
+    INC --> LOOP
 
-结果: [0, 1] (元素2和7, 下标0和1)
-```
+    classDef start fill:#0b8457,color:#fff,stroke:#065535
+    classDef decision fill:#1a1a2e,color:#fff,stroke:#16213e
+    classDef process fill:#0f3460,color:#fff,stroke:#0a2647
+    classDef end fill:#e94560,color:#fff,stroke:#c81e45
 
-**核心思想**：
-- 遍历数组时记录已见过的数
-- 检查目标值与当前数的差值
-- 利用哈希表快速查找
-
-**应用**：
-- 配对问题
-- 数据匹配
-- 游戏开发
-
-**实现文件**：
-- `two-sum/` - 多语言实现
-
-### 3.6 移动零（Move Zeroes）
-**概述**：
-- 将数组中的所有零移动到末尾。
-- 保持非零元素的相对顺序。
-
-**双指针法过程示意**：
-```
-初始数组: [0, 1, 0, 3, 12, 0, 5]
-
-slow指针(写位置)和fast指针(读位置):
-
-初始:    [0, 1, 0, 3, 12, 0, 5]
-          ↑
-         slow=fast=0
-
-fast=1:  [1, 1, 0, 3, 12, 0, 5]  非零! 写入slow=0位置
-          ↑  ↑
-         slow=1 fast=1
-
-fast=2:  [1, 1, 0, 3, 12, 0, 5]  为零, 跳过
-             ↑  ↑
-           slow=1 fast=2
-
-fast=3:  [1, 3, 0, 3, 12, 0, 5]  非零! 写入slow=1位置
-             ↑     ↑
-           slow=2 fast=3
-
-fast=4:  [1, 3, 12, 3, 12, 0, 5] 非零! 写入slow=2位置
-                 ↑      ↑
-               slow=3 fast=4
-
-fast=5:  为零, 跳过
-
-fast=6:  [1, 3, 12, 5, 12, 0, 5]  非零! 写入slow=3位置
-                    ↑        ↑
-                  slow=4   fast=6
-
-最后填充零: [1, 3, 12, 5, 0, 0, 0]
-
-结果: [1, 3, 12, 5, 0, 0, 0]
+    class S start
+    class END,FOUND end
+    class LOOP,CHECK decision
+    class INIT,CALC,STORE,INC process
 ```
 
-**核心思想**：
-- 使用写指针记录非零元素位置
-- 先将所有非零元素移到前面
-- 将剩余位置填充为零
+**适用场景**：配对问题、数据匹配、游戏开发。
 
-**应用**：
-- 数据清理
-- 内存压缩
-- 算法优化
+**实现目录**：[`two-sum/`](./two-sum/)
 
-**实现文件**：
-- `move-zeroes/` - 多语言实现
+---
+
+### 3.5 移动零（Move Zeroes）
+
+**简介**：将数组中的所有零移动到末尾，保持非零元素相对顺序。使用双指针，一个读一个写。
+
+| 时间复杂度 | 空间复杂度 | 稳定性 |
+|-----------|-----------|--------|
+| O(n) | O(1) | 稳定 |
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 5}}}%%
+graph LR
+    S(["开始"]) --> INIT["write=0<br/>read=0"]
+    INIT --> LOOP{"read < n?"}
+    LOOP -->|"否"| FILL["剩余位置填0"]
+    FILL --> END(["结束"])
+    LOOP -->|"是"| CHECK{"arr[read] != 0?"}
+    CHECK -->|"是"| MOVE["arr[write]=arr[read]<br/>write++"]
+    CHECK -->|"否"| SKIP["跳过"]
+    MOVE --> INC["read++"]
+    SKIP --> INC
+    INC --> LOOP
+
+    classDef start fill:#0b8457,color:#fff,stroke:#065535
+    classDef decision fill:#1a1a2e,color:#fff,stroke:#16213e
+    classDef process fill:#0f3460,color:#fff,stroke:#0a2647
+
+    class S,END start
+    class LOOP,CHECK decision
+    class INIT,MOVE,SKIP,INC,FILL process
+```
+
+**适用场景**：数据清理、内存压缩、算法优化。
+
+**实现目录**：[`move-zeroes/`](./move-zeroes/)
+
+---
+
+### 3.6 最大子数组和（Maximum Subarray）
+
+**简介**：使用 Kadane 算法找到连续子数组的最大和。动态规划思想，维护当前和与最大和。
+
+| 时间复杂度 | 空间复杂度 | 稳定性 |
+|-----------|-----------|--------|
+| O(n) | O(1) | - |
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 5}}}%%
+graph LR
+    S(["开始"]) --> INIT["max_sum=arr[0]<br/>curr_sum=arr[0]<br/>i=1"]
+    INIT --> LOOP{"i < n?"}
+    LOOP -->|"否"| END(["返回 max_sum"])
+    LOOP -->|"是"| UPDATE["curr_sum = max<br/>(arr[i], curr_sum+arr[i])"]
+    UPDATE --> MAX["max_sum = max<br/>(max_sum, curr_sum)"]
+    MAX --> INC["i++"]
+    INC --> LOOP
+
+    classDef start fill:#0b8457,color:#fff,stroke:#065535
+    classDef decision fill:#1a1a2e,color:#fff,stroke:#16213e
+    classDef process fill:#0f3460,color:#fff,stroke:#0a2647
+
+    class S,END start
+    class LOOP decision
+    class INIT,UPDATE,MAX,INC process
+```
+
+**适用场景**：股票最大收益、信号处理、数据分析。
+
+**实现目录**：[`maximum-subarray/`](./maximum-subarray/)
+
+---
 
 ### 3.7 合并有序数组（Merge Sorted Array）
-**概述**：
-- 将两个已排序的数组合并为一个有序数组。
-- 从尾部向前填充，避免覆盖未处理元素。
 
-**算法过程示意**：
-```
-nums1 = [1, 2, 3, 0, 0, 0], m=3
-nums2 = [2, 5, 6],       n=3
+**简介**：合并两个已排序数组。从尾部向前填充，避免覆盖未处理元素。
 
-初始化指针:
-i = m-1 = 2 (nums1有效元素末尾)
-j = n-1 = 2 (nums2末尾)  
-k = m+n-1 = 5 (结果位置)
+| 时间复杂度 | 空间复杂度 | 稳定性 |
+|-----------|-----------|--------|
+| O(m+n) | O(1) | 稳定 |
 
-步骤1: nums1[2]=3 vs nums2[2]=6, 6更大
-       nums1[5]=6, j=1, k=4
-       [1, 2, 3, 0, 0, 6]
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 5}}}%%
+graph LR
+    S(["开始"]) --> INIT["i=m-1, j=n-1<br/>k=m+n-1"]
+    INIT --> LOOP{"k >= 0?"}
+    LOOP -->|"否"| END(["结束"])
+    LOOP -->|"是"| CHECK{"i>=0 && (j<0 ||<br/>arr1[i]>arr2[j])?"}
+    CHECK -->|"是"| A["arr1[k]=arr1[i]<br/>i--"]
+    CHECK -->|"否"| B["arr1[k]=arr2[j]<br/>j--"]
+    A --> DEC["k--"]
+    B --> DEC
+    DEC --> LOOP
 
-步骤2: nums1[2]=3 vs nums2[1]=5, 5更大
-       nums1[4]=5, j=0, k=3
-       [1, 2, 3, 0, 5, 6]
+    classDef start fill:#0b8457,color:#fff,stroke:#065535
+    classDef decision fill:#1a1a2e,color:#fff,stroke:#16213e
+    classDef process fill:#0f3460,color:#fff,stroke:#0a2647
 
-步骤3: nums1[2]=3 vs nums2[0]=2, 3更大
-       nums1[3]=3, i=1, k=2
-       [1, 2, 3, 3, 5, 6]
-
-步骤4: nums1[1]=2 vs nums2[0]=2, 相等选nums2
-       nums1[2]=2, j=-1, k=1
-       [1, 2, 2, 3, 5, 6]
-
-步骤5: j<0, nums2已用完, 剩余nums1元素已在正确位置
-
-结果: [1, 2, 2, 3, 5, 6]
+    class S,END start
+    class LOOP,CHECK decision
+    class INIT,A,B,DEC process
 ```
 
-**核心思想**：
-- 使用三个指针：分别指向两个数组的末尾和结果位置
-- 比较两个数组的元素，选择较大的放入结果
-- 处理剩余元素
+**适用场景**：归并排序、数据合并、外部排序。
 
-**应用**：
-- 归并排序
-- 数据合并
-- 外部排序
+**实现目录**：[`merge-sorted-array/`](./merge-sorted-array/)
 
-**实现文件**：
-- `merge-sorted-array/` - 多语言实现
+---
 
-## 4. 典型应用场景
+## 4. 算法复杂度对比
 
-### 4.1 数据处理
+| 算法 | 时间复杂度 | 空间复杂度 | 核心技巧 |
+|------|-----------|-----------|---------|
+| 数组反转 | O(n) | O(1) | 双指针 |
+| 数组旋转 | O(n) | O(1) | 三次翻转 |
+| 数组去重 | O(n) | O(n) | 哈希表 |
+| 两数之和 | O(n) | O(n) | 哈希表 |
+| 移动零 | O(n) | O(1) | 双指针 |
+| 最大子数组 | O(n) | O(1) | 动态规划 |
+| 合并有序数组 | O(m+n) | O(1) | 从后向前 |
+
+---
+
+## 5. 典型应用场景
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 15}}}%%
+graph TD
+    SCENE["场景选择"]
+    SCENE --> REVERSE["需要反转数据<br/>→ 数组反转"]
+    SCENE --> ROTATE["循环移位<br/>→ 数组旋转"]
+    SCENE --> UNIQUE["数据去重<br/>→ 哈希表去重"]
+    SCENE --> FIND["查找配对<br/>→ 两数之和"]
+    SCENE --> CLEAN["清理数据<br/>→ 移动零"]
+    SCENE --> PROFIT["最大收益<br/>→ 最大子数组"]
+    SCENE --> MERGE["合并数据<br/>→ 合并有序数组"]
+
+    classDef root fill:#1a1a2e,color:#fff,stroke:#16213e
+    classDef scene fill:#533483,color:#fff,stroke:#2c1654
+
+    class SCENE root
+    class REVERSE,ROTATE,UNIQUE,FIND,CLEAN,PROFIT,MERGE scene
+```
+
+### 5.1 数据处理
 - **数据清洗**：去重、过滤、格式化
 - **数据转换**：重排、旋转、反转
 - **数据合并**：多个数据源的整合
 
-### 4.2 算法基础
+### 5.2 算法基础
 - **排序算法**：快速排序、归并排序的基础
 - **搜索算法**：二分搜索的前提
 - **动态规划**：状态存储和转移
 
-### 4.3 系统开发
+### 5.3 系统开发
 - **缓冲区管理**：固定大小的数据存储
 - **队列实现**：循环队列、双端队列
 - **缓存系统**：LRU缓存的数据存储
 
-### 4.4 科学计算
-- **信号处理**：时序数据分析
-- **图像处理**：像素数据存储
-- **统计分析**：数据集处理
+---
 
-## 5. 算法技巧总结
+## 6. 学习建议
 
-### 5.1 双指针技术
+### 6.1 学习路径
 
-**技术分类示意**：
-```
-双指针技术
-├── 相向双指针 (头尾向中间移动)
-│   └── 应用: 数组反转、两数之和(已排序)
-│   
-│   示意: 数组反转
-│   [1, 2, 3, 4, 5, 6]
-│    ↑              ↑
-│   left           right
-│    └──────────────┘
-│         交换后相向移动
-│
-├── 同向双指针 (快慢指针)
-│   └── 应用: 滑动窗口、去重
-│   
-│   示意: 去重
-│   [1, 1, 2, 2, 3, 3]
-│    ↑  ↑
-│   slow fast
-│        ↓
-│   [1, 2, 3, ...]
-│       ↑  ↑
-│     slow fast
-│
-└── 分离双指针 (读写分离)
-    └── 应用: 移动零、合并数组
-    
-    示意: 移动零
-    [0, 1, 0, 3, 12]
-     ↑  ↑
-    write read
-       ↓
-    [1, 3, 12, 0, 0]
-        ↑        ↑
-      write    read
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 45, 'padding': 20}}}%%
+graph LR
+    L1["1. 基础操作<br/>反转 / 旋转"] --> L2["2. 哈希表应用<br/>去重 / 两数之和"]
+    L2 --> L3["3. 双指针技巧<br/>移动零 / 合并数组"]
+    L3 --> L4["4. 动态规划<br/>最大子数组和"]
+
+    classDef step fill:#0f3460,color:#fff,stroke:#0a2647
+
+    class L1,L2,L3,L4 step
 ```
 
-### 5.2 哈希表应用
-- **去重操作**：快速判断重复
-- **查找配对**：两数之和、三数之和
-- **频率统计**：元素出现次数
-
-### 5.3 排序技巧
-- **原地排序**：减少空间复杂度
-- **部分排序**：只排序需要的部分
-- **稳定排序**：保持相等元素的相对顺序
-
-## 6. 性能特点
-
-### 6.1 时间复杂度
-| 操作 | 最好 | 平均 | 最坏 |
-|------|------|------|------|
-| 访问 | O(1) | O(1) | O(1) |
-| 搜索 | O(1) | O(n) | O(n) |
-| 插入 | O(1) | O(n) | O(n) |
-| 删除 | O(1) | O(n) | O(n) |
-
-### 6.2 空间复杂度
-- **原地操作**：O(1)额外空间
-- **哈希表辅助**：O(n)额外空间
-- **递归调用**：O(log n)到O(n)栈空间
-
-## 7. 编程语言支持
-
-每种算法都提供了多种编程语言的实现：
-- **C**：指针操作，手动内存管理
-- **Java**：面向对象，集合框架
-- **Go**：切片操作，简洁语法
-- **JavaScript**：动态数组，灵活操作
-- **Python**：列表操作，丰富库函数
-- **Rust**：安全内存，零成本抽象
-
-## 8. 学习建议
-
-### 8.1 学习路径
-1. **基础操作**：访问、遍历、修改
-2. **简单算法**：反转、旋转、去重
-3. **进阶算法**：最大子数组、两数之和
-4. **综合应用**：合并、移动零、复杂问题
-
-### 8.2 练习要点
+### 6.2 实践要点
 - **边界条件**：空数组、单元素数组
 - **时间复杂度**：选择最优算法
 - **空间复杂度**：尽量原地操作
 - **代码规范**：清晰的变量命名和注释
+
+---
+
+## 7. 数组算法多语言实现
+
+| 算法 | C | Java | Go | Python | JavaScript | TypeScript | Rust |
+|------|---|------|----|--------|------------|------------|------|
+| **数组反转** | [C](./reverse/reverse_array.c) | [Java](./reverse/ReverseArray.java) | [Go](./reverse/reverse_array.go) | [PY](./reverse/reverse_array.py) | [JS](./reverse/reverse_array.js) | [TS](./reverse/ReverseArray.ts) | [Rust](./reverse/reverse_array.rs) |
+| **数组旋转** | [C](./rotate/rotate_array.c) | [Java](./rotate/RotateArray.java) | [Go](./rotate/rotate_array.go) | [PY](./rotate/rotate_array.py) | [JS](./rotate/rotate_array.js) | [TS](./rotate/RotateArray.ts) | [Rust](./rotate/rotate_array.rs) |
+| **数组去重** | [C](./unique/unique.c) | [Java](./unique/UniqueArray.java) | [Go](./unique/unique.go) | [PY](./unique/unique.py) | [JS](./unique/unique.js) | [TS](./unique/UniqueArray.ts) | [Rust](./unique/unique.rs) |
+| **两数之和** | [C](./two-sum/two_sum.c) | [Java](./two-sum/TwoSum.java) | [Go](./two-sum/two_sum.go) | [PY](./two-sum/two_sum.py) | [JS](./two-sum/two_sum.js) | [TS](./two-sum/TwoSum.ts) | [Rust](./two-sum/two_sum.rs) |
+| **移动零** | [C](./move-zeroes/move_zeroes.c) | [Java](./move-zeroes/MoveZeroes.java) | [Go](./move-zeroes/move_zeroes.go) | [PY](./move-zeroes/move_zeroes.py) | [JS](./move-zeroes/move_zeroes.js) | [TS](./move-zeroes/MoveZeroes.ts) | [Rust](./move-zeroes/move_zeroes.rs) |
+| **最大子数组** | [C](./maximum-subarray/maximum_subarray.c) | [Java](./maximum-subarray/MaximumSubarray.java) | [Go](./maximum-subarray/maximum_subarray.go) | [PY](./maximum-subarray/maximum_subarray.py) | [JS](./maximum-subarray/maximum_subarray.js) | [TS](./maximum-subarray/MaximumSubarray.ts) | [Rust](./maximum-subarray/maximum_subarray.rs) |
+| **合并有序数组** | [C](./merge-sorted-array/merge_sorted_array.c) | [Java](./merge-sorted-array/MergeSortedArray.java) | [Go](./merge-sorted-array/merge_sorted_array.go) | [PY](./merge-sorted-array/merge_sorted_array.py) | [JS](./merge-sorted-array/merge_sorted_array.js) | [TS](./merge-sorted-array/MergeSortedArray.ts) | [Rust](./merge-sorted-array/merge_sorted_array.rs) |

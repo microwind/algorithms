@@ -1,124 +1,138 @@
-# 数组去重 (Array Unique)
+# 数组去重（Array Unique）
 
-## 概述
+> 从数组中移除重复元素，只保留唯一的值。本目录提供多种去重方法的实现，包括哈希表法、双指针法和排序法等。
 
-数组去重是指从数组中移除重复的元素，只保留唯一的元素。这是编程中常见的操作，有多种实现方式，每种方式在时间复杂度和空间复杂度上都有所不同。
+## 导航
 
-## 实现方式对比
+| [算法原理](#算法原理) | [复杂度分析](#复杂度分析) | [流程图](#流程图) | [实现列表](#实现列表) |
 
-| 方法 | 时间复杂度 | 空间复杂度 | 是否保持原顺序 | 适用场景 |
-|------|------------|------------|----------------|----------|
-| 哈希表/集合 | O(n) | O(n) | ✓ | 大多数情况 |
-| 双指针 | O(n) | O(1) | ✓ | 已排序数组 |
-| 暴力枚举 | O(n²) | O(1) | ✓ | 小数组 |
-| 排序后去重 | O(n log n) | O(1) | ✗ | 可接受顺序改变 |
+---
 
-## 核心算法思路
+## 算法原理
 
-### 1. 哈希表/集合方法
-```c
-Set seen = {}
-List result = []
-for x in array:
-    if x not in seen:
-        seen.add(x)
-        result.append(x)
+数组去重有多种实现方式，最常用的是**哈希表法**：
+1. 创建哈希表记录已出现的元素
+2. 遍历原数组，检查每个元素是否在哈希表中
+   - 如果不在，加入结果数组并存入哈希表
+   - 如果在，跳过该元素
+3. 返回结果数组
+
+### 示例演示
+
+```
+初始数组: [1, 2, 2, 3, 4, 4, 5]
+
+遍历过程:
+┌─────────────────┬─────────────────┬─────────────────┐
+│   当前元素      │    哈希表状态    │    结果数组     │
+├─────────────────┼─────────────────┼─────────────────┤
+│       1         │    {1}          │      [1]        │
+│       2         │    {1,2}        │      [1,2]      │
+│       2         │    {1,2} ✗已存在 │      [1,2]      │
+│       3         │    {1,2,3}      │      [1,2,3]    │
+│       4         │    {1,2,3,4}    │      [1,2,3,4]  │
+│       4         │    {1,2,3,4} ✗  │      [1,2,3,4]  │
+│       5         │    {1,2,3,4,5}  │      [1,2,3,4,5]│
+└─────────────────┴─────────────────┴─────────────────┘
+
+结果: [1, 2, 3, 4, 5]
 ```
 
-### 2. 双指针方法（已排序数组）
-```c
-i = 0  // 慢指针
-for j in range(1, n):  // 快指针
-    if array[j] != array[i]:
-        i++
-        array[i] = array[j]
-return array[0:i+1]
+---
+
+## 复杂度分析
+
+### 哈希表法
+
+| 指标 | 复杂度 | 说明 |
+|------|--------|------|
+| **时间复杂度** | O(n) | 单次遍历数组，哈希表操作 O(1) |
+| **空间复杂度** | O(n) | 哈希表存储已出现元素 |
+| **稳定性** | 不稳定 | 依赖哈希表实现，顺序可能改变 |
+
+### 多种方法对比
+
+| 方法 | 时间复杂度 | 空间复杂度 | 稳定性 | 适用场景 |
+|------|-----------|-----------|--------|----------|
+| 哈希表/集合 | O(n) | O(n) | 不稳定 | 大多数情况 |
+| 双指针 | O(n) | O(1) | 稳定 | 已排序数组 |
+| 排序后去重 | O(n log n) | O(1) | 不稳定 | 空间受限 |
+| 暴力枚举 | O(n²) | O(1) | 稳定 | 极小数组 |
+
+---
+
+## 流程图
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 5}}}%%
+graph LR
+    S(["开始"]) --> INIT["创建哈希表<br/>i=0"]
+    INIT --> LOOP{"i < n?"}
+    LOOP -->|"否"| END(["返回结果"])
+    LOOP -->|"是"| CHECK{"元素在哈希表中?"}
+    CHECK -->|"是"| SKIP["跳过"]
+    CHECK -->|"否"| ADD["加入结果<br/>存入哈希表"]
+    SKIP --> INC["i++"]
+    ADD --> INC
+    INC --> LOOP
+
+    classDef start fill:#0b8457,color:#fff,stroke:#065535
+    classDef decision fill:#1a1a2e,color:#fff,stroke:#16213e
+    classDef process fill:#0f3460,color:#fff,stroke:#0a2647
+
+    class S,END start
+    class LOOP,CHECK decision
+    class INIT,ADD,SKIP,INC process
 ```
 
-### 3. 暴力枚举方法
-```c
-List result = []
-for i in range(n):
-    is_duplicate = false
-    for j in range(i):
-        if array[i] == array[j]:
-            is_duplicate = true
-            break
-    if not is_duplicate:
-        result.append(array[i])
-```
+---
 
-## 应用场景
+## 适用场景
 
 - **数据清洗**：移除重复的记录
 - **统计分析**：确保数据唯一性
 - **缓存优化**：避免重复计算
 - **用户输入处理**：过滤重复选项
+- **集合运算**：准备数据用于集合操作
 
-## 文件说明
+---
 
-本目录包含多种编程语言的数组去重实现：
+## 实现列表
 
-- **C**: `unique.c` - 使用哈希表和双指针两种方法
-- **Go**: `unique.go` - 使用map和slice的高效实现
-- **Java**: `UniqueArray.java` - 面向对象的多种实现方式
-- **JavaScript**: `unique.js` - ES6+的现代实现
-- **Python**: `unique.py` - 使用set和列表推导式
-- **Rust**: `unique.rs` - 内存安全的实现
-- **TypeScript**: `UniqueArray.ts` - 类型安全的实现
-- **Dart**: `unique.dart` - Flutter/Dart应用
+| 语言 | 文件名 | 说明 |
+|------|--------|------|
+| C | [unique.c](./unique.c) | 多种方法实现 |
+| Go | [unique.go](./unique.go) | map和slice实现 |
+| Java | [UniqueArray.java](./UniqueArray.java) | 面向对象多种方式 |
+| JavaScript | [unique.js](./unique.js) | ES6+现代实现 |
+| Python | [unique.py](./unique.py) | set和列表推导 |
+| Rust | [unique.rs](./unique.rs) | HashSet实现 |
+| TypeScript | [UniqueArray.ts](./UniqueArray.ts) | 类型安全版本 |
+| Dart | [unique.dart](./unique.dart) | Dart集合操作 |
 
-## 运行示例
+---
 
-### C语言
-```bash
-cd array/unique
-gcc unique.c -o unique
-./unique
+## 使用示例
+
+### C 版本
+```c
+int arr[] = {1, 1, 3, -1, 1, 2, 2, 4, 2, 2, -1};
+uniqueArray(arr, 11, result);
+// 结果: [1, 3, -1, 2, 4]
 ```
 
-### Go
-```bash
-cd array/unique
-go run unique.go
+### Python 版本
+```python
+arr = [1, 1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
+result = list(set(arr))  # 简单去重
+# 或保持顺序: unique(arr)
 ```
 
-### Java
-```bash
-cd array/unique
-javac UniqueArray.java
-java UniqueArray
-```
+---
 
-### JavaScript
-```bash
-cd array/unique
-node unique.js
-```
+## 扩展阅读
 
-### Python
-```bash
-cd array/unique
-python unique.py
-```
-
-### Rust
-```bash
-cd array/unique
-rustc unique.rs
-./unique
-```
-
-## 性能建议
-
-1. **优先使用哈希表方法**：大多数情况下性能最佳
-2. **数组已排序时使用双指针**：空间复杂度最优
-3. **小数组可用暴力方法**：代码简单，常数因子小
-4. **考虑内存限制**：哈希表需要额外空间
-
-## 扩展思考
-
-- 如何处理自定义对象的去重？
-- 如何在流式数据中进行去重？
-- 如何统计重复元素的次数？
-- 如何保持相对顺序的同时进行原地去重？
+- 双指针法适用于已排序数组，可实现原地去重
+- 排序后去重使用 dedup 操作，时间复杂度 O(n log n)
+- 对于对象数组，需要自定义相等比较函数
+- 流式数据去重需要考虑缓存淘汰策略
