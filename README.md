@@ -203,7 +203,7 @@ AI编程时代已经到来。AI可以替代人工编码工作，但难以替代�
 `站点：` [https://microwind.github.io/algorithms](https://microwind.github.io/algorithms)
 
 如果您对本项目感兴趣请加我，欢迎一起共建！ 
-If you are interested in this project, please add me. I welcome you to build it together!
+If you are interested in this project, please add me on WeChat. Let’s build it together!
 
 **我是Jarry 李春平, 从业20多年的互联网工程师。**
 

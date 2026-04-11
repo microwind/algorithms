@@ -151,7 +151,7 @@ Data structures organize and store data, enabling efficient processing. Differen
 `Repository:` [https://github.com/microwind/algorithms](https://github.com/microwind/algorithms)
 `Site:` [https://microwind.github.io/algorithms](https://microwind.github.io/algorithms)
 
-If you are interested in this project, please add me. I welcome you to build it together.
+If you are interested in this project, please add me on WeChat. Let’s build it together!
 
 **wechat:** `springbuild`
 
