@@ -1,4 +1,4 @@
-# In the age of AI, Understanding Algorithms and Data Structures, Learning Different Programming Languages [中文](./README.md)
+# In the age of AI, Understanding Algorithms and Data Structures, Learning Different Programming Languages | [中文](./README.md)
 
 > In the age of AI, you need to understand algorithmic thinking and data structures, and learn different programming languages.
 
