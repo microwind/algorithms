@@ -9,6 +9,42 @@
 // [哈希桶1] -> (name, Alice) [哈希桶2] -> (age, 25) [哈希桶3] -> (city, New York)
 ```
 
+### 图形结构
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 15}}}%%
+graph TB
+    subgraph 哈希Map["🔢 哈希表实现 Map"]
+        direction TB
+        B0["Bucket 0"] --> N0["NULL"]
+        B1["Bucket 1"] --> N1["name: Alice"] --> N1n["NULL"]
+        B2["Bucket 2"] --> N2["age: 25"] --> N2n["NULL"]
+        B3["Bucket 3"] --> N3["city: NY"] --> N3a["NULL"]
+    end
+
+    subgraph 红黑树Map["🌳 红黑树实现 Map"]
+        direction TB
+        ROOT["50"] --> LEFT["30"]
+        ROOT --> RIGHT["70"]
+        LEFT --> LL["20"]
+        LEFT --> LR["40"]
+        RIGHT --> RL["60"]
+        RIGHT --> RR["80"]
+    end
+
+    classDef bucket fill:#0f3460,color:#fff,stroke:#0a2647,stroke-width:2px
+    classDef node fill:#3498db,color:#fff,stroke:#2980b9,stroke-width:2px
+    classDef nullnode fill:#95a5a6,color:#fff,stroke:#7f8c8d
+    classDef tree fill:#0b8457,color:#fff,stroke:#065535,stroke-width:2px
+
+    class B0,B1,B2,B3 bucket
+    class N1,N2,N3 node
+    class N0,N1n,N2n,N3a nullnode
+    class ROOT,LEFT,RIGHT,LL,LR,RL,RR tree
+```
+
+---
+
 # Map的特点
 
 ## 优点
@@ -77,12 +113,73 @@
 
 # Map应用场景
 
-- **缓存（Cache）**：快速存储和检索数据，如 LRU 缓存。
-- **索引（Indexing）**：数据库索引或倒排索引。
-- **计数统计**：如单词频率统计。
-- **关联存储**：如 JSON 解析、配置文件存储。
+1. **缓存（Cache）**：快速存储和检索数据，如 LRU 缓存。
+   - **LRU缓存**：哈希表+双向链表实现O(1)访问的最近最少使用缓存
+   - **Redis内存**：Key-Value存储系统，支持字符串、列表、集合等多种数据结构
+   - **本地缓存**：Guava Cache/Caffeine使用Map实现进程内缓存
+   - **配置缓存**：将配置项缓存在内存中，避免频繁读取文件/数据库
 
-# Map简单例子
+2. **索引（Indexing）**：数据库索引或倒排索引。
+   - **数据库索引**：哈希索引直接定位到数据行，O(1)时间复杂度
+   - **倒排索引**：搜索引擎使用Map存储词到文档列表的映射
+   - **关键词映射**：分词后将关键词映射到出现位置，支持快速全文检索
+
+3. **计数统计**：如单词频率统计。
+   - **词频统计**：MapReduce使用Map统计单词出现次数
+   - **PV/UV统计**：网站访问计数，去重后计算独立访客
+   - **限流计数**：滑动窗口计数器，统计单位时间内的请求数
+
+4. **关联存储**：如 JSON 解析、配置文件存储。
+   - **JSON解析**：FastAPI/Jackson将JSON映射为Map/Object
+   - **环境变量**：os.environ存储系统环境变量键值对
+   - **用户偏好**：存储用户设置，如主题、语言、通知开关
+
+### Map应用场景可视化
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 25, 'rankSpacing': 35, 'padding': 20}}}%%
+graph TB
+    ROOT(("🗺️ Map应用场景"))
+
+    ROOT --> CACHE["💾 缓存系统"]
+    ROOT --> INDEX["📇 索引系统"]
+    ROOT --> CONFIG["⚙️ 配置管理"]
+    ROOT --> JSON["📄 JSON解析"]
+
+    CACHE --> CACHE1["LRU缓存"]
+    CACHE --> CACHE2["Redis内存"]
+    CACHE --> CACHE3["本地缓存"]
+
+    INDEX --> INDEX1["数据库索引"]
+    INDEX --> INDEX2["倒排索引"]
+    INDEX --> INDEX3["关键词映射"]
+
+    CONFIG --> CONFIG1["环境变量"]
+    CONFIG --> CONFIG2["系统配置"]
+    CONFIG --> CONFIG3["用户偏好"]
+
+    JSON --> JSON1["API响应"]
+    JSON --> JSON2["序列化"]
+    JSON --> JSON3["对象映射"]
+
+    classDef root fill:#1a1a2e,color:#fff,stroke:#16213e,stroke-width:3px
+    classDef cat fill:#0f3460,color:#fff,stroke:#0a2647,stroke-width:2px
+    classDef sub fill:#533483,color:#fff,stroke:#2c1654
+    classDef cache fill:#3498db,color:#fff,stroke:#2980b9
+    classDef index fill:#e67e22,color:#fff,stroke:#d35400
+    classDef config fill:#2ecc71,color:#fff,stroke:#27ae60
+    classDef json fill:#f39c12,color:#fff,stroke:#e67e22
+
+    class ROOT root
+    class CACHE,INDEX,CONFIG,JSON cat
+    class CACHE1,CACHE2,CACHE3 cache
+    class INDEX1,INDEX2,INDEX3 index
+    class CONFIG1,CONFIG2,CONFIG3 config
+    class JSON1,JSON2,JSON3 json
+```
+
+---
+
 
 ## c语言实现
 ```c

@@ -23,6 +23,46 @@
   ```
 - 加权图（Weighted Graph）：边带有权重，表示关系的强度或成本。
 
+### 图形结构
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 20, 'rankSpacing': 30, 'padding': 15}}}%%
+graph LR
+    subgraph 有向图["🔵 有向图 Directed Graph"]
+        direction TB
+        A1((A)) --> B1((B))
+        A1 --> C1((C))
+        B1 --> D1((D))
+        C1 --> D1
+    end
+
+    subgraph 无向图["🟢 无向图 Undirected Graph"]
+        direction TB
+        A2((A)) --- B2((B))
+        A2 --- C2((C))
+        B2 --- D2((D))
+        C2 --- D2
+    end
+
+    subgraph 加权图["🟠 加权图 Weighted Graph"]
+        direction TB
+        A3((A)) --"5"--> B3((B))
+        A3 --"3"--> C3((C))
+        B3 --"2"--> D3((D))
+        C3 --"4"--> D3
+    end
+
+    classDef node fill:#0f3460,color:#fff,stroke:#0a2647,stroke-width:2px
+    classDef directed fill:#533483,color:#fff,stroke:#2c1654
+    classDef undirected fill:#0b8457,color:#fff,stroke:#065535
+    classDef weighted fill:#e67e22,color:#fff,stroke:#d35400
+
+    class A1,B1,C1,D1 directed
+    class A2,B2,C2,D2 undirected
+    class A3,B3,C3,D3 weighted
+```
+
+---
 
 ### 特点
 
@@ -90,17 +130,82 @@
 - 游戏开发：
   路径查找：在游戏中，图结构用于表示地图和场景，A*算法等路径查找算法通过图来计算角色从一个位置到另一个位置的最优路径。
   社交游戏：多人在线游戏中，玩家之间的社交关系可以表示为图，用于分析玩家行为和优化游戏体验。
-  
+
 - 自然语言处理：
   语义网络：在语义分析中，词语及其关系可以用图来表示，帮助理解和生成自然语言。
   关系抽取：图用于提取文本中的实体和它们之间的关系，有助于信息抽取和知识图谱构建。
 
 ### 应用场景
-- **社交网络**：表示用户之间的连接关系，查找社交图中的好友推荐、共同朋友等。
-- **计算机网络**：表示计算机之间的连接，如路由、拓扑分析等。
-- **路径查找**：如地图导航，计算最短路径、旅行商问题等。
-- **推荐系统**：如电影推荐、商品推荐，利用图结构分析用户兴趣。
 
+1. **社交网络**：表示用户之间的连接关系，查找社交图中的好友推荐、共同朋友等。
+   - **好友关系图**：Facebook使用图存储用户关系，支持好友推荐
+   - **影响力分析**：PageRank算法计算节点重要性，识别KOL
+   - **社区发现**：Louvain算法检测社交网络中的社区结构
+
+2. **计算机网络**：表示计算机之间的连接，如路由、拓扑分析等。
+   - **路由协议**：OSPF/BGP使用图计算最短路径，优化网络传输
+   - **网络拓扑分析**：监控网络节点状态，快速定位故障点
+   - **负载均衡**：一致性哈希将请求均匀分配到后端服务器
+
+3. **路径查找**：如地图导航，计算最短路径、旅行商问题等。
+   - **最短路径规划**：Dijkstra/A*算法计算最优路线，实时导航
+   - **实时交通优化**：结合路况数据动态调整路线，避开拥堵
+   - **地铁换乘网络**：多模式交通网络的联合路径规划
+
+4. **推荐系统**：如电影推荐、商品推荐，利用图结构分析用户兴趣。
+   - **协同过滤**：基于用户-物品二分图进行个性化推荐
+   - **知识图谱**：实体关系推理，增强搜索和问答系统
+   - **个性化推荐**：图神经网络(GNN)学习用户偏好特征
+
+### 应用场景可视化
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 25, 'rankSpacing': 35, 'padding': 20}}}%%
+graph TB
+    ROOT(("🌐 图的应用领域"))
+
+    ROOT --> SN["👥 社交网络"]
+    ROOT --> NAV["🗺️ 导航/交通"]
+    ROOT --> NET["🔌 网络通信"]
+    ROOT --> REC["📺 推荐系统"]
+    ROOT --> BIO["🧬 生物信息"]
+    ROOT --> FIN["💰 金融风控"]
+    ROOT --> SEARCH["🔍 搜索引擎"]
+    ROOT --> GAME["🎮 游戏开发"]
+
+    SN --> SN1["好友关系图"]
+    SN --> SN2["影响力分析"]
+    SN --> SN3["社区发现"]
+
+    NAV --> NAV1["最短路径规划"]
+    NAV --> NAV2["实时交通优化"]
+    NAV --> NAV3["地铁换乘网络"]
+
+    NET --> NET1["路由协议"]
+    NET --> NET2["网络拓扑分析"]
+    NET --> NET3["负载均衡"]
+
+    REC --> REC1["协同过滤"]
+    REC --> REC2["知识图谱"]
+    REC --> REC3["个性化推荐"]
+
+    classDef root fill:#1a1a2e,color:#fff,stroke:#16213e,stroke-width:3px
+    classDef cat fill:#0f3460,color:#fff,stroke:#0a2647,stroke-width:2px
+    classDef sub fill:#533483,color:#fff,stroke:#2c1654
+    classDef sn fill:#e74c3c,color:#fff,stroke:#c0392b
+    classDef nav fill:#3498db,color:#fff,stroke:#2980b9
+    classDef net fill:#2ecc71,color:#fff,stroke:#27ae60
+    classDef rec fill:#f39c12,color:#fff,stroke:#e67e22
+
+    class ROOT root
+    class SN,NAV,NET,REC,FIN,SEARCH,GAME,BIO cat
+    class SN1,SN2,SN3 sn
+    class NAV1,NAV2,NAV3 nav
+    class NET1,NET2,NET3 net
+    class REC1,REC2,REC3 rec
+```
+
+---
 ### 简单例子
 
 #### C 语言示例

@@ -17,6 +17,38 @@
   栈底
 ```
 
+### 图形结构
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 15}}}%%
+graph TB
+    subgraph 栈结构["📦 栈结构 - LIFO"]
+        direction TB
+        TOP["🔝 Top"] --> E1["[30]"] --> E2["[20]"] --> E3["[10]"] --> BOTTOM["🔚 Bottom"]
+    end
+
+    subgraph Push操作["⬆️ Push 入栈"]
+        direction TB
+        PUSH["Push(40)"] --> ADD["压入栈顶"] --> NEW["[40]-[30]-[20]-[10]"]
+    end
+
+    subgraph Pop操作["⬇️ Pop 出栈"]
+        direction TB
+        POP["Pop()"] --> REM["弹出栈顶"] --> NEW2["[20]-[10]"]
+    end
+
+    classDef top fill:#e74c3c,color:#fff,stroke:#c0392b,stroke-width:2px
+    classDef bottom fill:#0b8457,color:#fff,stroke:#065535,stroke-width:2px
+    classDef elem fill:#3498db,color:#fff,stroke:#2980b9,stroke-width:2px
+    classDef op fill:#f39c12,color:#fff,stroke:#e67e22,stroke-width:2px
+
+    class TOP top
+    class BOTTOM bottom
+    class E1,E2,E3 elem
+    class PUSH,POP,ADD,REM op
+```
+
+---
 
 # Stack特点
 
@@ -36,10 +68,72 @@
 4. **isEmpty**：检查栈是否为空。
 
 # 应用场景
-- **函数调用栈**：程序在执行函数调用时，会将每次函数调用的相关信息（如局部变量、返回地址等）压入栈中。
-- **表达式求值**：例如括号匹配、逆波兰表达式等。
-- **浏览器历史记录**：浏览器的前进和后退功能通常通过栈来实现。
-- **深度优先搜索（DFS）**：在图或树的遍历中，深度优先搜索经常使用栈来辅助遍历。
+
+1. **函数调用栈**：程序在执行函数调用时，会将每次函数调用的相关信息压入栈中。
+   - **调用栈管理**：存储局部变量、返回地址、参数等，函数返回时自动恢复现场
+   - **递归实现**：系统使用栈保存每层递归的状态，支持函数自我调用
+   - **异常处理**：try-catch 机制使用栈保存异常处理上下文
+
+2. **表达式求值**：编译器和计算器中使用栈处理表达式。
+   - **括号匹配**：使用栈检查表达式中括号是否成对出现，如 `(){[]}`
+   - **后缀表达式计算**：将中缀表达式转为后缀（逆波兰），再用栈计算结果
+   - **计算器实现**：iOS/Android 计算器应用使用栈处理运算符优先级
+
+3. **浏览器历史记录**：浏览器的前进和后退功能通常通过栈来实现。
+   - **页面导航栈**：双栈结构实现前进/后退功能，backStack 和 forwardStack
+   - **撤销操作**：编辑器使用栈记录操作历史，支持 Ctrl+Z 撤销
+   - **路由历史**：Vue/React Router 使用栈管理页面跳转历史
+
+4. **深度优先搜索（DFS）**：在图或树的遍历中，深度优先搜索经常使用栈来辅助遍历。
+   - **树遍历**：前序/中序/后序遍历的非递归实现使用显式栈
+   - **图遍历**：DFS 遍历图时使用栈保存待访问节点，避免递归深度过大
+   - **回溯算法**：迷宫求解、N皇后问题使用栈保存路径状态
+
+### 应用场景可视化
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 25, 'rankSpacing': 35, 'padding': 20}}}%%
+graph TB
+    ROOT(("📚 栈应用场景"))
+
+    ROOT --> CALL["📞 函数调用"]
+    ROOT --> EXPR["🔢 表达式求值"]
+    ROOT --> BROWSER["🌐 浏览器历史"]
+    ROOT --> DFS["🔍 DFS遍历"]
+
+    CALL --> CALL1["调用栈"]
+    CALL --> CALL2["递归实现"]
+    CALL --> CALL3["参数传递"]
+
+    EXPR --> EXPR1["后缀表达式"]
+    EXPR --> EXPR2["括号匹配"]
+    EXPR --> EXPR3["计算器"]
+
+    BROWSER --> BROW1["前进后退"]
+    BROWSER --> BROW2["页面导航"]
+    BROWSER --> BROW3["撤销操作"]
+
+    DFS --> DFS1["树遍历"]
+    DFS --> DFS2["图遍历"]
+    DFS --> DFS3["回溯算法"]
+
+    classDef root fill:#1a1a2e,color:#fff,stroke:#16213e,stroke-width:3px
+    classDef cat fill:#0f3460,color:#fff,stroke:#0a2647,stroke-width:2px
+    classDef sub fill:#533483,color:#fff,stroke:#2c1654
+    classDef callCat fill:#3498db,color:#fff,stroke:#2980b9
+    classDef expr fill:#e67e22,color:#fff,stroke:#d35400
+    classDef browser fill:#2ecc71,color:#fff,stroke:#27ae60
+    classDef dfs fill:#9b59b6,color:#fff,stroke:#8e44ad
+
+    class ROOT root
+    class CALL,EXPR,BROWSER,DFS cat
+    class CALL1,CALL2,CALL3 callCat
+    class EXPR1,EXPR2,EXPR3 expr
+    class BROW1,BROW2,BROW3 browser
+    class DFS1,DFS2,DFS3 dfs
+```
+
+---
 
 # Stack简单例子
 

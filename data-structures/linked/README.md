@@ -48,6 +48,40 @@ Head -> Node1 -> Node2 -> Node3 -> Head (尾指向头)
 Head <-> Node1 <-> Node2 <-> Node3 <-> Head (循环互指)
 ```
 
+### 图形结构
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 15}}}%%
+graph LR
+    subgraph 单向链表["🔵 单向链表 Singly Linked List"]
+        direction LR
+        S1["Head"] --> S2["Node1<br/>data|next"] --> S3["Node2<br/>data|next"] --> S4["Node3<br/>data|next"] --> S5["NULL"]
+    end
+
+    subgraph 双向链表["🟢 双向链表 Doubly Linked List"]
+        direction LR
+        D0["NULL"] <---> D1["Node1<br/>prev|data|next"] <---> D2["Node2<br/>prev|data|next"] <---> D3["Node3<br/>prev|data|next"] <---> D4["NULL"]
+    end
+
+    subgraph 循环链表["🟠 循环链表 Circular Linked List"]
+        direction LR
+        C1["Node1"] --> C2["Node2"] --> C3["Node3"] --> C4["Node4"] --> C1
+    end
+
+    classDef head fill:#1a1a2e,color:#fff,stroke:#16213e,stroke-width:2px
+    classDef singly fill:#3498db,color:#fff,stroke:#2980b9,stroke-width:2px
+    classDef doubly fill:#0b8457,color:#fff,stroke:#065535,stroke-width:2px
+    classDef circular fill:#e67e22,color:#fff,stroke:#d35400,stroke-width:2px
+    classDef nullnode fill:#95a5a6,color:#fff,stroke:#7f8c8d
+
+    class S1 head
+    class S2,S3,S4 singly
+    class S5 nullnode
+    class D1,D2,D3 doubly
+    class D0,D4 nullnode
+    class C1,C2,C3,C4 circular
+```
+
 ---
 
 # 链表类型对比
@@ -97,9 +131,71 @@ Head <-> Node1 <-> Node2 <-> Node3 <-> Head (循环互指)
 
 # 应用场景
 
-- **内存管理**：链表在动态内存分配中有广泛应用，能够灵活管理内存块。
-- **实现队列、栈**：链表可以用于实现队列（FIFO）和栈（LIFO）数据结构。
-- **动态数据结构**：在一些需要频繁修改（如插入、删除）数据的应用中，链表比数组更高效。
+1. **内存管理**：链表在动态内存分配中有广泛应用，能够灵活管理内存块。
+   - **动态内存分配**：malloc/free 使用空闲链表管理堆内存，快速分配/释放
+   - **内存池管理**：预分配固定大小内存块，用链表管理空闲块，减少碎片
+   - **垃圾回收链表**：标记-清除算法使用链表维护待回收对象
+
+2. **实现队列、栈**：链表可以用于实现队列（FIFO）和栈（LIFO）数据结构。
+   - **链表栈**：无容量限制，动态扩容，入栈/出栈O(1)
+   - **链表队列**：双指针实现首尾O(1)操作，支持高效的任务调度
+   - **双端队列**：双向链表实现两端O(1)插入删除
+
+3. **动态数据结构**：在一些需要频繁修改（如插入、删除）数据的应用中，链表比数组更高效。
+   - **多项式运算**：链表存储多项式项，支持高效的多项式加减乘除
+   - **大数运算**：链表存储大整数每一位，支持任意精度计算
+   - **稀疏矩阵**：十字链表存储稀疏矩阵非零元素，节省空间
+
+4. **系统实现**：操作系统和底层系统广泛使用链表。
+   - **进程调度**：Linux使用双向链表管理进程控制块（PCB）
+   - **文件系统**：FAT表使用链表管理磁盘块分配
+   - **LRU缓存**：哈希表+双向链表实现O(1)访问的LRU Cache
+
+### 应用场景可视化
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 25, 'rankSpacing': 35, 'padding': 20}}}%%
+graph TB
+    ROOT(("🔗 链表应用场景"))
+
+    ROOT --> MM["💾 内存管理"]
+    ROOT --> ADT["📦 抽象数据类型"]
+    ROOT --> ALG["🔢 算法实现"]
+    ROOT --> SYS["⚙️ 系统实现"]
+
+    MM --> MM1["动态内存分配"]
+    MM --> MM2["内存池管理"]
+    MM --> MM3["垃圾回收链表"]
+
+    ADT --> ADT1["栈实现"]
+    ADT --> ADT2["队列实现"]
+    ADT --> ADT3["双端队列"]
+
+    ALG --> ALG1["多项式运算"]
+    ALG --> ALG2["大数运算"]
+    ALG --> ALG3["稀疏矩阵"]
+
+    SYS --> SYS1["进程调度"]
+    SYS --> SYS2["文件系统"]
+    SYS --> SYS3["LRU缓存"]
+
+    classDef root fill:#1a1a2e,color:#fff,stroke:#16213e,stroke-width:3px
+    classDef cat fill:#0f3460,color:#fff,stroke:#0a2647,stroke-width:2px
+    classDef sub fill:#533483,color:#fff,stroke:#2c1654
+    classDef mm fill:#3498db,color:#fff,stroke:#2980b9
+    classDef adt fill:#2ecc71,color:#fff,stroke:#27ae60
+    classDef alg fill:#f39c12,color:#fff,stroke:#e67e22
+    classDef sys fill:#e74c3c,color:#fff,stroke:#c0392b
+
+    class ROOT root
+    class MM,ADT,ALG,SYS cat
+    class MM1,MM2,MM3 mm
+    class ADT1,ADT2,ADT3 adt
+    class ALG1,ALG2,ALG3 alg
+    class SYS1,SYS2,SYS3 sys
+```
+
+---
 
 # 简单例子
 

@@ -27,6 +27,40 @@ Heap 通常用于实现优先队列、堆排序等。
 20  30 50  40
 ```
 
+### 图形结构
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 15}}}%%
+graph TB
+    subgraph MAX["🔴 最大堆 Max-Heap"]
+        direction TB
+        MAX_ROOT["100"] --> MAX_L["50"]
+        MAX_ROOT --> MAX_R["30"]
+        MAX_L --> MAX_LL["20"]
+        MAX_L --> MAX_LR["40"]
+        MAX_R --> MAX_RL["10"]
+        MAX_R --> MAX_RR["5"]
+    end
+
+    subgraph MIN["🔵 最小堆 Min-Heap"]
+        direction TB
+        MIN_ROOT["5"] --> MIN_L["10"]
+        MIN_ROOT --> MIN_R["15"]
+        MIN_L --> MIN_LL["20"]
+        MIN_L --> MIN_LR["30"]
+        MIN_R --> MIN_RL["50"]
+        MIN_R --> MIN_RR["40"]
+    end
+
+    classDef maxheap fill:#e74c3c,color:#fff,stroke:#c0392b,stroke-width:2px
+    classDef minheap fill:#3498db,color:#fff,stroke:#2980b9,stroke-width:2px
+
+    class MAX_ROOT,MAX_L,MAX_R,MAX_LL,MAX_LR,MAX_RL,MAX_RR maxheap
+    class MIN_ROOT,MIN_L,MIN_R,MIN_LL,MIN_LR,MIN_RL,MIN_RR minheap
+```
+
+---
+
 # 特点
 
 ## 优点
@@ -47,8 +81,70 @@ Heap 通常用于实现优先队列、堆排序等。
 # 应用场景
 
 1. **优先级队列**：Heap 是优先级队列的基础，广泛应用于调度算法、任务调度等场景。
+   - **医院排队系统**：急诊优先级高于普通门诊，使用最大堆实现
+   - **打印机任务队列**：高优先级文档（如管理层报告）优先打印
+   - **CPU进程调度**：实时进程优先级高于普通进程，多级反馈队列
+
 2. **堆排序**：Heap 可以用来实现高效的排序算法，时间复杂度为 O(n log n)。
-3. **图算法**：Heap 在图算法中常用于实现最短路径算法（如 Dijkstra 算法）。
+   - **Top K问题**：从海量数据中找出最大的K个元素，如热门排行榜
+   - **数据流中位数**：维护两个堆，动态计算实时数据流的中位数
+   - **外部排序**：内存无法容纳全部数据时，使用堆进行多路归并
+
+3. **图算法**：Heap 在图算法中常用于实现最短路径算法。
+   - **Dijkstra最短路径**：优先队列优化，每次选择距离最小的节点
+   - **Prim最小生成树**：使用堆维护边的权重，贪心选择最小边
+   - **A*寻路算法**：游戏开发中，启发式函数 + 优先队列实现智能寻路
+
+4. **任务调度**：基于优先级的定时任务和事件处理。
+   - **定时任务调度**：Quartz/Timer 使用堆管理定时任务
+   - **事件驱动系统**：Node.js/EventMachine 使用堆管理事件触发时间
+   - **游戏AI决策**：策略游戏中，高优先级行动优先执行
+
+### 应用场景可视化
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 25, 'rankSpacing': 35, 'padding': 20}}}%%
+graph TB
+    ROOT(("📊 堆的应用场景"))
+
+    ROOT --> PQ["📋 优先队列"]
+    ROOT --> SORT["🔢 堆排序"]
+    ROOT --> GRAPH["🌐 图算法"]
+    ROOT --> SCHED["⏱️ 任务调度"]
+
+    PQ --> PQ1["医院排队系统"]
+    PQ --> PQ2["打印机任务队列"]
+    PQ --> PQ3["CPU进程调度"]
+
+    SORT --> SORT1["Top K问题"]
+    SORT --> SORT2["数据流中位数"]
+    SORT --> SORT3["外部排序"]
+
+    GRAPH --> GRAPH1["Dijkstra最短路径"]
+    GRAPH --> GRAPH2["Prim最小生成树"]
+    GRAPH --> GRAPH3["A*寻路算法"]
+
+    SCHED --> SCHED1["定时任务调度"]
+    SCHED --> SCHED2["事件驱动系统"]
+    SCHED --> SCHED3["游戏AI决策"]
+
+    classDef root fill:#1a1a2e,color:#fff,stroke:#16213e,stroke-width:3px
+    classDef cat fill:#0f3460,color:#fff,stroke:#0a2647,stroke-width:2px
+    classDef sub fill:#533483,color:#fff,stroke:#2c1654
+    classDef pq fill:#e74c3c,color:#fff,stroke:#c0392b
+    classDef sort fill:#3498db,color:#fff,stroke:#2980b9
+    classDef graphCat fill:#2ecc71,color:#fff,stroke:#27ae60
+    classDef sched fill:#f39c12,color:#fff,stroke:#e67e22
+
+    class ROOT root
+    class PQ,SORT,GRAPH,SCHED cat
+    class PQ1,PQ2,PQ3 pq
+    class SORT1,SORT2,SORT3 sort
+    class GRAPH1,GRAPH2,GRAPH3 graphCat
+    class SCHED1,SCHED2,SCHED3 sched
+```
+
+---
 
 # 简单例子
 

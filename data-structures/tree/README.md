@@ -20,6 +20,53 @@
 D   E   F
 ```
 
+### 图形结构
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 20, 'rankSpacing': 30, 'padding': 15}}}%%
+graph TB
+    subgraph 树结构["🌳 树结构 - 层次化数据"]
+        direction TB
+        ROOT(("A<br/>根节点")) --> B(("B<br/>内部节点"))
+        ROOT --> C(("C<br/>内部节点"))
+        B --> D(("D<br/>叶节点"))
+        B --> E(("E<br/>叶节点"))
+        C --> F(("F<br/>叶节点"))
+    end
+
+    subgraph 二叉搜索树["🔍 二叉搜索树 BST"]
+        direction TB
+        BST_ROOT["50"] --> BST_L["30"]
+        BST_ROOT --> BST_R["70"]
+        BST_L --> BST_LL["20"]
+        BST_L --> BST_LR["40"]
+        BST_R --> BST_RL["60"]
+        BST_R --> BST_RR["80"]
+    end
+
+    subgraph 平衡二叉树["⚖️ 平衡二叉树 AVL"]
+        direction TB
+        AVL_ROOT["50"] --> AVL_L["30"]
+        AVL_ROOT --> AVL_R["70"]
+        AVL_L --> AVL_LL["20"]
+        AVL_R --> AVL_RR["80"]
+    end
+
+    classDef root fill:#1a1a2e,color:#fff,stroke:#16213e,stroke-width:3px
+    classDef internal fill:#0f3460,color:#fff,stroke:#0a2647,stroke-width:2px
+    classDef leaf fill:#0b8457,color:#fff,stroke:#065535,stroke-width:2px
+    classDef bst fill:#e67e22,color:#fff,stroke:#d35400,stroke-width:2px
+    classDef avl fill:#9b59b6,color:#fff,stroke:#8e44ad,stroke-width:2px
+
+    class ROOT root
+    class B,C internal
+    class D,E,F leaf
+    class BST_ROOT,BST_L,BST_R,BST_LL,BST_LR,BST_RL,BST_RR bst
+    class AVL_ROOT,AVL_L,AVL_R,AVL_LL,AVL_RR avl
+```
+
+---
+
 # tree结构特点
 
 ## 优点
@@ -54,10 +101,83 @@ D   E   F
 
 # tree应用场景
 
-- **文件系统**：文件目录结构通常用树来表示，每个文件夹是一个节点，文件夹下的文件是其子节点。
-- **数据库索引**：B 树、B+ 树等树形结构常用于数据库索引，能够高效地查询数据。
-- **编译器解析**：语法树和抽象语法树（AST）广泛应用于编译器中，用来表示程序的结构。
-- **网络路由**：路由表中也可以使用树来表示不同网络之间的连接关系。
+1. **文件系统**：文件目录结构通常用树来表示，每个文件夹是一个节点，文件夹下的文件是其子节点。
+   - **目录结构**：Linux/Windows文件系统使用B+树管理目录层级
+   - **文件组织**：NTFS/EXT4使用树结构索引文件元数据
+   - **权限管理**：ACL权限继承使用树结构传递父目录权限
+
+2. **数据库索引**：B 树、B+ 树等树形结构常用于数据库索引，能够高效地查询数据。
+   - **B+树索引**：MySQL InnoDB使用B+树存储主键索引，支持范围查询
+   - **范围查询**：有序树结构高效支持BETWEEN、>、<等范围操作
+   - **聚簇索引**：数据行与索引叶子节点存储在一起，减少IO
+
+3. **编译器解析**：语法树和抽象语法树（AST）广泛应用于编译器中，用来表示程序的结构。
+   - **语法树**：编译器前端将源代码解析为树形结构表示
+   - **抽象语法树**：去除冗余信息后的精简语法树，用于代码分析和优化
+   - **代码优化**：常量传播、死代码消除基于AST进行转换
+
+4. **UI组件**：前端框架使用树结构管理组件层级。
+   - **DOM树**：浏览器将HTML解析为DOM树，支持动态操作
+   - **组件树**：React/Vue组件嵌套形成树结构，支持props传递
+   - **渲染树**：浏览器合成层树，优化渲染性能
+
+5. **机器学习**：决策树算法在AI领域广泛应用。
+   - **决策树**：ID3/C4.5/CART算法基于树结构进行分类和回归
+   - **随机森林**：集成多棵决策树，提高预测准确率
+   - **XGBoost**：梯度提升树算法，Kaggle竞赛常用模型
+
+### Tree应用场景可视化
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 25, 'rankSpacing': 35, 'padding': 20}}}%%
+graph TB
+    ROOT(("🌲 树的应用场景"))
+
+    ROOT --> FS["📁 文件系统"]
+    ROOT --> DB["🗄️ 数据库索引"]
+    ROOT --> COMPILER["🔧 编译器"]
+    ROOT --> UI["🖥️ UI组件"]
+    ROOT --> ML["🤖 机器学习"]
+
+    FS --> FS1["目录结构"]
+    FS --> FS2["文件组织"]
+    FS --> FS3["权限管理"]
+
+    DB --> DB1["B+树索引"]
+    DB --> DB2["范围查询"]
+    DB --> DB3["聚簇索引"]
+
+    COMPILER --> COMP1["语法树"]
+    COMPILER --> COMP2["抽象语法树"]
+    COMPILER --> COMP3["代码优化"]
+
+    UI --> UI1["DOM树"]
+    UI --> UI2["组件树"]
+    UI --> UI3["渲染树"]
+
+    ML --> ML1["决策树"]
+    ML --> ML2["随机森林"]
+    ML --> ML3["XGBoost"]
+
+    classDef root fill:#1a1a2e,color:#fff,stroke:#16213e,stroke-width:3px
+    classDef cat fill:#0f3460,color:#fff,stroke:#0a2647,stroke-width:2px
+    classDef sub fill:#533483,color:#fff,stroke:#2c1654
+    classDef fs fill:#3498db,color:#fff,stroke:#2980b9
+    classDef db fill:#e74c3c,color:#fff,stroke:#c0392b
+    classDef comp fill:#2ecc71,color:#fff,stroke:#27ae60
+    classDef ui fill:#f39c12,color:#fff,stroke:#e67e22
+    classDef ml fill:#9b59b6,color:#fff,stroke:#8e44ad
+
+    class ROOT root
+    class FS,DB,COMPILER,UI,ML cat
+    class FS1,FS2,FS3 fs
+    class DB1,DB2,DB3 db
+    class COMP1,COMP2,COMP3 comp
+    class UI1,UI2,UI3 ui
+    class ML1,ML2,ML3 ml
+```
+
+---
 
 # tree结构简单例子
 

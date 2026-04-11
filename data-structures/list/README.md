@@ -17,9 +17,61 @@
   - 删除元素：删除指定位置的元素。
   - 修改元素：更新指定位置的元素值。
   - 查找元素：查找特定值的元素位置。
-  - 排序：对 List 中的元素进行排序。
-  - 遍历：逐个访问 List 中的所有元素。
+  - **排序**：对 List 中的元素进行排序。
+  - **遍历**：逐个访问 List 中的所有元素。
 
+## 图形结构示例
+
+1. **数组结构（Array List）**
+```java
+[1] [2] [3] [4] [5] // 固定大小或动态扩容
+```
+
+2. **链表结构（Linked List）**
+```c
+Head -> Node1 -> Node2 -> Node3 -> NULL // 单向链表，其他链表请见linked目录
+```
+
+3. **跳表结构（Skip List）**
+```c
+Level 3:  1 ------------------------> 5
+Level 2:  1 ---------> 3 ---------> 5
+Level 1:  1 -> 2 -> 3 -> 4 -> 5
+```
+
+### 图形结构
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 15}}}%%
+graph LR
+    subgraph 数组实现["📦 数组实现 (Array List)"]
+        direction LR
+        ARR0["[0] A"] --- ARR1["[1] B"] --- ARR2["[2] C"] --- ARR3["[3] D"] --- ARR4["[4] E"]
+    end
+
+    subgraph 链表实现["🔗 链表实现 (Linked List)"]
+        direction LR
+        LL1["Head"] --> LL2["Node1"] --> LL3["Node2"] --> LL4["Node3"] --> LL5["NULL"]
+    end
+
+    subgraph 跳表实现["⏫ 跳表实现 (Skip List)"]
+        direction TB
+        SK3["L3: 1 -----------------> 5"] -.-> SK2["L2: 1 -----> 3 -----> 5"]
+        SK2 -.-> SK1["L1: 1 -> 2 -> 3 -> 4 -> 5"]
+    end
+
+    classDef array fill:#3498db,color:#fff,stroke:#2980b9,stroke-width:2px
+    classDef linked fill:#0b8457,color:#fff,stroke:#065535,stroke-width:2px
+    classDef skip fill:#e67e22,color:#fff,stroke:#d35400,stroke-width:2px
+    classDef head fill:#1a1a2e,color:#fff,stroke:#16213e,stroke-width:2px
+    classDef nullnode fill:#95a5a6,color:#fff,stroke:#7f8c8d
+
+    class ARR0,ARR1,ARR2,ARR3,ARR4 array
+    class LL2,LL3,LL4 linked
+    class LL1 head
+    class LL5 nullnode
+    class SK1,SK2,SK3 skip
+```
 
 ## List 数据结构实现
 
@@ -64,24 +116,63 @@
 - Python 提供了内建的 `list` 类型，作为动态数组实现。Python 列表在许多方面都非常强大和灵活，支持动态扩展、内建方法以及对不同数据类型的支持。
 - Rust 中的 `List` 通常使用 `Vec` 来实现。`Vec` 是一个动态大小的数组，能够高效地进行内存管理，具有相较于其他语言更高的内存安全性。
 
-# 图形结构示例
+---
 
-1. **数组结构（Array List）**
-```java
-[1] [2] [3] [4] [5] // 固定大小或动态扩容
+# List 应用场景
+
+1. **数组列表（Array List）**：适用于随机访问频繁的场景。
+   - **数据缓存**：需要频繁按索引访问的缓存数据
+   - **批量处理**：顺序读取大量数据，如日志分析、报表生成
+   - **查找表**：预计算结果存储，支持O(1)索引访问
+
+2. **链表列表（Linked List）**：适用于频繁插入删除的场景。
+   - **任务队列**：需要频繁入队出队的异步任务处理
+   - **音乐播放列表**：支持前后切换、插入删除歌曲
+   - **撤销重做栈**：编辑器使用双向链表实现无限级撤销
+
+3. **跳表（Skip List）**：适用于需要快速查找的有序数据。
+   - **有序集合**：Redis Sorted Set使用跳表实现，支持范围查询
+   - **排行榜**：游戏排行榜按分数排序，快速获取前N名
+   - **索引结构**：数据库索引替代B树，实现更简单
+
+### List应用场景可视化
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 25, 'rankSpacing': 35, 'padding': 20}}}%%
+graph TB
+    ROOT(("📋 List应用场景"))
+
+    ROOT --> ARR["📦 数组列表"]
+    ROOT --> LNK["🔗 链表列表"]
+    ROOT --> SKP["⏫ 跳表列表"]
+
+    ARR --> ARR1["随机访问"]
+    ARR --> ARR2["缓存友好"]
+    ARR --> ARR3["固定大小"]
+
+    LNK --> LNK1["动态扩容"]
+    LNK --> LNK2["高效插入"]
+    LNK --> LNK3["内存不连续"]
+
+    SKP --> SKP1["快速查找 O(log n)"]
+    SKP --> SKP2["有序存储"]
+    SKP --> SKP3["概率平衡"]
+
+    classDef root fill:#1a1a2e,color:#fff,stroke:#16213e,stroke-width:3px
+    classDef cat fill:#0f3460,color:#fff,stroke:#0a2647,stroke-width:2px
+    classDef sub fill:#533483,color:#fff,stroke:#2c1654
+    classDef arr fill:#3498db,color:#fff,stroke:#2980b9
+    classDef lnk fill:#0b8457,color:#fff,stroke:#065535
+    classDef skp fill:#e67e22,color:#fff,stroke:#d35400
+
+    class ROOT root
+    class ARR,LNK,SKP cat
+    class ARR1,ARR2,ARR3 arr
+    class LNK1,LNK2,LNK3 lnk
+    class SKP1,SKP2,SKP3 skp
 ```
 
-2. **链表结构（Linked List）**
-```c
-Head -> Node1 -> Node2 -> Node3 -> NULL // 单向链表，其他链表请见linked目录
-```
-
-3. **跳表结构（Skip List）**
-```c
-Level 3:  1 ------------------------> 5
-Level 2:  1 ---------> 3 ---------> 5
-Level 1:  1 -> 2 -> 3 -> 4 -> 5
-```
+---
 
 # 简单 List 示例
 

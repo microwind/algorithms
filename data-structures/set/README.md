@@ -10,6 +10,42 @@
 // [哈希桶1] -> "Alice" [哈希桶2] -> "Bob" [哈希桶3] -> "Charlie"
 ```
 
+### 图形结构
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 15}}}%%
+graph TB
+    subgraph 哈希Set["🔢 哈希表实现 Set"]
+        direction TB
+        B0["Bucket 0"] --> N0["NULL"]
+        B1["Bucket 1"] --> N1["'Alice'"] --> N1n["NULL"]
+        B2["Bucket 2"] --> N2["'Bob'"] --> N2n["NULL"]
+        B3["Bucket 3"] --> N3["'Charlie'"] --> N3a["NULL"]
+    end
+
+    subgraph 红黑树Set["🌳 红黑树实现 Set"]
+        direction TB
+        ROOT["E"] --> LEFT["B"]
+        ROOT --> RIGHT["G"]
+        LEFT --> LL["A"]
+        LEFT --> LR["D"]
+        RIGHT --> RL["F"]
+        RIGHT --> RR["H"]
+    end
+
+    classDef bucket fill:#0f3460,color:#fff,stroke:#0a2647,stroke-width:2px
+    classDef node fill:#3498db,color:#fff,stroke:#2980b9,stroke-width:2px
+    classDef nullnode fill:#95a5a6,color:#fff,stroke:#7f8c8d
+    classDef tree fill:#0b8457,color:#fff,stroke:#065535,stroke-width:2px
+
+    class B0,B1,B2,B3 bucket
+    class N1,N2,N3 node
+    class N0,N1n,N2n,N3a nullnode
+    class ROOT,LEFT,RIGHT,LL,LR,RL,RR tree
+```
+
+---
+
 # Set 特点
 
 1. **成员唯一性**：
@@ -101,12 +137,72 @@
 
 # Set 应用场景
 
-- **去重操作**：如过滤掉重复的用户 ID、关键词等。
-- **集合运算**：如求并集、交集和差集。
-- **快速查找**：用于判断一个元素是否存在于集合中。
-- **集合测试**：在某些场景中，用于检查某元素是否属于某种类别。
+1. **去重操作**：如过滤掉重复的用户 ID、关键词等。
+   - **用户ID去重**：社交网络平台检测重复注册用户
+   - **关键词过滤**：搜索引擎爬虫使用Set去重已抓取的URL
+   - **IP黑名单**：WAF/防火墙使用HashSet快速判断恶意IP
 
-# Set 简单例子
+2. **集合运算**：如求并集、交集和差集。
+   - **并集操作**：合并多个标签集合，获取全部标签
+   - **交集操作**：找出同时喜欢A和B产品的用户群体
+   - **差集操作**：找出购买A但未购买B的用户，精准营销
+
+3. **快速查找**：用于判断一个元素是否存在于集合中。
+   - **元素存在性**：O(1)时间复杂度判断元素是否在集合中
+   - **布隆过滤器**：概率型数据结构，快速判断元素可能存在或肯定不存在
+   - **缓存索引**：Redis Set存储缓存key，支持快速的批量过期
+
+4. **标签系统**：用于分类标记和权限分组。
+   - **分类标记**：文章/商品打标签，支持多维度分类
+   - **权限分组**：RBAC模型中角色与权限的映射关系
+   - **特征标签**：用户画像系统标记用户兴趣特征
+
+### Set应用场景可视化
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 25, 'rankSpacing': 35, 'padding': 20}}}%%
+graph TB
+    ROOT(("🔢 Set应用场景"))
+
+    ROOT --> DEDUP["🗑️ 去重操作"]
+    ROOT --> OPS["➕ 集合运算"]
+    ROOT --> SEARCH["🔍 快速查找"]
+    ROOT --> TAGS["🏷️ 标签系统"]
+
+    DEDUP --> DEDUP1["用户ID去重"]
+    DEDUP --> DEDUP2["关键词过滤"]
+    DEDUP --> DEDUP3["IP黑名单"]
+
+    OPS --> OPS1["并集操作"]
+    OPS --> OPS2["交集操作"]
+    OPS --> OPS3["差集操作"]
+
+    SEARCH --> SEARCH1["元素存在性"]
+    SEARCH --> SEARCH2["布隆过滤器"]
+    SEARCH --> SEARCH3["缓存索引"]
+
+    TAGS --> TAGS1["分类标记"]
+    TAGS --> TAGS2["权限分组"]
+    TAGS --> TAGS3["特征标签"]
+
+    classDef root fill:#1a1a2e,color:#fff,stroke:#16213e,stroke-width:3px
+    classDef cat fill:#0f3460,color:#fff,stroke:#0a2647,stroke-width:2px
+    classDef sub fill:#533483,color:#fff,stroke:#2c1654
+    classDef dedup fill:#e74c3c,color:#fff,stroke:#c0392b
+    classDef ops fill:#3498db,color:#fff,stroke:#2980b9
+    classDef search fill:#2ecc71,color:#fff,stroke:#27ae60
+    classDef tags fill:#f39c12,color:#fff,stroke:#e67e22
+
+    class ROOT root
+    class DEDUP,OPS,SEARCH,TAGS cat
+    class DEDUP1,DEDUP2,DEDUP3 dedup
+    class OPS1,OPS2,OPS3 ops
+    class SEARCH1,SEARCH2,SEARCH3 search
+    class TAGS1,TAGS2,TAGS3 tags
+```
+
+---
+
 
 ## C 语言实现
 

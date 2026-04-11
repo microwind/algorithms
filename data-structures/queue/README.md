@@ -10,6 +10,39 @@ Front -> [1, 2, 3, 4, 5] <- Rear
 - 队列的插入（入队）发生在队列的尾部（Rear）。
 - 队列的删除（出队）发生在队列的头部（Front）。
 
+### 图形结构
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 15}}}%%
+graph LR
+    subgraph 队列结构["📦 队列结构 - FIFO"]
+        direction LR
+        FRONT["👤 Front"] --> E1["[1]"] --> E2["[2]"] --> E3["[3]"] --> E4["[4]"] --> REAR["🔚 Rear"]
+    end
+
+    subgraph 入队操作["⬅️ 入队 Enqueue"]
+        direction TB
+        ENQ["Enqueue(5)"] --> ADD["添加到Rear"] --> NEWQ["[1]-[2]-[3]-[4]-[5]"]
+    end
+
+    subgraph 出队操作["➡️ 出队 Dequeue"]
+        direction TB
+        DEQ["Dequeue()"] --> REM["移除Front"] --> NEWQ2["[2]-[3]-[4]-[5]"]
+    end
+
+    classDef front fill:#0b8457,color:#fff,stroke:#065535,stroke-width:2px
+    classDef rear fill:#e74c3c,color:#fff,stroke:#c0392b,stroke-width:2px
+    classDef elem fill:#3498db,color:#fff,stroke:#2980b9,stroke-width:2px
+    classDef op fill:#f39c12,color:#fff,stroke:#e67e22,stroke-width:2px
+
+    class FRONT front
+    class REAR rear
+    class E1,E2,E3,E4 elem
+    class ENQ,DEQ,ADD,REM op
+```
+
+---
+
 # 特点
 
 ## 优点
@@ -46,9 +79,66 @@ Front -> [1, 2, 3, 4, 5] <- Rear
 
 # 应用场景
 
-- **任务调度**：操作系统中的进程调度，任务按顺序执行。
-- **缓冲区管理**：网络数据包缓冲、打印任务队列等。
-- **广度优先搜索**：图的遍历过程中，队列用于维护待访问的节点。
+1. **任务调度**：操作系统中的进程调度，任务按顺序执行。
+   - **CPU进程调度**：操作系统使用多级反馈队列管理进程优先级，如 Linux CFS 调度器
+   - **线程池任务队列**：Java ThreadPoolExecutor 使用阻塞队列管理待执行任务
+   - **消息队列**：RabbitMQ/Kafka 使用队列实现异步消息传递，削峰填谷
+
+2. **缓冲区管理**：网络数据包缓冲、打印任务队列等。
+   - **网络数据包缓冲**：TCP 协议栈使用队列缓存待发送/接收的数据包
+   - **IO请求队列**：磁盘调度算法（如电梯算法）使用队列管理读写请求
+   - **流媒体缓冲**：视频播放器使用队列预加载数据，保证流畅播放
+
+3. **广度优先搜索**：图的遍历过程中，队列用于维护待访问的节点。
+   - **最短路径算法**：Dijkstra/BFS 使用队列维护待探索节点
+   - **层次遍历**：二叉树层序遍历使用队列记录每层节点
+   - **拓扑排序**：Kahn 算法使用队列管理入度为 0 的节点
+
+### 应用场景可视化
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 25, 'rankSpacing': 35, 'padding': 20}}}%%
+graph TB
+    ROOT(("📤 队列应用场景"))
+
+    ROOT --> SCHED["⏱️ 任务调度"]
+    ROOT --> NET["🌐 网络缓冲"]
+    ROOT --> BFS["🔍 BFS遍历"]
+    ROOT --> PRINT["🖨️ 打印队列"]
+
+    SCHED --> SCHED1["CPU进程调度"]
+    SCHED --> SCHED2["线程池任务"]
+    SCHED --> SCHED3["消息队列"]
+
+    NET --> NET1["数据包缓冲"]
+    NET --> NET2["IO请求队列"]
+    NET --> NET3["流媒体缓冲"]
+
+    BFS --> BFS1["最短路径"]
+    BFS --> BFS2["层次遍历"]
+    BFS --> BFS3["拓扑排序"]
+
+    PRINT --> PRINT1["文档打印"]
+    PRINT --> PRINT2["批量处理"]
+    PRINT --> PRINT3["优先级队列"]
+
+    classDef root fill:#1a1a2e,color:#fff,stroke:#16213e,stroke-width:3px
+    classDef cat fill:#0f3460,color:#fff,stroke:#0a2647,stroke-width:2px
+    classDef sub fill:#533483,color:#fff,stroke:#2c1654
+    classDef sched fill:#3498db,color:#fff,stroke:#2980b9
+    classDef net fill:#2ecc71,color:#fff,stroke:#27ae60
+    classDef bfs fill:#e67e22,color:#fff,stroke:#d35400
+    classDef print fill:#9b59b6,color:#fff,stroke:#8e44ad
+
+    class ROOT root
+    class SCHED,NET,BFS,PRINT cat
+    class SCHED1,SCHED2,SCHED3 sched
+    class NET1,NET2,NET3 net
+    class BFS1,BFS2,BFS3 bfs
+    class PRINT1,PRINT2,PRINT3 print
+```
+
+---
 
 # 简单例子
 

@@ -25,6 +25,38 @@
 
 - 哈希表是由一个固定大小的数组（在图中每个索引位置表示）和一个哈希函数组成。每个索引位置对应一个链表或其他结构，用于存储映射到该索引的键值对。
 
+### 图形结构
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 15}}}%%
+graph TB
+    subgraph 哈希表结构["🔢 哈希表结构 - 链地址法"]
+        direction TB
+        B0["Bucket 0"] --> N0["NULL"]
+        B1["Bucket 1"] --> N1["key1|value1"] --> N1n["NULL"]
+        B2["Bucket 2"] --> N2["key2|value2"] --> N2n["NULL"]
+        B3["Bucket 3"] --> N3["key3|value3"] --> N3a["key4|value4"] --> N3n["NULL"]
+        B4["Bucket 4"] --> N4["NULL"]
+    end
+
+    subgraph 哈希冲突["⚡ 哈希冲突处理"]
+        direction TB
+        KEY["Key: 'apple'"] --> HASH["hash('apple') % 5"]
+        HASH --> IDX["Index: 3"]
+        IDX --> INSERT["插入Bucket 3链表"]
+    end
+
+    classDef bucket fill:#0f3460,color:#fff,stroke:#0a2647,stroke-width:2px
+    classDef node fill:#3498db,color:#fff,stroke:#2980b9,stroke-width:2px
+    classDef nullnode fill:#95a5a6,color:#fff,stroke:#7f8c8d
+    classDef process fill:#e67e22,color:#fff,stroke:#d35400,stroke-width:2px
+
+    class B0,B1,B2,B3,B4 bucket
+    class N1,N2,N3,N3a node
+    class N0,N1n,N2n,N3n,N4 nullnode
+    class KEY,HASH,IDX,INSERT process
+```
+
 ---
 
 # 特点
@@ -56,6 +88,41 @@
 
 哈希表的哈希函数、冲突处理和扩容机制是决定其性能和效率的关键因素。
 
+### 操作流程
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 10}}}%%
+graph TD
+    subgraph 插入流程["📝 插入操作"]
+        direction TB
+        PUT["put(key, value)"] --> HASH1["计算哈希值"]
+        HASH1 --> IDX1["获取索引"]
+        IDX1 --> CHECK1{"键已存在?"}
+        CHECK1 -->|"是"| UPDATE1["更新值"]
+        CHECK1 -->|"否"| INSERT1["链表头插入"]
+    end
+
+    subgraph 查找流程["🔍 查找操作"]
+        direction TB
+        GET["get(key)"] --> HASH2["计算哈希值"]
+        HASH2 --> IDX2["获取索引"]
+        IDX2 --> TRAVERSE["遍历链表"]
+        TRAVERSE --> FOUND{"找到键?"}
+        FOUND -->|"是"| RETURN["返回值"]
+        FOUND -->|"否"| NOTFOUND["返回NULL"]
+    end
+
+    classDef startNode fill:#0b8457,color:#fff,stroke:#065535,stroke-width:2px
+    classDef processNode fill:#0f3460,color:#fff,stroke:#0a2647,stroke-width:2px
+    classDef decisionNode fill:#1a1a2e,color:#fff,stroke:#16213e,stroke-width:2px
+    classDef endNode fill:#e74c3c,color:#fff,stroke:#c0392b,stroke-width:2px
+
+    class PUT,GET startNode
+    class HASH1,IDX1,HASH2,IDX2,TRAVERSE,UPDATE1,INSERT1,RETURN processNode
+    class CHECK1,FOUND decisionNode
+    class NOTFOUND endNode
+```
+
 ---
 
 # 应用场景
@@ -63,10 +130,81 @@
 哈希表有广泛的应用，包括但不限于以下几个场景：
 
 1. **缓存机制**：例如，Web 缓存、LRU 缓存等。
+   - **浏览器缓存**：存储最近访问的网页资源，通过URL作为key快速查找缓存内容
+   - **数据库查询缓存**：缓存SQL查询结果，相同查询直接从内存返回
+   - **分布式缓存**：Redis/Memcached使用哈希表存储键值对，支持高并发读写
+
 2. **数据库索引**：用于数据库表的快速检索。
+   - **主键索引**：通过哈希函数直接定位到数据行，O(1)时间复杂度
+   - **联合索引**：将多个字段组合成复合key进行哈希
+   - **自适应哈希索引**：InnoDB根据查询频率自动为热点数据创建哈希索引
+
 3. **数据去重**：快速查找并删除重复元素。
+   - **日志去重**：实时处理海量日志，快速判断某条日志是否已处理
+   - **URL去重**：爬虫系统避免重复抓取相同页面
+   - **大数据去重**：Spark/Hadoop使用哈希表进行Shuffle去重
+
 4. **符号表**：在编译器中，哈希表用于存储符号和变量的对应关系。
+   - **变量作用域**：存储变量名到内存地址/类型的映射
+   - **函数符号表**：记录函数名、参数列表、返回类型、入口地址
+   - **宏定义表**：C/C++预处理器存储宏定义和替换文本
+
 5. **网络路由表**：用于快速查找路由信息。
+   - **IP路由查找**：最长前缀匹配，快速确定下一跳地址
+   - **负载均衡**：一致性哈希将请求均匀分配到后端服务器
+   - **DNS缓存**：域名到IP地址的快速解析
+
+### 应用场景可视化
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 25, 'rankSpacing': 40, 'padding': 20}}}%%
+graph TB
+    ROOT(("🔢 哈希表应用场景"))
+
+    ROOT --> CACHE["💾 缓存系统"]
+    ROOT --> DB["🗄️ 数据库索引"]
+    ROOT --> DEDUP["🗑️ 数据去重"]
+    ROOT --> COMPILER["🔧 编译器符号表"]
+    ROOT --> NETWORK["🌐 网络路由"]
+
+    CACHE --> CACHE1["浏览器缓存<br/>URL→资源"]
+    CACHE --> CACHE2["数据库查询缓存<br/>SQL→结果集"]
+    CACHE --> CACHE3["Redis分布式缓存<br/>Key→Value"]
+    CACHE --> CACHE4["LRU缓存<br/>Key→Node"]
+
+    DB --> DB1["主键索引<br/>ID→行记录"]
+    DB --> DB2["联合索引<br/>(A,B)→行指针"]
+    DB --> DB3["自适应哈希<br/>热点数据加速"]
+
+    DEDUP --> DEDUP1["日志去重<br/>LogID→Bool"]
+    DEDUP --> DEDUP2["URL去重<br/>URL→Status"]
+    DEDUP --> DEDUP3["大数据去重<br/>Record→Count"]
+
+    COMPILER --> COMP1["变量符号表<br/>var→{type,addr}"]
+    COMPILER --> COMP2["函数符号表<br/>func→{params,ret}"]
+    COMPILER --> COMP3["宏定义表<br/>macro→text"]
+
+    NETWORK --> NET1["IP路由表<br/>IP前缀→下一跳"]
+    NETWORK --> NET2["负载均衡<br/>Key→Server"]
+    NETWORK --> NET3["DNS缓存<br/>Domain→IP"]
+
+    classDef root fill:#1a1a2e,color:#fff,stroke:#16213e,stroke-width:3px
+    classDef cat fill:#0f3460,color:#fff,stroke:#0a2647,stroke-width:2px
+    classDef sub fill:#533483,color:#fff,stroke:#2c1654
+    classDef cache fill:#3498db,color:#fff,stroke:#2980b9
+    classDef db fill:#e74c3c,color:#fff,stroke:#c0392b
+    classDef dedup fill:#2ecc71,color:#fff,stroke:#27ae60
+    classDef comp fill:#f39c12,color:#fff,stroke:#e67e22
+    classDef net fill:#9b59b6,color:#fff,stroke:#8e44ad
+
+    class ROOT root
+    class CACHE,DB,DEDUP,COMPILER,NETWORK cat
+    class CACHE1,CACHE2,CACHE3,CACHE4 cache
+    class DB1,DB2,DB3 db
+    class DEDUP1,DEDUP2,DEDUP3 dedup
+    class COMP1,COMP2,COMP3 comp
+    class NET1,NET2,NET3 net
+```
 
 ---
 
