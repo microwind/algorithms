@@ -1,9 +1,9 @@
 # 多语言算法教学库 - 完整项目结构设计
 
-## 🎯 项目定位
-为程序员和大学生提供的多语言算法学习平台，支持 C、Java、Python、JavaScript、Go、TypeScript 六种主流编程语言。
+## 项目定位
+为程序员和大学生提供的多语言算法学习平台，支持 C、Java、Python、JavaScript、Go、TypeScript、Rust 七种主流编程语言。
 
-## 📁 推荐目录结构（循序渐进）
+## 推荐目录结构（循序渐进）
 
 ```
 algorithms/
@@ -13,7 +13,7 @@ algorithms/
 │   ├── what-is-programming.md     # 编程入门
 │   └── recommand-learning-languages.md # 入门语言推荐
 │
-├── data-structures/               # 📊 数据结构
+├── data-structures/               # 数据结构
 │   ├── array/
 │   ├── linked/
 │   ├── stack/
@@ -24,13 +24,13 @@ algorithms/
 │   ├── hash/
 │   ├── map/
 │   ├── set/
-│   ├── list/
-│   └── struct/
+│   ├── list/                      # 列表
+│   └── struct/                    # 结构体
 │
-├── algorithmic-thinking/          # 🧠 算法思想与基础技巧
-│   └── recursion/
+├── algorithmic-thinking/          # 算法思想与基础技巧
+│   └── recursion/                 # 递归
 │
-├── sorting/                       # 🧮 排序算法
+├── sorting/                       # 排序算法
 │   ├── bubblesort/
 │   ├── selectionsort/
 │   ├── insertsort/
@@ -42,52 +42,77 @@ algorithms/
 │   ├── radixsort/
 │   └── bucketsort/
 │
-├── searching/                     # 🔍 搜索算法
+├── searching/                     # 搜索算法
 │   └── binarysearch/
 │
-├── string/                        # 📝 字符串算法
+├── string/                        # 字符串算法
 │   ├── nativesearch/
 │   └── KMPsearch/
 │
-├── array/                         # 📊 数组专题
+├── array/                         # 数组专题
 │   ├── reverse/
 │   ├── rotate/
 │   └── unique/
 │
-├── graph/                         # 🌐 图算法
+├── compression/                   # 压缩算法
+│   ├── huffman/
+│   ├── lz77/
+│   ├── rle/
+│   └── lzw/
 │
-├── tree/                          # 🌳 树算法
+├── cryptography/                  # 密码学算法
+│   ├── aes/
+│   ├── rsa/
+│   ├── caesar/
+│   └── sha/
+│
+├── bit-manipulation/              # 位操作
+│   ├── count-bits/
+│   ├── max-xor-pair/
+│   ├── power-of-two/
+│   ├── reverse-bits/
+│   └── single-number/
+│
+├── graph/                         # 图算法
+│
+├── network-flow/                  # 网络流算法
+│   ├── edmonds-karp/
+│   ├── ford-fulkerson/
+│   ├── max-flow/
+│   └── min-cut/
+│
+├── tree/                          # 树算法
 │   └── binarytree/
 │
-├── math/                          # 🔢 数学算法
+├── math/                          # 数学算法
 │   ├── number/
 │   └── factor/
 │
-├── date-time/                     # ⏰ 日期与时间
+├── date-time/                     # 日期与时间
 │
-├── problem-sets/                 # 💡 练习题库
+├── problem-sets/                 # 练习题库
 │   ├── easy/
 │   ├── medium/
 │   ├── hard/
 │   └── interview/
 │
-├── projects/                      # 🚀 实战项目
+├── practice-projects/             # 实战项目
 │   ├── mini-projects/
 │   ├── intermediate/
 │   ├── advanced/
 │   └── practice/
 │
-├── examples/                     # 📝 示例代码
+├── examples/                     # 示例代码
 │   ├── basic/
 │   ├── advanced/
 │   └── real-world/
 │
-├── resources/                   # 📦 资源文件
+├── resources/                   # 资源文件
 │   ├── images/
 │   ├── books/
 │   └── websites/
 │
-├── docs/                          # 📚 文档中心
+├── docs/                          # 文档中心
 │   ├── guides/                    # 学习指南
 │   ├── languages/                 # 语言指南
 │   └── references/                # 参考资料
@@ -136,11 +161,15 @@ algorithm-name/
 │   │   ├── algorithm.go          # Go 实现
 │   │   ├── algorithm_test.go     # 测试代码
 │   │   └── go.mod                # 模块配置
-│   └── typescript/
-│       ├── algorithm.ts          # TS 实现
-│       ├── algorithm.test.ts     # 测试代码
-│       ├── tsconfig.json         # TS 配置
-│       └── package.json          # 配置文件
+│   ├── typescript/
+│   │   ├── algorithm.ts          # TS 实现
+│   │   ├── algorithm.test.ts     # 测试代码
+│   │   ├── tsconfig.json         # TS 配置
+│   │   └── package.json          # 配置文件
+│   └── rust/
+│       ├── algorithm.rs          # Rust 实现
+│       ├── algorithm_test.rs     # 测试代码
+│       └── Cargo.toml            # 项目配置
 │
 ├── examples/                      # 使用示例
 │   ├── example1.md
@@ -157,7 +186,7 @@ algorithm-name/
     └── links.md                  # 参考链接
 ```
 
-## 📝 文档规范
+## 文档规范
 
 ### README.md 模板
 
@@ -169,13 +198,13 @@ algorithm-name/
 4. **复杂度分析**
    - 时间复杂度（最好、平均、最坏）
    - 空间复杂度
-5. **代码实现** - 六种语言的实现链接
+5. **代码实现** - 七种语言的实现链接
 6. **使用示例** - 实际应用场景
 7. **注意事项** - 常见陷阱和优化技巧
 8. **练习题** - 相关的练习题目
 9. **参考资料** - 推荐阅读
 
-## 🎯 学习路径
+## 学习路径
 
 建议学习路径：
 
@@ -197,7 +226,7 @@ algorithm-name/
 3. 高级动态规划
 4. 字符串算法：KMP、Trie
 
-## 🔧 开发规范
+## 开发规范
 
 ### 代码规范
 - 使用统一的命名规范
@@ -216,12 +245,12 @@ algorithm-name/
 - 代码示例清晰
 - 复杂度分析准确
 
-## 🚀 下一步计划
+## 下一步计划
 
-1. ✅ 创建完整的目录结构
-2. ✅ 编写文档模板
-3. ⏳ 补充缺失的算法实现
-4. ⏳ 添加测试用例
-5. ⏳ 创建学习指南
-6. ⏳ 建立在线文档网站
-7. ⏳ 添加代码可视化工具
+1. 创建完整的目录结构
+2. 编写文档模板
+3. 补充缺失的算法实现（compression, cryptography, bit-manipulation, network-flow）
+4. 添加测试用例
+5. 创建学习指南
+6. 建立在线文档网站
+7. 添加代码可视化工具
