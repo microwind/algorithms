@@ -2,10 +2,6 @@
 
 > 一种通用的递归求解问题的方法，采用**选择-探索-撤销**的模式，适用于排列、组合、N皇后等经典问题。
 
-## 导航
-
-| [算法原理](#概述) | [复杂度分析](#复杂度分析总结) | [实现列表](#实现列表) |
-
 ---
 
 ## 概述
@@ -386,19 +382,24 @@ def solve_n_queens(n):
 
 | 语言 | 文件名 | 说明 |
 |------|--------|------|
-| C | [permutation.c](./permutation.c) | 全排列实现 |
-| C | [combination.c](./combination.c) | 组合实现 |
-| C | [nqueens.c](./nqueens.c) | N皇后实现 |
-| Java | [Permutation.java](./Permutation.java) | 全排列类 |
-| Java | [Combination.java](./Combination.java) | 组合类 |
-| Java | [NQueens.java](./NQueens.java) | N皇后类 |
-| Go | [backtracking.go](./backtracking.go) | 综合实现 |
-| Python | [permutation.py](./permutation.py) | 简洁实现 |
-| Python | [combination.py](./combination.py) | 组合生成 |
-| Python | [nqueens.py](./nqueens.py) | N皇后求解 |
-| JavaScript | [backtracking.js](./backtracking.js) | 递归实现 |
-| TypeScript | [Backtracking.ts](./Backtracking.ts) | 类型安全 |
-| Rust | [backtracking.rs](./backtracking.rs) | 内存安全 |
+| C | [permutation.c](./permutation/permutation.c) | 全排列实现 |
+| C | [combination.c](./combination/combination.c) | 组合实现 |
+| C | [n_queens.c](./n-queens/n_queens.c) | N皇后实现 |
+| Java | [Permutation.java](./permutation/Permutation.java) | 全排列类 |
+| Java | [Combination.java](./combination/Combination.java) | 组合类 |
+| Java | [NQueens.java](./n-queens/NQueens.java) | N皇后类 |
+| Go | [permutation.go](./permutation/permutation.go) | 全排列实现 |
+| Go | [combination.go](./combination/combination.go) | 组合实现 |
+| Go | [n_queens.go](./n-queens/n_queens.go) | N皇后实现 |
+| Python | [permutation.py](./permutation/permutation.py) | 简洁实现 |
+| Python | [combination.py](./combination/combination.py) | 组合生成 |
+| Python | [n_queens.py](./n-queens/n_queens.py) | N皇后求解 |
+| JavaScript | [permutation.js](./permutation/permutation.js) | 递归实现 |
+| JavaScript | [combination.js](./combination/combination.js) | 组合实现 |
+| JavaScript | [n_queens.js](./n-queens/n_queens.js) | N皇后实现 |
+| Rust | [permutation.rs](./permutation/permutation.rs) | 内存安全 |
+| Rust | [combination.rs](./combination/combination.rs) | 内存安全 |
+| Rust | [n_queens.rs](./n-queens/n_queens.rs) | 内存安全 |
 
 ---
 

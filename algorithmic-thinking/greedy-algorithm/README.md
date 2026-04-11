@@ -1,12 +1,6 @@
 # 贪心算法 Greedy Algorithm
 
-> 在每个步骤中做出局部最优选择，期望获得全局最优解。适用于具有"贪心选择性质"的问题。
-
-## 导航
-
-| [算法原理](#概述) | [复杂度分析](#贪心-vs-动态规划) | [实现列表](#实现列表) |
-
----
+> 在每个步骤中做出局部最优> 每次选择当前最优解，不保证全局最优，但简单高效，适用于活动选择、哈夫曼编码、最小生成树等问题。
 
 ## 概述
 贪心算法（Greedy Algorithm）是一种在每个步骤中做出局部最优选择，期望从而获得全局最优解的算法设计方法。与动态规划需要保存历史信息不同，贪心算法通常更简单高效，但只适用于具有"贪心选择性质"的问题。
@@ -366,15 +360,30 @@ def greedy_algorithm(problem):
 
 | 语言 | 文件名 | 说明 |
 |------|--------|------|
-| C | [activity_selection.c](./activity_selection.c) | 活动选择实现 |
-| C | [fractional_knapsack.c](./fractional_knapsack.c) | 分数背包实现 |
-| Java | [ActivitySelection.java](./ActivitySelection.java) | 活动选择类 |
-| Java | [FractionalKnapsack.java](./FractionalKnapsack.java) | 分数背包类 |
-| Go | [greedy_algorithm.go](./greedy_algorithm.go) | 综合实现 |
-| Python | [greedy_algorithm.py](./greedy_algorithm.py) | 简洁实现 |
-| JavaScript | [greedyAlgorithm.js](./greedyAlgorithm.js) | 贪心实现 |
-| TypeScript | [GreedyAlgorithm.ts](./GreedyAlgorithm.ts) | 类型安全 |
-| Rust | [greedy_algorithm.rs](./greedy_algorithm.rs) | 泛型实现 |
+| C | [activity_selection.c](./activity-selection/activity_selection.c) | 活动选择实现 |
+| C | [coin_change_greedy.c](./coin-change-greedy/coin_change_greedy.c) | 贪心零钱兑换 |
+| C | [jump_game.c](./jump-game/jump_game.c) | 跳跃游戏实现 |
+| C | [maximize_number.c](./maximize-number/maximize_number.c) | 最大数拼接 |
+| Java | [ActivitySelection.java](./activity-selection/ActivitySelection.java) | 活动选择类 |
+| Java | [CoinChangeGreedy.java](./coin-change-greedy/CoinChangeGreedy.java) | 贪心零钱类 |
+| Java | [JumpGame.java](./jump-game/JumpGame.java) | 跳跃游戏类 |
+| Java | [MaximizeNumber.java](./maximize-number/MaximizeNumber.java) | 最大数类 |
+| Python | [activity_selection.py](./activity-selection/activity_selection.py) | 简洁实现 |
+| Python | [coin_change_greedy.py](./coin-change-greedy/coin_change_greedy.py) | 简洁实现 |
+| Python | [jump_game.py](./jump-game/jump_game.py) | 简洁实现 |
+| Python | [maximize_number.py](./maximize-number/maximize_number.py) | 简洁实现 |
+| Go | [activity_selection.go](./activity-selection/activity_selection.go) | 并发优化 |
+| Go | [coin_change_greedy.go](./coin-change-greedy/coin_change_greedy.go) | 并发优化 |
+| Go | [jump_game.go](./jump-game/jump_game.go) | 并发优化 |
+| Go | [maximize_number.go](./maximize-number/maximize_number.go) | 并发优化 |
+| JavaScript | [activity_selection.js](./activity-selection/activity_selection.js) | ES6实现 |
+| JavaScript | [coin_change_greedy.js](./coin-change-greedy/coin_change_greedy.js) | ES6实现 |
+| JavaScript | [jump_game.js](./jump-game/jump_game.js) | ES6实现 |
+| JavaScript | [maximize_number.js](./maximize-number/maximize_number.js) | ES6实现 |
+| Rust | [activity_selection.rs](./activity-selection/activity_selection.rs) | 内存安全 |
+| Rust | [coin_change_greedy.rs](./coin-change-greedy/coin_change_greedy.rs) | 内存安全 |
+| Rust | [jump_game.rs](./jump-game/jump_game.rs) | 内存安全 |
+| Rust | [maximize_number.rs](./maximize-number/maximize_number.rs) | 内存安全 |
 
 ---
 

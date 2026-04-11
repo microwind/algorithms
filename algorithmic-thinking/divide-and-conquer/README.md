@@ -1,12 +1,6 @@
 # 分治算法 Divide and Conquer
 
-> 将复杂大问题分解为规模较小的相同子问题，递归求解后合并结果。是许多高效算法（快速排序、归并排序、二分查找）的基础。
-
-## 导航
-
-| [算法原理](#概述) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
-
----
+> 将大问题分解为小问题，递归求解子问题后合并结果，典型代表包括归并排序、快速排序、二分查找等.
 
 ## 概述
 分治（Divide and Conquer）是一种重要的算法设计思想，其核心理念是"分而治之"。该算法将一个复杂的大问题分解为规模较小的相同子问题，递归地解决这些子问题，然后将子问题的解合并为原问题的解。分治是许多高效算法（如快速排序、归并排序、二分查找）的基础。
@@ -761,20 +755,26 @@ if __name__ == "__main__":
 
 | 语言 | 文件名 | 说明 |
 |------|--------|------|
-| C | [binary_search.c](./binary_search.c) | 二分查找实现 |
-| C | [merge_sort.c](./merge_sort.c) | 归并排序实现 |
-| C | [quick_sort.c](./quick_sort.c) | 快速排序实现 |
-| Java | [BinarySearch.java](./BinarySearch.java) | 二分查找类 |
-| Java | [MergeSort.java](./MergeSort.java) | 归并排序类 |
-| Java | [QuickSort.java](./QuickSort.java) | 快速排序类 |
-| Go | [divide_and_conquer.go](./divide_and_conquer.go) | 综合实现 |
-| Python | [divide_and_conquer.py](./divide_and_conquer.py) | 综合实现 |
-| JavaScript | [divideAndConquer.js](./divideAndConquer.js) | 递归实现 |
-| TypeScript | [DivideAndConquer.ts](./DivideAndConquer.ts) | 类型安全 |
-| Rust | [divide_and_conquer.rs](./divide_and_conquer.rs) | 泛型实现 |
+| C | [binary_search.c](./binary-search/binary_search.c) | 二分查找实现 |
+| C | [merge_sort.c](./merge-sort/merge_sort.c) | 归并排序实现 |
+| C | [quick_sort.c](./quick-sort/quick_sort.c) | 快速排序实现 |
+| Java | [BinarySearch.java](./binary-search/BinarySearch.java) | 二分查找类 |
+| Java | [MergeSort.java](./merge-sort/MergeSort.java) | 归并排序类 |
+| Java | [QuickSort.java](./quick-sort/QuickSort.java) | 快速排序类 |
+| Python | [binary_search.py](./binary-search/binary_search.py) | 简洁实现 |
+| Python | [merge_sort.py](./merge-sort/merge_sort.py) | 简洁实现 |
+| Python | [quick_sort.py](./quick-sort/quick_sort.py) | 简洁实现 |
+| Go | [binary_search.go](./binary-search/binary_search.go) | 泛型实现 |
+| Go | [merge_sort.go](./merge-sort/merge_sort.go) | 并发优化 |
+| Go | [quick_sort.go](./quick-sort/quick_sort.go) | 并发优化 |
+| JavaScript | [binary_search.js](./binary-search/binary_search.js) | ES6实现 |
+| JavaScript | [merge_sort.js](./merge-sort/merge_sort.js) | ES6实现 |
+| JavaScript | [quick_sort.js](./quick-sort/quick_sort.js) | ES6实现 |
+| Rust | [binary_search.rs](./binary-search/binary_search.rs) | 内存安全 |
+| Rust | [merge_sort.rs](./merge-sort/merge_sort.rs) | 内存安全 |
+| Rust | [quick_sort.rs](./quick-sort/quick_sort.rs) | 内存安全 |
 
 ## 扩展阅读
 
 - 主定理（Master Theorem）复杂度分析
 - Strassen矩阵乘法算法
-- Karatsuba快速乘法算法

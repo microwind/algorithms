@@ -2,12 +2,6 @@
 
 > 在算法执行过程中利用随机性来解决问题，通过引入随机决策实现更高效的平均性能，避免最坏情况。
 
-## 导航
-
-| [算法原理](#概述) | [复杂度分析](#算法复杂度总结) | [实现列表](#实现列表) |
-
----
-
 ## 概述
 
 随机化算法在算法执行过程中利用随机性来解决问题。通过引入随机决策，可以实现更高效的平均性能，避免最坏情况，或解决某些确定性算法难以处理的问题。
@@ -392,15 +386,36 @@ if __name__ == "__main__":
 
 | 语言 | 文件名 | 说明 |
 |------|--------|------|
-| C | [shuffle.c](./shuffle.c) | Fisher-Yates洗牌实现 |
-| C | [randomized_quicksort.c](./randomized_quicksort.c) | 随机快排实现 |
-| Java | [Shuffle.java](./Shuffle.java) | 洗牌类 |
-| Java | [RandomizedQuickSort.java](./RandomizedQuickSort.java) | 随机快排类 |
-| Go | [random_algorithm.go](./random_algorithm.go) | 综合实现 |
-| Python | [random_algorithm.py](./random_algorithm.py) | 简洁实现 |
-| JavaScript | [randomAlgorithm.js](./randomAlgorithm.js) | 随机算法实现 |
-| TypeScript | [RandomAlgorithm.ts](./RandomAlgorithm.ts) | 类型安全 |
-| Rust | [random_algorithm.rs](./random_algorithm.rs) | 随机实现 |
+| C | [shuffle.c](./shuffle/shuffle.c) | Fisher-Yates洗牌实现 |
+| C | [randomized_quicksort.c](./randomized-quicksort/randomized_quicksort.c) | 随机快排实现 |
+| C | [reservoir_sampling.c](./random-sampling/reservoir_sampling.c) | 水库采样实现 |
+| C | [las_vegas.c](./las-vegas/las_vegas.c) | 拉斯维加斯实现 |
+| C | [monte_carlo.c](./monte-carlo/monte_carlo.c) | 蒙特卡洛实现 |
+| Java | [Shuffle.java](./shuffle/Shuffle.java) | 洗牌类 |
+| Java | [RandomizedQuickSort.java](./randomized-quicksort/RandomizedQuickSort.java) | 随机快排类 |
+| Java | [ReservoirSampling.java](./random-sampling/ReservoirSampling.java) | 采样类 |
+| Java | [LasVegas.java](./las-vegas/LasVegas.java) | 拉斯维加斯类 |
+| Java | [MonteCarlo.java](./monte-carlo/MonteCarlo.java) | 蒙特卡洛类 |
+| Python | [shuffle.py](./shuffle/shuffle.py) | 简洁实现 |
+| Python | [randomized_quicksort.py](./randomized-quicksort/randomized_quicksort.py) | 简洁实现 |
+| Python | [reservoir_sampling.py](./random-sampling/reservoir_sampling.py) | 简洁实现 |
+| Python | [las_vegas.py](./las-vegas/las_vegas.py) | 简洁实现 |
+| Python | [monte_carlo.py](./monte-carlo/monte_carlo.py) | 简洁实现 |
+| Go | [shuffle.go](./shuffle/shuffle.go) | 并发优化 |
+| Go | [randomized_quicksort.go](./randomized-quicksort/randomized_quicksort.go) | 并发优化 |
+| Go | [reservoir_sampling.go](./random-sampling/reservoir_sampling.go) | 流式处理 |
+| Go | [las_vegas.go](./las-vegas/las_vegas.go) | 并发优化 |
+| Go | [monte_carlo.go](./monte-carlo/monte_carlo.go) | 并发优化 |
+| JavaScript | [shuffle.js](./shuffle/shuffle.js) | ES6实现 |
+| JavaScript | [randomizedQuickSort.js](./randomized-quicksort/randomizedQuickSort.js) | ES6实现 |
+| JavaScript | [reservoirSampling.js](./random-sampling/reservoirSampling.js) | ES6实现 |
+| JavaScript | [lasVegas.js](./las-vegas/lasVegas.js) | ES6实现 |
+| JavaScript | [monteCarlo.js](./monte-carlo/monteCarlo.js) | ES6实现 |
+| Rust | [shuffle.rs](./shuffle/shuffle.rs) | 内存安全 |
+| Rust | [randomized_quicksort.rs](./randomized-quicksort/randomized_quicksort.rs) | 内存安全 |
+| Rust | [reservoir_sampling.rs](./random-sampling/reservoir_sampling.rs) | 内存安全 |
+| Rust | [las_vegas.rs](./las-vegas/las_vegas.rs) | 内存安全 |
+| Rust | [monte_carlo.rs](./monte-carlo/monte_carlo.rs) | 内存安全 |
 
 ---
 

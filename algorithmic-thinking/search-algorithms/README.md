@@ -2,12 +2,6 @@
 
 > 在给定的数据结构（数组、树、图等）中找到满足条件的元素或路径。包含线性搜索、二分搜索、DFS、BFS等经典算法。
 
-## 导航
-
-| [算法分类](#一搜索算法分类与选择) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
-
----
-
 ## 概述
 
 搜索的目标是在给定的数据结构（数组、树、图等）中**找到满足条件的元素或路径**。  
@@ -425,20 +419,30 @@ def bfs_shortest_path(graph, start, end):
 
 | 语言 | 文件名 | 说明 |
 |------|--------|------|
-| C | [linear_search.c](./linear_search.c) | 线性搜索实现 |
-| C | [binary_search.c](./binary_search.c) | 二分搜索实现 |
-| C | [dfs.c](./dfs.c) | DFS实现 |
-| C | [bfs.c](./bfs.c) | BFS实现 |
-| Java | [LinearSearch.java](./LinearSearch.java) | 线性搜索类 |
-| Java | [BinarySearch.java](./BinarySearch.java) | 二分搜索类 |
-| Java | [DFS.java](./DFS.java) | DFS类 |
-| Java | [BFS.java](./BFS.java) | BFS类 |
-| Go | [search_algorithms.go](./search_algorithms.go) | 综合实现 |
-| Python | [search.py](./search.py) | 基础实现 |
-| Python | [search_enhanced.py](./search_enhanced.py) | 增强实现 |
-| JavaScript | [searchAlgorithms.js](./searchAlgorithms.js) | 搜索算法实现 |
-| TypeScript | [SearchAlgorithms.ts](./SearchAlgorithms.ts) | 类型安全 |
-| Rust | [search_algorithms.rs](./search_algorithms.rs) | 搜索实现 |
+| C | [linear_search.c](./linear-search/linear_search.c) | 线性搜索实现 |
+| C | [binary_search.c](./binary-search/binary_search.c) | 二分搜索实现 |
+| C | [dfs.c](./dfs/dfs.c) | DFS实现 |
+| C | [bfs.c](./bfs/bfs.c) | BFS实现 |
+| Java | [LinearSearch.java](./linear-search/LinearSearch.java) | 线性搜索类 |
+| Java | [BinarySearch.java](./binary-search/BinarySearch.java) | 二分搜索类 |
+| Java | [DFS.java](./dfs/DFS.java) | DFS类 |
+| Java | [BFS.java](./bfs/BFS.java) | BFS类 |
+| Python | [linear_search.py](./linear-search/linear_search.py) | 简洁实现 |
+| Python | [binary_search.py](./binary-search/binary_search.py) | 简洁实现 |
+| Python | [dfs.py](./dfs/dfs.py) | 简洁实现 |
+| Python | [bfs.py](./bfs/bfs.py) | 简洁实现 |
+| Go | [linear_search.go](./linear-search/linear_search.go) | 并发优化 |
+| Go | [binary_search.go](./binary-search/binary_search.go) | 泛型实现 |
+| Go | [dfs.go](./dfs/dfs.go) | 并发优化 |
+| Go | [bfs.go](./bfs/bfs.go) | 并发优化 |
+| JavaScript | [linearSearch.js](./linear-search/linearSearch.js) | ES6实现 |
+| JavaScript | [binarySearch.js](./binary-search/binarySearch.js) | ES6实现 |
+| JavaScript | [dfs.js](./dfs/dfs.js) | ES6实现 |
+| JavaScript | [bfs.js](./bfs/bfs.js) | ES6实现 |
+| Rust | [linear_search.rs](./linear-search/linear_search.rs) | 内存安全 |
+| Rust | [binary_search.rs](./binary-search/binary_search.rs) | 内存安全 |
+| Rust | [dfs.rs](./dfs/dfs.rs) | 内存安全 |
+| Rust | [bfs.rs](./bfs/bfs.rs) | 内存安全 |
 
 ---
 
