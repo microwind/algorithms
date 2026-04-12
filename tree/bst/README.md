@@ -2,12 +2,6 @@
 
 > 有序二叉树，左子树所有节点小于根，右子树所有节点大于根。
 
-## 导航
-
-| [算法原理](#算法原理) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
-
----
-
 ## 算法原理
 
 ### 性质
@@ -35,6 +29,46 @@
 | 最坏 | O(n) | O(n) | O(n) |
 
 最坏情况发生在树退化为链表时。
+
+## 算法流程
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> INPUT["输入根节点和值"]
+    INPUT --> TYPE{"操作类型?"}
+    TYPE -->|"查找"| COMPARE["与根节点比较"]
+    TYPE -->|"插入"| FIND1["查找插入位置"]
+    TYPE -->|"删除"| FIND2["查找删除节点"]
+    COMPARE --> CMP{"值 == 根?"}
+    CMP -->|"是"| FOUND(["返回节点"])
+    CMP -->|"否"| LEFT{"值 < 根?"}
+    LEFT -->|"是"| GOLEFT["递归左子树"]
+    LEFT -->|"否"| GORIGHT["递归右子树"]
+    GOLEFT --> COMPARE
+    GORIGHT --> COMPARE
+    FIND1 --> INSERT["插入新节点"]
+    FIND2 --> CHECK{"节点类型?"}
+    CHECK -->|"叶子"| DEL1["直接删除"]
+    CHECK -->|"单子"| DEL2["用子节点替代"]
+    CHECK -->|"双子"| DEL3["用后继替代"]
+    INSERT --> END(["结束"])
+    DEL1 --> END
+    DEL2 --> END
+    DEL3 --> END
+    FOUND --> END
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,FOUND,END start
+    class TYPE,CMP,LEFT,CHECK decision
+    class INPUT,COMPARE,FIND1,FIND2,INSERT,DEL1,DEL2,DEL3,GOLEFT,GORIGHT process
+```
 
 ---
 

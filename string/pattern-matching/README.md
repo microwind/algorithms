@@ -2,13 +2,7 @@
 
 > 支持通配符和正则表达式的模式匹配算法。
 
-## 导航
-
-| [功能说明](#功能说明) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
-
----
-
-## 功能说明
+## 算法原理
 
 ### 通配符匹配
 
@@ -36,6 +30,38 @@
 | 朴素通配符 | O(n×m) | O(1) |
 | DP通配符 | O(n×m) | O(n×m) |
 | 正则引擎 | 视实现而定 | 视实现而定 |
+
+## 算法流程（通配符匹配）
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> INPUT["输入文本和模式"]
+    INPUT --> INIT["i = 0, j = 0"]
+    INIT --> CHECK{"j < m ?"}
+    CHECK -->|"否"| STAR{"i < n 且模式[j] == '*'"}
+    STAR -->|"是"| INCI["i++"]
+    STAR -->|"否"| END(["返回匹配结果"])
+    INCI --> STAR
+    CHECK -->|"是"| MATCH{"i < n 且字符匹配?"}
+    MATCH -->|"是"| INC["i++, j++"]
+    MATCH -->|"否"| WILD{"模式[j] == '*'"}
+    WILD -->|"是"| STAR
+    WILD -->|"否"| FAIL(["返回 false"])
+    INC --> CHECK
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end2 fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,END,FAIL start
+    class CHECK,STAR,MATCH,WILD decision
+    class INPUT,INIT,INCI,INC process
+```
 
 ---
 

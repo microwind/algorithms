@@ -2,13 +2,7 @@
 
 > 对比不同查找算法的性能特点，帮助选择合适的算法。
 
-## 导航
-
-| [算法对比](#算法对比) | [适用场景](#适用场景) | [实现列表](#实现列表) |
-
----
-
-## 算法对比
+## 算法原理
 
 | 算法 | 时间复杂度 | 空间复杂度 | 数据要求 | 特点 |
 |------|-----------|-----------|----------|------|
@@ -28,6 +22,33 @@ n=10^6时:
 二分查找:          ~20 次比较
 插值查找:          ~4 次比较（均匀分布）
 哈希查找:          ~1 次操作
+```
+
+## 算法流程（算法选择）
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> INPUT["输入数据特征"]
+    INPUT --> CHECK1{"数据有序?"}
+    CHECK1 -->|"否"| LINEAR(["选择线性查找"])
+    CHECK1 -->|"是"| CHECK2{"频繁查找?"}
+    CHECK2 -->|"是"| HASH(["选择哈希查找"])
+    CHECK2 -->|"否"| CHECK3{"均匀分布?"}
+    CHECK3 -->|"是"| INTERPOLATION(["选择插值查找"])
+    CHECK3 -->|"否"| BINARY(["选择二分查找"])
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end2 fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,LINEAR,HASH,INTERPOLATION,BINARY start
+    class CHECK1,CHECK2,CHECK3 decision
+    class INPUT process
 ```
 
 ---

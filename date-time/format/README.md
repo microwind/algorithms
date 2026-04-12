@@ -2,13 +2,7 @@
 
 > 日期时间字符串的格式化与解析，支持多种常用格式和自定义格式模式。
 
-## 导航
-
-| [格式说明](#格式说明) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
-
----
-
-## 格式说明
+## 算法原理
 
 ### 常用格式模式
 
@@ -45,6 +39,39 @@
 |------|--------|------|
 | **时间复杂度** | O(n) | n为字符串长度 |
 | **空间复杂度** | O(n) | 格式化结果存储 |
+
+## 算法流程
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> INPUT["输入日期/时间和格式模式"]
+    INPUT --> TYPE{"操作类型?"}
+    TYPE -->|"格式化"| EXTRACT["提取日期时间各部分"]
+    TYPE -->|"解析"| MATCH["匹配格式模式"]
+    EXTRACT --> BUILD["按模式构建字符串"]
+    MATCH --> VALID{"格式有效?"}
+    VALID -->|"是"| PARSE["解析为日期对象"]
+    VALID -->|"否"| ERROR(["返回错误"])
+    BUILD --> OUTPUT1(["输出格式化字符串"])
+    PARSE --> OUTPUT2(["输出日期对象"])
+    OUTPUT1 --> END(["结束"])
+    OUTPUT2 --> END
+    ERROR --> END
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    classDef error fill:#e94560,color:#fff,stroke:#c81e45,stroke-width:2px
+    
+    %% 应用样式
+    class S,OUTPUT1,OUTPUT2,END start
+    class TYPE,VALID decision
+    class INPUT,EXTRACT,BUILD,MATCH,PARSE process
+    class ERROR error
+```
 
 ---
 

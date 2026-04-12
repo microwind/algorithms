@@ -2,12 +2,6 @@
 
 > 图的深度遍历算法，使用递归或栈实现，适用于路径查找、拓扑排序、连通分量等问题。
 
-## 导航
-
-| [算法原理](#算法原理) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
-
----
-
 ## 算法原理
 
 ### 核心思想
@@ -47,6 +41,44 @@ DFS遍历顺序（从0开始）:
 |------|--------|------|
 | **时间复杂度** | O(V+E) | V顶点数，E边数 |
 | **空间复杂度** | O(V) | 递归栈或显式栈 |
+
+## 算法流程（递归版本）
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> INPUT["输入图和起点"]
+    INPUT --> INIT["初始化访问标记"]
+    INIT --> CALL["调用DFS函数"]
+    CALL --> END(["返回遍历结果"])
+    
+    subgraph DFS函数
+        FSTART(["DFS节点u"]) --> CHECK{"u已访问?"}
+        CHECK -->|"是"| FEND(["返回"])
+        CHECK -->|"否"| MARK["标记u为已访问"]
+        MARK --> ADD["加入结果列表"]
+        ADD --> NEIGHBOR["遍历u的邻居v"]
+        NEIGHBOR --> N_CHECK{"所有邻居处理完?"}
+        N_CHECK -->|"否"| FCALL["递归调用DFS v"]
+        FCALL --> NEXT["下一个邻居"]
+        NEXT --> NEIGHBOR
+        N_CHECK -->|"是"| FEND
+    end
+    
+    CALL --> FSTART
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end2 fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,END,FSTART,FEND start
+    class CHECK,N_CHECK decision
+    class INPUT,INIT,CALL,MARK,ADD,NEIGHBOR,FCALL,NEXT process
+```
 
 ---
 

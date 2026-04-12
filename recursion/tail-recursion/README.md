@@ -2,12 +2,6 @@
 
 > 一种特殊的递归形式，递归调用是函数的最后操作，可以被编译器优化为迭代。
 
-## 导航
-
-| [算法原理](#算法原理) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
-
----
-
 ## 算法原理
 
 ### 尾递归定义
@@ -41,6 +35,32 @@ def factorial(n):
 |------|-----------|-----------|
 | 普通递归 | O(n) | O(n)栈 |
 | 尾递归 | O(n) | O(1)可优化 |
+
+## 算法流程
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> INPUT["输入n和累加器acc"]
+    INPUT --> CHECK{"n <= 1 ?"}
+    CHECK -->|"是"| RETURN(["返回 acc"])
+    CHECK -->|"否"| NEWACC["计算新累加器 n*acc"]
+    NEWACC --> NEWN["n = n-1"]
+    NEWN --> CALL["尾递归调用"]
+    CALL --> RETURN
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end2 fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,RETURN start
+    class CHECK decision
+    class INPUT,NEWACC,NEWN,CALL process
+```
 
 ---
 

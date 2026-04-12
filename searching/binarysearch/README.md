@@ -2,12 +2,6 @@
 
 > 在有序数组中高效查找目标元素，时间复杂度O(log n)。
 
-## 导航
-
-| [算法原理](#算法原理) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
-
----
-
 ## 算法原理
 
 ### 核心思想
@@ -37,6 +31,37 @@
 |------|--------|------|
 | **时间复杂度** | O(log n) | 每次减半 |
 | **空间复杂度** | O(1) | 迭代实现 |
+
+## 算法流程
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> INPUT["输入有序数组和目标值"]
+    INPUT --> INIT["left = 0, right = n-1"]
+    INIT --> CHECK{"left <= right ?"}
+    CHECK -->|"否"| FAIL(["返回 -1"])
+    CHECK -->|"是"| MID["mid = (left + right) / 2"]
+    MID --> COMPARE{"arr[mid] == target ?"}
+    COMPARE -->|"是"| SUCCESS(["返回 mid"])
+    COMPARE -->|"否"| LESS{"arr[mid] < target ?"}
+    LESS -->|"是"| LEFT["left = mid + 1"]
+    LESS -->|"否"| RIGHT["right = mid - 1"]
+    LEFT --> CHECK
+    RIGHT --> CHECK
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end2 fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,SUCCESS,FAIL start
+    class CHECK,COMPARE,LESS decision
+    class INPUT,INIT,MID,LEFT,RIGHT process
+```
 
 ---
 

@@ -2,12 +2,6 @@
 
 > 不同进制数之间的相互转换，包括二进制、八进制、十进制、十六进制等。
 
-## 导航
-
-| [算法原理](#算法原理) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
-
----
-
 ## 算法原理
 
 ### 进制转换原理
@@ -55,6 +49,35 @@
 |------|--------|------|
 | **时间复杂度** | O(log n) | 数字位数决定 |
 | **空间复杂度** | O(log n) | 结果存储 |
+
+## 算法流程
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> INPUT["输入数字和目标进制"]
+    INPUT --> CHECK{"数字为0?"}
+    CHECK -->|"是"| ZERO["返回0"]
+    CHECK -->|"否"| LOOP{"数字 > 0?"}
+    LOOP -->|"否"| REVERSE["反转结果"]
+    REVERSE --> END(["结束"])
+    LOOP -->|"是"| CALC["计算余数"]
+    CALC --> APPEND["添加余数到结果"]
+    APPEND --> DIV["数字除以进制"]
+    DIV --> LOOP
+    ZERO --> END
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,END,ZERO start
+    class CHECK,LOOP decision
+    class INPUT,CALC,APPEND,DIV,REVERSE process
+```
 
 ---
 

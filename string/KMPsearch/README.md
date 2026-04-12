@@ -2,12 +2,6 @@
 
 > 高效的字符串匹配算法，时间复杂度O(n+m)，避免了朴素算法的回溯。
 
-## 导航
-
-| [算法原理](#算法原理) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
-
----
-
 ## 算法原理
 
 ### 核心思想
@@ -39,6 +33,40 @@ next:   0 0 1 2 3 0
 | **匹配** | O(n) | n为主串长度 |
 | **总复杂度** | O(n+m) | 线性时间 |
 | **空间复杂度** | O(m) | next数组 |
+
+## 算法流程
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> INPUT["输入文本和模式串"]
+    INPUT --> NEXT["构建next数组"]
+    NEXT --> INIT["i = 0, j = 0"]
+    INIT --> CHECK{"i < n ?"}
+    CHECK -->|"否"| END(["返回匹配结果"])
+    CHECK -->|"是"| MATCH{"text[i] == pattern[j] ?"}
+    MATCH -->|"是"| INC["i++, j++"]
+    MATCH -->|"否"| JCHECK{"j == 0 ?"}
+    JCHECK -->|"是"| INCI["i++"]
+    JCHECK -->|"否"| JNEXT["j = next[j-1]"]
+    JNEXT --> MATCH
+    INC --> JMATCH{"j == m ?"}
+    JMATCH -->|"是"| FOUND["找到匹配"]
+    JMATCH -->|"否"| CHECK
+    FOUND --> JNEXT
+    INCI --> CHECK
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,END,FOUND start
+    class CHECK,MATCH,JCHECK,JMATCH decision
+    class INPUT,NEXT,INIT,INC,JNEXT,INCI process
+```
 
 ---
 

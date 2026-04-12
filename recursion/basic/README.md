@@ -2,12 +2,6 @@
 
 > 递归基本概念和简单示例，帮助理解递归的思维模式。
 
-## 导航
-
-| [算法原理](#算法原理) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
-
----
-
 ## 算法原理
 
 ### 递归三要素
@@ -33,6 +27,32 @@
 |------|--------|------|
 | **时间复杂度** | 视问题而定 | 取决于递归次数 |
 | **空间复杂度** | O(递归深度) | 调用栈占用 |
+
+## 算法流程
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> INPUT["输入问题"]
+    INPUT --> BASE{"满足终止条件?"}
+    BASE -->|"是"| RETURN(["返回基准结果"])
+    BASE -->|"否"| REDUCE["缩小问题规模"]
+    REDUCE --> CALL["递归调用"]
+    CALL --> PROCESS["处理递归结果"]
+    PROCESS --> END(["返回最终结果"])
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end2 fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,RETURN,END start
+    class BASE decision
+    class INPUT,REDUCE,CALL,PROCESS process
+```
 
 ---
 

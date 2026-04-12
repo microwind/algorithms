@@ -2,18 +2,6 @@
 
 > 数组是一种基础的线性数据结构，用于存储固定大小的同类型元素集合。所有元素在内存中连续存储，支持通过索引进行 O(1) 随机访问。本目录涵盖数组的经典操作算法，包括反转、旋转、去重、查找、合并等常用操作的多语言实现。
 
-## 导航总览
-
-| 算法 | 时间复杂度 | 空间复杂度 | 核心技巧 | 目录 |
-|------|-----------|-----------|---------|------|
-| [数组反转 Reverse](#31-数组反转reverse) | O(n) | O(1) | 双指针 | [`reverse/`](./reverse/) |
-| [数组旋转 Rotate](#32-数组旋转rotate) | O(n) | O(1) | 三次翻转 | [`rotate/`](./rotate/) |
-| [数组去重 Unique](#33-数组去重unique) | O(n) | O(n) | 哈希表 | [`unique/`](./unique/) |
-| [两数之和 Two Sum](#34-两数之和two-sum) | O(n) | O(n) | 哈希表 | [`two-sum/`](./two-sum/) |
-| [移动零 Move Zeroes](#35-移动零move-zeroes) | O(n) | O(1) | 双指针 | [`move-zeroes/`](./move-zeroes/) |
-| [最大子数组和 Maximum Subarray](#36-最大子数组和maximum-subarray) | O(n) | O(1) | 动态规划 | [`maximum-subarray/`](./maximum-subarray/) |
-| [合并有序数组 Merge Sorted Array](#37-合并有序数组merge-sorted-array) | O(m+n) | O(1) | 从后向前 | [`merge-sorted-array/`](./merge-sorted-array/) |
-
 ---
 
 ## 1. 数组基础

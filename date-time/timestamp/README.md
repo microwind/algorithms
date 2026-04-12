@@ -2,12 +2,6 @@
 
 > Unix时间戳与日期时间的相互转换，以及毫秒/微秒/纳秒精度的时间戳处理。
 
-## 导航
-
-| [算法原理](#算法原理) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
-
----
-
 ## 算法原理
 
 ### Unix时间戳定义
@@ -45,6 +39,40 @@ date = 1970-01-01 + timestamp × 时间单位
 |------|--------|------|
 | **时间复杂度** | O(1) | 固定算术运算 |
 | **空间复杂度** | O(1) | 常量存储 |
+
+## 算法流程
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> INPUT["输入日期/时间"]
+    INPUT --> TYPE{"转换类型?"}
+    TYPE -->|"日期→时间戳"| CALC["计算与1970-01-01的差值"]
+    TYPE -->|"时间戳→日期"| ADD["1970-01-01 + 时间戳"]
+    CALC --> UNIT{"选择精度?"}
+    UNIT -->|"秒"| SEC["除以1"]
+    UNIT -->|"毫秒"| MS["除以1000"]
+    UNIT -->|"微秒"| US["除以1000000"]
+    UNIT -->|"纳秒"| NS["除以1000000000"]
+    SEC --> OUTPUT1(["输出时间戳"])
+    MS --> OUTPUT1
+    US --> OUTPUT1
+    NS --> OUTPUT1
+    ADD --> OUTPUT2(["输出日期"])
+    OUTPUT1 --> END(["结束"])
+    OUTPUT2 --> END
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,OUTPUT1,OUTPUT2,END start
+    class TYPE,UNIT decision
+    class INPUT,CALC,ADD,SEC,MS,US,NS process
+```
 
 ---
 

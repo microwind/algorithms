@@ -2,13 +2,7 @@
 
 > 各种日期时间格式之间的相互转换，包括字符串解析、时区转换、时间戳转换等实用功能。
 
-## 导航
-
-| [功能说明](#功能说明) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
-
----
-
-## 功能说明
+## 算法原理
 
 ### 支持转换类型
 
@@ -40,6 +34,37 @@ hh:mm:ss a     - 02:30:00 PM
 | **时间复杂度** | O(1) | 固定格式转换操作 |
 | **空间复杂度** | O(1) | 常量空间存储结果 |
 | **解析复杂度** | O(n) | n为字符串长度 |
+
+## 算法流程
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> INPUT["输入日期/时间"]
+    INPUT --> TYPE{"转换类型?"}
+    TYPE -->|"字符串→对象"| PARSE["解析字符串"]
+    TYPE -->|"对象→字符串"| FORMAT["格式化输出"]
+    TYPE -->|"时间戳→日期"| TS2DATE["时间戳转日期"]
+    TYPE -->|"日期→时间戳"| DATE2TS["日期转时间戳"]
+    TYPE -->|"时区转换"| TZ["调整时区偏移"]
+    PARSE --> OUTPUT["输出结果"]
+    FORMAT --> OUTPUT
+    TS2DATE --> OUTPUT
+    DATE2TS --> OUTPUT
+    TZ --> OUTPUT
+    OUTPUT --> END(["结束"])
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,END start
+    class TYPE decision
+    class INPUT,PARSE,FORMAT,TS2DATE,DATE2TS,TZ,OUTPUT process
+```
 
 ---
 

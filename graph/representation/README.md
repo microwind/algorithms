@@ -2,12 +2,6 @@
 
 > 图的存储结构，包括邻接矩阵和邻接表两种主要表示方式。
 
-## 导航
-
-| [算法原理](#算法原理) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
-
----
-
 ## 算法原理
 
 ### 邻接矩阵
@@ -59,6 +53,35 @@
 |------|----------|--------|
 | **空间复杂度** | O(V²) | O(V+E) |
 | **建图时间** | O(V²) | O(E) |
+
+## 算法流程（邻接表构建）
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> INPUT["输入顶点数V和边数E"]
+    INPUT --> INIT["初始化邻接表"]
+    INIT --> LOOP{"处理所有边?"}
+    LOOP -->|"否"| END(["返回邻接表"])
+    LOOP -->|"是"| EDGE["读取边(u,v)"]
+    EDGE --> ADD["v加入u的邻居列表"]
+    ADD --> CHECK{"无向图?"}
+    CHECK -->|"是"| ADD2["u加入v的邻居列表"]
+    CHECK -->|"否"| NEXT["下一条边"]
+    ADD2 --> NEXT
+    NEXT --> LOOP
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,END start
+    class LOOP,CHECK decision
+    class INPUT,INIT,EDGE,ADD,ADD2,NEXT process
+```
 
 ---
 

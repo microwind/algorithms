@@ -2,12 +2,6 @@
 
 > 对有向无环图（DAG）的节点进行线性排序，使得对于每条边(u,v)，u在v之前。
 
-## 导航
-
-| [算法原理](#算法原理) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
-
----
-
 ## 算法原理
 
 ### Kahn算法（基于入度）
@@ -48,6 +42,43 @@
 |------|--------|------|
 | **时间复杂度** | O(V+E) | V顶点数，E边数 |
 | **空间复杂度** | O(V) | 队列/栈 |
+
+## 算法流程（Kahn算法）
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> INPUT["输入有向图"]
+    INPUT --> CALC["计算所有节点入度"]
+    CALC --> QUEUE["入度为0的节点入队"]
+    QUEUE --> CHECK{"队列非空?"}
+    CHECK -->|"否"| VALID{"结果数 == V?"}
+    VALID -->|"否"| CYCLE(["存在环"])
+    VALID -->|"是"| END(["返回拓扑排序"])
+    CHECK -->|"是"| DEQUEUE["取出节点u"]
+    DEQUEUE --> ADD["加入排序结果"]
+    ADD --> NEIGHBOR["遍历u的邻居v"]
+    NEIGHBOR --> N_CHECK{"所有邻居处理完?"}
+    N_CHECK -->|"否"| DEGREE["v入度减1"]
+    DEGREE --> ZERO{"v入度==0?"}
+    ZERO -->|"是"| ENQ["v入队"]
+    ZERO -->|"否"| NEXT
+    ENQ --> NEXT["下一个邻居"]
+    NEXT --> NEIGHBOR
+    N_CHECK -->|"是"| CHECK
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end2 fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,END,CYCLE start
+    class CHECK,VALID,ZERO,N_CHECK decision
+    class INPUT,CALC,QUEUE,DEQUEUE,ADD,NEIGHBOR,DEGREE,ENQ,NEXT process
+```
 
 ---
 

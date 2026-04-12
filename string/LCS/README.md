@@ -2,12 +2,6 @@
 
 > 两个序列的最长公共子序列，经典的动态规划问题。
 
-## 导航
-
-| [算法原理](#算法原理) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
-
----
-
 ## 算法原理
 
 ### 动态规划定义
@@ -39,6 +33,37 @@ LCS: B C B A 或 B D A B
 |------|--------|------|
 | **时间复杂度** | O(m×n) | m,n为序列长度 |
 | **空间复杂度** | O(m×n)或O(min(m,n)) | DP表或滚动数组 |
+
+## 算法流程
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> INPUT["输入两个序列"]
+    INPUT --> INIT["初始化DP表"]
+    INIT --> OUTER{"i < m ?"}
+    OUTER -->|"否"| END(["返回 dp[m][n]"])
+    OUTER -->|"是"| INNER{"j < n ?"}
+    INNER -->|"否"| INCI["i++"]
+    INCI --> OUTER
+    INNER -->|"是"| CHECK{"字符相同?"}
+    CHECK -->|"是"| SAME["dp[i][j] = dp[i-1][j-1] + 1"]
+    CHECK -->|"否"| DIFF["dp[i][j] = max<br/>dp[i-1][j]<br/>dp[i][j-1]"]
+    SAME --> INCJ["j++"]
+    DIFF --> INCJ
+    INCJ --> INNER
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,END start
+    class OUTER,INNER,CHECK decision
+    class INPUT,INIT,SAME,DIFF,INCI,INCJ process
+```
 
 ---
 

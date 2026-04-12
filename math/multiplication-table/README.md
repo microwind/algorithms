@@ -2,12 +2,6 @@
 
 > 打印九九乘法表及其扩展版本，是编程入门的经典练习题。
 
-## 导航
-
-| [算法原理](#算法原理) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
-
----
-
 ## 算法原理
 
 ### 九九乘法表
@@ -33,6 +27,36 @@
 |------|--------|------|
 | **时间复杂度** | O(n²) | 双重循环 |
 | **空间复杂度** | O(1) | 仅打印输出 |
+
+## 算法流程
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> INPUT["输入表的大小 n"]
+    INPUT --> INIT["i = 1"]
+    INIT --> OUTER{"i <= n ?"}
+    OUTER -->|"否"| END(["结束"])
+    OUTER -->|"是"| INNER["j = 1"]
+    INNER --> INNER_CHECK{"j <= i ?"}
+    INNER_CHECK -->|"否"| NEWLINE["换行"]
+    NEWLINE --> INCI["i++"]
+    INCI --> OUTER
+    INNER_CHECK -->|"是"| PRINT["打印 j × i = result"]
+    PRINT --> INCJ["j++"]
+    INCJ --> INNER_CHECK
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,END start
+    class OUTER,INNER_CHECK decision
+    class INPUT,INIT,INNER,PRINT,NEWLINE,INCI,INCJ process
+```
 
 ---
 

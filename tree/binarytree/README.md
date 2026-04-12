@@ -2,12 +2,6 @@
 
 > 每个节点最多有两个子节点的树结构，是树结构的基础。
 
-## 导航
-
-| [算法原理](#算法原理) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
-
----
-
 ## 算法原理
 
 ### 基本结构
@@ -46,6 +40,41 @@
 | 遍历 | O(n) | O(h)递归栈 |
 | 查找 | O(n) | O(h) |
 | 插入 | O(1)~O(n) | O(1)~O(h) |
+
+## 算法流程
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> INPUT["输入根节点"]
+    INPUT --> TYPE{"操作类型?"}
+    TYPE -->|"前序遍历"| PRE["访问节点 → 左子树 → 右子树"]
+    TYPE -->|"中序遍历"| IN["左子树 → 访问节点 → 右子树"]
+    TYPE -->|"后序遍历"| POST["左子树 → 右子树 → 访问节点"]
+    TYPE -->|"层序遍历"| LEVEL["队列实现逐层访问"]
+    PRE --> CHECK1{"节点为空?"}
+    IN --> CHECK1
+    POST --> CHECK1
+    LEVEL --> CHECK2{"队列为空?"}
+    CHECK1 -->|"是"| END(["结束"])
+    CHECK1 -->|"否"| RECURSE["递归处理"]
+    CHECK2 -->|"是"| END
+    CHECK2 -->|"否"| DEQUEUE["出队并访问"]
+    DEQUEUE --> CHILD["入队子节点"]
+    CHILD --> CHECK2
+    RECURSE --> END
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,END start
+    class TYPE,CHECK1,CHECK2 decision
+    class INPUT,PRE,IN,POST,LEVEL,RECURSE,DEQUEUE,CHILD process
+```
 
 ---
 

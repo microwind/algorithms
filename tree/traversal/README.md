@@ -2,12 +2,6 @@
 
 > 树结构的遍历算法，包括递归和迭代实现，以及Morris遍历。
 
-## 导航
-
-| [算法原理](#算法原理) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
-
----
-
 ## 算法原理
 
 ### 深度优先遍历（DFS）
@@ -43,6 +37,55 @@ O(1)空间的遍历算法，利用空闲指针：
 | 迭代DFS | O(n) | O(h)栈 |
 | BFS | O(n) | O(w) w为最大宽度 |
 | Morris | O(n) | O(1) |
+
+## 算法流程
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> INPUT["输入根节点"]
+    INPUT --> TYPE{"遍历类型?"}
+    TYPE -->|"前序DFS"| PRE["访问节点 → 左子树 → 右子树"]
+    TYPE -->|"中序DFS"| IN["左子树 → 访问节点 → 右子树"]
+    TYPE -->|"后序DFS"| POST["左子树 → 右子树 → 访问节点"]
+    TYPE -->|"BFS"| BFS["队列实现逐层访问"]
+    TYPE -->|"Morris"| MORRIS["O1空间遍历"]
+    PRE --> CHECK1{"节点为空?"}
+    IN --> CHECK1
+    POST --> CHECK1
+    BFS --> CHECK2{"队列为空?"}
+    MORRIS --> CHECK3{"当前节点为空?"}
+    CHECK1 -->|"是"| END(["结束"])
+    CHECK1 -->|"否"| RECURSE["递归处理"]
+    CHECK2 -->|"是"| END
+    CHECK2 -->|"否"| DEQUEUE["出队并访问"]
+    CHECK3 -->|"是"| END
+    CHECK3 -->|"否"| LEFTMORRIS{"有左子树?"}
+    DEQUEUE --> CHILD["入队子节点"]
+    CHILD --> CHECK2
+    RECURSE --> END
+    LEFTMORRIS -->|"是"| PREDECESSOR["找到前驱节点"]
+    LEFTMORRIS -->|"否"| VISIT["访问当前节点"]
+    PREDECESSOR --> THREAD{"前驱右指针为空?"}
+    THREAD -->|"是"| SETTHREAD["设置线索指向当前节点"]
+    THREAD -->|"否"| RESTORE["恢复树结构"]
+    SETTHREAD --> LEFT["当前节点=左子树"]
+    RESTORE --> VISIT
+    VISIT --> RIGHT["当前节点=右子树"]
+    LEFT --> CHECK3
+    RIGHT --> CHECK3
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,END start
+    class TYPE,CHECK1,CHECK2,CHECK3,THREAD,LEFTMORRIS decision
+    class INPUT,PRE,IN,POST,BFS,MORRIS,RECURSE,DEQUEUE,CHILD,PREDECESSOR,SETTHREAD,RESTORE,VISIT,LEFT,RIGHT process
+```
 
 ---
 

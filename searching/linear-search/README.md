@@ -2,12 +2,6 @@
 
 > 顺序遍历数组查找目标元素，简单直接的查找方法。
 
-## 导航
-
-| [算法原理](#算法原理) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
-
----
-
 ## 算法原理
 
 ### 核心思想
@@ -28,6 +22,33 @@ return -1
 |------|--------|------|
 | **时间复杂度** | O(n) | 最坏遍历全部 |
 | **空间复杂度** | O(1) | 原地查找 |
+
+## 算法流程
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> INPUT["输入数组和目标值"]
+    INPUT --> INIT["i = 0"]
+    INIT --> CHECK{"i < n ?"}
+    CHECK -->|"否"| FAIL(["返回 -1"])
+    CHECK -->|"是"| COMPARE{"arr[i] == target ?"}
+    COMPARE -->|"是"| SUCCESS(["返回 i"])
+    COMPARE -->|"否"| INC["i++"]
+    INC --> CHECK
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end2 fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,SUCCESS,FAIL start
+    class CHECK,COMPARE decision
+    class INPUT,INIT,INC process
+```
 
 ---
 

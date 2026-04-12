@@ -2,12 +2,6 @@
 
 > 数论是数学的一个分支，研究整数的性质。包含模运算、同余、欧拉函数等基础算法。
 
-## 导航
-
-| [算法原理](#算法原理) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
-
----
-
 ## 算法原理
 
 ### 核心概念
@@ -47,6 +41,35 @@ a^b mod m 的计算:
 | 欧拉函数 | O(√n) | O(1) |
 | 快速幂 | O(log b) | O(1) |
 | 扩展欧几里得 | O(log min(a,b)) | O(1) |
+
+## 算法流程（快速幂）
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> INPUT["输入 a, b, m"]
+    INPUT --> INIT["result = 1"]
+    INIT --> LOOP{"b > 0 ?"}
+    LOOP -->|"否"| END(["返回 result"])
+    LOOP -->|"是"| CHECK{"b 为奇数?"}
+    CHECK -->|"是"| MUL["result = result * a % m"]
+    CHECK -->|"否"| SQUARE
+    SQUARE["a = a * a % m"]
+    MUL --> SQUARE
+    SQUARE --> SHIFT["b = b / 2"]
+    SHIFT --> LOOP
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,END start
+    class LOOP,CHECK decision
+    class INPUT,INIT,MUL,SQUARE,SHIFT process
+```
 
 ---
 

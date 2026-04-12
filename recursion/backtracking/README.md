@@ -2,12 +2,6 @@
 
 > 一种通过探索所有可能的候选解来找出所有解的算法，如果候选解被确认不是一个解，就回溯到上一步。
 
-## 导航
-
-| [算法原理](#算法原理) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
-
----
-
 ## 算法原理
 
 ### 核心思想
@@ -38,6 +32,36 @@
 | N皇后 | O(N!) | O(N) |
 | 全排列 | O(N!) | O(N) |
 | 子集枚举 | O(2^N) | O(N) |
+
+## 算法流程
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> INPUT["输入问题状态"]
+    INPUT --> CHECK{"满足终止条件?"}
+    CHECK -->|"是"| RECORD(["记录解"])
+    CHECK -->|"否"| LOOP{"遍历所有选择"}
+    LOOP -->|"所有选择完成"| END(["返回"])
+    LOOP -->|"还有选择"| MAKE["做出选择"]
+    MAKE --> VALID{"选择有效?"}
+    VALID -->|"否"| UNDO["撤销选择"]
+    VALID -->|"是"| RECURSE["递归求解"]
+    RECURSE --> UNDO
+    UNDO --> LOOP
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end2 fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,RECORD,END start
+    class CHECK,LOOP,VALID decision
+    class INPUT,MAKE,UNDO,RECURSE process
+```
 
 ---
 

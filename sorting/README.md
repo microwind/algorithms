@@ -2,21 +2,6 @@
 
 > 排序算法是将一组数据按照特定顺序（升序或降序）重新排列的算法。排序是计算机科学中最基础、最重要的算法之一，也是许多复杂算法的基础操作。本目录涵盖经典十大排序算法的原理、流程与多语言实现。
 
-## 导航总览
-
-| 排序算法 | 类型 | 时间复杂度（平均） | 稳定性 | 目录 |
-|---------|------|------------------|--------|------|
-| [冒泡排序 Bubble Sort](#31-冒泡排序bubble-sort) | 比较 / 交换 | O(n²) | 稳定 | [`bubblesort/`](./bubblesort/) |
-| [选择排序 Selection Sort](#32-选择排序selection-sort) | 比较 / 选择 | O(n²) | 不稳定 | [`selectionsort/`](./selectionsort/) |
-| [插入排序 Insertion Sort](#33-插入排序insertion-sort) | 比较 / 插入 | O(n²) | 稳定 | [`insertsort/`](./insertsort/) |
-| [希尔排序 Shell Sort](#34-希尔排序shell-sort) | 比较 / 插入 | O(n^1.3) | 不稳定 | [`shellsort/`](./shellsort/) |
-| [快速排序 Quick Sort](#35-快速排序quick-sort) | 比较 / 交换 | O(n log n) | 不稳定 | [`quicksort/`](./quicksort/) |
-| [归并排序 Merge Sort](#36-归并排序merge-sort) | 比较 / 归并 | O(n log n) | 稳定 | [`mergesort/`](./mergesort/) |
-| [堆排序 Heap Sort](#37-堆排序heap-sort) | 比较 / 选择 | O(n log n) | 不稳定 | [`heapsort/`](./heapsort/) |
-| [计数排序 Counting Sort](#38-计数排序counting-sort) | 非比较 | O(n + k) | 稳定 | [`countingsort/`](./countingsort/) |
-| [基数排序 Radix Sort](#39-基数排序radix-sort) | 非比较 | O(n × d) | 稳定 | [`radixsort/`](./radixsort/) |
-| [桶排序 Bucket Sort](#310-桶排序bucket-sort) | 非比较 | O(n + k) | 稳定 | [`bucketsort/`](./bucketsort/) |
-
 ---
 
 ## 1. 排序算法分类

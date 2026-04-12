@@ -2,13 +2,7 @@
 
 > 基础算术运算实现，包括加减乘除、取模、绝对值等基本数学操作。
 
-## 导航
-
-| [功能说明](#功能说明) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
-
----
-
-## 功能说明
+## 算法原理
 
 ### 支持的运算
 
@@ -39,6 +33,38 @@
 | **时间复杂度** | O(1) | 基础运算为常数时间 |
 | **大数运算** | O(n) | n为数字位数 |
 | **空间复杂度** | O(1) | 基础运算，大数运算O(n) |
+
+## 算法流程
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> INPUT["输入运算类型和操作数"]
+    INPUT --> TYPE{"运算类型?"}
+    TYPE -->|"加法"| ADD["返回 a + b"]
+    TYPE -->|"减法"| SUB["返回 a - b"]
+    TYPE -->|"乘法"| MUL["返回 a * b"]
+    TYPE -->|"除法"| DIV["返回 a / b"]
+    TYPE -->|"取模"| MOD["返回 a % b"]
+    TYPE -->|"幂运算"| POW["返回 a^b"]
+    ADD --> END(["结束"])
+    SUB --> END
+    MUL --> END
+    DIV --> END
+    MOD --> END
+    POW --> END
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,END start
+    class TYPE decision
+    class INPUT,ADD,SUB,MUL,DIV,MOD,POW process
+```
 
 ---
 

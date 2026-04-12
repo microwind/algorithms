@@ -2,12 +2,6 @@
 
 > 利用哈希表实现O(1)时间复杂度的查找。
 
-## 导航
-
-| [算法原理](#算法原理) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
-
----
-
 ## 算法原理
 
 ### 核心思想
@@ -35,6 +29,47 @@
 | **查找** | O(1) | O(n) | 冲突严重时退化 |
 | **插入** | O(1) | O(n) | 需扩容时O(n) |
 | **删除** | O(1) | O(n) | |
+
+## 算法流程（查找）
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> INPUT["输入哈希表和键"]
+    INPUT --> HASH["计算哈希值 index = hash(key)"]
+    HASH --> GET["访问table[index]"]
+    GET --> EMPTY{"位置为空?"}
+    EMPTY -->|"是"| NOTFOUND(["返回未找到"])
+    EMPTY -->|"否"| COMPARE{"键匹配?"}
+    COMPARE -->|"是"| FOUND(["返回值"])
+    COMPARE -->|"否"| COLLISION{"使用冲突处理?"}
+    COLLISION -->|"链地址法"| CHAIN["遍历链表"]
+    COLLISION -->|"开放寻址"| PROBE["线性探测"]
+    CHAIN --> C_CHECK{"链表遍历完?"}
+    C_CHECK -->|"否"| C_COMPARE{"键匹配?"}
+    C_COMPARE -->|"是"| FOUND
+    C_COMPARE -->|"否"| CNEXT["下一个节点"]
+    CNEXT --> CHAIN
+    C_CHECK -->|"是"| NOTFOUND
+    PROBE --> P_CHECK{"探测到空位?"}
+    P_CHECK -->|"是"| NOTFOUND
+    P_CHECK -->|"否"| PCOMPARE{"键匹配?"}
+    PCOMPARE -->|"是"| FOUND
+    PCOMPARE -->|"否"| PNEXT["下一个位置"]
+    PNEXT --> PROBE
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end2 fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,FOUND,NOTFOUND start
+    class EMPTY,COMPARE,COLLISION,C_CHECK,C_COMPARE,P_CHECK,PCOMPARE decision
+    class INPUT,HASH,GET,CHAIN,PROBE,CNEXT,PNEXT process
+```
 
 ---
 

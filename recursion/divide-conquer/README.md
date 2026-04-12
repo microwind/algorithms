@@ -2,12 +2,6 @@
 
 > 将问题分解为若干子问题，递归解决子问题，合并子问题结果得到原问题解。
 
-## 导航
-
-| [算法原理](#算法原理) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
-
----
-
 ## 算法原理
 
 ### 分治三步法
@@ -34,6 +28,32 @@
 | 归并排序 | O(n log n) | O(n) |
 | 快速排序 | O(n log n) | O(log n)栈 |
 | 二分查找 | O(log n) | O(log n)栈 |
+
+## 算法流程
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> INPUT["输入问题"]
+    INPUT --> BASE{"问题规模足够小?"}
+    BASE -->|"是"| SOLVE(["直接求解"])
+    BASE -->|"否"| DIVIDE["分解为子问题"]
+    DIVIDE --> CONQUER["递归求解子问题"]
+    CONQUER --> MERGE["合并子问题解"]
+    MERGE --> END(["返回最终解"])
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end2 fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,SOLVE,END start
+    class BASE decision
+    class INPUT,DIVIDE,CONQUER,MERGE process
+```
 
 ---
 

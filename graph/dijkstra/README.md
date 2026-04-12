@@ -2,12 +2,6 @@
 
 > 带权图单源最短路径算法，适用于非负权重图。
 
-## 导航
-
-| [算法原理](#算法原理) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
-
----
-
 ## 算法原理
 
 ### 核心思想
@@ -49,6 +43,41 @@
 | 数组实现 | O(V²) | O(V) |
 | 优先队列（二叉堆） | O(E log V) | O(V) |
 | 斐波那契堆 | O(E + V log V) | O(V) |
+
+## 算法流程
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> INPUT["输入图和起点"]
+    INPUT --> INIT["初始化距离数组<br/>起点=0, 其他=∞"]
+    INIT --> PQUEUE["初始化优先队列"]
+    PQUEUE --> CHECK{"队列非空?"}
+    CHECK -->|"否"| END(["返回距离数组"])
+    CHECK -->|"是"| EXTRACT["取出距离最小的节点u"]
+    EXTRACT --> VISITED{"u已访问?"}
+    VISITED -->|"是"| CHECK
+    VISITED -->|"否"| MARK["标记u为已访问"]
+    MARK --> NEIGHBOR["遍历u的邻居v"]
+    NEIGHBOR --> N_CHECK{"所有邻居处理完?"}
+    N_CHECK -->|"否"| UPDATE{"dist[u]+w < dist[v]?"}
+    UPDATE -->|"是"| SET["更新dist[v]"]
+    UPDATE -->|"否"| NEXT["下一个邻居"]
+    SET --> NEXT
+    NEXT --> NEIGHBOR
+    N_CHECK -->|"是"| CHECK
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,END start
+    class CHECK,VISITED,UPDATE,N_CHECK decision
+    class INPUT,INIT,PQUEUE,EXTRACT,MARK,NEIGHBOR,SET,NEXT process
+```
 
 ---
 

@@ -2,12 +2,6 @@
 
 > 两个字符串之间的最小编辑操作次数，也称Levenshtein距离。
 
-## 导航
-
-| [算法原理](#算法原理) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
-
----
-
 ## 算法原理
 
 ### 动态规划定义
@@ -41,6 +35,38 @@ sittin → sitting (插入g)
 |------|--------|------|
 | **时间复杂度** | O(m×n) | m,n为字符串长度 |
 | **空间复杂度** | O(m×n)或O(min(m,n)) | DP表或滚动数组 |
+
+## 算法流程
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> INPUT["输入两个字符串"]
+    INPUT --> INIT["初始化DP表"]
+    INIT --> OUTER{"i < m ?"}
+    OUTER -->|"否"| END(["返回 dp[m][n]"])
+    OUTER -->|"是"| INNER{"j < n ?"}
+    INNER -->|"否"| INCI["i++"]
+    INCI --> OUTER
+    INNER -->|"是"| CHECK{"字符相同?"}
+    CHECK -->|"是"| COST["cost = 0"]
+    CHECK -->|"否"| COST1["cost = 1"]
+    COST1 --> CALC
+    COST --> CALC["dp[i][j] = min<br/>dp[i-1][j]+1<br/>dp[i][j-1]+1<br/>dp[i-1][j-1]+cost"]
+    CALC --> INCJ["j++"]
+    INCJ --> INNER
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,END start
+    class OUTER,INNER,CHECK decision
+    class INPUT,INIT,CALC,INCI,INCJ,COST,COST1 process
+```
 
 ---
 

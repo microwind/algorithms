@@ -2,13 +2,7 @@
 
 > 字符串的基本操作，包括反转、拼接、子串、替换等常用功能。
 
-## 导航
-
-| [功能说明](#功能说明) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
-
----
-
-## 功能说明
+## 算法原理
 
 ### 常用操作
 
@@ -34,6 +28,38 @@
 | 子串 | O(k) | O(k) |
 | 查找 | O(n×m)朴素/O(n+m)KMP | O(1)或O(m) |
 | 分割 | O(n) | O(n) |
+
+## 算法流程
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> INPUT["输入字符串和操作类型"]
+    INPUT --> TYPE{"操作类型?"}
+    TYPE -->|"反转"| REVERSE["双指针交换字符"]
+    TYPE -->|"拼接"| CONCAT["创建新字符串"]
+    TYPE -->|"子串"| SUBSTR["提取指定范围"]
+    TYPE -->|"查找"| SEARCH["遍历查找子串"]
+    TYPE -->|"替换"| REPLACE["查找并替换"]
+    TYPE -->|"分割"| SPLIT["按分隔符分割"]
+    REVERSE --> END(["返回结果"])
+    CONCAT --> END
+    SUBSTR --> END
+    SEARCH --> END
+    REPLACE --> END
+    SPLIT --> END
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,END start
+    class TYPE decision
+    class INPUT,REVERSE,CONCAT,SUBSTR,SEARCH,REPLACE,SPLIT process
+```
 
 ---
 

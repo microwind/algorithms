@@ -2,12 +2,6 @@
 
 > 阶乘是递归的经典入门示例，展示了递归和迭代两种实现方式。
 
-## 导航
-
-| [算法原理](#算法原理) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
-
----
-
 ## 算法原理
 
 ### 定义
@@ -37,6 +31,31 @@ n! = n × (n-1)!  (n > 0)
 |------|--------|------|
 | **时间复杂度** | O(n) | n次乘法 |
 | **空间复杂度** | O(n)递归/O(1)迭代 | 递归栈深度 |
+
+## 算法流程
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> INPUT["输入n"]
+    INPUT --> CHECK{"n <= 1 ?"}
+    CHECK -->|"是"| RETURN(["返回 1"])
+    CHECK -->|"否"| CALL["递归调用 factorial(n-1)"]
+    CALL --> MULT["返回 n * factorial(n-1)"]
+    MULT --> END
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end2 fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,RETURN,END start
+    class CHECK decision
+    class INPUT,CALL,MULT process
+```
 
 ---
 

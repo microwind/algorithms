@@ -2,12 +2,6 @@
 
 > 递归在树结构中的自然应用，树的前序、中序、后序遍历。
 
-## 导航
-
-| [算法原理](#算法原理) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
-
----
-
 ## 算法原理
 
 ### 树的递归结构
@@ -37,6 +31,31 @@ left  right
 |------|--------|------|
 | **时间复杂度** | O(n) | 访问每个节点一次 |
 | **空间复杂度** | O(h) | h为树高度，递归栈 |
+
+## 算法流程（前序遍历）
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> INPUT["输入树根节点"]
+    INPUT --> CHECK{"节点为空?"}
+    CHECK -->|"是"| END(["返回"])
+    CHECK -->|"否"| VISIT["访问节点"]
+    VISIT --> LEFT["递归遍历左子树"]
+    LEFT --> RIGHT["递归遍历右子树"]
+    RIGHT --> END
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,END start
+    class CHECK decision
+    class INPUT,VISIT,LEFT,RIGHT process
+```
 
 ---
 

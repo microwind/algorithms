@@ -2,12 +2,6 @@
 
 > 经典的递归问题，展示分治思想的完美示例。
 
-## 导航
-
-| [算法原理](#算法原理) | [复杂度分析](#复杂度分析) | [实现列表](#实现列表) |
-
----
-
 ## 算法原理
 
 ### 问题描述
@@ -47,6 +41,32 @@
 |------|--------|------|
 | **时间复杂度** | O(2^N) | 移动次数2^N-1 |
 | **空间复杂度** | O(N) | 递归栈深度 |
+
+## 算法流程
+
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 15, 'rankSpacing': 25, 'padding': 20}}}%%
+graph LR
+    S(["开始"]) --> INPUT["输入盘子数N和柱子A,C,B"]
+    INPUT --> CHECK{"N == 1 ?"}
+    CHECK -->|"是"| MOVE(["直接移动 A→C"])
+    CHECK -->|"否"| STEP1["递归移动N-1个盘子 A→B"]
+    STEP1 --> STEP2["移动第N个盘子 A→C"]
+    STEP2 --> STEP3["递归移动N-1个盘子 B→C"]
+    STEP3 --> END
+
+    %% 节点样式
+    classDef start fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end1 fill:#ff7f50,color:#fff,stroke:#e5533c,stroke-width:2px
+    classDef end2 fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    classDef decision fill:#6a5acd,color:#fff,stroke:#483d8b,stroke-width:2px
+    classDef process fill:#20b2aa,color:#fff,stroke:#008080,stroke-width:2px
+    
+    %% 应用样式
+    class S,MOVE,END start
+    class CHECK decision
+    class INPUT,STEP1,STEP2,STEP3 process
+```
 
 ---
 
