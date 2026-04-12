@@ -1,46 +1,55 @@
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 结构体数据结构 - Java实现
+ */
+// Person 类：表示一个人的基本信息
 class Person {
-  String name;
-  int age;
-  String address;
+    String name;
+    int age;
+    String address;
 
-  // 构造函数
-  public Person(String name, int age, String address) {
-    this.name = name;
-    this.age = age;
-    this.address = address;
-  }
+    // 构造函数：初始化 Person 对象的三个属性
+    public Person(String name, int age, String address) {
+        this.name = name;
+        this.age = age;
+        this.address = address;
+    }
 
-  // 方法
-  public void introduce() {
-    System.out.println("Hi, I am " + name + ", " + age + " years old, from " + address + ".");
-  }
+    public void introduce() {
+        System.out.println("Hi, I am " + name + ", " + age + " years old, from " + address + ".");
+    }
 }
 
-// 继承示例
+// Employee 类：继承 Person，增加职位信息
 class Employee extends Person {
-  String position;
+    String position;
 
-  // 构造函数
-  public Employee(String name, int age, String address, String position) {
-    super(name, age, address);
-    this.position = position;
-  }
+    // 构造函数：调用父类构造函数初始化 Person 部分，再设置职位
+    public Employee(String name, int age, String address, String position) {
+        super(name, age, address); // 调用父类 Person 的构造函数
+        this.position = position;  // 初始化职位
+    }
 
-  // 方法覆盖
-  @Override
-  public void introduce() {
-    System.out.println("I am " + name + ", a " + position + " at the company, living in " + address + ".");
-  }
+    // 重写父类的 introduce 方法，输出员工特有的自我介绍
+    @Override
+    public void introduce() {
+        System.out.println("I am " + name + ", a " + position + " at the company, living in " + address + ".");
+    }
 }
 
+// 主类：程序的入口，演示 Person 和 Employee 的使用
 public class Struct {
-  public static void main(String[] args) {
-    Person p1 = new Person("Alice", 30, "123 Main St");
-    p1.introduce();
+    public static void main(String[] args) {
+        // 创建 Person 对象并调用 introduce 方法
+        Person p1 = new Person("Alice", 30, "123 Main St");
+        p1.introduce();
 
-    Employee e1 = new Employee("Bob", 28, "456 Elm St", "Software Developer");
-    e1.introduce(); // 覆盖了Person的introduce方法
-  }
+        // 创建 Employee 对象并调用重写后的 introduce 方法
+        Employee e1 = new Employee("Bob", 28, "456 Elm St", "Software Developer");
+        e1.introduce();
+    }
 }
 
 /*

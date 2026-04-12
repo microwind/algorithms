@@ -1,3 +1,10 @@
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 队列数据结构 - JavaScript实现
+ */
+
 class Queue {
   constructor() {
     this.data = [];

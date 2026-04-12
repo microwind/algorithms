@@ -1,3 +1,10 @@
+"""
+Copyright © https://github.com/microwind All rights reserved.
+@author: jarryli@gmail.com
+@version: 1.0
+@description: 哈希表数据结构 - Python实现
+"""
+
 class HashTable:
     def __init__(self):
         self.table = [None] * 10

@@ -1,19 +1,16 @@
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 结构体排序 - 贪心算法购书问题 - C++实现
+ */
+
 #include <stdio.h>
 #include <algorithm>
 #include <stdlib.h>
 
-/**
- * 有若干种书，价格数量不等。要求用固定的价格购买到数量最多，最后输出总购书数量。
- * 1. 先按照价格按升序排序
- * 2. 从最低价格开始买起，将该种书全部采购
- * 3. 比较价格是否超出了总价
- * 4. 如果没有超出继续循环采购下一种书，如果超出了，则逐个减少该种书，直到符合要求，并终止循环退出
- */
-
-// 最大钱数
 int TOTAL_MONEY = 1000;
 
-// 书本实体：序号、名称、价格、数量
 struct Book
 {
   int id;
@@ -21,7 +18,7 @@ struct Book
   double price;
   int count;
 };
-// 书本数组
+
 Book books[] = {
     {1, "语文", 4.0, 33},
     {2, "英语", 2.5, 45},
@@ -44,7 +41,6 @@ int isOverTotal(int number)
   return TOTAL_MONEY < number;
 }
 
-// 插入排序
 void insertSort(Book books[], int len)
 {
   for (int i = 0; i < len; i++)
@@ -59,7 +55,6 @@ void insertSort(Book books[], int len)
   }
 }
 
-// print books
 void printBooks(Book books[], int len)
 {
   printf("顺序 原序号 名称 价格 数量\n");
@@ -72,13 +67,8 @@ void printBooks(Book books[], int len)
 int main()
 {
   int booksLen = sizeof(books) / sizeof(books[0]);
-  // 1. you can using std lib
   printf("std::sort 排序 \n");
   std::sort(books, books + booksLen, compare);
-
-  // 2. or using insert sort
-  // printf("使用插入排序 \n");
-  // insertSort(books, booksLen);
 
   printf("按价格排序后:\n");
   printBooks(books, booksLen);
@@ -96,7 +86,6 @@ int main()
     if (isOverTotal(currentCost))
     {
       printf("购买到 %s 时超出了金额。需要从最近购买项里面逐个移除以符合预算。\n", book.title);
-      // printf("%d %s %.1f %d\n", book.id, book.title, book.price, book.count);
 
       for (int j = 0; j < book.count; j++)
       {

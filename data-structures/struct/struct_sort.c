@@ -1,18 +1,15 @@
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 结构体排序 - 贪心算法购书问题 - C实现
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 
-/**
- * 有若干种书，价格数量不等。要求用固定的价格购买到数量最多，最后输出总购书数量。
- * 1. 先按照价格按升序排序
- * 2. 从最低价格开始买起，将该种书全部采购
- * 3. 比较价格是否超出了总价
- * 4. 如果没有超出继续循环采购下一种书，如果超出了，则逐个减少该种书，直到符合要求，并终止循环退出
- */
-
-// 最大钱数
 int TOTAL_MONEY = 1000;
 
-// 书本实体：序号、名称、价格、数量
 struct Book
 {
   int id;
@@ -20,7 +17,7 @@ struct Book
   double price;
   int count;
 };
-// 书本数组
+
 struct Book books[] = {
     {1, "语文", 4.0, 33},
     {2, "英语", 2.5, 45},
@@ -38,7 +35,6 @@ int isOverTotal(int number)
   return TOTAL_MONEY < number;
 }
 
-// 插入排序
 void insertSort(struct Book books[], int len)
 {
   for (int i = 0; i < len; i++)
@@ -53,7 +49,6 @@ void insertSort(struct Book books[], int len)
   }
 }
 
-// print books
 void printBooks(struct Book books[], int len)
 {
   printf("顺序 原序号 名称 价格 数量\n");

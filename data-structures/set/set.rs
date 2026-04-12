@@ -1,6 +1,13 @@
 use std::collections::hash_map::DefaultHasher;
 use std::hash::{Hash, Hasher};
 
+/**
+ * Copyright https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 集合数据结构 - Rust实现
+ */
+
 const INITIAL_CAPACITY: usize = 16; // 初始哈希表容量
 const LOAD_FACTOR: f32 = 0.75; // 负载因子
 

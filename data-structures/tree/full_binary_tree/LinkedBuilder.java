@@ -1,3 +1,10 @@
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 满二叉树链式构建器 - Java实现
+ */
+
 /*
 实现泛型节点并生成满二叉树
 一个带泛型的节点类 DoubleDirectNode<T>，节点包含 father、leftChild、rightChild 指针和 value 值；

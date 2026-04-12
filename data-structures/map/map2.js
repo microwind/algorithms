@@ -1,5 +1,12 @@
 // JS基于数组模拟内置Map对象，为了演示数据结构
 // 采用数组存储数据，建立键值映射，提升性能
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 映射数据结构（带索引优化） - JavaScript实现
+ */
+
 class Map {
   constructor() {
       this.entries = []; // 存储键值对

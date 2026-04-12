@@ -1,3 +1,9 @@
+"""
+Copyright © https://github.com/microwind All rights reserved.
+@author: jarryli@gmail.com
+@version: 1.0
+@description: 哈希映射数据结构 - Python实现
+"""
 INITIAL_CAPACITY = 10
 LOAD_FACTOR = 0.75
 
@@ -93,7 +99,7 @@ map_obj.delete("banana")
 print("banana after delete:", map_obj.get("banana"))
 
 """
-jarry@MacBook-Pro hash % python hash_map.py 
+jarry@Mac hash % python hash_map.py 
 apple: 10
 banana: 20
 grape: -1

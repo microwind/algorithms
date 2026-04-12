@@ -1,3 +1,10 @@
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 哈希表数据结构 - Rust实现
+ */
+
 use std::collections::LinkedList;
 
 const TABLE_SIZE: usize = 10;

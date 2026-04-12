@@ -1,3 +1,10 @@
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 满二叉树数据结构 - Java实现
+ */
+
 package full_binary_tree;
 
 import java.util.ArrayList;

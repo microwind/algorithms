@@ -1,3 +1,9 @@
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 集合数据结构 - Java实现
+ */
 import java.util.*;
 
 public class Set {
@@ -129,3 +135,17 @@ public class Set {
         set.print();
     }
 }
+/*
+jarry@Mac set % java Set.java
+Adding node: index=4 key=10
+Adding node: index=15 key=20
+Exist node: index=15 key=20
+Adding node: index=6 key=30
+Adding node: index=9 key=40
+Exist node: index=9 key=40
+Adding node: index=0 key=50
+50 10 30 40 20 
+Contains 30? true
+Removed node: key=30
+50 10 40 20 
+*/

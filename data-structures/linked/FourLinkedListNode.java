@@ -1,6 +1,11 @@
 /**
- * 四项链表节点类，每个节点有四个方向的指针，分别是up、down、left、right
- * 作用：可以表示一个二维矩阵
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 
+ *  四项链表节点类（Java泛型实现）
+ *  功能：每个节点有四个方向指针（up/down/left/right），可表示二维矩阵
+ *  用途：学习高级链表结构，实现稀疏矩阵、跳表、游戏地图等二维数据结构
  */
 // 四项链表节点类
 public class FourLinkedListNode<T> {

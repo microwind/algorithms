@@ -1,3 +1,10 @@
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 映射数据结构 - C实现
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

@@ -1,3 +1,10 @@
+"""
+Copyright © https://github.com/microwind All rights reserved.
+@author: jarryli@gmail.com
+@version: 1.0
+@description: 队列数据结构 - Python实现
+"""
+
 class Queue:
     MAX_QUEUE_SIZE = 10
 

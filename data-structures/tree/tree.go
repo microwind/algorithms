@@ -1,15 +1,21 @@
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 二叉树数据结构 - Go实现
+ */
+
 package main
 
 import "fmt"
 
-// 定义树的节点结构
+// 二叉树节点结构体
 type Node struct {
-  value int
-  left  *Node
-  right *Node
+  value int       // 节点值
+  left  *Node     // 左子节点
+  right *Node     // 右子节点
 }
 
-// 创建新节点
 func createNode(value int) *Node {
   return &Node{value: value}
 }
@@ -19,9 +25,9 @@ func preorderTraversal(root *Node) {
   if root == nil {
     return
   }
-  fmt.Print(root.value, " ")
-  preorderTraversal(root.left)
-  preorderTraversal(root.right)
+  fmt.Print(root.value, " ") // 访问根
+  preorderTraversal(root.left) // 遍历左子树
+  preorderTraversal(root.right) // 遍历右子树
 }
 
 // 中序遍历：左 -> 根 -> 右
@@ -29,9 +35,9 @@ func inorderTraversal(root *Node) {
   if root == nil {
     return
   }
-  inorderTraversal(root.left)
-  fmt.Print(root.value, " ")
-  inorderTraversal(root.right)
+  inorderTraversal(root.left) // 遍历左子树
+  fmt.Print(root.value, " ") // 访问根
+  inorderTraversal(root.right) // 遍历右子树
 }
 
 // 后序遍历：左 -> 右 -> 根
@@ -39,20 +45,18 @@ func postorderTraversal(root *Node) {
   if root == nil {
     return
   }
-  postorderTraversal(root.left)
-  postorderTraversal(root.right)
-  fmt.Print(root.value, " ")
+  postorderTraversal(root.left) // 遍历左子树
+  postorderTraversal(root.right) // 遍历右子树
+  fmt.Print(root.value, " ") // 访问根
 }
 
 func main() {
-  // 创建树
-  /*
-         1
-        / \
-       2   3
-      / \   /
-     4   5 6
-  */
+  // 构建示例二叉树
+  //        1
+  //       / \
+  //      2   3
+  //     / \   /
+  //    4   5 6
   root := createNode(1)
   root.left = createNode(2)
   root.right = createNode(3)
@@ -60,6 +64,7 @@ func main() {
   root.left.right = createNode(5)
   root.right.left = createNode(6)
 
+  // 输出三种遍历结果
   fmt.Print("前序遍历：")
   preorderTraversal(root)
   fmt.Println()

@@ -9,6 +9,13 @@ class Entry {
   }
 }
 
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 哈希映射数据结构 - JavaScript实现
+ */
+
 class HashMap {
   constructor() {
     this.size = 0;

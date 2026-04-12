@@ -1,3 +1,10 @@
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 堆数据结构 - JavaScript实现
+ */
+
 const MAX_SIZE = 100;
 
 /*

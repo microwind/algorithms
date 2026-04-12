@@ -1,8 +1,15 @@
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 集合数据结构 - Go实现
+ */
+
 package main
 
 import (
-  "fmt"
-  "hash/fnv"
+	"fmt"
+	"hash/fnv"
 )
 
 // Set 结构体，使用 map 模拟哈希桶

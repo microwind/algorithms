@@ -1,3 +1,10 @@
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 队列数据结构 - Rust实现
+ */
+
 const MAX_QUEUE_SIZE: usize = 10;
 
 // Queue 结构体

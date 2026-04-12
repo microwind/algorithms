@@ -1,7 +1,14 @@
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 映射数据结构（带索引优化） - Go实现
+ */
+
 package main
 
 import (
-  "fmt"
+	"fmt"
 )
 
 // 定义键值对结构体

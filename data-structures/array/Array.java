@@ -1,3 +1,10 @@
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 数组数据结构 - Java实现
+ */
+
 public class Array {
   public static void main(String[] args) {
     // 定义一个包含5个整数的数组

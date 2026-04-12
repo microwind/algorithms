@@ -1,3 +1,11 @@
+"""
+Copyright © https://github.com/microwind All rights reserved.
+@author: jarryli@gmail.com
+@version: 1.0
+@description: 结构体数据结构 - Python实现
+"""
+
+# Person 类：姓名、年龄、地址
 class Person:
     def __init__(self, name, age, address):
         self.name = name
@@ -5,26 +13,24 @@ class Person:
         self.address = address
 
     def introduce(self):
-        print(
-            f"Hi, I am {self.name}, {self.age} years old, from {self.address}.")
+        print(f"Hi, I am {self.name}, {self.age} years old, from {self.address}.")
 
 
+# Employee 类：继承 Person，增加职位
 class Employee(Person):
     def __init__(self, name, age, address, position):
         super().__init__(name, age, address)
         self.position = position
 
     def introduce(self):
-        print(
-            f"I am {self.name}, a {self.position} at the company, living in {self.address}.")
+        print(f"I am {self.name}, a {self.position} at the company, living in {self.address}.")
 
 
-# 使用示例
 p1 = Person("Alice", 30, "123 Main St")
 p1.introduce()
 
 e1 = Employee("Bob", 28, "456 Elm St", "Software Developer")
-e1.introduce()  # 覆盖了Person的introduce方法
+e1.introduce()
 
 """
 jarry@MacBook-Pro struct % python struct.py 

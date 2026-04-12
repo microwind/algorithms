@@ -1,9 +1,15 @@
+/**
+ * Copyright https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 哈希映射数据结构 - Rust实现
+ */
 use std::collections::hash_map::DefaultHasher;
 use std::ffi::CString;
 use std::hash::{Hash, Hasher};
 
 const INITIAL_CAPACITY: usize = 10;
-const LOAD_FACTOR: f32 = 0.75;
+const LOAD_FACTOR: f64 = 0.75;
 
 #[derive(Debug)]
 struct Entry {

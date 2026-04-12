@@ -1,5 +1,12 @@
 // JS基于数组模拟内置Map对象，为了演示数据结构
 // 实际JS引擎采取使用 哈希表 + 链地址法 或用 红黑树
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 映射数据结构 - JavaScript实现
+ */
+
 class Map {
     constructor() {
         this.entries = [];

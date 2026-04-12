@@ -1,3 +1,10 @@
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 栈数据结构 - Java实现
+ */
+
 public class Stack {
 
   private int top; // 栈顶指针

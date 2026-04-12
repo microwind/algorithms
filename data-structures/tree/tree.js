@@ -1,3 +1,10 @@
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 二叉树数据结构 - JavaScript实现
+ */
+// 二叉树节点类：值、左子节点、右子节点
 class TreeNode {
   constructor(value) {
     this.value = value;
@@ -9,29 +16,35 @@ class TreeNode {
 // 前序遍历：根 -> 左 -> 右
 function preorderTraversal(root) {
   if (root === null) return;
-  process.stdout.write(root.value + " ");
-  preorderTraversal(root.left);
-  preorderTraversal(root.right);
+  process.stdout.write(root.value + " "); // 访问根节点
+  preorderTraversal(root.left);           // 遍历左子树
+  preorderTraversal(root.right);          // 遍历右子树
 }
 
 // 中序遍历：左 -> 根 -> 右
 function inorderTraversal(root) {
   if (root === null) return;
-  inorderTraversal(root.left);
-  process.stdout.write(root.value + " ");
-  inorderTraversal(root.right);
+  inorderTraversal(root.left);            // 遍历左子树
+  process.stdout.write(root.value + " "); // 访问根节点
+  inorderTraversal(root.right);           // 遍历右子树
 }
 
 // 后序遍历：左 -> 右 -> 根
 function postorderTraversal(root) {
   if (root === null) return;
-  postorderTraversal(root.left);
-  postorderTraversal(root.right);
-  process.stdout.write(root.value + " ");
+  postorderTraversal(root.left);          // 遍历左子树
+  postorderTraversal(root.right);         // 遍历右子树
+  process.stdout.write(root.value + " "); // 访问根节点
 }
 
-// 测试函数
+// 测试函数：构建二叉树并输出三种遍历结果
 function test() {
+  // 构建示例二叉树
+  //       1
+  //      / \
+  //     2   3
+  //    / \ /
+  //   4  5 6
   let root = new TreeNode(1);
   root.left = new TreeNode(2);
   root.right = new TreeNode(3);
@@ -41,18 +54,17 @@ function test() {
 
   process.stdout.write("前序遍历：");
   preorderTraversal(root);
-  console.log(); // 换行
+  console.log();
 
   process.stdout.write("中序遍历：");
   inorderTraversal(root);
-  console.log(); // 换行
+  console.log();
 
   process.stdout.write("后序遍历：");
   postorderTraversal(root);
-  console.log(); // 换行
+  console.log();
 }
 
-// 调用测试函数
 test();
 
 /*

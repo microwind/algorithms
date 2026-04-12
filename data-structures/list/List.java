@@ -1,5 +1,12 @@
 import java.util.Arrays;
 
+/**
+ * Copyright  https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 列表数据结构 - Java实现
+ */
+
 class List {
   private int[] data;
   private int size;

@@ -1,3 +1,10 @@
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 映射数据结构 - Rust实现
+ */
+
 struct Map {
     entries: Vec<Entry>,
     size: usize,

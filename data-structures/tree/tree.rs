@@ -1,4 +1,11 @@
-// 定义树的节点结构
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 二叉树数据结构 - Rust实现
+ */
+
+// 二叉树节点结构体
 #[derive(Debug)]
 struct Node {
     value: i32,
@@ -6,7 +13,6 @@ struct Node {
     right: Option<Box<Node>>,
 }
 
-// 创建新节点
 fn create_node(value: i32) -> Option<Box<Node>> {
     Some(Box::new(Node {
         value,
@@ -18,39 +24,37 @@ fn create_node(value: i32) -> Option<Box<Node>> {
 // 前序遍历：根 -> 左 -> 右
 fn preorder_traversal(root: &Option<Box<Node>>) {
     if let Some(node) = root {
-        print!("{} ", node.value);
-        preorder_traversal(&node.left);
-        preorder_traversal(&node.right);
+        print!("{} ", node.value); // 访问根
+        preorder_traversal(&node.left); // 遍历左子树
+        preorder_traversal(&node.right); // 遍历右子树
     }
 }
 
 // 中序遍历：左 -> 根 -> 右
 fn inorder_traversal(root: &Option<Box<Node>>) {
     if let Some(node) = root {
-        inorder_traversal(&node.left);
-        print!("{} ", node.value);
-        inorder_traversal(&node.right);
+        inorder_traversal(&node.left); // 遍历左子树
+        print!("{} ", node.value); // 访问根
+        inorder_traversal(&node.right); // 遍历右子树
     }
 }
 
 // 后序遍历：左 -> 右 -> 根
 fn postorder_traversal(root: &Option<Box<Node>>) {
     if let Some(node) = root {
-        postorder_traversal(&node.left);
-        postorder_traversal(&node.right);
-        print!("{} ", node.value);
+        postorder_traversal(&node.left); // 遍历左子树
+        postorder_traversal(&node.right); // 遍历右子树
+        print!("{} ", node.value); // 访问根
     }
 }
 
 fn main() {
-    // 创建树
-    /*
-          1
-         / \
-        2   3
-       / \   /
-      4   5 6
-    */
+    // 构建示例二叉树
+    //        1
+    //       / \
+    //      2   3
+    //     / \   /
+    //    4   5 6
     let mut root = create_node(1).unwrap();
     root.left = create_node(2);
     root.right = create_node(3);
@@ -62,7 +66,7 @@ fn main() {
         right_node.left = create_node(6);
     }
 
-    // 输出树的遍历结果
+    // 输出三种遍历结果
     println!("前序遍历：");
     preorder_traversal(&Some(root));
     println!();

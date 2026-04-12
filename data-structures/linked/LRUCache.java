@@ -2,12 +2,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * LRUCache 实现
- * 题目：设计并实现一个 LRU (Least Recently Used) 缓存机制，支持 get 和 put 操作。
- * 
- * 说明：
- * - get(key): 如果缓存中存在该键，则返回对应的值，并将该键移动到最近使用的位置。
- * - put(key, value): 如果缓存已满，则移除最久未使用的键值对，并插入新的键值对。
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 
+ *  LRU (Least Recently Used) 缓存实现（Java）
+ *  功能：使用哈希表+双向链表实现O(1) get/put操作的缓存
+ *  用途：学习经典算法题，理解缓存淘汰策略和链表应用
+ *  
+ *  核心操作：
+ *  - get(key): 获取值并将节点移到最近使用位置
+ *  - put(key, value): 插入新值，满时淘汰最久未使用项
  */
 public class LRUCache {
   private final int capacity;

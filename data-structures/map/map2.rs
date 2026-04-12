@@ -1,5 +1,12 @@
 use std::collections::HashMap;
 
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 映射数据结构（带索引优化） - Rust实现
+ */
+
 struct Map {
     entries: Vec<(String, i32)>,  // 存储键值对
     index_map: HashMap<String, usize>,  // 键到索引的映射

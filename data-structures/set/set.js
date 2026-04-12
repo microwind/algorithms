@@ -1,3 +1,10 @@
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 集合数据结构 - JavaScript实现
+ */
+
 class Set {
   constructor(hashFunc = Set.defaultHashFunc, equalsFunc = Set.defaultEqualsFunc) {
     this.capacity = 16; // 初始容量
@@ -144,7 +151,7 @@ set.print();
 console.log(set);
 
 /*
-jarry@MacBook-Pro set % node set.js
+jarry@Mac set % node set.js
 Adding node: index=4 key=10
 Adding node: index=12 key=20
 Exist node: index=12 key=20
@@ -164,4 +171,29 @@ Removed node: index=0 key=30
 10
 40
 20
+
+Set {
+  capacity: 16,
+  size: 4,
+  buckets: [
+    { key: 50, next: null },
+    null,
+    null,
+    null,
+    { key: 10, next: null },
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    { key: 40, next: [Object] },
+    null,
+    null,
+    null
+  ],
+  hashFunc: [Function: defaultHashFunc],
+  equalsFunc: [Function: defaultEqualsFunc]
+}
 */

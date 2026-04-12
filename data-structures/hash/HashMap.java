@@ -1,6 +1,13 @@
 // import java.util.LinkedList;
 
-public class HashMap {
+public /**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 哈希映射数据结构 - Java实现
+ */
+
+class HashMap {
   private static final int INITIAL_CAPACITY = 10;
   private static final double LOAD_FACTOR = 0.75;
 

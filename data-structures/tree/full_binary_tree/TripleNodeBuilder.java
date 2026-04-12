@@ -1,3 +1,10 @@
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 满二叉树三叉节点构建器 - Java实现
+ */
+
 import java.util.LinkedList;
 import java.util.Queue;
 

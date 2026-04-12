@@ -1,3 +1,10 @@
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 堆数据结构 - Java实现
+ */
+
 public class Heap {
 
   static final int MAX_SIZE = 100;

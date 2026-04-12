@@ -1,5 +1,12 @@
 import java.util.ArrayList;
 
+/**
+ * Copyright https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 映射数据结构 - Java实现
+ */
+
 class Map {
     private ArrayList<Entry> entries;
     private int size;

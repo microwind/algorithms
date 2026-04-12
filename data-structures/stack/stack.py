@@ -1,3 +1,10 @@
+"""
+Copyright © https://github.com/microwind All rights reserved.
+@author: jarryli@gmail.com
+@version: 1.0
+@description: 栈数据结构 - Python实现
+"""
+
 class Stack:
     def __init__(self, size):
         self.top = 0

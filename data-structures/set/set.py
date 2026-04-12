@@ -1,3 +1,10 @@
+"""
+Copyright © https://github.com/microwind All rights reserved.
+@author: jarryli@gmail.com
+@version: 1.0
+@description: 集合数据结构 - Python实现
+"""
+
 class Set:
     INITIAL_CAPACITY = 16  # 初始哈希表容量
     LOAD_FACTOR = 0.75  # 负载因子

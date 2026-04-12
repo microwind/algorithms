@@ -2,6 +2,13 @@
 
 const INITIAL_CAPACITY: usize = 10;
 
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 列表数据结构 - Rust实现
+ */
+
 struct List {
     data: Vec<i32>,
     size: usize,

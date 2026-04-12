@@ -1,22 +1,28 @@
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 二叉树数据结构 - C实现
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 
-// 定义树的节点结构
+// 节点结构体：值、左子节点、右子节点
 typedef struct Node
 {
-  int value;          // 节点值
-  struct Node *left;  // 左子节点
-  struct Node *right; // 右子节点
+  int value;
+  struct Node *left;
+  struct Node *right;
 } Node;
 
-// 创建新节点
 Node *createNode(int value)
 {
-  Node *newNode = (Node *)malloc(sizeof(Node)); // 分配内存
-  newNode->value = value;                       // 设置节点值
-  newNode->left = NULL;                         // 初始化左子节点为空
-  newNode->right = NULL;                        // 初始化右子节点为空
-  return newNode;                               // 返回新创建的节点
+  Node *newNode = (Node *)malloc(sizeof(Node));
+  newNode->value = value;
+  newNode->left = NULL;
+  newNode->right = NULL;
+  return newNode;
 }
 
 // 前序遍历：根 -> 左 -> 右
@@ -26,9 +32,9 @@ void preorderTraversal(Node *root)
   {
     return;
   }
-  printf("%d ", root->value);     // 访问根节点
-  preorderTraversal(root->left);  // 递归访问左子树
-  preorderTraversal(root->right); // 递归访问右子树
+  printf("%d ", root->value); // 访问根
+  preorderTraversal(root->left); // 遍历左子树
+  preorderTraversal(root->right); // 遍历右子树
 }
 
 // 中序遍历：左 -> 根 -> 右
@@ -38,9 +44,9 @@ void inorderTraversal(Node *root)
   {
     return;
   }
-  inorderTraversal(root->left);  // 递归访问左子树
-  printf("%d ", root->value);    // 访问根节点
-  inorderTraversal(root->right); // 递归访问右子树
+  inorderTraversal(root->left); // 遍历左子树
+  printf("%d ", root->value); // 访问根
+  inorderTraversal(root->right); // 遍历右子树
 }
 
 // 后序遍历：左 -> 右 -> 根
@@ -50,40 +56,37 @@ void postorderTraversal(Node *root)
   {
     return;
   }
-  postorderTraversal(root->left);  // 递归访问左子树
-  postorderTraversal(root->right); // 递归访问右子树
-  printf("%d ", root->value);      // 访问根节点
+  postorderTraversal(root->left); // 遍历左子树
+  postorderTraversal(root->right); // 遍历右子树
+  printf("%d ", root->value); // 访问根
 }
 
-// 主函数，展示树的结构和遍历
 int main()
 {
-  // 创建树
-  /*
-        1
-       / \
-      2   3
-     / \   /
-    4   5 6
-  */
-  Node *root = createNode(1);        // 根节点
-  root->left = createNode(2);        // 根的左子节点
-  root->right = createNode(3);       // 根的右子节点
-  root->left->left = createNode(4);  // 节点2的左子节点
-  root->left->right = createNode(5); // 节点2的右子节点
-  root->right->left = createNode(6); // 节点3的左子节点
+  // 构建示例二叉树
+  //        1
+  //       / \
+  //      2   3
+  //     / \   /
+  //    4   5 6
+  Node *root = createNode(1);
+  root->left = createNode(2);
+  root->right = createNode(3);
+  root->left->left = createNode(4);
+  root->left->right = createNode(5);
+  root->right->left = createNode(6);
 
-  // 输出树的遍历结果
+  // 输出三种遍历结果
   printf("前序遍历：");
-  preorderTraversal(root); // 1 2 4 5 3 6
+  preorderTraversal(root);
   printf("\n");
 
   printf("中序遍历：");
-  inorderTraversal(root); // 4 2 5 1 6 3
+  inorderTraversal(root);
   printf("\n");
 
   printf("后序遍历：");
-  postorderTraversal(root); // 4 5 2 6 3 1
+  postorderTraversal(root);
   printf("\n");
 
   return 0;
