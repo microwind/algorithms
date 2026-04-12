@@ -1,9 +1,33 @@
 #!/usr/bin/env python
 # -*- encoding: UTF-8-*-
 """
- * Copyright © https://github.com/microwind All rights reserved.
- * @author: jarryli@gmail.com
- * @version: 1.0
+Copyright © https://github.com/microwind All rights reserved.
+@author: jarryli@gmail.com
+@version: 1.0
+@description: 最大子数组和算法（Kadane算法） - Python实现
+
+算法原理：
+Kadane算法是一种动态规划方法。对于每个位置，我们决定：
+1. 将当前元素加入之前的子数组
+2. 从当前元素开始一个新的子数组
+取两者中的较大值作为当前最大子数组和。
+
+本文件提供四种实现方式：
+- 方法1: 暴力求解法，逐个计算所有子数组
+- 方法2: 动态规划方法，建立记录表存储每个位置的最大子数组和
+- 方法3: Kadane算法，动态规划的优化版本，最简单高效
+- 方法4: 分治法，递归求解
+
+时间复杂度：
+- 暴力法: O(n²)
+- 动态规划: O(n)
+- Kadane算法: O(n)
+- 分治法: O(n log n)
+空间复杂度：
+- 暴力法: O(1)
+- 动态规划: O(n)
+- Kadane算法: O(1)
+- 分治法: O(log n) 递归栈
 """
 
 from typing import List

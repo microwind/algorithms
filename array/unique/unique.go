@@ -1,13 +1,51 @@
+/**
+ * Copyright © https://github.com/microwind All rights reserved.
+ * @author: jarryli@gmail.com
+ * @version: 1.0
+ * @description: 数组去重算法 - Go实现
+ *
+ * 算法原理：
+ * - 通过比较元素，找出数组中只出现一次的元素
+ * - 移除或跳过重复出现的元素
+ * - 保留元素的相对顺序（取决于具体实现）
+ *
+ * 本文件提供12种不同的去重实现：
+ * - unique1: 从前往后比较，删除前面的重复项
+ * - unique2: 从后往前比较，删除后面的重复项
+ * - unique3: 新建数组，检查是否包含
+ * - unique4: 索引比较法，保留首次出现的元素
+ * - unique5-8: 先排序再去重
+ * - unique9-10: 使用map数据结构去重
+ * - unique11-12: 使用递归调用去重
+ *
+ * 时间复杂度:
+ * - 双层循环方法: O(n²)
+ * - 排序方法: O(n log n)
+ * - 哈希表方法: O(n)
+ * 空间复杂度: O(n) - 需要额外数组或map存储
+ *
+ * 应用场景：
+ * - 数据清洗
+ * - 统计唯一值
+ * - 数据库去重
+ */
+
 package main
 
-import(
-  "fmt"
-  "sort"
+import (
+	"fmt"
+	"sort"
 )
 
 /**
- * 方式1。将当前项逐个与后项比较，如遇到相同，则删除当前项
+ * 方式1：从前往后删除法（删除当前项）
+ * 将当前项逐个与后项比较，如遇到相同，则删除当前项
+ *
+ * 时间复杂度：O(n²)
+ * 空间复杂度：O(1) - 原地修改
+ *
  * @param arr 数组切片
+ * @return 去重后的数组切片
  */
 func unique1(arr []int) []int {
   var arr_len int = len(arr)
@@ -15,7 +53,6 @@ func unique1(arr []int) []int {
     // 拿当前项逐个与后面的每一项进行比较
     for j := i + 1; j < arr_len; j++ {
       if arr[i] == arr[j] {
-      	// fmt.Printf("i=%d equals j=%d\n ", arr[i], arr[j])
       	// 如果存在重复项，则将重复项删除，并重新给数组赋值
         arr = append(arr[:i], arr[i+1:]...)
         // 因为删除了当前项，总长度和当前的下标需要各减去1个
@@ -29,8 +66,14 @@ func unique1(arr []int) []int {
 }
 
 /**
- * 方式2。自后往前逐个对比，如遇到相同，则删除当前项
+ * 方式2：从后往前删除法
+ * 自后往前逐个对比，如遇到相同，则删除当前项
+ *
+ * 时间复杂度：O(n²)
+ * 空间复杂度：O(1) - 原地修改
+ *
  * @param arr 数组切片
+ * @return 去重后的数组切片
  */
 func unique2(arr []int) []int {
   var arr_len int = len(arr) - 1
@@ -47,8 +90,6 @@ func unique2(arr []int) []int {
     // 或拿最后项与前面的各项逐个(自前向后)进行比较
     for j := 0; j < arr_len; j++ {
       if arr[arr_len] == arr[j] {
-      	// fmt.Printf("arr_len=%d equals j=%d\n ", arr[arr_len], arr[j])
-      	// 如果存在重复项，则将重复项删除，并重新给数组赋值
         arr = append(arr[:arr_len], arr[arr_len + 1:]...)
         break
       }
@@ -59,8 +100,14 @@ func unique2(arr []int) []int {
 }
 
 /**
- * 方式3。新建数组与检查新数组是否包含
+ * 方式3：新建数组检查法
+ * 新建数组与检查新数组是否包含当前项
+ *
+ * 时间复杂度：O(n²)
+ * 空间复杂度：O(n)
+ *
  * @param arr 数组切片
+ * @return 去重后的数组切片
  */
 func unique3(arr []int) []int {
   var arr_len int = len(arr)
@@ -91,8 +138,14 @@ func unique3(arr []int) []int {
 }
 
 /**
- * 方式4。新建数组与对比下标是否第一次出现
+ * 方式4：索引比较法
+ * 新建数组与对比下标是否第一次出现
+ *
+ * 时间复杂度：O(n²)
+ * 空间复杂度：O(n)
+ *
  * @param arr 数组切片
+ * @return 去重后的数组切片
  */
 func unique4(arr []int) []int {
   var arr_len int = len(arr)
@@ -107,7 +160,6 @@ func unique4(arr []int) []int {
       if arr[i] == arr[j] {
       // 如果下标也相同表示第一次出现，即可添加到新数组中去
       	if i == j {
-      	  // fmt.Printf("i%d = j%d \n", i, j)
       	  result[result_idx] = arr[i]
       	  result_idx++
       	}
@@ -121,8 +173,14 @@ func unique4(arr []int) []int {
 }
 
 /**
- * 方式5。先排序再移除重复项
+ * 方式5：排序后删除法
+ * 先排序再移除重复项
+ *
+ * 时间复杂度：O(n log n) - 排序是O(n log n)
+ * 空间复杂度：O(1) - 原地修改
+ *
  * @param arr 数组切片
+ * @return 去重后的数组切片（升序）
  */
 func unique5(arr []int) []int {
   // 先排序
@@ -132,17 +190,22 @@ func unique5(arr []int) []int {
   	// 如果当前项与下一项重复，则移除重复项
   	if arr[i] == arr[i + 1] {
       arr = append(arr[:i], arr[i+1:]...)
-      arr_len--;
-      i--;
+      arr_len--
+      i--
   	}
   }
   return arr[:arr_len]
 }
 
-
 /**
- * 方式6。先排序再把不相同的添加到新切片中
+ * 方式6：排序后新建数组法
+ * 先排序再把不相同的添加到新切片中
+ *
+ * 时间复杂度：O(n log n) - 排序是O(n log n)
+ * 空间复杂度：O(n)
+ *
  * @param arr 数组切片
+ * @return 去重后的数组切片（升序）
  */
 func unique6(arr []int) (result []int) {
   // 先排序
@@ -162,8 +225,14 @@ func unique6(arr []int) (result []int) {
 }
 
 /**
- * 方式7。先排序再把不相同的添加到新切片中
+ * 方式7：排序后遍历法
+ * 先排序再把不相同的添加到新切片中，最后添加最后一项
+ *
+ * 时间复杂度：O(n log n) - 排序是O(n log n)
+ * 空间复杂度：O(n)
+ *
  * @param arr 数组切片
+ * @return 去重后的数组切片（升序）
  */
 func unique7(arr []int) (result []int) {
   // 先排序
@@ -182,8 +251,14 @@ func unique7(arr []int) (result []int) {
 
 
 /**
- * 方式8。先排序再把不相同的添加到新建数组中
+ * 方式8：排序后预分配数组法
+ * 先排序再把不相同的添加到新建数组中，预分配数组长度
+ *
+ * 时间复杂度：O(n log n) - 排序是O(n log n)
+ * 空间复杂度：O(n)
+ *
  * @param arr 数组切片
+ * @return 去重后的数组切片（升序）
  */
 func unique8(arr []int) []int {
   // 先排序
@@ -205,8 +280,14 @@ func unique8(arr []int) []int {
 }
 
 /**
- * 方式9。利用map数据结构来去重复
+ * 方式9：Map去重法
+ * 利用map数据结构的键唯一性来去重
+ *
+ * 时间复杂度：O(n) - map的插入和查询是O(1)
+ * 空间复杂度：O(n)
+ *
  * @param arr 数组切片
+ * @return 去重后的数组切片（无序）
  */
 func unique9(arr []int) (result []int) {
   // 新建临时map，用于存放去重结果
@@ -228,8 +309,14 @@ func unique9(arr []int) (result []int) {
 }
 
 /**
- * 方式10。利用struct和map构建Set类型来去重
+ * 方式10：Set结构体去重法
+ * 利用struct和map构建Set类型来去重，使用空结构体节省内存
+ *
+ * 时间复杂度：O(n)
+ * 空间复杂度：O(n)
+ *
  * @param arr 数组切片
+ * @return 去重后的数组切片（无序）
  */
 // 构建空结构作为值，可不占内存
 type None struct {}
@@ -246,9 +333,6 @@ func (s *Set) add(value int) {
 func (s *Set) addAll(arr []int) {
   // 将全部内容添加到set中去
   for _, v := range arr {
-    // if !s.contains(v) {
-    //   fmt.Println("it's included.")
-    // }
     s.add(v)
   }
 }
@@ -273,8 +357,15 @@ func unique10(arr []int) (result []int) {
 }
 
 /**
- * 方式11。利用递归调用来删除重复项
+ * 方式11：递归删除法
+ * 利用递归调用来删除重复项，自后往前逐个比较
+ *
+ * 时间复杂度：O(n²)
+ * 空间复杂度：O(n) - 递归栈深度
+ *
  * @param arr 数组切片
+ * @param arr_len 当前处理长度
+ * @return 去重后的数组切片
  */
 func unique11(arr []int, arr_len int) []int {
   if arr_len < 0 {
@@ -296,8 +387,15 @@ func unique11(arr []int, arr_len int) []int {
 }
 
 /**
- * 方式12。利用递归调用来拼接新数组切片
+ * 方式12：递归拼接法
+ * 利用递归调用来拼接新数组切片，将不重复项添加到结果中
+ *
+ * 时间复杂度：O(n²)
+ * 空间复杂度：O(n) - 递归栈深度
+ *
  * @param arr 数组切片
+ * @param arr_len 当前处理长度
+ * @return 去重后的数组切片
  */
 func unique12(arr []int, arr_len int) (result []int) {
   // 小于1表示比较完成，返回空数组
@@ -307,7 +405,7 @@ func unique12(arr []int, arr_len int) (result []int) {
   last := arr_len - 1
   prev := last - 1
   is_repeat := false
-  // 逐个与前面项目比较，遇到相同则移除最后一项
+  // 逐个与前面项目比较，遇到相同则跳过
   for ; prev >= 0; prev-- {
     if arr[last] == arr[prev] {
       // 如果遇到重复则跳过

@@ -1,8 +1,35 @@
-
 /**
  * Copyright © https://github.com/microwind All rights reserved.
  * @author: jarryli@gmail.com
  * @version: 1.0
+ * @description: 数组去重算法 - Java实现
+ *
+ * 算法原理：
+ * - 通过比较元素，找出数组中只出现一次的元素
+ * - 移除或跳过重复出现的元素
+ * - 保留元素的相对顺序（取决于具体实现）
+ *
+ * 本文件提供18种不同的去重实现：
+ * - 方法1-5: 双循环比较，在原数组或新数组上操作
+ * - 方法6: 使用HashMap去重
+ * - 方法7: 使用Stream filter
+ * - 方法8-10: 使用Set数据结构（HashSet、LinkedHashSet、TreeSet）
+ * - 方法11-12: 排序后去重
+ * - 方法13: 使用Stream distinct
+ * - 方法14-15: 特殊遍历方式
+ * - 方法16-17: 递归方法
+ * - 方法18: 优化的双循环
+ *
+ * 时间复杂度:
+ * - 双循环方法: O(n²)
+ * - 排序方法: O(n log n)
+ * - 哈希表/Set方法: O(n)
+ * 空间复杂度: O(n) - 需要额外集合或数组存储
+ *
+ * 应用场景：
+ * - 数据清洗
+ * - 统计唯一值
+ * - 数据库去重
  */
 import java.util.*;
 import java.util.stream.Collectors;
@@ -10,19 +37,29 @@ import java.util.stream.Stream;
 
 public class UniqueArray {
 
-  // 1. 遍历全部成员，将当前项目与左边项逐个进行对比，如果值相同且下标相同表示唯一，
-  // 其他则认为是重复项进行忽略
+  /**
+   * 方法1：双循环索引比较法
+   * 遍历全部成员，将当前项与左边项逐个对比
+   * 如果值相同且下标相同表示唯一，其他则认为是重复项
+   *
+   * 时间复杂度：O(n²)
+   * 空间复杂度：O(n)
+   *
+   * @param arr 输入数组
+   * @return 去重后的数组
+   */
   static int[] unique1(int arr[]) {
     int newArr[] = new int[arr.length];
     int x = 0;
     for (int i = 0; i < arr.length; i++) {
       for (int j = 0; j <= i; j++) {
         if (arr[i] == arr[j]) {
+          // 值相同且下标相同，表示第一次出现
           if (i == j) {
             newArr[x] = arr[i];
             x++;
           }
-          break;
+          break; // 找到相同值后跳出
         }
       }
     }
@@ -30,13 +67,23 @@ public class UniqueArray {
     return result;
   }
 
-  // 2. 先将数组转换为List，利用List的indexOf方法查找下标，
-  // 当下标匹配时表示唯一，添加到新列表中
+  /**
+   * 方法2：indexOf索引法
+   * 将数组转换为List，利用List的indexOf方法查找下标
+   * 当下标匹配时表示唯一，添加到新列表中
+   *
+   * 时间复杂度：O(n²) - indexOf是O(n)，循环n次
+   * 空间复杂度：O(n)
+   *
+   * @param arr 输入数组
+   * @return 去重后的数组
+   */
   static Integer[] unique2(Integer arr[]) {
     int x = 0;
     List<Integer> list = new ArrayList<>(Arrays.asList(arr));
     int l = list.size();
     for (int i = 0; i < l; i++) {
+      // indexOf返回第一次出现的索引，如果等于当前索引说明是第一次出现
       if (list.indexOf(arr[i]) == i) {
         list.add(arr[i]);
         x++;
@@ -47,8 +94,17 @@ public class UniqueArray {
     return list.subList(list.size() - x, list.size()).toArray(result);
   }
 
-  // 3. 在原有列表上移除重复项目。自后往前遍历，逐个与前面项比较，
-  // 如果值相同且下标相同，则移除当前项。
+  /**
+   * 方法3：从后往前删除法
+   * 在原有列表上移除重复项目，自后往前遍历
+   * 逐个与前面项比较，如果值相同则移除当前项
+   *
+   * 时间复杂度：O(n²)
+   * 空间复杂度：O(n)
+   *
+   * @param arr 输入数组
+   * @return 去重后的数组
+   */
   static Integer[] unique3(Integer arr[]) {
     List<Integer> list = new ArrayList<>(Arrays.asList(arr));
     int l = list.size();
@@ -64,8 +120,17 @@ public class UniqueArray {
     return list.toArray(new Integer[list.size()]);
   }
 
-  // 4. 在原有列表上移除重复项目。自前往后遍历，逐个与前面项比较，
-  // 如果值相同且下标相同，则移除前面项。
+  /**
+   * 方法4：从前往后删除法（删除前面项）
+   * 在原有列表上移除重复项目，自前往后遍历
+   * 逐个与前面项比较，如果值相同则移除当前项
+   *
+   * 时间复杂度：O(n²)
+   * 空间复杂度：O(n)
+   *
+   * @param arr 输入数组
+   * @return 去重后的数组
+   */
   static Integer[] unique4(Integer arr[]) {
     List<Integer> list = new ArrayList<>(Arrays.asList(arr));
     int l = list.size();
@@ -74,7 +139,7 @@ public class UniqueArray {
       for (int j = 0; j < i; j++) {
         if (list.get(i).equals(list.get(j))) {
           list.remove(i);
-          i--;
+          i--; // 调整索引
           l--;
           break;
         }
@@ -83,8 +148,17 @@ public class UniqueArray {
     return list.toArray(new Integer[list.size()]);
   }
 
-  // 5. 在原有列表上移除重复项目。自前往后遍历，逐个与后面项比较，
-  // 如果值相同且下标相同，则移除当前项。
+  /**
+   * 方法5：从前往后删除法（删除后面项）
+   * 在原有列表上移除重复项目，自前往后遍历
+   * 逐个与后面项比较，如果值相同则移除后面项
+   *
+   * 时间复杂度：O(n²)
+   * 空间复杂度：O(n)
+   *
+   * @param arr 输入数组
+   * @return 去重后的数组
+   */
   static Integer[] unique5(Integer arr[]) {
     List<Integer> list = new ArrayList<>(Arrays.asList(arr));
     int l = list.size();
@@ -92,7 +166,7 @@ public class UniqueArray {
       for (int j = i + 1; j < l; j++) {
         if (list.get(i).equals(list.get(j))) {
           list.remove(j);
-          i--;
+          i--; // 调整索引
           l--;
           break;
         }
@@ -101,13 +175,22 @@ public class UniqueArray {
     return list.toArray(new Integer[list.size()]);
   }
 
-  // 6. 利用hashMap属性唯一性来实现去重复。
+  /**
+   * 方法6：HashMap去重法
+   * 利用HashMap键的唯一性来实现去重
+   *
+   * 时间复杂度：O(n) - HashMap的put和containsKey是O(1)
+   * 空间复杂度：O(n)
+   *
+   * @param arr 输入数组
+   * @return 去重后的数组
+   */
   static Integer[] unique6(Integer arr[]) {
     Map<Object, Integer> map = new HashMap<Object, Integer>();
 
     for (Integer item : arr) {
       if (map.containsKey(item)) {
-        continue;
+        continue; // 已存在则跳过
       }
       map.put(item, item);
     }
@@ -116,7 +199,17 @@ public class UniqueArray {
     return list.toArray(new Integer[list.size()]);
   }
 
-  // 7. 利用filter表达式，即把不符合条件的过滤掉。需要借助外部列表存储不重复项。
+  /**
+   * 方法7：Stream filter去重法
+   * 利用Stream的filter表达式过滤掉重复项
+   * 需要借助外部列表存储不重复项
+   *
+   * 时间复杂度：O(n²) - indexOf是O(n)
+   * 空间复杂度：O(n)
+   *
+   * @param arr 输入数组
+   * @return 去重后的数组
+   */
   static List<Integer> unique7newArr = new ArrayList<>();
 
   static boolean unique7contains(Integer item) {
@@ -133,7 +226,16 @@ public class UniqueArray {
         .toArray(new Integer[UniqueArray.unique7newArr.size()]);
   }
 
-  // 8. 利用hashSet数据结构直接去重复项。无序非同步。
+  /**
+   * 方法8：HashSet去重法
+   * 利用HashSet数据结构直接去重，无序非同步
+   *
+   * 时间复杂度：O(n)
+   * 空间复杂度：O(n)
+   *
+   * @param arr 输入数组
+   * @return 去重后的数组（无序）
+   */
   static Integer[] unique8(Integer arr[]) {
     System.out.print("covert to steam first then to set: ");
     Arrays.asList(arr).stream().collect(Collectors.toSet()).forEach(System.out::print);
@@ -142,19 +244,47 @@ public class UniqueArray {
     return new ArrayList<>(set).toArray(new Integer[set.size()]);
   }
 
-  // 9. 利用LinkedHashSet数据结构直接去重复项。有序链表。
+  /**
+   * 方法9：LinkedHashSet去重法
+   * 利用LinkedHashSet数据结构直接去重，保持插入顺序
+   *
+   * 时间复杂度：O(n)
+   * 空间复杂度：O(n)
+   *
+   * @param arr 输入数组
+   * @return 去重后的数组（保持原顺序）
+   */
   static Integer[] unique9(Integer arr[]) {
     Set<Integer> linkedHashSet = new LinkedHashSet<>(Arrays.asList(arr));
     return new ArrayList<>(linkedHashSet).toArray(new Integer[linkedHashSet.size()]);
   }
 
-  // 10. 利用TreeSet数据结构直接去重复项。自然排序和定制排序。
+  /**
+   * 方法10：TreeSet去重法
+   * 利用TreeSet数据结构直接去重，自动排序（降序）
+   *
+   * 时间复杂度：O(n log n)
+   * 空间复杂度：O(n)
+   *
+   * @param arr 输入数组
+   * @return 去重后的数组（降序排序）
+   */
   static Integer[] unique10(Integer arr[]) {
     Set<Integer> treeSet = new TreeSet<>(Arrays.asList(arr)).descendingSet();
     return new ArrayList<>(treeSet).toArray(new Integer[treeSet.size()]);
   }
 
-  // 11. 提前排序，从后向前遍历，将当前项与前一项对比，如果重复则移除当前项
+  /**
+   * 方法11：排序后从后往前删除法
+   * 提前排序，从后向前遍历，将当前项与前一项对比
+   * 如果重复则移除当前项
+   *
+   * 时间复杂度：O(n log n) - 排序是O(n log n)
+   * 空间复杂度：O(n)
+   *
+   * @param arr 输入数组
+   * @return 去重后的数组（升序）
+   */
   static Integer[] unique11(Integer arr[]) {
     List<Integer> list = new ArrayList<>(Arrays.asList(arr));
     Collections.sort(list);
@@ -166,7 +296,17 @@ public class UniqueArray {
     return new ArrayList<>(list).toArray(new Integer[list.size()]);
   }
 
-  // 12. 提前排序，自前往后遍历，将当前项与后一项对比，如果重复则移除当前项
+  /**
+   * 方法12：排序后从前往后删除法（降序）
+   * 提前降序排序，自前往后遍历
+   * 将当前项与后一项对比，如果重复则移除当前项
+   *
+   * 时间复杂度：O(n log n) - 排序是O(n log n)
+   * 空间复杂度：O(n)
+   *
+   * @param arr 输入数组
+   * @return 去重后的数组（降序）
+   */
   static Integer[] unique12(Integer arr[]) {
     List<Integer> list = new ArrayList<>(Arrays.asList(arr));
     Collections.sort(list, Collections.reverseOrder());
@@ -174,22 +314,40 @@ public class UniqueArray {
     for (int i = 0; i < l; i++) {
       if (list.get(i).equals(list.get(i + 1))) {
         list.remove(i);
-        i--;
+        i--; // 调整索引
         l--;
       }
     }
     return new ArrayList<>(list).toArray(new Integer[list.size()]);
   }
 
-  // 13. 转为stream，利用distinct方法去重复
+  /**
+   * 方法13：Stream distinct去重法
+   * 转为Stream，利用distinct方法去重
+   *
+   * 时间复杂度：O(n)
+   * 空间复杂度：O(n)
+   *
+   * @param arr 输入数组
+   * @return 去重后的数组
+   */
   static Integer[] unique13(Integer arr[]) {
     List<Integer> list = new ArrayList<>(Arrays.asList(arr));
     list = list.stream().distinct().collect(Collectors.toList());
     return new ArrayList<>(list).toArray(new Integer[list.size()]);
   }
 
-  // 14. 双循环自右往左逐个与左侧项对比，如遇相同则跳过当前项
-  // 下一项为当前项，继续逐个与左侧项对比
+  /**
+   * 方法14：从右往左跳过重复法
+   * 双循环自右往左逐个与左侧项对比
+   * 如遇相同则跳过当前项，下一项为当前项，继续逐个与左侧项对比
+   *
+   * 时间复杂度：O(n²)
+   * 空间复杂度：O(n)
+   *
+   * @param arr 输入数组
+   * @return 去重后的数组
+   */
   static Integer[] unique14(Integer arr[]) {
     int len = arr.length;
     Integer[] result = new Integer[len];
@@ -197,17 +355,26 @@ public class UniqueArray {
     for (int i = len - 1; i >= 0; i--) {
       for (int j = i - 1; j >= 0; j--) {
         if (arr[i].equals(arr[j])) {
-          i--;
+          i--; // 跳过重复项
           j = i;
         }
       }
-      // 非重复项的为唯一，追加到新数组
+      // 非重复项为唯一，追加到新数组
       result[--x] = arr[i];
     }
     return Arrays.copyOfRange(result, x, len);
   }
 
-  // 15. 利用Interator来遍历List，如果不在新列表中则添加
+  /**
+   * 方法15：Iterator遍历法
+   * 利用Iterator来遍历List，如果不在新列表中则添加
+   *
+   * 时间复杂度：O(n²) - contains是O(n)
+   * 空间复杂度：O(n)
+   *
+   * @param arr 输入数组
+   * @return 去重后的数组
+   */
   static Integer[] unique15(Integer arr[]) {
     List<Integer> list = new ArrayList<>(Arrays.asList(arr));
     List<Integer> result = new ArrayList<>();
@@ -221,8 +388,20 @@ public class UniqueArray {
     return new ArrayList<>(result).toArray(new Integer[result.size()]);
   }
 
-  // 16. 利用递归调用来去重复。递归自后往前逐个调用，当长度为1时终止。
-  // 当后一项与前任一项相同说明有重复，则删除当前项。相当于利用自我调用来替换循环
+  /**
+   * 方法16：递归去重法（删除原数组）
+   * 利用递归调用来去重，递归自后往前逐个调用，当长度为1时终止
+   * 当后一项与前任一项相同说明有重复，则删除当前项
+   * 相当于利用自我调用来替换循环
+   *
+   * 时间复杂度：O(n²)
+   * 空间复杂度：O(n) - 递归栈深度
+   *
+   * @param arr 输入数组
+   * @param len 当前处理长度
+   * @param result 结果列表
+   * @return 去重后的数组
+   */
   static Integer[] uniqueRecursion1(Integer arr[], 
     int len, List<Integer> result) {
     int last = len - 1;
@@ -246,8 +425,18 @@ public class UniqueArray {
     return uniqueRecursion1(arr, len - 1, result);
   }
 
-  // 17. 利用递归调用来去重复的另外一种方式。递归自后往前逐个调用，当长度为1时终止。
-  // 与上一个递归不同，这里将不重复的项目作为结果拼接起来
+  /**
+   * 方法17：递归去重法（拼接结果）
+   * 利用递归调用来去重的另一种方式，递归自后往前逐个调用
+   * 与上一个递归不同，这里将不重复的项目作为结果拼接起来
+   *
+   * 时间复杂度：O(n²)
+   * 空间复杂度：O(n) - 递归栈深度
+   *
+   * @param arr 输入列表
+   * @param len 当前处理长度
+   * @return 去重后的列表
+   */
   static List<Integer> uniqueRecursion2(List<Integer> arr, int len) {
     if (len <= 1) {
       System.out.println("last arr:" + arr);
@@ -277,10 +466,19 @@ public class UniqueArray {
   }
 
 
-  // 18. 双重循环，将左侧项逐个与当前项比较。
-  // 如果遇到值相等则跳出循环比较下标，
-  // 若下标相同表示第一次出现则追加到新数组。
-  // 这里与第1个方案稍微不同。
+  /**
+   * 方法18：优化的双循环索引比较法
+   * 双重循环，将左侧项逐个与当前项比较
+   * 如果遇到值相等则跳出循环比较下标
+   * 若下标相同表示第一次出现则追加到新数组
+   * 与方法1类似，但实现略有不同
+   *
+   * 时间复杂度：O(n²)
+   * 空间复杂度：O(n)
+   *
+   * @param arr 输入数组
+   * @return 去重后的数组
+   */
   static Integer[] unique18(Integer arr[]) {
     Integer newArr[] = new Integer[arr.length];
     int x = 0;
@@ -288,9 +486,10 @@ public class UniqueArray {
       int j = 0;;
       for (; j < i; j++) {
         if (arr[i].equals(arr[j])) {
-          break;
+          break; // 找到相同值后跳出
         }
       }
+      // j == i 表示没有找到重复值，是第一次出现
       if (i == j) {
         newArr[x] = arr[i];
         x++;

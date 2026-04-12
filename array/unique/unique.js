@@ -2,6 +2,32 @@
  * Copyright © https://github.com/microwind All rights reserved.
  * @author: jarryli@gmail.com
  * @version: 1.0
+ * @description: 数组去重算法 - JavaScript实现
+ * 
+ * 算法原理：
+ * - 通过比较元素，找出数组中只出现一次的元素
+ * - 移除或跳过重复出现的元素
+ * - 保留元素的相对顺序（取决于具体实现）
+ * 
+ * 本文件提供15种不同的去重实现：
+ * - 方法1-3: 新建数组，检查是否包含
+ * - 方法4-5: 在原数组上删除重复项
+ * - 方法6-8: 使用indexOf、filter等内置方法
+ * - 方法9-10: 使用对象和Map数据结构
+ * - 方法11: 使用Set数据结构
+ * - 方法12-13: 排序后去重
+ * - 方法14-15: 使用递归
+ * 
+ * 时间复杂度:
+ * - 双层循环方法: O(n²)
+ * - 排序方法: O(n log n)
+ * - 哈希表/Set方法: O(n)
+ * 空间复杂度: O(n) - 需要额外数组或对象存储
+ * 
+ * 应用场景：
+ * - 数据清洗
+ * - 统计唯一值
+ * - 数据库去重
  */
 
 // the multi method for array unique

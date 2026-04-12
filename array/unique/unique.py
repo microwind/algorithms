@@ -1,9 +1,38 @@
 #!/usr/bin/env python
 #-*- encoding: UTF-8-*-
 """
- * Copyright © https://github.com/microwind All rights reserved.
- * @author: jarryli@gmail.com
- * @version: 1.0
+Copyright © https://github.com/microwind All rights reserved.
+@author: jarryli@gmail.com
+@version: 1.0
+@description: 数组去重算法 - Python实现
+
+算法原理：
+- 通过比较元素，找出数组中只出现一次的元素
+- 移除或跳过重复出现的元素
+- 保留元素的相对顺序（取决于具体实现）
+
+本文件提供20种不同的去重实现：
+- 方法1-5: 新建列表，检查是否包含
+- 方法6-7: 在原列表上删除重复项
+- 方法8: 使用index比较
+- 方法9-10: 使用字典去重
+- 方法11-13: 使用filter、map等高阶函数
+- 方法14: 使用set数据结构
+- 方法15-16: 排序后去重
+- 方法17: 使用reduce函数
+- 方法18: 使用numpy库
+- 方法19-20: 使用递归
+
+时间复杂度:
+- 双层循环方法: O(n²)
+- 排序方法: O(n log n)
+- 哈希表/set方法: O(n)
+空间复杂度: O(n) - 需要额外列表或字典存储
+
+应用场景：
+- 数据清洗
+- 统计唯一值
+- 数据库去重
 """
 import time
 
