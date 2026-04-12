@@ -1,20 +1,28 @@
+/**
+ * 霍夫曼编码实现 - C语言
+ * 基于最小堆构建霍夫曼树，生成最优前缀编码
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
 
+// 霍夫曼树节点
 typedef struct HuffmanNode {
     char character;
     int frequency;
     struct HuffmanNode *left, *right;
 } HuffmanNode;
 
+// 最小堆结构
 typedef struct {
     int size;
     int capacity;
     HuffmanNode** array;
 } MinHeap;
 
+// 创建霍夫曼节点
 HuffmanNode* createNode(char character, int frequency) {
     HuffmanNode* node = (HuffmanNode*)malloc(sizeof(HuffmanNode));
     node->character = character;
@@ -23,6 +31,7 @@ HuffmanNode* createNode(char character, int frequency) {
     return node;
 }
 
+// 创建最小堆
 MinHeap* createMinHeap(int capacity) {
     MinHeap* heap = (MinHeap*)malloc(sizeof(MinHeap));
     heap->size = 0;
@@ -37,10 +46,11 @@ void swapNodes(HuffmanNode** a, HuffmanNode** b) {
     *b = temp;
 }
 
+// 堆化：维护最小堆性质
 void minHeapify(MinHeap* heap, int idx) {
     int smallest = idx;
-    int left = 2 * idx + 1;
-    int right = 2 * idx + 2;
+    int left = 2 * idx + 1;   // 左子节点
+    int right = 2 * idx + 2;  // 右子节点
 
     if (left < heap->size && 
         heap->array[left]->frequency < heap->array[smallest]->frequency)
@@ -56,6 +66,7 @@ void minHeapify(MinHeap* heap, int idx) {
     }
 }
 
+// 提取最小频率节点
 HuffmanNode* extractMin(MinHeap* heap) {
     HuffmanNode* temp = heap->array[0];
     heap->array[0] = heap->array[heap->size - 1];
@@ -82,17 +93,19 @@ void buildMinHeap(MinHeap* heap) {
         minHeapify(heap, i);
 }
 
+// 打印霍夫曼编码（递归遍历树）
 void printCodes(HuffmanNode* root, char* arr, int top) {
     if (root->left) {
-        arr[top] = '0';
+        arr[top] = '0';  // 左分支为0
         printCodes(root->left, arr, top + 1);
     }
     
     if (root->right) {
-        arr[top] = '1';
+        arr[top] = '1';  // 右分支为1
         printCodes(root->right, arr, top + 1);
     }
     
+    // 叶子节点：输出字符及其编码
     if (!root->left && !root->right) {
         printf("%c: ", root->character);
         for (int i = 0; i < top; ++i)
@@ -101,19 +114,23 @@ void printCodes(HuffmanNode* root, char* arr, int top) {
     }
 }
 
+// 构建霍夫曼树并生成编码
 void HuffmanCodes(char* data, int* freq, int size) {
     MinHeap* heap = createMinHeap(size);
     
+    // 初始化：所有字符作为独立节点入堆
     for (int i = 0; i < size; ++i)
         heap->array[i] = createNode(data[i], freq[i]);
     
     heap->size = size;
     buildMinHeap(heap);
     
+    // 循环合并最小频率节点，直到只剩一个根节点
     while (heap->size > 1) {
         HuffmanNode* left = extractMin(heap);
         HuffmanNode* right = extractMin(heap);
         
+        // 创建内部节点，'$'标记非叶子节点
         HuffmanNode* parent = createNode('$', left->frequency + right->frequency);
         parent->left = left;
         parent->right = right;

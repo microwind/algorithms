@@ -1,0 +1,11 @@
+node_modules/
+dist/
+build/
+*.log
+*.zip
+*.tar
+*.docx
+*.bin
+coverage/
+.nyc_output/
+*.lock

@@ -1,8 +1,10 @@
 /**
  * Copyright © https://github.com/microwind All rights reserved.
- * 
  * @author: jarryli@gmail.com
  * @version: 1.0
+ * @description:
+ *  LZ77压缩算法实现 - Go
+ *  核心：滑动窗口查找重复模式，输出(offset, length, char)三元组
  */
 
 package main
@@ -12,6 +14,7 @@ import (
 	"strings"
 )
 
+// Token: LZ77压缩令牌 (偏移量, 匹配长度, 下一个字符)
 type Token struct {
 	Offset    int
 	Length    int
@@ -25,13 +28,15 @@ func (t Token) String() string {
 	return fmt.Sprintf("(%c)", t.Character)
 }
 
+// LZ77压缩：滑动窗口查找最长匹配
 func lz77Compress(input string) []Token {
 	fmt.Println("LZ77压缩开始...")
 	var tokens []Token
-	windowSize := 256
+	windowSize := 256  // 滑动窗口大小
 	position := 0
 	
 	for position < len(input) {
+		// 计算当前窗口范围
 		maxLength := windowSize
 		if position < windowSize {
 			maxLength = position
@@ -42,7 +47,7 @@ func lz77Compress(input string) []Token {
 		bestLength := 0
 		bestOffset := 0
 		
-		// 在窗口中搜索最长匹配
+		// 在窗口中搜索最长匹配串
 		for i := 0; i < len(window); i++ {
 			matchLength := 0
 			for position+matchLength < len(input) &&

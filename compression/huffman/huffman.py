@@ -1,6 +1,12 @@
+"""
+霍夫曼编码实现 - Python
+基于最小堆构建最优前缀编码
+"""
+
 import heapq
 from collections import defaultdict
 
+# 霍夫曼树节点
 class HuffmanNode:
     def __init__(self, char=None, freq=0, left=None, right=None):
         self.char = char
@@ -13,17 +19,17 @@ class HuffmanNode:
 
 def huffman_encode(text):
     """生成Huffman编码表"""
-    # 统计频率
+    # 统计字符频率
     frequency = defaultdict(int)
     for char in text:
         frequency[char] += 1
     
-    # 构建优先队列
+    # 初始化：所有字符节点入堆
     heap = []
     for char, freq in frequency.items():
         heapq.heappush(heap, HuffmanNode(char, freq))
     
-    # 构建Huffman树
+    # 循环合并最小频率节点，构建霍夫曼树
     while len(heap) > 1:
         left = heapq.heappop(heap)
         right = heapq.heappop(heap)
@@ -37,10 +43,12 @@ def huffman_encode(text):
     
     return encoding_map
 
+# 递归生成编码：左0右1
 def _generate_codes(node, code, encoding_map):
     if node is None:
         return
     
+    # 叶子节点：存储编码
     if node.left is None and node.right is None:
         encoding_map[node.char] = code if code else "0"
         return

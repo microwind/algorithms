@@ -1,23 +1,30 @@
+/**
+ * 游程编码(RLE)实现 - C语言
+ * 核心思想：连续重复字符编码为"字符+计数"
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 
+// 压缩：连续字符转为"字符+计数"
 char* compress(const char* text) {
     if (!text || *text == '\0') {
         return strdup(text);
     }
     
-    int compressed_size = strlen(text) * 2 + 1; // 最坏情况
+    int compressed_size = strlen(text) * 2 + 1; // 最坏情况：每个字符都变2字符
     char* compressed = (char*)malloc(compressed_size);
     int compressed_index = 0;
     
     char current_char = text[0];
     int count = 1;
     
+    // 遍历统计连续字符
     for (int i = 1; text[i] != '\0'; i++) {
         if (text[i] == current_char) {
-            count++;
+            count++;  // 连续相同字符，计数+1
         } else {
             compressed[compressed_index++] = current_char;
             if (count > 1) {
@@ -38,12 +45,14 @@ char* compress(const char* text) {
     return compressed;
 }
 
+// 解压：解析"字符+计数"还原原始字符串
 char* decompress(const char* compressed) {
     if (!compressed || *compressed == '\0') {
         return strdup(compressed);
     }
     
-    int decompressed_size = strlen(compressed) * 10; // 估算大小
+    // 估算解压后大小（数字最大999999999）
+    int decompressed_size = strlen(compressed) * 10;
     char* decompressed = (char*)malloc(decompressed_size);
     int decompressed_index = 0;
     

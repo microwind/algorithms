@@ -1,3 +1,8 @@
+/**
+ * 霍夫曼编码实现 - Go
+ * 基于最小堆构建最优前缀编码
+ */
+
 package main
 
 import (
@@ -6,13 +11,15 @@ import (
 	"strings"
 )
 
+// 霍夫曼树节点
 type HuffmanNode struct {
-	char     rune
-	freq     int
-	left     *HuffmanNode
-	right    *HuffmanNode
+	char  rune
+	freq  int
+	left  *HuffmanNode
+	right *HuffmanNode
 }
 
+// 最小堆实现（Go标准库heap.Interface）
 type HuffmanHeap []*HuffmanNode
 
 func (h HuffmanHeap) Len() int           { return len(h) }
@@ -27,14 +34,15 @@ func (h *HuffmanHeap) Pop() interface{} {
 	return item
 }
 
+// 霍夫曼编码入口：返回字符到编码的映射
 func HuffmanEncode(text string) map[rune]string {
-	// 统计频率
+	// 统计字符频率
 	freqMap := make(map[rune]int)
 	for _, char := range text {
 		freqMap[char]++
 	}
 	
-	// 构建优先队列
+	// 初始化：所有字符节点入堆
 	h := &HuffmanHeap{}
 	heap.Init(h)
 	for char, freq := range freqMap {

@@ -1,31 +1,38 @@
+/**
+ * 霍夫曼编码实现 - JavaScript
+ * 基于贪心策略构建最优前缀编码树
+ */
+
+// 霍夫曼树节点
 class HuffmanNode {
     constructor(char, freq, left = null, right = null) {
-        this.char = char;
-        this.freq = freq;
-        this.left = left;
-        this.right = right;
+        this.char = char;    // 字符（叶子节点）
+        this.freq = freq;    // 频率
+        this.left = left;    // 左子树（编码0）
+        this.right = right;  // 右子树（编码1）
     }
 }
 
 class HuffmanCoding {
+    // 生成霍夫曼编码表
     static huffmanEncode(text) {
-        // 统计频率
+        // 统计字符频率
         const frequency = {};
         for (const char of text) {
             frequency[char] = (frequency[char] || 0) + 1;
         }
         
-        // 构建优先队列
+        // 初始化：所有字符节点入队
         const queue = [];
         for (const [char, freq] of Object.entries(frequency)) {
             queue.push(new HuffmanNode(char, freq));
         }
         queue.sort((a, b) => a.freq - b.freq);
         
-        // 构建Huffman树
+        // 循环合并最小频率节点，构建霍夫曼树
         while (queue.length > 1) {
-            const left = queue.shift();
-            const right = queue.shift();
+            const left = queue.shift();   // 最小
+            const right = queue.shift();  // 次小
             const parent = new HuffmanNode(null, left.freq + right.freq, left, right);
             
             // 保持队列有序
@@ -50,16 +57,18 @@ class HuffmanCoding {
         return encodingMap;
     }
     
+    // 递归生成编码：左0右1
     static generateCodes(node, code, encodingMap) {
         if (!node) return;
         
+        // 叶子节点：存储编码
         if (!node.left && !node.right) {
-            encodingMap[node.char] = code || "0";
+            encodingMap[node.char] = code || '0';
             return;
         }
         
-        this.generateCodes(node.left, code + "0", encodingMap);
-        this.generateCodes(node.right, code + "1", encodingMap);
+        this.generateCodes(node.left, code + '0', encodingMap);
+        this.generateCodes(node.right, code + '1', encodingMap);
     }
     
     static compress(text, encodingMap) {
