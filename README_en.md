@@ -83,7 +83,6 @@ For details, see: [Classic Algorithm Ideas](./start-here/algorithmic-thinking.md
 | Python | [factor.py](math/factor/factor.py) | O(sqrt(n)) | Scientific computing and data analysis |
 | Java | [Factor.java](math/factor/Factor.java) | O(sqrt(n)) | Enterprise application computation |
 | Kotlin | [factor.kt](math/factor/factor.kt) | O(sqrt(n)) | Android and backend computation |
-| Dart | [factor.dart](math/factor/factor.dart) | O(sqrt(n)) | Flutter applications |
 | Swift | [factor.swift](math/factor/factor.swift) | O(sqrt(n)) | iOS/macOS development |
 | Objective-C | [factor.m](math/factor/factor.m) | O(sqrt(n)) | Legacy iOS/macOS development |
 | Rust | [factor.rs](math/factor/factor.rs) | O(sqrt(n)) | High-performance computation |
@@ -98,7 +97,6 @@ For details, see: [Classic Algorithm Ideas](./start-here/algorithmic-thinking.md
 | Python | [unique.py](array/unique/unique.py) | O(n) | Data cleaning and analysis |
 | Java | [UniqueArray.java](array/unique/UniqueArray.java) | O(n log n) | Enterprise applications |
 | TypeScript | [UniqueArray.ts](array/unique/UniqueArray.ts) | O(n) | Front-end TypeScript projects |
-| Dart | [unique.dart](array/unique/unique.dart) | O(n) | Flutter applications |
 | Rust | [unique.rs](array/unique/unique.rs) | O(n) | High-performance computation |
 
 ## Recursion
