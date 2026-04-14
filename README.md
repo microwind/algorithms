@@ -56,58 +56,58 @@ AI可以替代人工编码工作，但难以替代人的认知与思考。**深�
 - **[图算法](./algorithmic-thinking/search-algorithms/)**：包括广度优先搜索、深度优先搜索、Dijkstra算法、Kruskal算法等，用于解决图相关问题。
 - **[分支限界法](./algorithmic-thinking/branch-and-bound/)**：一种组合优化问题的求解方法，通过系统地探索搜索树的分支来解决问题。
 
-详细请见：[算法思想大全](./algorithmic-thinking)
+详细请见：[程序员需要掌握的算法思想大全](./algorithmic-thinking)
     
 ## 10大经典排序算法
 
-| 排序算法 | C | C++ | Java | Py | JS | TS | Go | Rust | Swift | Kotlin | 适用场景 |
-|---------|--------|--------|---------|---------|-------------|-------------|-----|------|------|--------|--------|
-| [冒泡排序 bubble sort](./sorting/bubblesort/) | [C](./sorting/bubblesort/bubble_sort.c) | [C++](./sorting/bubblesort/bubble_sort.cpp) | [Java](./sorting/bubblesort/BubbleSort.java) | [Py](./sorting/bubblesort/bubble_sort.py) | [JS](./sorting/bubblesort/bubble_sort.js) | [TS](./sorting/bubblesort/BubbleSort.ts) | [Go](./sorting/bubblesort/bubble_sort.go) | [Rust](./sorting/bubblesort/bubble_sort.rs) | [Swift](./sorting/bubblesort/BubbleSort.swift) | [Kotlin](./sorting/bubblesort/BubbleSort.kt) | 适用于小规模数据排序，教学用途 |
-| [插入排序 insert sort](./sorting/insertsort/) | [C](./sorting/insertsort/insert_sort.c) | [C++](./sorting/insertsort/insert_sort.cpp) | [Java](./sorting/insertsort/InsertSort.java) | [Py](./sorting/insertsort/insert_sort.py) | [JS](./sorting/insertsort/insert_sort.js) | [TS](./sorting/insertsort/InsertSort.ts) | [Go](./sorting/insertsort/insert_sort.go) | [Rust](./sorting/insertsort/insert_sort.rs) | [Swift](./sorting/insertsort/InsertSort.swift) | [Kotlin](./sorting/insertsort/InsertSort.kt) | 适用于小规模数据，少量元素已基本有序的情况 |
-| [选择排序 selection sort](./sorting/selectionsort/) | [C](./sorting/selectionsort/selection_sort.c) | [C++](./sorting/selectionsort/selection_sort.cpp) | [Java](./sorting/selectionsort/SelectionSort.java) | [Py](./sorting/selectionsort/selection_sort.py) | [JS](./sorting/selectionsort/selection_sort.js) | [TS](./sorting/selectionsort/SelectionSort.ts) | [Go](./sorting/selectionsort/selection_sort.go) | [Rust](./sorting/selectionsort/selection_sort.rs) | [Swift](./sorting/selectionsort/SelectionSort.swift) | [Kotlin](./sorting/selectionsort/SelectionSort.kt) | 适用于小规模数据，数据交换次数较少 |
-| [堆排序 heap sort](./sorting/heapsort/) | [C](./sorting/heapsort/heap_sort.c) | [C++](./sorting/heapsort/heap_sort.cpp) | [Java](./sorting/heapsort/HeapSort.java) | [Py](./sorting/heapsort/heap_sort.py) | [JS](./sorting/heapsort/heap_sort.js) | [TS](./sorting/heapsort/HeapSort.ts) | [Go](./sorting/heapsort/heap_sort.go) | [Rust](./sorting/heapsort/heap_sort.rs) | [Swift](./sorting/heapsort/HeapSort.swift) | [Kotlin](./sorting/heapsort/HeapSort.kt) | 适用于优先队列、TOP K问题 |
-| [快速排序 quick sort](./sorting/quicksort/) | [C](./sorting/quicksort/quick_sort.c) | [C++](./sorting/quicksort/quick_sort.cpp) | [Java](./sorting/quicksort/QuickSort.java) | [Py](./sorting/quicksort/quick_sort.py) | [JS](./sorting/quicksort/quick_sort.js) | [TS](./sorting/quicksort/QuickSort.ts) | [Go](./sorting/quicksort/quick_sort.go) | [Rust](./sorting/quicksort/quick_sort.rs) | [Swift](./sorting/quicksort/QuickSort.swift) | [Kotlin](./sorting/quicksort/QuickSort.kt) | 适用于一般排序场景，性能优异但不稳定 |
-| [归并排序 merge sort](./sorting/mergesort/) | [C](./sorting/mergesort/merge_sort.c) | [C++](./sorting/mergesort/merge_sort.cpp) | [Java](./sorting/mergesort/MergeSort.java) | [Py](./sorting/mergesort/merge_sort.py) | [JS](./sorting/mergesort/merge_sort.js) | [TS](./sorting/mergesort/MergeSort.ts) | [Go](./sorting/mergesort/merge_sort.go) | [Rust](./sorting/mergesort/merge_sort.rs) | [Swift](./sorting/mergesort/MergeSort.swift) | [Kotlin](./sorting/mergesort/MergeSort.kt) | 适用于大数据量排序，适合外部排序 |
-| [计数排序 counting sort](./sorting/countingsort/) | [C](./sorting/countingsort/counting_sort.c) | [C++](./sorting/countingsort/counting_sort.cpp) | [Java](./sorting/countingsort/CountingSort.java) | [Py](./sorting/countingsort/counting_sort.py) | [JS](./sorting/countingsort/counting_sort.js) | [TS](./sorting/countingsort/CountingSort.ts) | [Go](./sorting/countingsort/counting_sort.go) | [Rust](./sorting/countingsort/counting_sort.rs) | [Swift](./sorting/countingsort/CountingSort.swift) | [Kotlin](./sorting/countingsort/CountingSort.kt) | 适用于数据范围有限的整数排序 |
-| [基数排序 radix sort](./sorting/radixsort/) | [C](./sorting/radixsort/radix_sort.c) | [C++](./sorting/radixsort/radix_sort.cpp) | [Java](./sorting/radixsort/RadixSort.java) | [Py](./sorting/radixsort/radix_sort.py) | [JS](./sorting/radixsort/radix_sort.js) | [TS](./sorting/radixsort/RadixSort.ts) | [Go](./sorting/radixsort/radix_sort.go) | [Rust](./sorting/radixsort/radix_sort.rs) | [Swift](./sorting/radixsort/RadixSort.swift) | [Kotlin](./sorting/radixsort/RadixSort.kt) | 适用于大规模整数排序，如身份证号、手机号排序 |
-| [桶排序 bucket sort](./sorting/bucketsort/) | [C](./sorting/bucketsort/bucket_sort.c) | [C++](./sorting/bucketsort/bucket_sort.cpp) | [Java](./sorting/bucketsort/BucketSort.java) | [Py](./sorting/bucketsort/bucket_sort.py) | [JS](./sorting/bucketsort/BucketSort.js) | [TS](./sorting/bucketsort/BucketSort.ts) | [Go](./sorting/bucketsort/bucket_sort.go) | [Rust](./sorting/bucketsort/bucket_sort.rs) | [Swift](./sorting/bucketsort/BucketSort.swift) | [Kotlin](./sorting/bucketsort/BucketSort.kt) | 适用于数据范围均匀分布的排序 |
-| [希尔排序 shell sort](./sorting/shellsort/) | [C](./sorting/shellsort/shell_sort.c) | [C++](./sorting/shellsort/ShellSort.cpp) | [Java](./sorting/shellsort/ShellSort.java) | [Py](./sorting/shellsort/shell_sort.py) | [JS](./sorting/shellsort/shell_sort.js) | [TS](./sorting/shellsort/ShellSort.ts) | [Go](./sorting/shellsort/shell_sort.go) | [Rust](./sorting/shellsort/shell_sort.rs) | [Swift](./sorting/shellsort/ShellSort.swift) | [Kotlin](./sorting/shellsort/ShellSort.kt) | 适用于中等规模数据排序，适合半有序数据 |
+| 排序算法 | C | C++ | Java | Py | JS | TS | Go | Rust | Swift | 适用场景 |
+|----------|---|-----|------|----|----|----|----|------|-------|----------|
+| [冒泡排序 bubble sort](./sorting/bubblesort/) | [C](./sorting/bubblesort/bubble_sort.c) | [C++](./sorting/bubblesort/bubble_sort.cpp) | [Java](./sorting/bubblesort/BubbleSort.java) | [Py](./sorting/bubblesort/bubble_sort.py) | [JS](./sorting/bubblesort/bubble_sort.js) | [TS](./sorting/bubblesort/BubbleSort.ts) | [Go](./sorting/bubblesort/bubble_sort.go) | [Rust](./sorting/bubblesort/bubble_sort.rs) | [Swift](./sorting/bubblesort/BubbleSort.swift) | 适用于小规模数据排序，教学用途 |
+| [插入排序 insert sort](./sorting/insertsort/) | [C](./sorting/insertsort/insert_sort.c) | [C++](./sorting/insertsort/insert_sort.cpp) | [Java](./sorting/insertsort/InsertSort.java) | [Py](./sorting/insertsort/insert_sort.py) | [JS](./sorting/insertsort/insert_sort.js) | [TS](./sorting/insertsort/InsertSort.ts) | [Go](./sorting/insertsort/insert_sort.go) | [Rust](./sorting/insertsort/insert_sort.rs) | [Swift](./sorting/insertsort/InsertSort.swift) | 适用于小规模数据，少量元素已基本有序的情况 |
+| [选择排序 selection sort](./sorting/selectionsort/) | [C](./sorting/selectionsort/selection_sort.c) | [C++](./sorting/selectionsort/selection_sort.cpp) | [Java](./sorting/selectionsort/SelectionSort.java) | [Py](./sorting/selectionsort/selection_sort.py) | [JS](./sorting/selectionsort/selection_sort.js) | [TS](./sorting/selectionsort/SelectionSort.ts) | [Go](./sorting/selectionsort/selection_sort.go) | [Rust](./sorting/selectionsort/selection_sort.rs) | [Swift](./sorting/selectionsort/SelectionSort.swift) | 适用于小规模数据，数据交换次数较少 |
+| [堆排序 heap sort](./sorting/heapsort/) | [C](./sorting/heapsort/heap_sort.c) | [C++](./sorting/heapsort/heap_sort.cpp) | [Java](./sorting/heapsort/HeapSort.java) | [Py](./sorting/heapsort/heap_sort.py) | [JS](./sorting/heapsort/heap_sort.js) | [TS](./sorting/heapsort/HeapSort.ts) | [Go](./sorting/heapsort/heap_sort.go) | [Rust](./sorting/heapsort/heap_sort.rs) | [Swift](./sorting/heapsort/HeapSort.swift) | 适用于优先队列、TOP K问题 |
+| [快速排序 quick sort](./sorting/quicksort/) | [C](./sorting/quicksort/quick_sort.c) | [C++](./sorting/quicksort/quick_sort.cpp) | [Java](./sorting/quicksort/QuickSort.java) | [Py](./sorting/quicksort/quick_sort.py) | [JS](./sorting/quicksort/quick_sort.js) | [TS](./sorting/quicksort/QuickSort.ts) | [Go](./sorting/quicksort/quick_sort.go) | [Rust](./sorting/quicksort/quick_sort.rs) | [Swift](./sorting/quicksort/QuickSort.swift) | 适用于一般排序场景，性能优异但不稳定 |
+| [归并排序 merge sort](./sorting/mergesort/) | [C](./sorting/mergesort/merge_sort.c) | [C++](./sorting/mergesort/merge_sort.cpp) | [Java](./sorting/mergesort/MergeSort.java) | [Py](./sorting/mergesort/merge_sort.py) | [JS](./sorting/mergesort/merge_sort.js) | [TS](./sorting/mergesort/MergeSort.ts) | [Go](./sorting/mergesort/merge_sort.go) | [Rust](./sorting/mergesort/merge_sort.rs) | [Swift](./sorting/mergesort/MergeSort.swift) | 适用于大数据量排序，适合外部排序 |
+| [计数排序 counting sort](./sorting/countingsort/) | [C](./sorting/countingsort/counting_sort.c) | [C++](./sorting/countingsort/counting_sort.cpp) | [Java](./sorting/countingsort/CountingSort.java) | [Py](./sorting/countingsort/counting_sort.py) | [JS](./sorting/countingsort/counting_sort.js) | [TS](./sorting/countingsort/CountingSort.ts) | [Go](./sorting/countingsort/counting_sort.go) | [Rust](./sorting/countingsort/counting_sort.rs) | [Swift](./sorting/countingsort/CountingSort.swift) | 适用于数据范围有限的整数排序 |
+| [基数排序 radix sort](./sorting/radixsort/) | [C](./sorting/radixsort/radix_sort.c) | [C++](./sorting/radixsort/radix_sort.cpp) | [Java](./sorting/radixsort/RadixSort.java) | [Py](./sorting/radixsort/radix_sort.py) | [JS](./sorting/radixsort/radix_sort.js) | [TS](./sorting/radixsort/RadixSort.ts) | [Go](./sorting/radixsort/radix_sort.go) | [Rust](./sorting/radixsort/radix_sort.rs) | [Swift](./sorting/radixsort/RadixSort.swift) | 适用于大规模整数排序，如身份证号、手机号排序 |
+| [桶排序 bucket sort](./sorting/bucketsort/) | [C](./sorting/bucketsort/bucket_sort.c) | [C++](./sorting/bucketsort/bucket_sort.cpp) | [Java](./sorting/bucketsort/BucketSort.java) | [Py](./sorting/bucketsort/bucket_sort.py) | [JS](./sorting/bucketsort/bucket_sort.js) | [TS](./sorting/bucketsort/BucketSort.ts) | [Go](./sorting/bucketsort/bucket_sort.go) | [Rust](./sorting/bucketsort/bucket_sort.rs) | [Swift](./sorting/bucketsort/BucketSort.swift) | 适用于数据范围均匀分布的排序 |
+| [希尔排序 shell sort](./sorting/shellsort/) | [C](./sorting/shellsort/shell_sort.c) | [C++](./sorting/shellsort/ShellSort.cpp) | [Java](./sorting/shellsort/ShellSort.java) | [Py](./sorting/shellsort/shell_sort.py) | [JS](./sorting/shellsort/shell_sort.js) | [TS](./sorting/shellsort/ShellSort.ts) | [Go](./sorting/shellsort/shell_sort.go) | [Rust](./sorting/shellsort/shell_sort.rs) | [Swift](./sorting/shellsort/ShellSort.swift) | 适用于中等规模数据排序，适合半有序数据 |
 
 📖 **详细指南**：[十大排序算法全解：多语言源码仓库](./sorting/10-Sorting-Algorithms-Multi-Language.md)
 
 
 ## 字符串搜索与查找
 
-| 算法 | C | C++ | Java | Py | JS | TS | Go | Rust | Swift | Kotlin | 适用场景 |
-|------|--------|--------|---------|---------|-------------|-------------|-----|------|------|--------|--------|
-| [朴素搜索](./string/nativesearch/) | [C](./string/nativesearch/string_search.c) | [C++](./string/nativesearch/string_search.cpp) | [Java](./string/nativesearch/StringSearch.java) | [Python](./string/nativesearch/string_search.py) | [JS](./string/nativesearch/string_search.js) | [TS](./string/nativesearch/StringSearch.ts) | [Go](./string/nativesearch/string_search.go) | [Rust](./string/nativesearch/string_search.rs) | [Swift](./string/nativesearch/StringSearch.swift) | [Kotlin](./string/nativesearch/StringSearch.kt) | 适用于小规模文本搜索 |
-| [二分查找](./searching/binarysearch/) | [C](./searching/binarysearch/binary_search.c) | [C++](./searching/binarysearch/binary_search.cpp) | [Java](./searching/binarysearch/BinarySearch.java) | [Python](./searching/binarysearch/binary_search.py) | [JS](./searching/binarysearch/binary_search.js) | [TS](./searching/binarysearch/BinarySearch.ts) | [Go](./searching/binarysearch/binary_search.go) | [Rust](./searching/binarysearch/binary_search.rs) | [Swift](./searching/binarysearch/BinarySearch.swift) | [Kotlin](./searching/binarysearch/BinarySearch.kt) | 适用于已排序数组的查找 |
-| [KMP搜索](./string/KMPsearch/) | [C](./string/KMPsearch/kmp_search.c) | [C++](./string/KMPsearch/kmp_search.cpp) | [Java](./string/KMPsearch/KMPSearch.java) | [Python](./string/KMPsearch/kmp_search.py) | [JS](./string/KMPsearch/kmp_search.js) | [TS](./string/KMPsearch/KMPSearch.ts) | [Go](./string/KMPsearch/kmp_search.go) | [Rust](./string/KMPsearch/kmp_search.rs) | [Swift](./string/KMPsearch/KMPSearch.swift) | [Kotlin](./string/KMPsearch/KMPSearch.kt) | 适用于大规模文本搜索 |
-
+| 算法 | C | C++ | Java | Py | JS | TS | Go | Rust | Swift | 适用场景 |
+|------|---|-----|------|----|----|----|----|------|-------|----------|
+| [朴素搜索](./string/nativesearch/) | [C](./string/nativesearch/string_search.c) | [C++](./string/nativesearch/string_search.cpp) | [Java](./string/nativesearch/StringSearch.java) | [Python](./string/nativesearch/string_search.py) | [JS](./string/nativesearch/string_search.js) | [TS](./string/nativesearch/StringSearch.ts) | [Go](./string/nativesearch/string_search.go) | [Rust](./string/nativesearch/string_search.rs) | [Swift](./string/nativesearch/StringSearch.swift) | 适用于小规模文本搜索 |
+| [二分查找](./searching/binarysearch/) | [C](./searching/binarysearch/binary_search.c) | [C++](./searching/binarysearch/binary_search.cpp) | [Java](./searching/binarysearch/BinarySearch.java) | [Python](./searching/binarysearch/binary_search.py) | [JS](./searching/binarysearch/binary_search.js) | [TS](./searching/binarysearch/BinarySearch.ts) | [Go](./searching/binarysearch/binary_search.go) | [Rust](./searching/binarysearch/binary_search.rs) | [Swift](./searching/binarysearch/BinarySearch.swift) | 适用于已排序数组的查找 |
+| [KMP搜索](./string/KMPsearch/) | [C](./string/KMPsearch/kmp_search.c) | [C++](./string/KMPsearch/kmp_search.cpp) | [Java](./string/KMPsearch/KMPSearch.java) | [Python](./string/KMPsearch/kmp_search.py) | [JS](./string/KMPsearch/kmp_search.js) | [TS](./string/KMPsearch/KMPSearch.ts) | [Go](./string/KMPsearch/kmp_search.go) | [Rust](./string/KMPsearch/kmp_search.rs) | [Swift](./string/KMPsearch/KMPSearch.swift) | 适用于大规模文本搜索 |
 
 ## 树搜索与遍历
 
-| 算法 | C | C++ | Java | Py | JS | TS | Go | Rust | Swift | Kotlin | 适用场景 |
-|------|--------|--------|---------|---------|-------------|-------------|-----|------|------|--------|--------|
-| [二叉树遍历](./tree/binarytree/) | [C](./tree/binarytree/binary_tree.c) | [C++](./tree/binarytree/binary_tree.cpp) | [Java](./tree/binarytree/BinaryTree.java) | [Python](./tree/binarytree/binary_tree.py) | [JS](./tree/binarytree/binary_tree.js) | [TS](./tree/binarytree/BinaryTree.ts) | [Go](./tree/binarytree/binary_tree.go) | [Rust](./tree/binarytree/binary_tree.rs) | [Swift](./tree/binarytree/BinaryTree.swift) | [Kotlin](./tree/binarytree/BinaryTree.kt) | 适用于树结构数据的遍历，如 XML 解析、文件系统遍历 |
+| 算法 | C | C++ | Java | Py | JS | TS | Go | Rust | Swift | 适用场景 |
+|------|---|-----|------|----|----|----|----|------|-------|----------|
+| [二叉树遍历](./tree/binarytree/) | [C](./tree/binarytree/binary_tree.c) | [C++](./tree/binarytree/binary_tree.cpp) | [Java](./tree/binarytree/BinaryTree.java) | [Python](./tree/binarytree/binary_tree.py) | [JS](./tree/binarytree/binary_tree.js) | [TS](./tree/binarytree/BinaryTree.ts) | [Go](./tree/binarytree/binary_tree.go) | [Rust](./tree/binarytree/binary_tree.rs) | [Swift](./tree/binarytree/BinaryTree.swift) | 适用于树结构数据的遍历，如 XML 解析、文件系统遍历 |
+
 
 ## 压缩算法详解
 
-| 算法 | C | C++ | Java | Py | JS | TS | Go | Rust | Swift | Kotlin | 适用场景 |
-|------|--------|--------|---------|---------|-------------|-------------|-----|------|------|--------|--------|
-| [Huffman编码](./compression/huffman/) | [C](./compression/huffman/huffman.c) | [C++](./compression/huffman/huffman.cpp) | [Java](./compression/huffman/Huffman.java) | [Python](./compression/huffman/huffman.py) | [JS](./compression/huffman/huffman.js) | [TS](./compression/huffman/Huffman.ts) | [Go](./compression/huffman/huffman.go) | [Rust](./compression/huffman/huffman.rs) | [Swift](./compression/huffman/Huffman.swift) | [Kotlin](./compression/huffman/Huffman.kt) | 适用于无损数据压缩、文件压缩 |
-| [Run-Length Encoding](./compression/rle/) | [C](./compression/rle/rle.c) | [C++](./compression/rle/rle.cpp) | [Java](./compression/rle/RLE.java) | [Python](./compression/rle/rle.py) | [JS](./compression/rle/rle.js) | [TS](./compression/rle/RLE.ts) | [Go](./compression/rle/rle.go) | [Rust](./compression/rle/rle.rs) | [Swift](./compression/rle/RLE.swift) | [Kotlin](./compression/rle/RLE.kt) | 适用于简单重复数据压缩 |
-| [LZ77算法](./compression/lz77/) | [C](./compression/lz77/lz77.c) | [C++](./compression/lz77/lz77.cpp) | [Java](./compression/lz77/LZ77.java) | [Python](./compression/lz77/lz77.py) | [JS](./compression/lz77/lz77.js) | [TS](./compression/lz77/LZ77.ts) | [Go](./compression/lz77/lz77.go) | [Rust](./compression/lz77/lz77.rs) | [Swift](./compression/lz77/LZ77.swift) | [Kotlin](./compression/lz77/LZ77.kt) | 适用于文本压缩、ZIP格式基础 |
-| [LZW算法](./compression/lzw/) | [C](./compression/lzw/lzw.c) | [C++](./compression/lzw/lzw.cpp) | [Java](./compression/lzw/LZW.java) | [Python](./compression/lzw/lzw.py) | [JS](./compression/lzw/lzw.js) | [TS](./compression/lzw/LZW.ts) | [Go](./compression/lzw/lzw.go) | [Rust](./compression/lzw/lzw.rs) | [Swift](./compression/lzw/LZW.swift) | [Kotlin](./compression/lzw/LZW.kt) | 适用于GIF格式、文本压缩 |
+| 算法 | C | C++ | Java | Py | JS | TS | Go | Rust | Swift | 适用场景 |
+|------|---|-----|------|----|----|----|----|------|-------|----------|
+| [Huffman编码](./compression/huffman/) | [C](./compression/huffman/huffman.c) | [C++](./compression/huffman/huffman.cpp) | [Java](./compression/huffman/Huffman.java) | [Python](./compression/huffman/huffman.py) | [JS](./compression/huffman/huffman.js) | [TS](./compression/huffman/Huffman.ts) | [Go](./compression/huffman/huffman.go) | [Rust](./compression/huffman/huffman.rs) | [Swift](./compression/huffman/Huffman.swift) | 适用于无损数据压缩、文件压缩 |
+| [Run-Length Encoding](./compression/rle/) | [C](./compression/rle/rle.c) | [C++](./compression/rle/rle.cpp) | [Java](./compression/rle/RLE.java) | [Python](./compression/rle/rle.py) | [JS](./compression/rle/rle.js) | [TS](./compression/rle/RLE.ts) | [Go](./compression/rle/rle.go) | [Rust](./compression/rle/rle.rs) | [Swift](./compression/rle/RLE.swift) | 适用于简单重复数据压缩 |
+| [LZ77算法](./compression/lz77/) | [C](./compression/lz77/lz77.c) | [C++](./compression/lz77/lz77.cpp) | [Java](./compression/lz77/LZ77.java) | [Python](./compression/lz77/lz77.py) | [JS](./compression/lz77/lz77.js) | [TS](./compression/lz77/LZ77.ts) | [Go](./compression/lz77/lz77.go) | [Rust](./compression/lz77/lz77.rs) | [Swift](./compression/lz77/LZ77.swift) | 适用于文本压缩、ZIP格式基础 |
+| [LZW算法](./compression/lzw/) | [C](./compression/lzw/lzw.c) | [C++](./compression/lzw/lzw.cpp) | [Java](./compression/lzw/LZW.java) | [Python](./compression/lzw/lzw.py) | [JS](./compression/lzw/lzw.js) | [TS](./compression/lzw/LZW.ts) | [Go](./compression/lzw/lzw.go) | [Rust](./compression/lzw/lzw.rs) | [Swift](./compression/lzw/LZW.swift) | 适用于GIF格式、文本压缩 |
 
 ## 加密算法详解
 
-| 算法 | C | C++ | Java | Py | JS | TS | Go | Rust | Swift | Kotlin | 适用场景 |
-|------|--------|--------|---------|---------|-------------|-------------|-----|------|------|--------|--------|
-| [AES加密](./cryptography/aes/) | [C](./cryptography/aes/aes.c) | [C++](./cryptography/aes/aes.cpp) | [Java](./cryptography/aes/AES.java) | [Python](./cryptography/aes/aes.py) | [JS](./cryptography/aes/aes.js) | [TS](./cryptography/aes/AES.ts) | [Go](./cryptography/aes/aes.go) | [Rust](./cryptography/aes/aes.rs) | [Swift](./cryptography/aes/AES.swift) | [Kotlin](./cryptography/aes/AES.kt) | 适用于对称加密、数据保护 |
-| [RSA加密](./cryptography/rsa/) | [C](./cryptography/rsa/rsa.c) | [C++](./cryptography/rsa/rsa.cpp) | [Java](./cryptography/rsa/RSA.java) | [Python](./cryptography/rsa/rsa.py) | [JS](./cryptography/rsa/rsa.js) | [TS](./cryptography/rsa/RSA.ts) | [Go](./cryptography/rsa/rsa.go) | [Rust](./cryptography/rsa/rsa.rs) | [Swift](./cryptography/rsa/RSA.swift) | [Kotlin](./cryptography/rsa/RSA.kt) | 适用于非对称加密、数字签名 |
-| [SHA哈希](./cryptography/sha/) | [C](./cryptography/sha/sha.c) | [C++](./cryptography/sha/sha.cpp) | [Java](./cryptography/sha/SHA.java) | [Python](./cryptography/sha/sha.py) | [JS](./cryptography/sha/sha.js) | [TS](./cryptography/sha/SHA.ts) | [Go](./cryptography/sha/sha.go) | [Rust](./cryptography/sha/sha.rs) | [Swift](./cryptography/sha/SHA.swift) | [Kotlin](./cryptography/sha/SHA.kt) | 适用于数据完整性校验、密码存储 |
-| [凯撒密码](./cryptography/caesar/) | [C](./cryptography/caesar/caesar.c) | [C++](./cryptography/caesar/caesar.cpp) | [Java](./cryptography/caesar/Caesar.java) | [Python](./cryptography/caesar/caesar.py) | [JS](./cryptography/caesar/caesar.js) | [TS](./cryptography/caesar/Caesar.ts) | [Go](./cryptography/caesar/caesar.go) | [Rust](./cryptography/caesar/caesar.rs) | [Swift](./cryptography/caesar/Caesar.swift) | [Kotlin](./cryptography/caesar/Caesar.kt) | 适用于古典加密、教学演示 |
+| 算法 | C | C++ | Java | Py | JS | TS | Go | Rust | Swift | 适用场景 |
+|------|---|-----|------|----|----|----|----|------|-------|----------|
+| [AES加密](./cryptography/aes/) | [C](./cryptography/aes/aes.c) | [C++](./cryptography/aes/aes.cpp) | [Java](./cryptography/aes/AES.java) | [Python](./cryptography/aes/aes.py) | [JS](./cryptography/aes/aes.js) | [TS](./cryptography/aes/AES.ts) | [Go](./cryptography/aes/aes.go) | [Rust](./cryptography/aes/aes.rs) | [Swift](./cryptography/aes/AES.swift) | 适用于对称加密、数据保护 |
+| [RSA加密](./cryptography/rsa/) | [C](./cryptography/rsa/rsa.c) | [C++](./cryptography/rsa/rsa.cpp) | [Java](./cryptography/rsa/RSA.java) | [Python](./cryptography/rsa/rsa.py) | [JS](./cryptography/rsa/rsa.js) | [TS](./cryptography/rsa/RSA.ts) | [Go](./cryptography/rsa/rsa.go) | [Rust](./cryptography/rsa/rsa.rs) | [Swift](./cryptography/rsa/RSA.swift) | 适用于非对称加密、数字签名 |
+| [SHA哈希](./cryptography/sha/) | [C](./cryptography/sha/sha.c) | [C++](./cryptography/sha/sha.cpp) | [Java](./cryptography/sha/SHA.java) | [Python](./cryptography/sha/sha.py) | [JS](./cryptography/sha/sha.js) | [TS](./cryptography/sha/SHA.ts) | [Go](./cryptography/sha/sha.go) | [Rust](./cryptography/sha/sha.rs) | [Swift](./cryptography/sha/SHA.swift) | 适用于数据完整性校验、密码存储 |
+| [凯撒密码](./cryptography/caesar/) | [C](./cryptography/caesar/caesar.c) | [C++](./cryptography/caesar/caesar.cpp) | [Java](./cryptography/caesar/Caesar.java) | [Python](./cryptography/caesar/caesar.py) | [JS](./cryptography/caesar/caesar.js) | [TS](./cryptography/caesar/Caesar.ts) | [Go](./cryptography/caesar/caesar.go) | [Rust](./cryptography/caesar/caesar.rs) | [Swift](./cryptography/caesar/Caesar.swift) | 适用于古典加密、教学演示 |
 
 ## 质因数分解
 
@@ -120,7 +120,7 @@ AI可以替代人工编码工作，但难以替代人的认知与思考。**深�
 | Go | [factor.go](./math/factor/factor.go) | O(√n) | 适用于后端服务计算 |
 | Python | [factor.py](./math/factor/factor.py) | O(√n) | 适用于科学计算、数据分析 |
 | Java | [Factor.java](./math/factor/Factor.java) | O(√n) | 适用于企业级应用计算 |
-| Kotlin | [factor.kt](./math/factor/factor.kt) | O(√n) | 适用于 Android 和后端计算 |
+| factor.kt | [factor.kt](./math/factor/factor.kt) | O(√n) | 适用于 Android 和后端计算 |
 | Swift | [factor.swift](./math/factor/factor.swift) | O(√n) | 适用于 iOS/macOS 开发 |
 | Objective-C | [factor.m](./math/factor/factor.m) | O(√n) | 适用于老版本 iOS/macOS |
 | Rust | [factor.rs](./math/factor/factor.rs) | O(√n) | 适用于高性能计算 |
@@ -184,7 +184,7 @@ AI可以替代人工编码工作，但难以替代人的认知与思考。**深�
 - [不同编程语言有哪些差异？如何选择入门语言？](https://www.toutiao.com/article/7122744261904450063) 
 - [如何学好编程？一文彻底搞懂](https://zhuanlan.zhihu.com/p/582174773)
 
-## 相关链接：AI时代程序员成长体系
+## AI时代程序员成长体系
 
 > AI时代，我们要从编码程序员转变成驱动AI的指挥官，告诉AI该怎么做，什么是好、什么是坏。
 
@@ -203,7 +203,7 @@ AI可以替代人工编码工作，但难以替代人的认知与思考。**深�
 如果您对本项目感兴趣请加我，欢迎一起共建！ 
 If you are interested in this project, please add me on WeChat. Let’s build it together!
 
-**我是Jarry 李春平, 从业20多年的互联网工程师。**
+**我是Jarry 李春平, 工作20多年的互联网程序员。**
 
 - 📧 mail: `jarryli@gmail.com`  or `lichunping@buaa.edu.cn`
 - 💬 wechat: `springbuild`
