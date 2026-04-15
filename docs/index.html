@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>算法思想与数据结构 | MicroWind · AI 技能</title>
+    <style>
+        :root {
+            --primary-green: #1f883d;
+            --light-green: #4ade80;
+            --accent-orange: #FF6600;
+            --bg-light: #f0fdf4;
+            --bg-dark: #ffffff;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --gradient-primary: linear-gradient(135deg, #1f883d 0%, #4ade80 100%);
+            --gradient-bg: linear-gradient(135deg, #f0fdf4 0%, #ffffff 50%, #f8fafc 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--gradient-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(31, 136, 61, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(74, 222, 128, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 102, 0, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            margin-top: 5px;
+            margin-right: 1rem;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .brand-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--primary-green);
+            transform: translateX(-50%);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-green);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--primary-green);
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 3rem 0;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(31, 136, 61, 0.08) 0%, rgba(74, 222, 128, 0.08) 100%);
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(31, 136, 61, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.1; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--gradient-primary);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary-green);
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            text-shadow: 0 2px 4px rgba(31, 136, 61, 0.1);
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .hero-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+            animation: fadeInUp 0.8s ease-out 0.6s both;
+        }
+
+        .hero-links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            border: 2px solid #21883e;
+            border-radius: 50px;
+            color: #21883e;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .hero-links a:hover {
+            color: var(--primary-green);
+            border-color: var(--primary-green);
+            background: rgba(33, 136, 62, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 1.5rem 0;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 2rem 0;
+        }
+
+        .content-section h2 {
+            font-size: 1.8rem;
+            color: var(--primary-green);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .content-section h3 {
+            font-size: 1.4rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .content-section p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .content-section ul {
+            margin-left: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .content-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: rgba(31, 136, 61, 0.05);
+            font-weight: 600;
+            color: var(--primary-green);
+        }
+
+        tr:hover {
+            background: rgba(31, 136, 61, 0.03);
+        }
+
+        table a {
+            color: var(--primary-green);
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        table a:hover {
+            text-decoration: underline;
+        }
+
+        /* Card Styles */
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px -5px rgba(31, 136, 61, 0.15);
+            border-color: var(--primary-green);
+        }
+
+        .card h3 {
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        /* Feature Grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px -5px rgba(31, 136, 61, 0.15);
+            border-color: var(--primary-green);
+        }
+
+        .feature-card h4 {
+            color: var(--primary-green);
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Link Styles */
+        a {
+            color: var(--primary-green);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-orange);
+        }
+
+        /* Blockquote */
+        blockquote {
+            border-left: 4px solid var(--primary-green);
+            padding: 1rem 1.5rem;
+            margin: 2rem 0;
+            background: rgba(31, 136, 61, 0.05);
+            border-radius: 0 8px 8px 0;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Code */
+        code {
+            background: rgba(31, 136, 61, 0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: var(--primary-green);
+        }
+
+        pre {
+            background: #1f2937;
+            color: #f3f4f6;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 2rem 0;
+        }
+
+        pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+        }
+
+        /* Footer */
+        footer {
+            background: white;
+            border-top: 1px solid var(--border-color);
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-green);
+        }
+
+        /* Inline Icons */
+        .icon-github {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            position: relative;
+        }
+        
+        .icon-github::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: currentColor;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z'/%3E%3C/svg%3E") no-repeat center;
+            mask-size: contain;
+            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z'/%3E%3C/svg%3E") no-repeat center;
+            -webkit-mask-size: contain;
+        }
+        
+        .github-link {
+            color: var(--primary-green);
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .github-link:hover {
+            color: #21883e;
+            background: rgba(31, 136, 61, 0.1);
+            transform: scale(1.05);
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--primary-green);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        /* Step Card Hover Effect */
+        .step-card:hover {
+            background: rgba(31, 136, 61, 0.1);
+            border-color: var(--primary-green);
+            transform: translateY(-2px);
+        }
+
+        .step-card a:hover {
+            background: var(--light-green);
+            transform: scale(1.05);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+            
+            .hero {
+                padding: 2rem 0;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+                line-height: 1.2;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .hero-badge {
+                font-size: 0.8rem;
+                padding: 0.4rem 1rem;
+            }
+
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 80px;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                transform: translateY(-100%);
+                transition: transform 0.3s ease;
+                z-index: 99;
+            }
+            
+            .nav-links.active {
+                display: flex;
+                transform: translateY(0);
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 0.75rem 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo-section">
+                <a href="https://microwind.github.io"><img class="logo" src="https://avatars.githubusercontent.com/u/67299763?s=200&v=4" alt="MicroWind Logo" /></a>
+                <div class="brand-name"><a href="https://microwind.github.io">MicroWind</a> · <a href="https://microwind.github.io/algorithms">Algorithms</a></div>
+            </div>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span>☰</span>
+            </button>
+            <div class="nav-links">
+                <a href="https://microwind.github.io">主页</a>
+                <a href="#why-learn">为什么学习</a>
+                <a href="#quick-start">快速开始</a>
+                <a href="#content-map">内容地图</a>
+                <a href="https://github.com/microwind/algorithms" rel="noopener noreferrer" class="github-link" title="GitHub">
+                    <span class="icon-github"></span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-badge">AI时代更需要学习数据结构与算法</div>
+                    <h1>算法思想与数据结构</h1>
+                    <div class="hero-subtitle">
+                        在AI时代，深刻理解数据结构与算法才能真正驾驭AI，发挥其最大价值
+                    </div>
+                    <div class="hero-links">
+                        <a href="#why-learn">为什么学习</a>
+                        <a href="#quick-start">快速开始</a>
+                        <a href="#content-map">内容地图</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="why-learn" class="section" style="padding-top: 3rem;">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">为什么学习这个库？</h2>
+                    <p class="section-subtitle">这不仅是一个算法教学库，更是一个编程思维训练营。<br>表层的框架与应用日新月异，而数据结构、算法以及底层逻辑思维则历久弥新。</p>
+                </div>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>多语言对照学习</h4>
+                        <p>同一算法用 C、Java、Python、JavaScript、Go、TypeScript、Rust 等多种语言实现，理解语言特性与算法思想的结合</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>完整学习闭环</h4>
+                        <p>从概念理解 → 代码实现 → 复杂度分析 → 练习应用，一站式学习</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>AI时代的新视角</h4>
+                        <p>包含《AI时代程序员的三层能力》系列文章，教你如何用算法思想指导AI编程</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>代码质量高</h4>
+                        <p>所有代码都有详细注释，遵循工程最佳实践，可直接用于面试和项目</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>循序渐进</h4>
+                        <p>从新手入门指南到高级算法思想，适合各个学习阶段</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>持续更新</h4>
+                        <p>定期补充新的算法、语言实现和真实项目案例</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="quick-start" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">快速开始（3分钟上手）</h2>
+                    <p class="section-subtitle">5个循序渐进的学习步骤，帮助你系统地掌握算法与数据结构</p>
+                </div>
+
+                <div class="card">
+                    <h3>5步学习路线</h3>
+                    <div style="display: flex; flex-direction: row; gap: 1rem; overflow-x: auto; padding-bottom: 1rem;">
+                        <div class="step-card" style="text-align: center; padding: 1.5rem; background: rgba(31, 136, 61, 0.05); border-radius: 12px; border: 1px solid rgba(31, 136, 61, 0.1); min-width: 200px; flex: 1; transition: all 0.3s ease;">
+                            <strong>第1步：了解编程基础</strong><br>
+                            <a href="https://github.com/microwind/algorithms/blob/main/start-here/what-is-programming.md" style="display: inline-block; padding: 0.5rem 1.5rem; background: var(--primary-green); color: white; border-radius: 50px; text-decoration: none; margin: 0.5rem 0; font-size: 0.9rem; transition: all 0.3s ease;">什么是编程</a>
+                            <p style="margin: 0.5rem 0; font-size: 0.9rem;">理解什么是编程，掌握编程的本质和核心概念。学会如何思考和解决问题。</p>
+                        </div>
+                        
+                        <div class="step-card" style="text-align: center; padding: 1.5rem; background: rgba(31, 136, 61, 0.05); border-radius: 12px; border: 1px solid rgba(31, 136, 61, 0.1); min-width: 200px; flex: 1; transition: all 0.3s ease;">
+                            <strong>第2步：选择入门语言</strong><br>
+                            <a href="https://github.com/microwind/algorithms/blob/main/start-here/recommand-learning-languages.md" style="display: inline-block; padding: 0.5rem 1.5rem; background: var(--primary-green); color: white; border-radius: 50px; text-decoration: none; margin: 0.5rem 0; font-size: 0.9rem; transition: all 0.3s ease;">推荐语言</a>
+                            <p style="margin: 0.5rem 0; font-size: 0.9rem;">选择适合你的编程语言（Python、Java、JavaScript 等）。搭建开发环境。</p>
+                        </div>
+                        
+                        <div class="step-card" style="text-align: center; padding: 1.5rem; background: rgba(31, 136, 61, 0.05); border-radius: 12px; border: 1px solid rgba(31, 136, 61, 0.1); min-width: 200px; flex: 1; transition: all 0.3s ease;">
+                            <strong>第3步：学习算法思想</strong><br>
+                            <a href="https://github.com/microwind/algorithms/blob/main/start-here/algorithmic-thinking.md" style="display: inline-block; padding: 0.5rem 1.5rem; background: var(--primary-green); color: white; border-radius: 50px; text-decoration: none; margin: 0.5rem 0; font-size: 0.9rem; transition: all 0.3s ease;">算法思想详解</a>
+                            <p style="margin: 0.5rem 0; font-size: 0.9rem;">掌握 7 大核心算法思想：贪心、分治、动态规划、回溯、分支限界、随机化、搜索。</p>
+                        </div>
+                        
+                        <div class="step-card" style="text-align: center; padding: 1.5rem; background: rgba(31, 136, 61, 0.05); border-radius: 12px; border: 1px solid rgba(31, 136, 61, 0.1); min-width: 200px; flex: 1; transition: all 0.3s ease;">
+                            <strong>第4步：经典排序算法</strong><br>
+                            <a href="#sorting" style="display: inline-block; padding: 0.5rem 1.5rem; background: var(--primary-green); color: white; border-radius: 50px; text-decoration: none; margin: 0.5rem 0; font-size: 0.9rem; transition: all 0.3s ease;">10大排序算法</a>
+                            <p style="margin: 0.5rem 0; font-size: 0.9rem;">从冒泡排序到快速排序，掌握经典的排序算法。理解时间空间复杂度和稳定性。</p>
+                        </div>
+                        
+                        <div class="step-card" style="text-align: center; padding: 1.5rem; background: rgba(31, 136, 61, 0.05); border-radius: 12px; border: 1px solid rgba(31, 136, 61, 0.1); min-width: 200px; flex: 1; transition: all 0.3s ease;">
+                            <strong>第5步：进阶学习</strong><br>
+                            <a href="#content-map" style="display: inline-block; padding: 0.5rem 1.5rem; background: var(--primary-green); color: white; border-radius: 50px; text-decoration: none; margin: 0.5rem 0; font-size: 0.9rem; transition: all 0.3s ease;">完整学习地图</a>
+                            <p style="margin: 0.5rem 0; font-size: 0.9rem;">深入学习树、图、动态规划等高级数据结构。二叉树、Dijkstra 算法、最长递增子序列等。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="ai-era" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">AI时代的新挑战：三层能力框架</h2>
+                    <p class="section-subtitle">AI能写代码，但不能替代你的思考。掌握这三层能力，让你成为AI时代的优秀程序员</p>
+                </div>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>第一层：需求描述工程师（What）</h4>
+                        <p>理解问题，清晰地表达需求</p>
+                        <a href="https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Requirements-Engineers.md">AI时代，程序员都应该是需求描述工程师</a>
+                    </div>
+                    <div class="feature-card">
+                        <h4>第二层：系统设计工程师（Scope）</h4>
+                        <p>定义边界，合理设计系统架构</p>
+                        <a href="https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-System-Design-Engineers.md">AI时代，程序员都应该是系统设计工程师</a>
+                    </div>
+                    <div class="feature-card">
+                        <h4>第三层：算法思想工程师（How）</h4>
+                        <p>掌握算法思想，用思想指导AI编程</p>
+                        <a href="https://github.com/microwind/algorithms/blob/main/start-here/AI-Era-Programmers-as-Algorithmic-Thinkers.md">AI时代，程序员都应该是算法思想工程师</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="content-map" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">完整学习内容地图</h2>
+                    <p class="section-subtitle">从基础到进阶，系统化学习算法与数据结构</p>
+                </div>
+
+                <div class="card">
+                    <h3>7大核心算法策略思想</h3>
+                    <p>掌握这7大思想，你就能解决99%的编程问题：</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>算法思想</th>
+                                <th>核心</th>
+                                <th>适用场景</th>
+                                <th>例子</th>
+                                <th>代码</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>贪心算法 Greedy</strong></td><td>每步选最优，期望全局最优</td><td>最优子结构 + 无后效性</td><td>活动选择、最小生成树、霍夫曼编码</td><td><a href="https://github.com/microwind/algorithms/blob/main/algorithmic-thinking/greedy-algorithm/" style="color: var(--primary-green); font-weight: 600;">查看</a></td></tr>
+                            <tr><td><strong>分治算法 Divide and Conquer</strong></td><td>分解 → 求解 → 合并</td><td>子问题结构相同</td><td>快排、归并排序、二分查找</td><td><a href="https://github.com/microwind/algorithms/blob/main/algorithmic-thinking/divide-and-conquer/" style="color: var(--primary-green); font-weight: 600;">查看</a></td></tr>
+                            <tr><td><strong>动态规划 Dynamic Programming</strong></td><td>空间换时间，记忆化避免重复</td><td>最优子结构 + 重叠子问题</td><td>背包问题、最长递增子序列、编辑距离</td><td><a href="https://github.com/microwind/algorithms/blob/main/algorithmic-thinking/dynamic-programming/" style="color: var(--primary-green); font-weight: 600;">查看</a></td></tr>
+                            <tr><td><strong>回溯算法 Backtracking</strong></td><td>尝试 → 探索 → 回退</td><td>需要遍历所有可能</td><td>N皇后、数独、排列组合</td><td><a href="https://github.com/microwind/algorithms/blob/main/algorithmic-thinking/backtracking/" style="color: var(--primary-green); font-weight: 600;">查看</a></td></tr>
+                            <tr><td><strong>分支限界 Branch and Bound</strong></td><td>系统探索 + 聪明剪枝</td><td>优化问题</td><td>背包问题、旅行商问题</td><td><a href="https://github.com/microwind/algorithms/blob/main/algorithmic-thinking/branch-and-bound/" style="color: var(--primary-green); font-weight: 600;">查看</a></td></tr>
+                            <tr><td><strong>随机化算法策略 Randomization</strong></td><td>蒙特卡洛、随机快排、模拟退火</td><td>避免最坏情况、跳出局部最优</td><td>随机采样、随机pivot、随机扰动</td><td><a href="https://github.com/microwind/algorithms/blob/main/algorithmic-thinking/random-algorithm/" style="color: var(--primary-green); font-weight: 600;">查看</a></td></tr>
+                            <tr><td><strong>搜索算法策略 Search Strategies</strong></td><td>BFS、DFS、A*</td><td>最短路径、全局遍历、目标导向</td><td>图遍历、拓扑排序、路径规划</td><td><a href="https://github.com/microwind/algorithms/blob/main/algorithmic-thinking/search-algorithms/" style="color: var(--primary-green); font-weight: 600;">查看</a></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>搜索与查找（6种算法）</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>算法</th>
+                                <th>时间复杂度</th>
+                                <th>难度</th>
+                                <th>代码</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong></strong>线性搜索</strong></td><td>O(n)</td><td>⭐</td><td><a href="https://github.com/microwind/algorithms/blob/main/searching/linear-search/">查看</a></td></tr>
+                            <tr><td><strong>二分查找</strong></td><td>O(log n)</td><td>⭐</td><td><a href="https://github.com/microwind/algorithms/blob/main/searching/binarysearch/">查看</a></td></tr>
+                            <tr><td><strong>插值查找</strong></td><td>O(log log n)</td><td>⭐⭐</td><td><a href="https://github.com/microwind/algorithms/blob/main/searching/interpolation-search/">查看</a></td></tr>
+                            <tr><td><strong>朴素字符串搜索</strong></td><td>O(mn)</td><td>⭐</td><td><a href="https://github.com/microwind/algorithms/blob/main/string/nativesearch/">查看</a></td></tr>
+                            <tr><td><strong>KMP搜索</strong></td><td>O(n+m)</td><td>⭐⭐⭐</td><td><a href="https://github.com/microwind/algorithms/blob/main/string/KMPsearch/">查看</a></td></tr>
+                            <tr><td><strong>最长公共子序列</strong></td><td>O(mn)</td><td>⭐⭐⭐</td><td><a href="https://github.com/microwind/algorithms/blob/main/string/LCS/">查看</a></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card" id="sorting">
+                    <h3>排序算法（10大经典排序）</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>排序算法</th>
+                                <th>时间复杂度<br/>平均/最坏</th>
+                                <th>空间复杂度</th>
+                                <th>稳定性</th>
+                                <th>最佳场景</th>
+                                <th>代码</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong></strong>冒泡排序</strong></td><td>O(n²)/O(n²)</td><td>O(1)</td><td>✅</td><td>小规模、教学</td><td><a href="https://github.com/microwind/algorithms/blob/main/sorting/bubblesort/">查看</a></td></tr>
+                            <tr><td><strong>插入排序</strong></td><td>O(n²)/O(n²)</td><td>O(1)</td><td>✅</td><td>小规模、半有序</td><td><a href="https://github.com/microwind/algorithms/blob/main/sorting/insertsort/">查看</a></td></tr>
+                            <tr><td><strong>选择排序</strong></td><td>O(n²)/O(n²)</td><td>O(1)</td><td>❌</td><td>交换次数少</td><td><a href="https://github.com/microwind/algorithms/blob/main/sorting/selectionsort/">查看</a></td></tr>
+                            <tr><td><strong>堆排序</strong></td><td>O(n log n)/O(n log n)</td><td>O(1)</td><td>❌</td><td>优先队列、TOP K</td><td><a href="https://github.com/microwind/algorithms/blob/main/sorting/heapsort/">查看</a></td></tr>
+                            <tr><td><strong>快速排序</strong></td><td>O(n log n)/O(n²)</td><td>O(log n)</td><td>❌</td><td>通用排序</td><td><a href="https://github.com/microwind/algorithms/blob/main/sorting/quicksort/">查看</a></td></tr>
+                            <tr><td><strong>归并排序</strong></td><td>O(n log n)/O(n log n)</td><td>O(n)</td><td>✅</td><td>大数据、外部排序</td><td><a href="https://github.com/microwind/algorithms/blob/main/sorting/mergesort/">查看</a></td></tr>
+                            <tr><td><strong>希尔排序</strong></td><td>O(n log n)/O(n²)</td><td>O(1)</td><td>❌</td><td>中等规模</td><td><a href="https://github.com/microwind/algorithms/blob/main/sorting/shellsort/">查看</a></td></tr>
+                            <tr><td><strong>计数排序</strong></td><td>O(n+k)/O(n+k)</td><td>O(k)</td><td>✅</td><td>整数、范围有限</td><td><a href="https://github.com/microwind/algorithms/blob/main/sorting/countingsort/">查看</a></td></tr>
+                            <tr><td><strong>桶排序</strong></td><td>O(n+k)/O(n²)</td><td>O(n+k)</td><td>✅</td><td>均匀分布</td><td><a href="https://github.com/microwind/algorithms/blob/main/sorting/bucketsort/">查看</a></td></tr>
+                            <tr><td><strong>基数排序</strong></td><td>O(nk)/O(nk)</td><td>O(n+k)</td><td>✅</td><td>大整数排序</td><td><a href="https://github.com/microwind/algorithms/blob/main/sorting/radixsort/">查看</a></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>数据结构（8种基础结构）</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>数据结构</th>
+                                <th>查找</th>
+                                <th>插入</th>
+                                <th>删除</th>
+                                <th>空间</th>
+                                <th>用途</th>
+                                <th>代码</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong></strong>数组</strong></td><td>O(1)</td><td>O(n)</td><td>O(n)</td><td>O(n)</td><td>随机访问</td><td><a href="https://github.com/microwind/algorithms/blob/main/data-structures/array/">查看</a></td></tr>
+                            <tr><td><strong>链表</strong></td><td>O(n)</td><td>O(1)</td><td>O(1)</td><td>O(n)</td><td>频繁插删</td><td><a href="https://github.com/microwind/algorithms/blob/main/data-structures/linked/">查看</a></td></tr>
+                            <tr><td><strong>栈</strong></td><td>O(n)</td><td>O(1)</td><td>O(1)</td><td>O(n)</td><td>LIFO 处理</td><td><a href="https://github.com/microwind/algorithms/blob/main/data-structures/stack/">查看</a></td></tr>
+                            <tr><td><strong>队列</strong></td><td>O(n)</td><td>O(1)</td><td>O(1)</td><td>O(n)</td><td>FIFO 处理</td><td><a href="https://github.com/microwind/algorithms/blob/main/data-structures/queue/">查看</a></td></tr>
+                            <tr><td><strong>堆</strong></td><td>O(log n)</td><td>O(1)</td><td>O(log n)</td><td>O(n)</td><td>优先队列</td><td><a href="https://github.com/microwind/algorithms/blob/main/data-structures/heap/">查看</a></td></tr>
+                            <tr><td><strong>树</strong></td><td>O(log n)</td><td>O(log n)</td><td>O(log n)</td><td>O(n)</td><td>分层数据</td><td><a href="https://github.com/microwind/algorithms/blob/main/data-structures/tree/">查看</a></td></tr>
+                            <tr><td><strong>图</strong></td><td>O(V+E)</td><td>O(1)</td><td>O(1)</td><td>O(V+E)</td><td>关系数据</td><td><a href="https://github.com/microwind/algorithms/blob/main/data-structures/graph/">查看</a></td></tr>
+                            <tr><td><strong>哈希表</strong></td><td>O(1)</td><td>O(1)</td><td>O(1)</td><td>O(n)</td><td>快速查找</td><td><a href="https://github.com/microwind/algorithms/blob/main/data-structures/hash/">查看</a></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>项目实战</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>项目</th>
+                                <th>涉及算法</th>
+                                <th>难度</th>
+                                <th>代码</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>数组去重</strong></td><td>多种去重算法</td><td>⭐⭐</td><td><a href="https://github.com/microwind/algorithms/blob/main/practice-projects/real-world/array-deduplication/">查看</a></td></tr>
+                            <tr><td><strong>布隆过滤器</strong></td><td>位图+哈希</td><td>⭐⭐⭐</td><td><a href="https://github.com/microwind/algorithms/blob/main/practice-projects/real-world/bloom-filter/">查看</a></td></tr>
+                            <tr><td><strong>缓存系统</strong></td><td>LRU+过期策略</td><td>⭐⭐⭐</td><td><a href="https://github.com/microwind/algorithms/blob/main/practice-projects/real-world/cache-system/">查看</a></td></tr>
+                            <tr><td><strong>一致性哈希</strong></td><td>分布式缓存</td><td>⭐⭐⭐⭐</td><td><a href="https://github.com/microwind/algorithms/blob/main/practice-projects/real-world/consistent-hashing/">查看</a></td></tr>
+                            <tr><td><strong>限流器</strong></td><td>令牌桶+漏桶</td><td>⭐⭐⭐</td><td><a href="https://github.com/microwind/algorithms/blob/main/practice-projects/real-world/rate-limiter/">查看</a></td></tr>
+                            <tr><td><strong>字符串压缩</strong></td><td>哈夫曼编码</td><td>⭐⭐⭐</td><td><a href="https://github.com/microwind/algorithms/blob/main/practice-projects/real-world/string-compression/">查看</a></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="benefits" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">你将获得什么？</h2>
+                </div>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>知识体系</h4>
+                        <ul>
+                            <li><strong>完整的算法与数据结构体系</strong>：从基础到进阶，系统化学习</li>
+                            <li><strong>清晰的学习路径</strong>：避免走弯路，高效学习</li>
+                            <li><strong>深度的思想理解</strong>：不只是记住算法，而是理解其本质</li>
+                            <li><strong>多语言的视野</strong>：用不同语言实现，拓宽思维</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>实战能力</h4>
+                        <ul>
+                            <li><strong>高质量代码</strong>：每个算法都有精简、规范的实现</li>
+                            <li><strong>即插即用</strong>：代码可直接用于面试和项目</li>
+                            <li><strong>包含测试</strong>：提供完整的测试用例和验证</li>
+                            <li><strong>复杂度分析</strong>：清楚地理解时间和空间权衡</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>职业发展</h4>
+                        <ul>
+                            <li><strong>面试突破</strong>：掌握核心算法思想，面试不再怂</li>
+                            <li><strong>晋升加速</strong>：深刻的算法理解是优秀工程师的标志</li>
+                            <li><strong>AI时代竞争力</strong>：用算法思想指导AI，成为稀缺人才</li>
+                            <li><strong>技术品味</strong>：学会如何思考和设计，而不只是编码</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="related" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">相关资源</h2>
+                    <p class="section-subtitle">这个项目是《AI时代程序员成长体系》的一部分</p>
+                </div>
+
+                <div class="feature-grid" style="grid-template-columns: repeat(2, 1fr);">
+                    <div class="feature-card">
+                        <h4><a href="https://github.com/microwind/algorithms">algorithms</a></h4>
+                        <p>算法思想与数据结构（本项目）</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4><a href="https://github.com/microwind/design-patterns">design-patterns</a></h4>
+                        <p>设计模式与编程思想</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4><a href="https://github.com/microwind/ai-prompt">ai-prompt</a></h4>
+                        <p>AI编程提示词库</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4><a href="https://github.com/microwind/ai-skills">ai-skills</a></h4>
+                        <p>AI编程Skill库</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>用算法思想驾驭AI，在AI时代闪闪发光</p>
+            <p><em>Algorithms for everyone, in the Age of AI</em></p>
+            <div class="footer-links">
+                <a href="https://github.com/microwind/algorithms">GitHub</a>
+                <a href="https://github.com/microwind/algorithms/blob/main/start-here/learning-path.md">学习路线</a>
+                <a href="https://github.com/microwind/algorithms/issues">反馈问题</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
