@@ -4,11 +4,9 @@
 
 ![License](https://img.shields.io/badge/License-MIT-blue.svg) ![Last Updated](https://img.shields.io/github/last-commit/microwind/algorithms) ![Build Status](https://img.shields.io/badge/build-passing-brightgreen) [![GitHub stars](https://img.shields.io/github/stars/microwind/algorithms.svg?style=social&label=Star)](https://github.com/microwind/algorithms) [![GitHub forks](https://img.shields.io/github/forks/microwind/algorithms.svg?style=social&label=Fork)](https://github.com/microwind/algorithms/fork)
 
-本仓库旨在帮助大学生和程序员**用不同编程语言来学习数据结构和经典算法思想**，包括 `C`、`C++`、`Java`、`Python`、`JavaScript`、`TypeScript`、`Go`、`Rust等多种语言，提供充分注释说明。由简入深，让你充分理解算法与数据结构的原理，同时又能掌握不同编程语言的特点，助你**从"编码执行者"转型为"AI驱动者"。**
+本仓库旨在帮助大学生和程序员**用不同编程语言来学习数据结构和经典算法思想**，包括 `C`、`Java`、`Python`、`JavaScript`、`TypeScript`、`Go`、`Rust`等多种语言，提供充分注释说明。由浅入深，让你充分理解算法与数据结构的原理，同时又能掌握不同编程语言的特点，助你**从"编码执行者"转型为"AI决策者"。**
 
-AI可以替代人工编码工作，但难以替代人的认知与思考。**深入理解编程核心（算法+数据结构、设计模式+系统架构）将有助于我们更好地驾驭AI，让AI发挥更高的效率与价值。**
-
-表层的API、框架与应用方案日新月异，而**数据结构、算法以及底层逻辑思维则历久弥新**。表层技术需要快速学习、持续迭代；底层原理与思想则需要反复钻研与沉淀，从而持续提升认知。
+AI可以替代人工编码，但难以替代人的认知与思考。**深入理解编程核心（算法思想+数据结构、设计模式+编程范式）将有助于我们更好地驾驭AI，发挥AI的价值。**
 
 ## 🚀 本项目特点
 
@@ -250,6 +248,8 @@ AI可以替代人工编码工作，但难以替代人的认知与思考。**深�
 - design-patterns - 设计模式与编程范式：[https://github.com/microwind/design-patterns](https://github.com/microwind/design-patterns)
   
 ## 欢迎加入共建
+
+表层的API、框架与应用方案日新月异，而**数据结构、算法以及底层逻辑思维则历久弥新**。表层技术需要快速学习、持续迭代；底层原理与思想则需要反复钻研与沉淀，从而持续提升认知。
 
 `仓库：` [https://github.com/microwind/algorithms](https://github.com/microwind/algorithms)
 `站点：` [https://microwind.github.io/algorithms](https://microwind.github.io/algorithms)

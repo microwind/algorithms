@@ -13,6 +13,9 @@ target/
 .idea
 .vscode/
 
+# Claude Code local config
+.claude/
+
 # Log file
 *.log
 *.log.lck
