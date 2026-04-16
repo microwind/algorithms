@@ -104,7 +104,7 @@ func bubbleSort3(_ list: inout [Int]) {
     printArray(list, "优化版本排序结果")
 }
 
-// bubbleSort4 插入冒泡排序法
+// bubbleSort4 插入思想+交换排序，并非严格冒泡
 //
 // 算法思路：
 // 将数组分为两部分：左侧已排序区域，右侧待排序区域

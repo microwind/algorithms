@@ -123,7 +123,7 @@ func bubbleSort3(list []int) []int {
 	return list
 }
 
-// BubbleSort4 冒泡排序插入式版本
+// BubbleSort4 插入思想+交换排序，并非严格冒泡
 //
 // 算法思路：
 // 1. 外循环控制排序轮数，i从1开始
@@ -170,12 +170,12 @@ func performanceTest(sortFunc func([]int) []int, arr []int, name string) {
 	testArr := make([]int, len(arr))
 	copy(testArr, arr)
 	printArray(testArr, name+"原始数组")
-	
+
 	// 开始计时
 	start := time.Now()
 	sortFunc(testArr)
 	elapsed := time.Since(start)
-	
+
 	printArray(testArr, name+"排序结果")
 	fmt.Printf("%s: %v\n", name, elapsed)
 	fmt.Println() // 空行分隔
@@ -184,21 +184,21 @@ func performanceTest(sortFunc func([]int) []int, arr []int, name string) {
 func main() {
 	// 测试数据：
 	testData := []int{7, 11, 9, 10, 12, 13, 8}
-	
+
 	fmt.Println("=== 冒泡排序算法演示 ===\n")
-	
+
 	// 测试1：基础升序版本
 	performanceTest(bubbleSort1, testData, "基础升序版本")
-	
+
 	// 测试2：基础降序版本
 	performanceTest(bubbleSort2, testData, "基础降序版本")
-	
+
 	// 测试3：优化版本
 	performanceTest(bubbleSort3, testData, "优化版本")
-	
+
 	// 测试4：插入式版本
 	performanceTest(bubbleSort4, testData, "插入式版本")
-	
+
 	fmt.Println("=== 算法对比总结 ===")
 	fmt.Println("1. 基础版本：简单易懂，适合学习算法原理")
 	fmt.Println("2. 降序版本：展示算法的灵活性，可按需排序")

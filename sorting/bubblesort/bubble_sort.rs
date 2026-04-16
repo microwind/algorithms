@@ -71,6 +71,7 @@ fn bubble_sort3(arr: &mut [i32]) {
     print_array(arr, "优化版本排序结果");
 }
 
+// 插入思想+交换排序，并非严格冒泡
 fn bubble_sort4(arr: &mut [i32]) {
     println!("bubbleSort4:");
     let len = arr.len();

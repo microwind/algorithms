@@ -79,6 +79,7 @@ void bubbleSort3(int arr[], int len) {
     printArray(arr, len, "优化版本排序结果");
 }
 
+// 插入思想+交换排序，并非严格冒泡，分为左右两个序列，左侧为已排序，将待排项与左侧逐个对比并交换位置
 void bubbleSort4(int arr[], int len) {
     printf("bubbleSort4:\n");
     // 外循环：控制排序轮数，i 从 1 开始，因为第 0 个元素默认为已排序

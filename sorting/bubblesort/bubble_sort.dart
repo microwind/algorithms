@@ -75,6 +75,7 @@ List<int> bubbleSort3(List<int> list) {
   return list;
 }
 
+// 插入思想+交换排序，并非严格冒泡
 List<int> bubbleSort4(List<int> list) {
   print('bubbleSort4:');
   int len = list.length;

@@ -92,7 +92,7 @@ def bubble_sort3(arr):
 
 def bubble_sort4(arr):
     """
-    插入冒泡排序法
+    插入思想+交换排序，并非严格冒泡
     """
     print('bubble_sort4:')
     length = len(arr)
