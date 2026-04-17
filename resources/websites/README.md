@@ -80,7 +80,7 @@ graph LR
 
 ## 按类别分级
 
-### 📚 学习资源类（Learning Resources）
+### 学习资源类（Learning Resources）
 
 系统学习算法与数据结构的课程、教程和开源项目：
 
@@ -117,7 +117,7 @@ graph LR
 
 ---
 
-### 💻 刷题与练习类（Coding Practice）
+### 刷题与练习类（Coding Practice）
 
 通过做题提升算法能力，从面试准备到竞赛训练：
 
@@ -144,7 +144,7 @@ graph LR
 
 ---
 
-### 💬 技术论坛类（Technical Forums）
+### 技术论坛类（Technical Forums）
 
 遇到问题求助、参与讨论、获取灵感的社区：
 
@@ -170,7 +170,7 @@ graph LR
 
 ---
 
-### ✍️ 大牛博客类（Expert Blogs）
+### 大牛博客类（Expert Blogs）
 
 站在巨人的肩膀上，读大牛的思考与实践：
 
@@ -257,6 +257,27 @@ graph LR
 | 想了解语言设计思想 | Stroustrup、Rob Pike、Chris Lattner | 语言创造者的第一手思考 |
 | 想学习大规模系统设计 | Jeff Dean、Peter Norvig、antirez | Google 级别的工程实践 |
 | 想用多语言对照学习 | microwind/algorithms（本项目） | 8 种语言实现、注释详尽 |
+
+---
+
+## 优质资源合集
+
+除了上述分类网站，我们还整理了以下优质资源合集：
+
+### 优质自媒体和公众号
+精选经得起推敲的优质内容创作者，涵盖技术公众号、个人博客、技术媒体、视频频道等。
+
+- [查看详情](./quality-media.md)
+
+### 优质学习网站
+精选经得起推敲的优质学习网站，涵盖在线课程平台、编程练习平台、AI与机器学习等。
+
+- [查看详情](./quality-websites.md)
+
+### 优质GitHub仓库
+精选经得起推敲的优质GitHub仓库，涵盖算法、编程、AI等多个领域。
+
+- [查看详情](./quality-github-repos.md)
 
 ---
 

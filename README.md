@@ -233,8 +233,9 @@ AI可以替代人工编码，但难以替代人的认知与思考。**深入理�
 
 ## 学习文档
 - [推荐学习的编程语言](./start-here/recommand-learning-languages.md)
-- [不同编程语言有哪些差异？如何选择入门语言？](https://www.toutiao.com/article/7122744261904450063) 
+- [不同编程语言有哪些差异？如何选择入门语言？](https://www.toutiao.com/article/7122744261904450063)
 - [如何学好编程？一文彻底搞懂](https://zhuanlan.zhihu.com/p/582174773)
+- [算法与数据结构经典书籍推荐](./resources/books/) - 从入门到进阶的经典书籍推荐
 
 ## AI时代程序员成长体系
 

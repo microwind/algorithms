@@ -6,6 +6,12 @@
 
 下面推荐 8 本经过时间检验的经典书籍，从入门到进阶到参考手册，覆盖不同阶段的学习需求。
 
+## AI 相关书籍推荐
+
+> AI时代，理解机器学习、深度学习、大语言模型等核心技术，才能更好地驾驭编程辅助工具。
+
+以下是AI领域的经典书籍和学习资源，涵盖机器学习、深度学习、Transformer、LLM、AI Agent等前沿技术。
+
 ---
 
 ## 快速导航
@@ -45,6 +51,8 @@ graph LR
 
 ## 推荐书籍一览
 
+### 算法与数据结构
+
 | 书名 | 作者 | 难度 | 侧重点 | 详情 |
 |------|------|------|--------|------|
 | 《算法图解》 | Aditya Bhargava | 入门 | 图解入门，直觉建立 | [查看](./grokking-algorithms.md) |
@@ -55,6 +63,17 @@ graph LR
 | 《算法设计》 | Kleinberg & Tardos | 进阶 | 算法设计范式，理论与实践结合 | [查看](./algorithm-design.md) |
 | 《算法导论》 | Cormen et al. (CLRS) | 高级/参考 | 全面参考手册，数学严谨 | [查看](./introduction-to-algorithms.md) |
 | 《计算机程序设计艺术》 | Donald Knuth | 高级/参考 | 计算机科学的圣经级著作 | [查看](./art-of-computer-programming.md) |
+
+### AI 相关书籍
+
+| 书名 | 作者/类型 | 难度 | 侧重点 | 详情 |
+|------|-----------|------|--------|------|
+| 《机器学习》 | 周志华 | 进阶 | 机器学习基础理论，中文经典教材 | [查看](./machine-learning-zhou-zhihua.md) |
+| 《统计学习方法》 | 李航 | 进阶 | 统计学习理论基础，数学严谨 | [查看](./statistical-learning-methods-li-hang.md) |
+| 《深度学习》 | Ian Goodfellow等 | 高级 | 深度学习理论基础，AI领域圣经 | [查看](./deep-learning-goodfellow.md) |
+| Transformer 架构与 NLP | 论文与资源 | 高级 | Transformer架构原理，现代NLP核心技术 | [查看](./transformer-architecture.md) |
+| 大语言模型（LLM） | 论文与资源 | 高级 | LLM原理、训练与应用 | [查看](./llm-resources.md) |
+| AI Agent | 论文与资源 | 高级 | AI Agent原理、架构与应用 | [查看](./ai-agent-resources.md) |
 
 ---
 
@@ -82,6 +101,17 @@ graph LR
 
 - **[《算法导论》CLRS](./introduction-to-algorithms.md)** — 算法领域的"百科全书"，MIT 教材
 - **[《计算机程序设计艺术》TAOCP](./art-of-computer-programming.md)** — Knuth 毕生心血，计算机科学的丰碑
+
+### AI 进阶（AI Advanced）
+
+想深入了解AI技术，适应AI时代：
+
+- **[《机器学习》周志华](./machine-learning-zhou-zhihua.md)** — 中文机器学习经典教材，系统全面
+- **[《统计学习方法》李航](./statistical-learning-methods-li-hang.md)** — 统计学习理论基础，数学严谨
+- **[《深度学习》Goodfellow](./deep-learning-goodfellow.md)** — 深度学习领域圣经，理论基础扎实
+- **[Transformer 架构与 NLP](./transformer-architecture.md)** — 现代NLP核心技术，包含经典论文
+- **[大语言模型（LLM）](./llm-resources.md)** — LLM原理、训练与应用，前沿技术
+- **[AI Agent](./ai-agent-resources.md)** — AI Agent原理、架构与应用，前沿方向
 
 ---
 
