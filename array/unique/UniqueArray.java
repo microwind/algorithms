@@ -1,111 +1,93 @@
+
 /**
  * Copyright © https://github.com/microwind All rights reserved.
  * @author: jarryli@gmail.com
  * @version: 1.0
- * @description: 数组去重算法 - Java实现
+ * @description: 数组去重算法 - Java实现，20种不同思路
  *
- * 算法原理：
- * - 通过比较元素，找出数组中只出现一次的元素
- * - 移除或跳过重复出现的元素
- * - 保留元素的相对顺序（取决于具体实现）
+ * 算法原理：扫描数组，保留每个值的首次出现，丢弃后续重复
  *
- * 本文件提供18种不同的去重实现：
- * - 方法1-5: 双循环比较，在原数组或新数组上操作
- * - 方法6: 使用HashMap去重
- * - 方法7: 使用Stream filter
- * - 方法8-10: 使用Set数据结构（HashSet、LinkedHashSet、TreeSet）
- * - 方法11-12: 排序后去重
- * - 方法13: 使用Stream distinct
- * - 方法14-15: 特殊遍历方式
- * - 方法16-17: 递归方法
- * - 方法18: 优化的双循环
+ * 20种实现按5类组织：
+ * - 第1类 基础循环（方法1-6）：纯下标遍历，O(n²)
+ * - 第2类 集合容器（方法7-11）：利用Set/Map键唯一性，O(n)
+ * - 第3类 排序后去重（方法12-14）：相同元素相邻后扫描，O(n log n)
+ * - 第4类 Stream函数式（方法15-17）：现代Java写法，O(n)
+ * - 第5类 递归与位图（方法18-20）：教学经典与位图法
  *
- * 时间复杂度:
- * - 双循环方法: O(n²)
- * - 排序方法: O(n log n)
- * - 哈希表/Set方法: O(n)
- * 空间复杂度: O(n) - 需要额外集合或数组存储
- *
- * 应用场景：
- * - 数据清洗
- * - 统计唯一值
- * - 数据库去重
+ * 应用场景：数据清洗、统计唯一值、数据库去重
  */
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class UniqueArray {
 
+  // ==================== 第1类：基础循环（方法1-6） ====================
+
   /**
    * 方法1：双循环索引比较法
-   * 遍历全部成员，将当前项与左边项逐个对比
+   * 核心原理：对每个元素向前查找，若找到相同值则为重复，否则为唯一值
+   * 策略：遍历全部成员，将当前项与左边项逐个对比
    * 如果值相同且下标相同表示唯一，其他则认为是重复项
    *
-   * 时间复杂度：O(n²)
-   * 空间复杂度：O(n)
+   * 时间复杂度：O(n²) - 双层循环，最坏所有元素都不重复
+   * 空间复杂度：O(n) - 新建数组存储结果
    *
    * @param arr 输入数组
-   * @return 去重后的数组
+   * @return 去重后的数组，保留首次出现顺序
    */
-  static int[] unique1(int arr[]) {
-    int newArr[] = new int[arr.length];
+  static int[] unique1(int[] arr) {
+    int[] newArr = new int[arr.length];
     int x = 0;
+    // 当前项跟左侧全量对比，是否首次出现
     for (int i = 0; i < arr.length; i++) {
       for (int j = 0; j <= i; j++) {
         if (arr[i] == arr[j]) {
-          // 值相同且下标相同，表示第一次出现
+          // i == j 表示前面没有相同值，是首次出现
           if (i == j) {
-            newArr[x] = arr[i];
-            x++;
+            newArr[x++] = arr[i];
           }
-          break; // 找到相同值后跳出
+          break;
         }
       }
     }
-    int result[] = Arrays.copyOf(newArr, x);
-    return result;
+    return Arrays.copyOf(newArr, x);
   }
 
   /**
-   * 方法2：indexOf索引法
-   * 将数组转换为List，利用List的indexOf方法查找下标
-   * 当下标匹配时表示唯一，添加到新列表中
+   * 方法2：List.indexOf 索引法
+   * 核心原理：indexOf 返回首次出现下标，等于当前下标即为首次出现
+   * 策略：遍历列表，对每一项调用 indexOf 判断是否首次出现
    *
-   * 时间复杂度：O(n²) - indexOf是O(n)，循环n次
-   * 空间复杂度：O(n)
+   * 时间复杂度：O(n²) - indexOf 是 O(n) 线性查找
+   * 空间复杂度：O(n) - 新建结果列表
    *
    * @param arr 输入数组
-   * @return 去重后的数组
+   * @return 去重后的数组（保序）
    */
-  static Integer[] unique2(Integer arr[]) {
-    int x = 0;
+  static Integer[] unique2(Integer[] arr) {
     List<Integer> list = new ArrayList<>(Arrays.asList(arr));
-    int l = list.size();
-    for (int i = 0; i < l; i++) {
-      // indexOf返回第一次出现的索引，如果等于当前索引说明是第一次出现
-      if (list.indexOf(arr[i]) == i) {
-        list.add(arr[i]);
-        x++;
+    List<Integer> result = new ArrayList<>();
+    for (int i = 0; i < list.size(); i++) {
+      // indexOf 内部仍是 O(n) 线性查找
+      if (list.indexOf(list.get(i)) == i) {
+        result.add(list.get(i));
       }
     }
-    // 返回取出的非重复项
-    Integer[] result = new Integer[x];
-    return list.subList(list.size() - x, list.size()).toArray(result);
+    return result.toArray(new Integer[0]);
   }
 
   /**
-   * 方法3：从后往前删除法
-   * 在原有列表上移除重复项目，自后往前遍历
-   * 逐个与前面项比较，如果值相同则移除当前项
+   * 方法3：从后往前原地删除法
+   * 核心原理：倒序遍历，与左侧任一元素相同则删除自身
+   * 策略：自后往前扫，删除点之后元素已处理，不影响下标
    *
-   * 时间复杂度：O(n²)
-   * 空间复杂度：O(n)
+   * 时间复杂度：O(n²) - 双循环加 List.remove 每次 O(n)
+   * 空间复杂度：O(n) - List 占用
    *
    * @param arr 输入数组
-   * @return 去重后的数组
+   * @return 去重后的数组（保序）
    */
-  static Integer[] unique3(Integer arr[]) {
+  static Integer[] unique3(Integer[] arr) {
     List<Integer> list = new ArrayList<>(Arrays.asList(arr));
     int l = list.size();
     while (l-- > 0) {
@@ -117,175 +99,198 @@ public class UniqueArray {
         }
       }
     }
-    return list.toArray(new Integer[list.size()]);
+    return list.toArray(new Integer[0]);
   }
 
   /**
-   * 方法4：从前往后删除法（删除前面项）
-   * 在原有列表上移除重复项目，自前往后遍历
-   * 逐个与前面项比较，如果值相同则移除当前项
+   * 方法4：从前往后原地删除法（删除后面相同项）
+   * 核心原理：正序遍历，与右侧相同则删除右侧重复项
+   * 策略：删除后 j 不前进、长度同步减一，避免漏判
    *
-   * 时间复杂度：O(n²)
-   * 空间复杂度：O(n)
-   *
-   * @param arr 输入数组
-   * @return 去重后的数组
-   */
-  static Integer[] unique4(Integer arr[]) {
-    List<Integer> list = new ArrayList<>(Arrays.asList(arr));
-    int l = list.size();
-
-    for (int i = 1; i < l; i++) {
-      for (int j = 0; j < i; j++) {
-        if (list.get(i).equals(list.get(j))) {
-          list.remove(i);
-          i--; // 调整索引
-          l--;
-          break;
-        }
-      }
-    }
-    return list.toArray(new Integer[list.size()]);
-  }
-
-  /**
-   * 方法5：从前往后删除法（删除后面项）
-   * 在原有列表上移除重复项目，自前往后遍历
-   * 逐个与后面项比较，如果值相同则移除后面项
-   *
-   * 时间复杂度：O(n²)
-   * 空间复杂度：O(n)
+   * 时间复杂度：O(n²) - 双循环加 List.remove 每次 O(n)
+   * 空间复杂度：O(n) - List 占用
    *
    * @param arr 输入数组
-   * @return 去重后的数组
+   * @return 去重后的数组（保序）
    */
-  static Integer[] unique5(Integer arr[]) {
+  static Integer[] unique4(Integer[] arr) {
     List<Integer> list = new ArrayList<>(Arrays.asList(arr));
     int l = list.size();
     for (int i = 0; i < l; i++) {
       for (int j = i + 1; j < l; j++) {
         if (list.get(i).equals(list.get(j))) {
           list.remove(j);
-          i--; // 调整索引
-          l--;
-          break;
+          j--; // 删除后下标回退
+          l--; // 长度同步减一
         }
       }
     }
-    return list.toArray(new Integer[list.size()]);
+    return list.toArray(new Integer[0]);
   }
 
   /**
-   * 方法6：HashMap去重法
-   * 利用HashMap键的唯一性来实现去重
+   * 方法5：Iterator 遍历法
+   * 核心原理：Iterator 遍历原数组，结果列表用 contains 判重
+   * 策略：判重在结果列表中进行，未出现的才添加
    *
-   * 时间复杂度：O(n) - HashMap的put和containsKey是O(1)
-   * 空间复杂度：O(n)
+   * 时间复杂度：O(n²) - ArrayList.contains 每次 O(n)
+   * 空间复杂度：O(n) - 结果列表
    *
    * @param arr 输入数组
-   * @return 去重后的数组
+   * @return 去重后的数组（保序）
    */
-  static Integer[] unique6(Integer arr[]) {
-    Map<Object, Integer> map = new HashMap<Object, Integer>();
-
-    for (Integer item : arr) {
-      if (map.containsKey(item)) {
-        continue; // 已存在则跳过
+  static Integer[] unique5(Integer[] arr) {
+    List<Integer> source = Arrays.asList(arr);
+    List<Integer> result = new ArrayList<>();
+    Iterator<Integer> it = source.iterator();
+    while (it.hasNext()) {
+      Integer item = it.next();
+      if (!result.contains(item)) {
+        result.add(item);
       }
-      map.put(item, item);
     }
-
-    List<Integer> list = new ArrayList<>(map.values());
-    return list.toArray(new Integer[list.size()]);
+    return result.toArray(new Integer[0]);
   }
 
   /**
-   * 方法7：Stream filter去重法
-   * 利用Stream的filter表达式过滤掉重复项
-   * 需要借助外部列表存储不重复项
+   * 方法6：从右往左跳过重复法
+   * 核心原理：倒序扫描，遇相同时把 i 整体左移跳过这一段重复区
+   * 策略：保留下来的 i 是非重复项，倒序写入结果数组
    *
-   * 时间复杂度：O(n²) - indexOf是O(n)
-   * 空间复杂度：O(n)
+   * 时间复杂度：O(n²) - 双循环
+   * 空间复杂度：O(n) - 结果数组
    *
    * @param arr 输入数组
-   * @return 去重后的数组
+   * @return 去重后的数组（保序）
    */
-  static List<Integer> unique7newArr = new ArrayList<>();
-
-  static boolean unique7contains(Integer item) {
-    if (unique7newArr.indexOf(item) < 0) {
-      unique7newArr.add(item);
-      return true;
+  static Integer[] unique6(Integer[] arr) {
+    int len = arr.length;
+    Integer[] result = new Integer[len];
+    int x = len;
+    for (int i = len - 1; i >= 0; i--) {
+      for (int j = i - 1; j >= 0; j--) {
+        if (arr[i].equals(arr[j])) {
+          i--; // 跳过当前重复项
+          j = i; // j 复位到 i 左侧重新比较
+        }
+      }
+      result[--x] = arr[i];
     }
-    return false;
+    return Arrays.copyOfRange(result, x, len);
   }
 
-  static Integer[] unique7(Integer arr[]) {
-    List<Integer> list = new ArrayList<>(Arrays.asList(arr));
-    return list.stream().filter(UniqueArray::unique7contains).collect(Collectors.toList())
-        .toArray(new Integer[UniqueArray.unique7newArr.size()]);
-  }
+  // ==================== 第2类：集合容器（方法7-11） ====================
 
   /**
-   * 方法8：HashSet去重法
-   * 利用HashSet数据结构直接去重，无序非同步
+   * 方法7：HashSet 去重法
+   * 核心原理：哈希表键唯一，O(1) 判重
+   * 策略：将数组转为 HashSet，自动完成去重
+   * 优势：时间最快；缺点：底层散列后顺序不可预测
    *
-   * 时间复杂度：O(n)
-   * 空间复杂度：O(n)
+   * 时间复杂度：O(n) - HashSet 添加 O(1) 平均
+   * 空间复杂度：O(n) - HashSet 占用
    *
    * @param arr 输入数组
    * @return 去重后的数组（无序）
    */
-  static Integer[] unique8(Integer arr[]) {
-    System.out.print("covert to steam first then to set: ");
-    Arrays.asList(arr).stream().collect(Collectors.toSet()).forEach(System.out::print);
-    System.out.println("\ndirectly convert to set:");
+  static Integer[] unique7(Integer[] arr) {
     Set<Integer> set = new HashSet<>(Arrays.asList(arr));
-    return new ArrayList<>(set).toArray(new Integer[set.size()]);
+    return set.toArray(new Integer[0]);
   }
 
   /**
-   * 方法9：LinkedHashSet去重法
-   * 利用LinkedHashSet数据结构直接去重，保持插入顺序
+   * 方法8：LinkedHashSet 去重法
+   * 核心原理：哈希表加双向链表，O(1) 判重并保留插入顺序
+   * 策略：直接转 LinkedHashSet，去重与保序一气呵成
+   * 推荐场景：日常工程最常用方案
    *
-   * 时间复杂度：O(n)
-   * 空间复杂度：O(n)
+   * 时间复杂度：O(n) - 集合插入 O(1)
+   * 空间复杂度：O(n) - LinkedHashSet 占用
    *
    * @param arr 输入数组
-   * @return 去重后的数组（保持原顺序）
+   * @return 去重后的数组（保序）
    */
-  static Integer[] unique9(Integer arr[]) {
-    Set<Integer> linkedHashSet = new LinkedHashSet<>(Arrays.asList(arr));
-    return new ArrayList<>(linkedHashSet).toArray(new Integer[linkedHashSet.size()]);
+  static Integer[] unique8(Integer[] arr) {
+    Set<Integer> set = new LinkedHashSet<>(Arrays.asList(arr));
+    return set.toArray(new Integer[0]);
   }
 
   /**
-   * 方法10：TreeSet去重法
-   * 利用TreeSet数据结构直接去重，自动排序（降序）
+   * 方法9：TreeSet 自动排序去重法
+   * 核心原理：红黑树实现的有序集合，自动排序且自动去重
+   * 策略：将数组转为 TreeSet，利用其排序与去重的双重特性
+   * 推荐场景：需要顺便排序的去重
    *
-   * 时间复杂度：O(n log n)
-   * 空间复杂度：O(n)
-   *
-   * @param arr 输入数组
-   * @return 去重后的数组（降序排序）
-   */
-  static Integer[] unique10(Integer arr[]) {
-    Set<Integer> treeSet = new TreeSet<>(Arrays.asList(arr)).descendingSet();
-    return new ArrayList<>(treeSet).toArray(new Integer[treeSet.size()]);
-  }
-
-  /**
-   * 方法11：排序后从后往前删除法
-   * 提前排序，从后向前遍历，将当前项与前一项对比
-   * 如果重复则移除当前项
-   *
-   * 时间复杂度：O(n log n) - 排序是O(n log n)
-   * 空间复杂度：O(n)
+   * 时间复杂度：O(n log n) - 红黑树插入 O(log n)
+   * 空间复杂度：O(n) - TreeSet 占用
    *
    * @param arr 输入数组
    * @return 去重后的数组（升序）
    */
-  static Integer[] unique11(Integer arr[]) {
+  static Integer[] unique9(Integer[] arr) {
+    Set<Integer> set = new TreeSet<>(Arrays.asList(arr));
+    return set.toArray(new Integer[0]);
+  }
+
+  /**
+   * 方法10：HashMap 显式判重法
+   * 核心原理：利用 HashMap 键的唯一性自动去重
+   * 策略：putIfAbsent 内部判 containsKey 加 put，紧凑等价
+   * 优势：值可携带统计信息（如频次、首次位置）
+   *
+   * 时间复杂度：O(n) - HashMap 操作 O(1) 平均
+   * 空间复杂度：O(n) - HashMap 占用
+   *
+   * @param arr 输入数组
+   * @return 去重后的数组（保序）
+   */
+  static Integer[] unique10(Integer[] arr) {
+    Map<Integer, Integer> map = new HashMap<>();
+    List<Integer> result = new ArrayList<>();
+    for (Integer item : arr) {
+      // putIfAbsent 返回 null 表示首次插入
+      if (map.putIfAbsent(item, item) == null) {
+        result.add(item);
+      }
+    }
+    return result.toArray(new Integer[0]);
+  }
+
+  /**
+   * 方法11：LinkedHashMap merge 去重法
+   * 核心原理：LinkedHashMap 保插入顺序，merge 处理冲突
+   * 策略：键去重，值用 merge 累加，顺便统计频次
+   * 推荐场景：去重同时需要业务统计的场景
+   *
+   * 时间复杂度：O(n) - HashMap 操作 O(1) 平均
+   * 空间复杂度：O(n) - LinkedHashMap 占用
+   *
+   * @param arr 输入数组
+   * @return 去重后的数组（保序）
+   */
+  static Integer[] unique11(Integer[] arr) {
+    Map<Integer, Integer> map = new LinkedHashMap<>();
+    for (Integer item : arr) {
+      // 键不存在则放 1，存在则累加（相当于做了频次统计）
+      map.merge(item, 1, Integer::sum);
+    }
+    return map.keySet().toArray(new Integer[0]);
+  }
+
+  // ==================== 第3类：排序后去重（方法12-14） ====================
+
+  /**
+   * 方法12：排序后从后往前删法
+   * 核心原理：先排序让相同元素相邻，再倒序删除重复
+   * 策略：升序排序后从末尾扫，相邻相同则删后者
+   *
+   * 时间复杂度：O(n²) - 排序 O(n log n)，每次 remove O(n)
+   * 空间复杂度：O(n) - List 占用
+   *
+   * @param arr 输入数组
+   * @return 去重后的数组（升序）
+   */
+  static Integer[] unique12(Integer[] arr) {
     List<Integer> list = new ArrayList<>(Arrays.asList(arr));
     Collections.sort(list);
     for (int l = list.size() - 1; l > 0; l--) {
@@ -293,441 +298,465 @@ public class UniqueArray {
         list.remove(l);
       }
     }
-    return new ArrayList<>(list).toArray(new Integer[list.size()]);
+    return list.toArray(new Integer[0]);
   }
 
   /**
-   * 方法12：排序后从前往后删除法（降序）
-   * 提前降序排序，自前往后遍历
-   * 将当前项与后一项对比，如果重复则移除当前项
+   * 方法13：排序后从前往后删法
+   * 核心原理：降序排序后正序扫，相邻相同则删前者
+   * 策略：删除后 i 回退、长度减一，避免漏判
    *
-   * 时间复杂度：O(n log n) - 排序是O(n log n)
-   * 空间复杂度：O(n)
+   * 时间复杂度：O(n²) - 排序 O(n log n)，每次 remove O(n)
+   * 空间复杂度：O(n) - List 占用
    *
    * @param arr 输入数组
    * @return 去重后的数组（降序）
    */
-  static Integer[] unique12(Integer arr[]) {
+  static Integer[] unique13(Integer[] arr) {
     List<Integer> list = new ArrayList<>(Arrays.asList(arr));
     Collections.sort(list, Collections.reverseOrder());
     int l = list.size() - 1;
-    for (int i = 0; i < l; i++) {
+    int i = 0;
+    while (i < l) {
       if (list.get(i).equals(list.get(i + 1))) {
         list.remove(i);
-        i--; // 调整索引
+        i--;
         l--;
       }
+      i++;
     }
-    return new ArrayList<>(list).toArray(new Integer[list.size()]);
+    return list.toArray(new Integer[0]);
   }
 
   /**
-   * 方法13：Stream distinct去重法
-   * 转为Stream，利用distinct方法去重
+   * 方法14：经典双指针法（LeetCode原题）
+   * 核心原理：原地排序后双指针扫描，慢指针指向最后一个唯一元素
+   * 策略：快指针发现新值，慢指针前进并写入；O(1) 额外空间
+   * 推荐场景：数组原地去重，不允许额外存储
    *
-   * 时间复杂度：O(n)
-   * 空间复杂度：O(n)
+   * 时间复杂度：O(n log n) - 排序主导
+   * 空间复杂度：O(1) - 原地修改
    *
-   * @param arr 输入数组
-   * @return 去重后的数组
+   * @param arr 输入数组（会被原地修改）
+   * @return 去重后的数组（升序）
    */
-  static Integer[] unique13(Integer arr[]) {
-    List<Integer> list = new ArrayList<>(Arrays.asList(arr));
-    list = list.stream().distinct().collect(Collectors.toList());
-    return new ArrayList<>(list).toArray(new Integer[list.size()]);
-  }
-
-  /**
-   * 方法14：从右往左跳过重复法
-   * 双循环自右往左逐个与左侧项对比
-   * 如遇相同则跳过当前项，下一项为当前项，继续逐个与左侧项对比
-   *
-   * 时间复杂度：O(n²)
-   * 空间复杂度：O(n)
-   *
-   * @param arr 输入数组
-   * @return 去重后的数组
-   */
-  static Integer[] unique14(Integer arr[]) {
-    int len = arr.length;
-    Integer[] result = new Integer[len];
-    int x = len;
-    for (int i = len - 1; i >= 0; i--) {
-      for (int j = i - 1; j >= 0; j--) {
-        if (arr[i].equals(arr[j])) {
-          i--; // 跳过重复项
-          j = i;
-        }
-      }
-      // 非重复项为唯一，追加到新数组
-      result[--x] = arr[i];
-    }
-    return Arrays.copyOfRange(result, x, len);
-  }
-
-  /**
-   * 方法15：Iterator遍历法
-   * 利用Iterator来遍历List，如果不在新列表中则添加
-   *
-   * 时间复杂度：O(n²) - contains是O(n)
-   * 空间复杂度：O(n)
-   *
-   * @param arr 输入数组
-   * @return 去重后的数组
-   */
-  static Integer[] unique15(Integer arr[]) {
-    List<Integer> list = new ArrayList<>(Arrays.asList(arr));
-    List<Integer> result = new ArrayList<>();
-    Iterator<Integer> it = list.iterator();
-    while (it.hasNext()) {
-      Integer item = it.next();
-      if (!result.contains(item)) {
-        result.add(item);
-      }
-    }
-    return new ArrayList<>(result).toArray(new Integer[result.size()]);
-  }
-
-  /**
-   * 方法16：递归去重法（删除原数组）
-   * 利用递归调用来去重，递归自后往前逐个调用，当长度为1时终止
-   * 当后一项与前任一项相同说明有重复，则删除当前项
-   * 相当于利用自我调用来替换循环
-   *
-   * 时间复杂度：O(n²)
-   * 空间复杂度：O(n) - 递归栈深度
-   *
-   * @param arr 输入数组
-   * @param len 当前处理长度
-   * @param result 结果列表
-   * @return 去重后的数组
-   */
-  static Integer[] uniqueRecursion1(Integer arr[], 
-    int len, List<Integer> result) {
-    int last = len - 1;
-    Integer lastItem = arr[last];
-    int l = last;
-    boolean isRepeat = false;
-    if (len <= 1) {
-      result.add(0, lastItem);
-      return new ArrayList<>(result).toArray(new Integer[result.size()]);
-    }
-    while (l-- > 0) {
-      if (lastItem.equals(arr[l])) {
-        isRepeat = true;
-        break;
-      }
-    }
-    // 如果不重复表示唯一，则添加到新数组中
-    if (!isRepeat) {
-      result.add(0, lastItem);
-    }
-    return uniqueRecursion1(arr, len - 1, result);
-  }
-
-  /**
-   * 方法17：递归去重法（拼接结果）
-   * 利用递归调用来去重的另一种方式，递归自后往前逐个调用
-   * 与上一个递归不同，这里将不重复的项目作为结果拼接起来
-   *
-   * 时间复杂度：O(n²)
-   * 空间复杂度：O(n) - 递归栈深度
-   *
-   * @param arr 输入列表
-   * @param len 当前处理长度
-   * @return 去重后的列表
-   */
-  static List<Integer> uniqueRecursion2(List<Integer> arr, int len) {
-    if (len <= 1) {
-      System.out.println("last arr:" + arr);
+  static int[] unique14(int[] arr) {
+    if (arr.length == 0)
       return arr;
+    Arrays.sort(arr);
+    int slow = 0;
+    for (int fast = 1; fast < arr.length; fast++) {
+      // 快指针发现新值，慢指针前进一步并写入
+      if (arr[fast] != arr[slow]) {
+        arr[++slow] = arr[fast];
+      }
     }
+    return Arrays.copyOf(arr, slow + 1);
+  }
 
-    int last = len - 1;
-    int l = last - 1;
+  // ==================== 第4类：Stream 与函数式（方法15-17） ====================
+
+  /**
+   * 方法15：Stream.distinct 去重法
+   * 核心原理：Stream 中间操作，内部基于 LinkedHashSet 实现
+   * 策略：链式调用，一行解决，保序、O(n)
+   * 推荐场景：现代 Java 工程首选写法
+   *
+   * 时间复杂度：O(n) - distinct 内部 O(1) 判重
+   * 空间复杂度：O(n) - 中间 LinkedHashSet
+   *
+   * @param arr 输入数组
+   * @return 去重后的数组（保序）
+   */
+  static Integer[] unique15(Integer[] arr) {
+    return Arrays.stream(arr).distinct().toArray(Integer[]::new);
+  }
+
+  /**
+   * 方法16：Stream.filter 加外部 Set 法
+   * 核心原理：filter 谓词带副作用，seen.add 返回 true 表示首次见到
+   * 策略：在函数式管道里携带"已见"状态，仅保留首次出现
+   * 推荐场景：自定义过滤条件加去重的组合
+   *
+   * 时间复杂度：O(n) - HashSet.add 是 O(1) 平均
+   * 空间复杂度：O(n) - HashSet 占用
+   *
+   * @param arr 输入数组
+   * @return 去重后的数组（保序）
+   */
+  static Integer[] unique16(Integer[] arr) {
+    Set<Integer> seen = new HashSet<>();
+    return Arrays.stream(arr).filter(seen::add).toArray(Integer[]::new);
+  }
+
+  /**
+   * 方法17：Collectors.toMap 去重法
+   * 核心原理：toMap 第三参数为冲突合并函数，保留首项
+   * 策略：用值本身做键，LinkedHashMap 保序
+   * 推荐场景：自定义对象按某字段去重
+   *
+   * 时间复杂度：O(n) - HashMap 操作 O(1) 平均
+   * 空间复杂度：O(n) - LinkedHashMap 占用
+   *
+   * @param arr 输入数组
+   * @return 去重后的数组（保序）
+   */
+  static Integer[] unique17(Integer[] arr) {
+    Map<Integer, Integer> map = Arrays.stream(arr).collect(
+        Collectors.toMap(
+            item -> item, // keyMapper：用值本身做键
+            item -> item, // valueMapper
+            (existing, replacement) -> existing, // 冲突保留首项
+            LinkedHashMap::new // 保序工厂
+        ));
+    return map.values().toArray(new Integer[0]);
+  }
+
+  // ==================== 第5类：递归与位图（方法18-20） ====================
+
+  /**
+   * 方法18：递归--从后往前构建去重列表
+   * 核心原理：递归检查末尾元素是否在前面出现过，若不重复则插入到结果列表头部，最终保持原顺序
+   * 策略：result 头插保持原顺序，递归出口为 length<=1
+   *
+   * 时间复杂度：O(n²) - 递归 n 层，每层扫前面 O(n)
+   * 空间复杂度：O(n) - 递归栈深度 n
+   *
+   * @param arr    输入数组
+   * @param length 当前处理长度（递归参数）
+   * @param result 结果列表（递归积累）
+   * @return 去重后的数组（保序）
+   */
+  static Integer[] unique18(Integer[] arr, int length, List<Integer> result) {
+    // 递归终止：只剩一项或为空
+    if (length <= 1) {
+      if (length == 1)
+        result.add(0, arr[0]);
+      return result.toArray(new Integer[0]);
+    }
+    int last = length - 1;
+    Integer lastItem = arr[last];
     boolean isRepeat = false;
-    Integer lastItem = arr.get(last);
-    while (l >= 0) {
-      if (lastItem.equals(arr.get(l))) {
+    // 在 [0, last) 区间检查是否已出现 lastItem
+    for (int i = last - 1; i >= 0; i--) {
+      if (lastItem.equals(arr[i])) {
         isRepeat = true;
         break;
       }
-      l--;
     }
-
-    // 如果不重复则添加到临时列表，最后将全部结果拼接
-    List<Integer> result = new ArrayList<>();
-    arr.remove(last);
+    // 不重复则往前插入以保持原顺序
     if (!isRepeat) {
-      result.add(lastItem);
+      result.add(0, lastItem);
     }
-    return Stream.concat(uniqueRecursion2(arr, len - 1).stream(), 
-      result.stream()).collect(Collectors.toList());
+    return unique18(arr, length - 1, result);
   }
-
 
   /**
-   * 方法18：优化的双循环索引比较法
-   * 双重循环，将左侧项逐个与当前项比较
-   * 如果遇到值相等则跳出循环比较下标
-   * 若下标相同表示第一次出现则追加到新数组
-   * 与方法1类似，但实现略有不同
+   * 方法19：递归--拼接返回（纯函数式，不修改原数组和外部集合）
+   * 核心原理：先递归处理前 n-1 个元素得到去重结果，再判断第 n 个元素是否在它前面出现过。
+   * 若未出现过，则追加到结果末尾；否则直接返回。最终保持原数组的首次出现顺序。
+   * 策略：纯函数式风格，不修改原列表
    *
-   * 时间复杂度：O(n²)
-   * 空间复杂度：O(n)
+   * 时间复杂度：O(n²) - 递归 n 层，每层扫前面 O(n)
+   * 空间复杂度：O(n) - 递归栈加 List 占用
    *
-   * @param arr 输入数组
-   * @return 去重后的数组
+   * @param list   输入列表
+   * @param length 当前处理长度（递归参数）
+   * @return 去重后的列表（保序）
    */
-  static Integer[] unique18(Integer arr[]) {
-    Integer newArr[] = new Integer[arr.length];
-    int x = 0;
-    for (int i = 0; i < arr.length; i++) {
-      int j = 0;;
-      for (; j < i; j++) {
-        if (arr[i].equals(arr[j])) {
-          break; // 找到相同值后跳出
-        }
-      }
-      // j == i 表示没有找到重复值，是第一次出现
-      if (i == j) {
-        newArr[x] = arr[i];
-        x++;
+  static List<Integer> unique19(List<Integer> list, int length) {
+    if (length <= 1) {
+      // 长度≤1时，直接返回原列表的前 length 个元素（避免后续越界）
+      return new ArrayList<>(list.subList(0, length));
+    }
+
+    int last = length - 1;
+    Integer lastItem = list.get(last);
+    boolean isRepeat = false;
+    // 检查当前项 lastItem 是否在它前面的子数组中出现过
+    for (int i = last - 1; i >= 0; i--) {
+      if (lastItem.equals(list.get(i))) {
+        isRepeat = true;
+        break;
       }
     }
-    return Arrays.copyOf(newArr, x);
+
+    // 递归深入：此时尚未得到前 length-1 项的去重结果，暂停当前层，进入子问题求解
+    List<Integer> head = unique19(list, length - 1);
+    // 递归回溯：子问题已返回结果（head 中已包含前 length-1 项的去重结果，且保序）
+
+    // 当前项不重复则追加到结果末尾（保持原顺序）
+    if (!isRepeat) {
+      head.add(lastItem);
+    }
+    return head;
   }
 
-  public static void main(final String args[]) {
-    int arr1[] = { 1, 3, -1, 1, 2, 2, 4, 2, 2, -1 };
-    int[] result;
+  /**
+   * 方法20：BitSet 位图法
+   * 核心原理：BitSet 是用一个 long[] 数组来模拟一个无限长的位序列。
+   * 每个 int 用一位标记是否出现过，仅适用非负整数
+   * 策略：BitSet.set 标记，遇未置位则视为首次出现并写入结果
+   * 推荐场景：海量非负整数（10亿规模仅需约 128MB）
+   *
+   * 时间复杂度：O(n) - BitSet 操作 O(1)
+   * 空间复杂度：O(max_value/8) - 取决于最大值
+   *
+   * @param arr 输入数组（非负整数）
+   * @return 去重后的数组（保序）
+   */
+  static int[] unique20(int[] arr) {
+    // 初始化 BitSet 为 0，所有位都为 false/未出现
+    BitSet bitSet = new BitSet();
+    int[] result = new int[arr.length];
+    int x = 0;
+    for (int item : arr) {
+      // BitSet 下标必须非负，负数需先做偏移
+      if (item < 0) {
+        throw new IllegalArgumentException("BitSet 不支持负数，需要先偏移");
+      }
+      // 第 item 位为 0 表示首次出现，标记为 1 并写入结果
+      // 原理：BitSet.set(item) 会将第 item 位设为 true，后续遇到相同值时会直接跳过
+      // 写入结果时，只写入首次出现的项，后续重复项会直接跳过
+      if (!bitSet.get(item)) {
+        bitSet.set(item);   // 标记为已出现
+        result[x++] = item; // 写入结果数组
+      }
+    }
+    return Arrays.copyOf(result, x);
+  }
+
+  // ==================== main 函数 ====================
+
+  public static void main(String[] args) {
+    int[] base = { 1, 3, -1, 1, 2, 2, 4, 2, 2, -1 };
+    Integer[] baseI = { 1, 3, -1, 1, 2, 2, 4, 2, 2, -1 };
     long startTime;
-    // 1.
-    System.out.println("unique1 start:" + Arrays.toString(arr1));
+
+    // 1. 双循环索引比较
+    System.out.println("unique1 start:" + Arrays.toString(base));
     startTime = System.currentTimeMillis();
-    result = UniqueArray.unique1(arr1);
-    System.out.println("unique1 result:" + Arrays.toString(result));
+    int[] result1 = unique1(base.clone());
+    System.out.println("unique1 result:" + Arrays.toString(result1));
     System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime) + " ms.");
 
-    // 2.
-    Integer arr2[] = { 1, 3, -1, 1, 2, 2, 4, 2, 2, -1 };
-    System.out.println("unique2 start:" + Arrays.toString(arr2));
+    // 2. List.indexOf
+    System.out.println("unique2 start:" + Arrays.toString(baseI));
     startTime = System.currentTimeMillis();
-    Integer result2[] = UniqueArray.unique2(arr2);
+    Integer[] result2 = unique2(baseI.clone());
     System.out.println("unique2 result:" + Arrays.toString(result2));
     System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime) + " ms.");
 
-    // 3.
-    Integer arr3[] = { 1, 3, -1, 1, 2, 2, 4, 2, 2, -1 };
-    System.out.println("unique3 start:" + Arrays.toString(arr2));
+    // 3. 从后往前删
+    System.out.println("unique3 start:" + Arrays.toString(baseI));
     startTime = System.currentTimeMillis();
-    Integer result3[] = UniqueArray.unique3(arr3);
+    Integer[] result3 = unique3(baseI.clone());
     System.out.println("unique3 result:" + Arrays.toString(result3));
     System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime) + " ms.");
 
-    // 4.
-    Integer arr4[] = { 1, 3, -1, 1, 2, 2, 4, 2, 2, -1 };
-    System.out.println("unique4 start:" + Arrays.toString(arr4));
+    // 4. 从前往后删（删后面项）
+    System.out.println("unique4 start:" + Arrays.toString(baseI));
     startTime = System.currentTimeMillis();
-    Integer result4[] = UniqueArray.unique4(arr4);
+    Integer[] result4 = unique4(baseI.clone());
     System.out.println("unique4 result:" + Arrays.toString(result4));
     System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime) + " ms.");
 
-    // 5.
-    Integer arr5[] = { 1, 3, -1, 1, 2, 2, 4, 2, 2, -1 };
-    System.out.println("unique5 start:" + Arrays.toString(arr5));
+    // 5. Iterator 遍历
+    System.out.println("unique5 start:" + Arrays.toString(baseI));
     startTime = System.currentTimeMillis();
-    Integer result5[] = UniqueArray.unique5(arr5);
+    Integer[] result5 = unique5(baseI.clone());
     System.out.println("unique5 result:" + Arrays.toString(result5));
     System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime) + " ms.");
 
-    // 6.
-    Integer arr6[] = { 1, 3, -1, 1, 2, 2, 4, 2, 2, -1 };
-    System.out.println("unique6 start:" + Arrays.toString(arr6));
+    // 6. 从右往左跳过
+    System.out.println("unique6 start:" + Arrays.toString(baseI));
     startTime = System.currentTimeMillis();
-    Integer result6[] = UniqueArray.unique6(arr6);
+    Integer[] result6 = unique6(baseI.clone());
     System.out.println("unique6 result:" + Arrays.toString(result6));
     System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime) + " ms.");
 
-    // 7.
-    Integer arr7[] = { 1, 3, -1, 1, 2, 2, 4, 2, 2, -1 };
-    System.out.println("unique7 start:" + Arrays.toString(arr7));
+    // 7. HashSet
+    System.out.println("unique7 start:" + Arrays.toString(baseI));
     startTime = System.currentTimeMillis();
-    Integer result7[] = UniqueArray.unique7(arr7);
+    Integer[] result7 = unique7(baseI.clone());
     System.out.println("unique7 result:" + Arrays.toString(result7));
     System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime) + " ms.");
 
-    // 8.
-    Integer arr8[] = { 1, 3, -1, 1, 2, 2, 4, 2, 2, -1 };
-    System.out.println("unique8 start:" + Arrays.toString(arr8));
+    // 8. LinkedHashSet
+    System.out.println("unique8 start:" + Arrays.toString(baseI));
     startTime = System.currentTimeMillis();
-    Integer result8[] = UniqueArray.unique8(arr8);
+    Integer[] result8 = unique8(baseI.clone());
     System.out.println("unique8 result:" + Arrays.toString(result8));
     System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime) + " ms.");
 
-    // 9.
-    Integer arr9[] = { 1, 3, -1, 1, 2, 2, 4, 2, 2, -1 };
-    System.out.println("unique9 start:" + Arrays.toString(arr9));
+    // 9. TreeSet
+    System.out.println("unique9 start:" + Arrays.toString(baseI));
     startTime = System.currentTimeMillis();
-    Integer result9[] = UniqueArray.unique9(arr9);
+    Integer[] result9 = unique9(baseI.clone());
     System.out.println("unique9 result:" + Arrays.toString(result9));
     System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime) + " ms.");
 
-    // 10.
-    Integer arr10[] = { 1, 3, -1, 1, 2, 2, 4, 2, 2, -1 };
-    System.out.println("unique10 start:" + Arrays.toString(arr10));
+    // 10. HashMap 显式判重
+    System.out.println("unique10 start:" + Arrays.toString(baseI));
     startTime = System.currentTimeMillis();
-    Integer result10[] = UniqueArray.unique10(arr10);
+    Integer[] result10 = unique10(baseI.clone());
     System.out.println("unique10 result:" + Arrays.toString(result10));
     System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime) + " ms.");
 
-    // 11.
-    Integer arr11[] = { 1, 3, -1, 1, 2, 2, 4, 2, 2, -1 };
-    System.out.println("unique11 start:" + Arrays.toString(arr11));
+    // 11. LinkedHashMap merge
+    System.out.println("unique11 start:" + Arrays.toString(baseI));
     startTime = System.currentTimeMillis();
-    Integer result11[] = UniqueArray.unique11(arr11);
+    Integer[] result11 = unique11(baseI.clone());
     System.out.println("unique11 result:" + Arrays.toString(result11));
     System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime) + " ms.");
 
-    // 12.
-    Integer arr12[] = { 1, 3, -1, 1, 2, 2, 4, 2, 2, -1 };
-    System.out.println("unique12 start:" + Arrays.toString(arr12));
+    // 12. 排序后从后往前删
+    System.out.println("unique12 start:" + Arrays.toString(baseI));
     startTime = System.currentTimeMillis();
-    Integer result12[] = UniqueArray.unique12(arr12);
+    Integer[] result12 = unique12(baseI.clone());
     System.out.println("unique12 result:" + Arrays.toString(result12));
     System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime) + " ms.");
 
-    // 13.
-    Integer arr13[] = { 1, 3, -1, 1, 2, 2, 4, 2, 2, -1 };
-    System.out.println("unique13 start:" + Arrays.toString(arr13));
+    // 13. 排序后从前往后删
+    System.out.println("unique13 start:" + Arrays.toString(baseI));
     startTime = System.currentTimeMillis();
-    Integer result13[] = UniqueArray.unique13(arr13);
+    Integer[] result13 = unique13(baseI.clone());
     System.out.println("unique13 result:" + Arrays.toString(result13));
     System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime) + " ms.");
 
-    // 14.
-    Integer arr14[] = { 1, 3, -1, 1, 2, 2, 4, 2, 2, -1 };
-    System.out.println("unique14 start:" + Arrays.toString(arr14));
+    // 14. 经典双指针 LeetCode 26
+    System.out.println("unique14 start:" + Arrays.toString(base));
     startTime = System.currentTimeMillis();
-    Integer result14[] = UniqueArray.unique14(arr14);
+    int[] result14 = unique14(base.clone());
     System.out.println("unique14 result:" + Arrays.toString(result14));
     System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime) + " ms.");
 
-    // 15.
-    Integer arr15[] = { 1, 3, -1, 1, 2, 2, 4, 2, 2, -1 };
-    System.out.println("unique15 start:" + Arrays.toString(arr15));
+    // 15. Stream.distinct
+    System.out.println("unique15 start:" + Arrays.toString(baseI));
     startTime = System.currentTimeMillis();
-    Integer result15[] = UniqueArray.unique15(arr15);
+    Integer[] result15 = unique15(baseI.clone());
     System.out.println("unique15 result:" + Arrays.toString(result15));
     System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime) + " ms.");
 
-    // 16.
-    Integer arr16[] = { 1, 3, -1, 1, 2, 2, 4, 2, 2, -1 };
-    System.out.println("uniqueRecursion1 start:" + Arrays.toString(arr16));
+    // 16. Stream.filter + 外部 Set
+    System.out.println("unique16 start:" + Arrays.toString(baseI));
     startTime = System.currentTimeMillis();
-    Integer result16[] = UniqueArray.uniqueRecursion1(arr16, arr16.length, new ArrayList<>());
-    System.out.println("uniqueRecursion1 result:" + Arrays.toString(result16));
+    Integer[] result16 = unique16(baseI.clone());
+    System.out.println("unique16 result:" + Arrays.toString(result16));
     System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime) + " ms.");
 
-    // 17.
-    Integer arr17[] = { 1, 3, -1, 1, 2, 2, 4, 2, 2, -1 };
-    System.out.println("uniqueRecursion2 start:" + Arrays.toString(arr17));
+    // 17. Collectors.toMap
+    System.out.println("unique17 start:" + Arrays.toString(baseI));
     startTime = System.currentTimeMillis();
-    List<Integer> result17 = UniqueArray.uniqueRecursion2(new ArrayList<>(Arrays.asList(arr17)), arr17.length);
-    System.out.println("uniqueRecursion2 result:" + result17);
+    Integer[] result17 = unique17(baseI.clone());
+    System.out.println("unique17 result:" + Arrays.toString(result17));
     System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime) + " ms.");
 
-    // 18.
-    Integer arr18[] = { 1, 3, -1, 1, 2, 2, 4, 2, 2, -1 };
-    System.out.println("unique18 start:" + Arrays.toString(arr18));
+    // 18. 递归原地删除
+    System.out.println("unique18 start:" + Arrays.toString(baseI));
     startTime = System.currentTimeMillis();
-    Integer result18[] = UniqueArray.unique18(arr18);
+    Integer[] result18 = unique18(baseI.clone(), baseI.length, new ArrayList<>());
     System.out.println("unique18 result:" + Arrays.toString(result18));
     System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime) + " ms.");
 
+    // 19. 递归拼接返回
+    System.out.println("unique19 start:" + Arrays.toString(baseI));
+    startTime = System.currentTimeMillis();
+    List<Integer> result19 = unique19(new ArrayList<>(Arrays.asList(baseI)), baseI.length);
+    System.out.println("unique19 result:" + result19);
+    System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime) + " ms.");
+
+    // 20. BitSet 位图法（仅非负整数）
+    int[] base20 = { 1, 3, 1, 2, 2, 4, 2, 2 };
+    System.out.println("unique20 start:" + Arrays.toString(base20));
+    startTime = System.currentTimeMillis();
+    int[] result20 = unique20(base20.clone());
+    System.out.println("unique20 result:" + Arrays.toString(result20));
+    System.out.println("\r\ntime:" + (System.currentTimeMillis() - startTime) + " ms.");
   }
 }
 
 /*
- jarrys-MacBook-Pro:unique jarry$ java --version java 10.0.1 2018-04-17
- Java(TM) SE Runtime Environment 18.3 (build 10.0.1+10) Java HotSpot(TM)
- 64-Bit Server VM 18.3 (build 10.0.1+10, mixed mode)
-
-jarrys-MacBook-Pro:unique jarry$ javac UniqueArray.java 
-jarrys-MacBook-Pro:unique jarry$ java UniqueArray
-unique1 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
-unique1 result:[1, 3, -1, 2, 4]
-
-time:0 ms.
-unique2 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
-unique2 result:[1, 3, -1, 2, 4]
-
-time:0 ms.
-unique3 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
-unique3 result:[1, 3, -1, 2, 4]
-
-time:1 ms.
-unique4 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
-unique4 result:[1, 3, -1, 2, 4]
-
-time:0 ms.
-unique5 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
-unique5 result:[1, 3, -1, 2, 4]
-
-time:1 ms.
-unique6 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
-unique6 result:[-1, 1, 2, 3, 4]
-
-time:0 ms.
-unique7 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
-unique7 result:[1, 3, -1, 2, 4]
-
-time:6 ms.
-unique8 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
-covert to steam first then to set: -11234
-directly convert to set:
-unique8 result:[-1, 1, 2, 3, 4]
-
-time:2 ms.
-unique9 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
-unique9 result:[1, 3, -1, 2, 4]
-
-time:1 ms.
-unique10 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
-unique10 result:[4, 3, 2, 1, -1]
-
-time:1 ms.
-unique11 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
-unique11 result:[-1, 1, 2, 3, 4]
-
-time:1 ms.
-unique12 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
-unique12 result:[4, 3, 2, 1, -1]
-
-time:0 ms.
-unique13 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
-unique13 result:[1, 3, -1, 2, 4]
-
-time:0 ms.
-unique14 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
-unique14 result:[1, 3, -1, 2, 4]
-
-time:0 ms.
-unique15 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
-unique15 result:[1, 3, -1, 2, 4]
-
-time:0 ms.
-uniqueRecursion1 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
-uniqueRecursion1 result:[1, 3, -1, 2, 4]
-
-time:0 ms.
-uniqueRecursion2 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
-last arr:[1]
-uniqueRecursion2 result:[1, 3, -1, 2, 4]
-
-time:1 ms.
-unique18 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
-unique18 result:[1, 3, -1, 2, 4]
-
-time:0 ms.
+ * 打印结果
+ * jarry@Mac unique % java UniqueArray.java
+ * unique1 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
+ * unique1 result:[1, 3, -1, 2, 4]
+ * 
+ * time:0 ms.
+ * unique2 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
+ * unique2 result:[1, 3, -1, 2, 4]
+ * 
+ * time:0 ms.
+ * unique3 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
+ * unique3 result:[1, 3, -1, 2, 4]
+ * 
+ * time:0 ms.
+ * unique4 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
+ * unique4 result:[1, 3, -1, 2, 4]
+ * 
+ * time:0 ms.
+ * unique5 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
+ * unique5 result:[1, 3, -1, 2, 4]
+ * 
+ * time:0 ms.
+ * unique6 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
+ * unique6 result:[1, 3, -1, 2, 4]
+ * 
+ * time:0 ms.
+ * unique7 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
+ * unique7 result:[-1, 1, 2, 3, 4]
+ * 
+ * time:1 ms.
+ * unique8 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
+ * unique8 result:[1, 3, -1, 2, 4]
+ * 
+ * time:0 ms.
+ * unique9 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
+ * unique9 result:[-1, 1, 2, 3, 4]
+ * 
+ * time:0 ms.
+ * unique10 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
+ * unique10 result:[1, 3, -1, 2, 4]
+ * 
+ * time:0 ms.
+ * unique11 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
+ * unique11 result:[1, 3, -1, 2, 4]
+ * 
+ * time:1 ms.
+ * unique12 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
+ * unique12 result:[-1, 1, 2, 3, 4]
+ * 
+ * time:1 ms.
+ * unique13 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
+ * unique13 result:[4, 3, 2, 1, -1]
+ * 
+ * time:0 ms.
+ * unique14 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
+ * unique14 result:[-1, 1, 2, 3, 4]
+ * 
+ * time:2 ms.
+ * unique15 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
+ * unique15 result:[1, 3, -1, 2, 4]
+ * 
+ * time:1 ms.
+ * unique16 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
+ * unique16 result:[1, 3, -1, 2, 4]
+ * 
+ * time:0 ms.
+ * unique17 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
+ * unique17 result:[1, 3, -1, 2, 4]
+ * 
+ * time:1 ms.
+ * unique18 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
+ * unique18 result:[1, 3, -1, 2, 4]
+ * 
+ * time:0 ms.
+ * unique19 start:[1, 3, -1, 1, 2, 2, 4, 2, 2, -1]
+ * unique19 result:[1, 3, -1, 2, 4]
+ * 
+ * time:0 ms.
+ * unique20 start:[1, 3, 1, 2, 2, 4, 2, 2]
+ * unique20 result:[1, 3, 2, 4]
+ * 
+ * time:0 ms.
  */
