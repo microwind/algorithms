@@ -1,6 +1,6 @@
 # JavaScript 数组去重的 20 种实现方式，用不同思路解决问题
 
-数组去重是最常见的算法。看似简单，但不同实现方式的性能差异可能高达**几百倍**。本文整理 JavaScript 数组去重的 20 种写法，按 5 个策略分类，帮你理解每类的核心思路。
+数组去重是最常见的算法。看似简单，但不同实现方式的性能差异可能高达**几百倍**。本文整理 JavaScript 数组去重的 20 种写法，按 5 个策略分类，帮你理解每类的核心思路。AI时代，可以不手写代码了，但需要知道代码背后的原理，这样才能更好地指导AI编程。
 
 ## 为什么性能差异这么大？
 
@@ -10,7 +10,7 @@
 function unique(arr) {
   const result = []
   for (const item of arr) {
-    // includes 是 O(n) 线性扫描，整体则是 O(n²)
+    // 遍历原数组，每次取一个元素，判断是否已存在结果数组
     if (!result.includes(item)) {
       result.push(item)
     }
@@ -432,7 +432,7 @@ graph TD
 
     Ordered --> Q2{"侧重点"}
     Q2 -->|代码简洁| Set2["[...new Set(arr)]<br/>一行解决"]
-    Q2 -->|函数式 O(n)| FilterSet["filter + Set 闭包"]
+    Q2 -->|函数式| FilterSet["filter + Set 闭包"]
     Q2 -->|按字段去重| MapByKey["Map + keyFn"]
     Q2 -->|对象数组| JSON["JSON.stringify + Set"]
 

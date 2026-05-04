@@ -449,6 +449,18 @@ func filter[T any](arr []T, pred func(T) bool) []T {
 	return result
 }
 
+/**
+ * 方法17：高阶函数式法
+ * 核心原理：用闭包封装"已存在"状态，模拟函数式 filter
+ * 策略：通用 filter 函数 + 闭包谓词，逻辑解耦
+ * 推荐场景：演示 Go 中的函数式风格
+ *
+ * 时间复杂度：O(n) - HashSet 操作 O(1) 平均
+ * 空间复杂度：O(n) - 闭包内 map 加结果切片
+ *
+ * @param arr 输入切片
+ * @return 去重后的切片（保序）
+ */
 func unique17(arr []int) []int {
 	seen := make(map[int]struct{}, len(arr))
 	// 闭包捕获 seen，谓词带副作用：首次见到返回 true

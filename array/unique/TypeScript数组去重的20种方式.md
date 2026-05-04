@@ -1,6 +1,6 @@
 # TypeScript 数组去重的 20 种实现方式，用不同思路解决问题
 
-数组去重是最常见的算法。TypeScript 在 JavaScript 的基础上加了静态类型，让通用工具函数可以用**泛型**写一次、对所有可比较类型可用。本文整理 TS 数组去重的 20 种写法，按 5 个策略分类。
+数组去重是最常见的算法。TypeScript 在 JavaScript 的基础上加了静态类型，让通用工具函数可以用**泛型**写一次、对所有可比较类型可用。本文整理 TS 数组去重的 20 种写法，按 5 个策略分类。AI时代，可以不手写代码了，但需要知道代码背后的原理，这样才能更好地指导AI编程。
 
 ## 为什么性能差异这么大？
 
@@ -91,7 +91,10 @@ static unique1<T>(arr: T[]): T[] {
 static unique2<T>(arr: T[]): T[] {
   const result: T[] = []
   for (const item of arr) {
-    if (!result.includes(item)) result.push(item)
+    // includes 是 O(n) 线性扫描，每个元素都要扫描一次，整体是 O(n²)
+    if (!result.includes(item)) {
+      result.push(item)
+    }
   }
   return result
 }
@@ -100,6 +103,8 @@ static unique2<T>(arr: T[]): T[] {
 static unique3<T>(arr: T[]): T[] {
   let l = arr.length
   while (l-- > 0) {
+    // 从后往前遍历，避免删除后索引变化导致跳过元素
+    // 每个元素都要扫描一次，整体是 O(n²)
     for (let i = 0; i < l; i++) {
       if (arr[l] === arr[i]) {
         arr.splice(l, 1)
@@ -114,6 +119,7 @@ static unique3<T>(arr: T[]): T[] {
 static unique4<T>(arr: T[]): T[] {
   let l = arr.length
   for (let i = 0; i < l; i++) {
+    // 从前往后遍历，每个元素都要扫描一次，整体是 O(n²)
     for (let j = i + 1; j < l; j++) {
       if (arr[i] === arr[j]) {
         arr.splice(j, 1)
@@ -128,6 +134,7 @@ static unique4<T>(arr: T[]): T[] {
 // indexOf 返回首次出现下标，等于当前下标即首次
 static unique5<T>(arr: T[]): T[] {
   const result: T[] = []
+  // forEach 是 O(n) 线性扫描，每个元素都要扫描一次
   arr.forEach((item, i) => {
     if (arr.indexOf(item) === i) result.push(item)
   })
@@ -139,6 +146,7 @@ static unique6<T>(arr: T[]): T[] {
   let l = arr.length
   while (l-- > 0) {
     let i = l
+    // 从后往前遍历，每个元素都要扫描一次，整体是 O(n²)
     while (i-- > 0) {
       if (arr[l] === arr[i]) {
         arr.splice(l, 1)
@@ -165,9 +173,9 @@ static unique6<T>(arr: T[]): T[] {
 graph LR
     A([原数组]) --> B[filter / reduce 管道]
     B --> C{选择策略}
-    C -->|indexOf 判重| D[O(n²) 但简洁]
-    C -->|Set 闭包判重| E[O(n) 推荐]
-    C -->|对象键| F[O(n) 但有类型陷阱]
+    C -->|indexOf 判重| D["O(n²)"  但简洁]
+    C -->|Set 闭包判重| E["O(n)" 推荐使用]
+    C -->|对象键| F["O(n)" 但有类型陷阱]
     D --> G([新数组])
     E --> G
     F --> G
@@ -182,6 +190,7 @@ graph LR
 
 ```typescript
 // 方法7：filter + indexOf 一行经典
+// indexOf 返回首次出现下标，等于当前下标即首次出现，用 filter 过滤出首次出现的元素
 static unique7<T>(arr: T[]): T[] {
   return arr.filter((item, i) => arr.indexOf(item) === i)
 }
@@ -197,6 +206,7 @@ static unique8<T>(arr: T[]): T[] {
 // 函数式风格，但 includes 仍是 O(n²)
 // 注意 reduce 的泛型参数 T[]，初始值为 [] as T[]
 static unique9<T>(arr: T[]): T[] {
+  // 用 reduce 累加数组，每次判断是否已存在，不存在则添加
   return arr.reduce<T[]>((acc, item) => {
     if (!acc.includes(item)) acc.push(item)
     return acc
@@ -206,6 +216,7 @@ static unique9<T>(arr: T[]): T[] {
 // 方法10：reduce + Set 闭包——O(n) 函数式
 static unique10<T>(arr: T[]): T[] {
   const seen = new Set<T>()
+  // 用 reduce 累加数组，每次判断是否已存在，不存在则添加
   return arr.reduce<T[]>((acc, item) => {
     if (!seen.has(item)) {
       seen.add(item)
@@ -220,6 +231,7 @@ static unique10<T>(arr: T[]): T[] {
 // 类型约束 T extends string | number | boolean 限制为基本类型
 static unique11<T extends string | number | boolean>(arr: T[]): T[] {
   const obj: Record<string, true> = {}
+  // 用 filter 过滤出首次出现的元素，用 typeof + value 拼成字符串作为对象键
   return arr.filter(item => {
     const key = typeof item + String(item)
     return Object.prototype.hasOwnProperty.call(obj, key)
@@ -269,6 +281,7 @@ static unique12<T>(arr: T[]): T[] {
 // 适合"按键去重，值携带其他信息"的场景
 static unique13<T>(arr: T[]): T[] {
   const map = new Map<T, T>()
+  // 用 Map<T, T> + keys 转数组，保持插入顺序
   arr.forEach(item => map.set(item, item))
   return [...map.keys()]
 }
@@ -277,6 +290,7 @@ static unique13<T>(arr: T[]): T[] {
 // 注意：1 与 '1' 会被合并；数字键会被引擎按升序重排
 static unique14<T extends string | number>(arr: T[]): T[] {
   const obj = {} as Record<string, T>
+  // 用 Object 字面量哈希，键自动字符串化，数字键会被引擎按升序重排
   for (const item of arr) obj[String(item)] = item
   return Object.values(obj)
 }
@@ -316,6 +330,7 @@ graph LR
 static unique15(arr: number[]): number[] {
   arr.sort((a, b) => a - b)
   let l = arr.length
+  // 先排序，从后往前遍历，相邻元素相同则删除当前元素
   while (l-- > 1) {
     if (arr[l] === arr[l - 1]) arr.splice(l, 1)
   }
@@ -325,6 +340,7 @@ static unique15(arr: number[]): number[] {
 // 方法16：sort + filter 相邻判重
 static unique16(arr: number[]): number[] {
   arr.sort((a, b) => a - b)
+  // 先排序，从后往前遍历，相邻元素相同则删除当前元素
   return arr.filter((item, i) => i === 0 || item !== arr[i - 1])
 }
 
@@ -334,8 +350,11 @@ static unique17(arr: number[]): number[] {
   if (arr.length === 0) return arr
   arr.sort((a, b) => a - b)
   let slow = 0
+  // 先排序，从后往前遍历，相邻元素相同则删除当前元素
   for (let fast = 1; fast < arr.length; fast++) {
-    if (arr[fast] !== arr[slow]) arr[++slow] = arr[fast]
+    if (arr[fast] !== arr[slow]) {
+      arr[++slow] = arr[fast]
+    }
   }
   return arr.slice(0, slow + 1)
 }
@@ -377,6 +396,7 @@ graph LR
 static unique18<T>(arr: T[], length: number): T[] {
   if (length <= 1) return arr
   const last = length - 1
+  // 从后往前遍历，检查末尾元素是否在前面出现
   for (let i = last - 1; i >= 0; i--) {
     if (arr[last] === arr[i]) {
       arr.splice(last, 1)
@@ -392,6 +412,7 @@ static unique19<T>(arr: T[], length: number): T[] {
   const last = length - 1
   const lastItem = arr[last]
   let isRepeat = false
+  // 从后往前遍历，检查末尾元素是否在前面出现
   for (let i = last - 1; i >= 0; i--) {
     if (lastItem === arr[i]) {
       isRepeat = true
@@ -407,6 +428,7 @@ static unique19<T>(arr: T[], length: number): T[] {
 static unique20<T>(arr: T[]): T[] {
   const seen = new Set<string>()
   const result: T[] = []
+  // 遍历数组，把每个对象序列化成字符串作为 Set 的键
   for (const item of arr) {
     const key = JSON.stringify(item)
     if (!seen.has(key)) {

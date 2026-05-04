@@ -118,14 +118,26 @@ graph LR
 
 | 语言 | 文件名 | 说明 |
 |------|--------|------|
-| C | [unique.c](./unique.c) | 多种方法实现 |
-| Go | [unique.go](./unique.go) | map和slice实现 |
-| Java | [UniqueArray.java](./UniqueArray.java) | 面向对象多种方式 |
-| JavaScript | [unique.js](./unique.js) | ES6+现代实现 |
-| Python | [unique.py](./unique.py) | set和列表推导 |
-| Rust | [unique.rs](./unique.rs) | HashSet实现 |
+| C | [unique.c](./unique.c) | 20 种实现（循环/qsort/哈希/位图/泛型） |
+| Go | [unique.go](./unique.go) | 20 种实现（map/sort/泛型/位图） |
+| Java | [UniqueArray.java](./UniqueArray.java) | 20 种实现（集合/Stream/BitSet/递归） |
+| JavaScript | [unique.js](./unique.js) | 20 种实现（ES6+ Set/Map/reduce） |
+| Python | [unique.py](./unique.py) | 20 种实现（list/dict/set/numpy/递归） |
+| Rust | [unique.rs](./unique.rs) | 20 种实现（循环/HashSet/dedup/迭代器/位图） |
 | TypeScript | [UniqueArray.ts](./UniqueArray.ts) | 类型安全版本 |
-| Dart | [unique.dart](./unique.dart) | Dart集合操作 |
+| Dart | [unique.dart](./unique.dart) | Dart 集合操作 |
+
+### 各语言 "20 种思路" 详解文档
+
+| 语言 | 文档 |
+|------|------|
+| C | [C数组去重的20种方式.md](./C数组去重的20种方式.md) |
+| Go | [Go数组去重的20种方式.md](./Go数组去重的20种方式.md) |
+| Java | [Java数组去重的20种方式.md](./Java数组去重的20种方式.md) |
+| JavaScript | [JavaScript数组去重的20种方式.md](./JavaScript数组去重的20种方式.md) |
+| Python | [Python列表去重复的20种方式.md](./Python列表去重复的20种方式.md) |
+| Rust | [Rust数组去重的20种方式.md](./Rust数组去重的20种方式.md) |
+| TypeScript | [TypeScript数组去重的20种方式.md](./TypeScript数组去重的20种方式.md) |
 
 ---
 
