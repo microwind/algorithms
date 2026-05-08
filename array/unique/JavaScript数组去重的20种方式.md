@@ -610,7 +610,7 @@ const result = arr.filter(x => {
 
 ## 总结
 
-工程上的快捷选择：
+工程应用选择：
 
 - 默认用 `[...new Set(arr)]`：保序、一行、O(n)
 - 函数式风格用 `arr.filter(x => !seen.has(x) && seen.add(x))`
