@@ -35,6 +35,13 @@ graph TD
     class A1,B1,C1 detail
 ```
 
+## 生活类比与示意图
+
+> **生活类比**：就像从一堆没有次序的苹果里，每次都挑出最小（或最大）的一个，放到一边按大小排好。每次只挑一个，慢慢就把所有苹果按顺序排好了。
+
+![选择排序](../../resources/images/sort/selection1.png)
+![选择排序](../../resources/images/sort/selection2.gif)
+
 ## 实现思路对比
 
 | 实现方式 | 核心特点 | 时间复杂度 | 空间复杂度 | 稳定性 | 交换次数 |

@@ -106,6 +106,7 @@ int unique2(const int *arr, int len, int *result)
   for (int i = 1; i < len; i++)
   {
     freq[i] = 1;
+    // 遍历前面的元素，判断是否重复
     for (int j = 0; j < i; j++)
     {
       if (arr[i] == arr[j]) { freq[i]++; break; }

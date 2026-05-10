@@ -35,6 +35,14 @@ graph TD
     class A1,B1,C1 detail
 ```
 
+## 生活类比与示意图
+
+> **生活类比**：先把一筐苹果**分成两篮**，再每篮**分成两篮**……直到每篮只有一个苹果。然后从底层开始合并，每次合并按大小排序，直到所有苹果排好。
+
+![归并排序](../../resources/images/sort/merge1.png)
+![归并排序](../../resources/images/sort/merge2.png)
+![归并排序](../../resources/images/sort/merge2.gif)
+
 ## 实现思路对比
 
 | 实现方式 | 核心特点 | 时间复杂度 | 空间复杂度 | 稳定性 |

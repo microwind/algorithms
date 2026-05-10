@@ -19,6 +19,33 @@
       基地址                    随机访问: O(1)
 ```
 
+```mermaid
+graph LR
+    subgraph 数组内存布局
+        direction LR
+        A["索引: 0<br/>值: 10<br/>地址: 1000"]
+        B["索引: 1<br/>值: 20<br/>地址: 1004"]
+        C["索引: 2<br/>值: 30<br/>地址: 1008"]
+        D["索引: 3<br/>值: 40<br/>地址: 1012"]
+        E["索引: 4<br/>值: 50<br/>地址: 1016"]
+        F["索引: 5<br/>值: 60<br/>地址: 1020"]
+    end
+
+    A -->|+4字节| B -->|+4字节| C -->|+4字节| D -->|+4字节| E -->|+4字节| F
+
+    A -.->|"↑ 基地址 (1000)"| base["基地址"]
+    D -.->|"↑ 随机访问: O(1)"| access["随机访问"]
+
+    style A fill:#e1f5fe,stroke:#0288d1
+    style B fill:#e1f5fe,stroke:#0288d1
+    style C fill:#e1f5fe,stroke:#0288d1
+    style D fill:#fff3e0,stroke:#f57c00
+    style E fill:#e1f5fe,stroke:#0288d1
+    style F fill:#e1f5fe,stroke:#0288d1
+    style base fill:#c8e6c9,stroke:#388e3c
+    style access fill:#fce4ec,stroke:#c62828
+```
+
 ### 1.2 数组操作复杂度
 
 | 操作 | 时间复杂度 | 说明 |
@@ -191,10 +218,10 @@ graph LR
     classDef start fill:#0b8457,color:#fff,stroke:#065535
     classDef decision fill:#1a1a2e,color:#fff,stroke:#16213e
     classDef process fill:#0f3460,color:#fff,stroke:#0a2647
-    classDef end fill:#e94560,color:#fff,stroke:#c81e45
+    classDef endStyle fill:#e94560,color:#fff,stroke:#c81e45
 
     class S start
-    class END,FOUND end
+    class END,FOUND endStyle
     class LOOP,CHECK decision
     class INIT,CALC,STORE,INC process
 ```

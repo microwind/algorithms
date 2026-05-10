@@ -1,6 +1,6 @@
-# Rust 数组去重的 20 种实现方式，AI 时代用不同思路解决问题
+# Rust动态数组去重的20种实现方式，AI时代用不同思路解决问题
 
-数组去重是最常见的算法。看似简单，但在 Rust 里——所有权、借用、生命周期、trait 约束——你不能像 Java 那样随手 `new HashSet<>(list)`，也不能像 Python 那样 `list(set(arr))` 一行了事。Rust 强迫你把"谁拥有数据"想清楚，反而让你看清去重算法的"骨架"。本文整理 Rust `Vec<T>` 去重的 20 种写法，按 5 个策略分类。AI 时代，可以不手写代码了，但需要知道代码背后的原理，这样才能更好地指导 AI 编程。
+数组去重是最常见的算法。看似简单，但在 Rust 中，由于所有权、借用、生命周期以及 trait 约束等设计理念，你不能像 Java 那样直接 `new HashSet<>(list)`，也不能像 Python 那样用 `list(set(arr))` 一行搞定。即使 Rust 可以使用 `filter`、`fold`、`for_each` 等迭代器方法实现函数式风格，写法通常比 JavaScript 更显式，因为你必须明确「谁拥有数据」。这种显式性反而让去重算法的逻辑骨架更清晰。本文整理了 Rust `Vec<T>` 去重的 20 种写法，按 5 个策略分类。在 AI 时代，你需要理解代码背后的原理和不同解决思路，这样才能更好地指导 AI 编程。
 
 ## 为什么性能差异这么大？
 
@@ -10,7 +10,8 @@
 fn unique(arr: &[i32]) -> Vec<i32> {
     let mut result = Vec::new();
     for &item in arr {
-        // Vec::contains 是 O(n) 线性扫描，整体 O(n²)
+        // 遍历原切片，逐项判断是否在 result 中；若没有则追加
+        // Vec::contains 每次线性扫一遍 result，整体 O(n²)
         if !result.contains(&item) {
             result.push(item);
         }
@@ -28,6 +29,8 @@ fn unique(arr: &[i32]) -> Vec<i32> {
 - **排序** O(n log n)：`sort` + `dedup` 一步到位
 - **泛型 + trait 约束**：`<T: Eq + Hash>` 写一次到处用
 - **位图**：`Vec<u64>` 实现 BitSet，海量非负整数极致空间效率
+
+**本文源码地址：[https://github.com/microwind/algorithms](https://github.com/microwind/algorithms)**
 
 **Rust 的特殊点**：
 
@@ -76,19 +79,20 @@ graph LR
 ```
 
 ```rust
-// 方法1：双循环 i == j 索引比较法
-// 对每个元素向左扫描，前面没出现过则首次保留
+// 方法1：双循环 i、j 索引比较——当前下标 i 与左侧 [0, i) 逐项比对
+// 左侧从未出现相同值则视为首次，push 进结果
 fn unique1(arr: &[i32]) -> Vec<i32> {
     let mut result = Vec::with_capacity(arr.len());
     for i in 0..arr.len() {
         let mut first = true;
-        // 与 [0, i) 区间逐个比较
+        // 将 arr[i] 与前面每个元素比较，遇到相等说明不是首次出现
         for j in 0..i {
             if arr[i] == arr[j] {
-                first = false;
+                first = false; // 左侧已有相同值
                 break;
             }
         }
+        // 左侧无重复，保留当前元素
         if first {
             result.push(arr[i]);
         }
@@ -96,20 +100,21 @@ fn unique1(arr: &[i32]) -> Vec<i32> {
     result
 }
 
-// 方法2：标记数组 frequent 法
-// 给每个元素打一个频次标记，frequent[i]==1 表示此前未出现
+// 方法2：标记数组 freq——先标「是否在前缀里重复过」
+// freq[i]==1 表示在 [0,i] 里只出现一次，>1 表示后面要丢掉
 fn unique2(arr: &[i32]) -> Vec<i32> {
     let n = arr.len();
     let mut freq = vec![1usize; n];
     for i in 1..n {
         for j in 0..i {
+            // 与左侧某元素相同则把当前位标成重复
             if arr[i] == arr[j] {
-                freq[i] += 1;
+                freq[i] += 1; // >1 表示重复，后面 filter 会丢掉
                 break;
             }
         }
     }
-    // 仅 freq==1（首次出现）才进入结果
+    // 只把「首次出现」zip 进结果 Vec
     arr.iter()
         .zip(freq.iter())
         .filter_map(|(&v, &f)| if f == 1 { Some(v) } else { None })
@@ -117,11 +122,11 @@ fn unique2(arr: &[i32]) -> Vec<i32> {
 }
 
 // 方法3：新建 Vec + Vec::contains 检查
-// 最直观的"新手版"
+// 结果里没有该项再 push，最直观的新手写法
 fn unique3(arr: &[i32]) -> Vec<i32> {
     let mut result = Vec::with_capacity(arr.len());
     for &item in arr {
-        // contains 内部仍是 O(n) 线性扫描
+        // 结果中不存在该项才追加；contains 仍是 O(n)
         if !result.contains(&item) {
             result.push(item);
         }
@@ -130,12 +135,13 @@ fn unique3(arr: &[i32]) -> Vec<i32> {
 }
 
 // 方法4：原地从后往前删除
-// 倒序的好处：删除点之后元素已处理，不影响下标
+// 倒序扫描：删掉尾部重复项不易打乱尚未处理的下标区间
 fn unique4(mut arr: Vec<i32>) -> Vec<i32> {
     let mut l = arr.len();
     while l > 0 {
-        l -= 1;
+        l -= 1; // 当前考察下标 l（尾部）
         for i in 0..l {
+            // 当前尾元素若在前段出现过，则删掉尾元素（原数组操作）
             if arr[l] == arr[i] {
                 arr.remove(l);   // Vec::remove 是 O(n)
                 break;
@@ -145,15 +151,16 @@ fn unique4(mut arr: Vec<i32>) -> Vec<i32> {
     arr
 }
 
-// 方法5：原地从前往后删除（删除右侧重复项）
-// 删除后 j 不前进，避免漏判
+// 方法5：原地从前往后删除（删右侧重复项）
+// remove 之后 j 不前进，否则会漏扫滑到当前位置的新元素
 fn unique5(mut arr: Vec<i32>) -> Vec<i32> {
     let mut i = 0;
     while i < arr.len() {
         let mut j = i + 1;
         while j < arr.len() {
+            // 固定 i，向后找与 arr[i] 相同的下标并删除
             if arr[i] == arr[j] {
-                arr.remove(j);
+                arr.remove(j); // 删后 j 不增，继续扫当前位置
             } else {
                 j += 1;
             }
@@ -164,11 +171,12 @@ fn unique5(mut arr: Vec<i32>) -> Vec<i32> {
 }
 
 // 方法6：iter().position 首次位置法
-// position 返回首次出现位置，等于当前下标即首次出现
+// position 返回全切片首次出现的下标，等于当前枚举下标 i 才算首次保留
 fn unique6(arr: &[i32]) -> Vec<i32> {
     arr.iter()
         .enumerate()
         .filter_map(|(i, &v)| {
+            // 全切片首次出现的下标必须等于当前 i，否则是后面出现的重复项
             if arr.iter().position(|&x| x == v) == Some(i) {
                 Some(v)
             } else {
@@ -218,10 +226,10 @@ graph LR
 use std::collections::{BTreeSet, HashMap, HashSet};
 
 // 方法7：HashSet 简洁版（不保序）
-// 一行 collect，写法最短，但 HashSet 遍历顺序由 hash 决定
+// 一行 collect 最短；HashSet 遍历顺序不由输入顺序决定
 fn unique7(arr: &[i32]) -> Vec<i32> {
     let set: HashSet<i32> = arr.iter().copied().collect();
-    set.into_iter().collect()
+    set.into_iter().collect() // 输出顺序依赖哈希，非输入顺序
 }
 
 // 方法8：HashSet + Vec 保序遍历——工程首选
@@ -230,6 +238,7 @@ fn unique8(arr: &[i32]) -> Vec<i32> {
     let mut seen = HashSet::with_capacity(arr.len());
     let mut result = Vec::with_capacity(arr.len());
     for &item in arr {
+        // 首次见到才同步 push 到 result
         if seen.insert(item) {
             result.push(item);
         }
@@ -238,28 +247,28 @@ fn unique8(arr: &[i32]) -> Vec<i32> {
 }
 
 // 方法9：BTreeSet——自动排序
-// 基于红黑树，插入即有序（升序）
+// 红黑树遍历即升序，去重同时得到有序结果
 fn unique9(arr: &[i32]) -> Vec<i32> {
     let set: BTreeSet<i32> = arr.iter().copied().collect();
     set.into_iter().collect()
 }
 
 // 方法10：HashMap 键去重 + 保序
-// 等价于方法8，但展示 HashMap 在去重场景的用法
+// 与 unique8 等价，演示用 Map「只关心键」去重
 fn unique10(arr: &[i32]) -> Vec<i32> {
     let mut map: HashMap<i32, ()> = HashMap::with_capacity(arr.len());
     let mut result = Vec::with_capacity(arr.len());
     for &item in arr {
         if !map.contains_key(&item) {
-            map.insert(item, ());
+            map.insert(item, ()); // () 仅占位，值域无意义
             result.push(item);
         }
     }
     result
 }
 
-// 方法11：HashMap 频次统计——去重 + 业务统计
-// 返回 (去重后的元素, 与之一一对应的频次)
+// 方法11：HashMap 频次统计——去重 + 次数
+// 返回 (按首次出现保序的元素, 与之一一对应的频次)
 fn unique11(arr: &[i32]) -> (Vec<i32>, Vec<usize>) {
     let mut map: HashMap<i32, usize> = HashMap::with_capacity(arr.len());
     let mut order = Vec::with_capacity(arr.len());
@@ -270,7 +279,7 @@ fn unique11(arr: &[i32]) -> (Vec<i32>, Vec<usize>) {
         }
         *entry += 1;
     }
-    let counts: Vec<usize> = order.iter().map(|k| map[k]).collect();
+    let counts: Vec<usize> = order.iter().map(|k| map[k]).collect(); // 与 order 一一对应
     (order, counts)
 }
 ```
@@ -310,25 +319,25 @@ graph LR
 
 ```rust
 // 方法12：sort + dedup（标准库）
-// dedup 是稳定的相邻去重，要求先排序
+// 先排序让相同值相邻，再 dedup 线性删相邻重复
 fn unique12(arr: &[i32]) -> Vec<i32> {
     let mut sorted = arr.to_vec();
     sorted.sort();        // 稳定排序，O(n log n)
-    sorted.dedup();       // 原地相邻去重，O(n)
+    sorted.dedup();       // 原地扫一遍，删相邻重复，O(n)
     sorted
 }
 
 // 方法13：sort_unstable + dedup（更快）
-// sort_unstable 是 introsort（pdqsort），不稳定但常数更小
+// 同上，不在意稳定性时用 sort_unstable 常更快
 fn unique13(arr: &[i32]) -> Vec<i32> {
     let mut sorted = arr.to_vec();
     sorted.sort_unstable();
-    sorted.dedup();
+    sorted.dedup(); // 逻辑同 unique12
     sorted
 }
 
-// 方法14：手写双指针法（LeetCode 26 经典题）
-// 原地排序后双指针扫描，slow 指向最后唯一元素
+// 方法14：手写双指针（LeetCode 26）
+// slow 卡住「唯一前缀」末尾，fast 向前扫；不等则扩展前缀并写入
 fn unique14(arr: &[i32]) -> Vec<i32> {
     if arr.is_empty() {
         return Vec::new();
@@ -339,10 +348,10 @@ fn unique14(arr: &[i32]) -> Vec<i32> {
     for fast in 1..sorted.len() {
         if sorted[fast] != sorted[slow] {
             slow += 1;
-            sorted[slow] = sorted[fast];
+            sorted[slow] = sorted[fast]; // 紧凑写入「唯一前缀」
         }
     }
-    sorted.truncate(slow + 1);
+    sorted.truncate(slow + 1); // 截掉尾部冗余
     sorted
 }
 ```
@@ -383,7 +392,7 @@ use std::collections::HashSet;
 use std::hash::Hash;
 
 // 方法15：fold 折叠法
-// 用 fold 累积一个 Vec，遇到未出现的就追加；纯函数式
+// 用 fold 累积 Vec；写法函数式，但 contains 仍为 O(n)，整体 O(n²)
 fn unique15(arr: &[i32]) -> Vec<i32> {
     arr.iter().fold(Vec::new(), |mut acc, &x| {
         if !acc.contains(&x) {
@@ -394,7 +403,7 @@ fn unique15(arr: &[i32]) -> Vec<i32> {
 }
 
 // 方法16：filter + 闭包捕获 HashSet
-// 闭包捕获 seen，副作用谓词：HashSet::insert 返回 true 表示首次
+// insert 返回 bool：首次插入为 true，直接作 filter 条件
 fn unique16(arr: &[i32]) -> Vec<i32> {
     let mut seen = HashSet::with_capacity(arr.len());
     arr.iter()
@@ -403,13 +412,13 @@ fn unique16(arr: &[i32]) -> Vec<i32> {
         .collect()
 }
 
-// 方法17：泛型函数 unique<T: Eq + Hash + Clone>
-// trait bound 把"任意可哈希可比较的类型"统一处理
-// Rust 单态化（monomorphization）让泛型在编译期展开为具体类型，零开销
+// 方法17：泛型 unique<T: Eq + Hash + Clone>
+// trait 约束写好一套，编译期单态化为各具体类型，零运行时虚派发
 fn unique17<T: Eq + Hash + Clone>(arr: &[T]) -> Vec<T> {
     let mut seen = HashSet::with_capacity(arr.len());
     let mut result = Vec::with_capacity(arr.len());
     for item in arr {
+        // HashSet 要拥有元素，从切片借用常需 clone
         if seen.insert(item.clone()) {
             result.push(item.clone());
         }
@@ -461,7 +470,7 @@ graph LR
 
 ```rust
 // 方法18：递归原地删除法
-// 自后往前递归处理，相同就用 remove 删掉自身
+// 自后往前看末尾元素：前缀里出现过则删掉末尾；再对更短前缀递归
 fn unique18(arr: &[i32]) -> Vec<i32> {
     fn rec(mut data: Vec<i32>, length: usize) -> Vec<i32> {
         if length <= 1 {
@@ -478,13 +487,13 @@ fn unique18(arr: &[i32]) -> Vec<i32> {
         if is_repeat {
             data.remove(last);
         }
-        rec(data, length - 1)
+        rec(data, length - 1) // 子问题长度为 length-1
     }
     rec(arr.to_vec(), arr.len())
 }
 
-// 方法19：递归拼接返回法（纯函数式）
-// 不修改原切片，每层返回新 Vec
+// 方法19：递归拼接返回法（不改原切片）
+// 前缀由递归算出，再根据末尾是否在前缀出现过决定是否 push 末尾
 fn unique19(arr: &[i32]) -> Vec<i32> {
     fn rec(data: &[i32], length: usize) -> Vec<i32> {
         if length == 0 {
@@ -508,21 +517,20 @@ fn unique19(arr: &[i32]) -> Vec<i32> {
     rec(arr, arr.len())
 }
 
-// 方法20：BitSet 位图法（仅适用于非负整数）
-// 用 Vec<u64> 自己实现位图，每个 int 占一位
-// 推荐场景：海量非负整数（10亿规模仅约 128MB）
+// 方法20：BitSet 位图（仅适用于非负整数）
+// 值域在位图范围内时，每位表示该整数是否出现过，省空间且常数小
 fn unique20(arr: &[i32]) -> Vec<i32> {
     if arr.iter().any(|&v| v < 0) {
         panic!("BitSet 不支持负数，需要先做偏移");
     }
-    let max_val = *arr.iter().max().unwrap_or(&0) as usize;
+    let max_val = *arr.iter().max().unwrap_or(&0) as usize; // 决定位图要铺多大
     let n_words = max_val / 64 + 1;
     let mut bits = vec![0u64; n_words];
     let mut result = Vec::with_capacity(arr.len());
     for &v in arr {
         let v = v as usize;
         let mask = 1u64 << (v % 64);
-        // 第 v 位为 0 表示首次出现
+        // 第 v 位为 0：首次见到该值；置位后按遍历顺序归入 result
         if bits[v / 64] & mask == 0 {
             bits[v / 64] |= mask;
             result.push(v as i32);
@@ -618,8 +626,9 @@ pub fn unique<T: Eq + Hash + Clone>(arr: &[T]) -> Vec<T> {
     let mut seen = HashSet::with_capacity(arr.len());
     let mut result = Vec::with_capacity(arr.len());
     for item in arr {
+        // insert 要拥有 T；slice 里是 &T 时常用 clone
         if seen.insert(item.clone()) {
-            result.push(item.clone());
+            result.push(item.clone()); // 首次出现顺序写入 result
         }
     }
     result
@@ -629,6 +638,7 @@ pub fn unique<T: Eq + Hash + Clone>(arr: &[T]) -> Vec<T> {
 不在意顺序：
 
 ```rust
+// HashSet 去重后再 collect，遍历顺序不作保证
 let result: Vec<i32> = arr.iter().copied().collect::<HashSet<_>>().into_iter().collect();
 ```
 
@@ -637,7 +647,7 @@ let result: Vec<i32> = arr.iter().copied().collect::<HashSet<_>>().into_iter().c
 ```rust
 let mut data = arr.to_vec();
 data.sort_unstable();
-data.dedup();
+data.dedup(); // 仅删相邻相同，须先排序
 ```
 
 海量非负整数：
@@ -649,7 +659,7 @@ for &v in &data {
     let v = v as usize;
     let mask = 1u64 << (v % 64);
     if bits[v / 64] & mask == 0 {
-        bits[v / 64] |= mask;
+        bits[v / 64] |= mask; // 置位表示已见过
         result.push(v as i32);
     }
 }
@@ -661,7 +671,7 @@ for &v in &data {
 let mut seen = HashSet::new();
 let result: Vec<i32> = arr.iter()
     .copied()
-    .filter(|x| seen.insert(*x))
+    .filter(|x| seen.insert(*x)) // insert 返回值作谓词：边判重边收集
     .collect();
 ```
 
@@ -707,7 +717,7 @@ where
     // 按首次出现顺序输出
     order
         .into_iter()
-        .filter_map(|k| chosen.remove(&k))
+        .filter_map(|k| chosen.remove(&k)) // 按 order 取回并抽空 map
         .collect()
 }
 ```
@@ -730,7 +740,7 @@ where
         let key = key_fn(&item);
         match chosen.shift_remove(&key) {
             Some(old) => {
-                chosen.insert(key, on_dup(old, item));
+                chosen.insert(key, on_dup(old, item)); // 键冲突：合并后再写入
             }
             None => {
                 chosen.insert(key, item);
@@ -773,7 +783,7 @@ use std::collections::HashMap;
 let mut counts: HashMap<&str, usize> = HashMap::new();
 let mut order: Vec<&str> = Vec::new();
 for &item in &data {
-    let entry = counts.entry(item).or_insert(0);
+    let entry = counts.entry(item).or_insert(0); // 无则建 0，有则拿计数引用
     if *entry == 0 {
         order.push(item);
     }
@@ -834,7 +844,7 @@ let users = vec![
 ];
 
 // 全字段相等才算重复
-let unique: HashSet<_> = users.into_iter().collect();
+let unique: HashSet<_> = users.into_iter().collect(); // 相等只留一份，遍历无序
 ```
 
 ### 手动实现（按业务字段去重）
@@ -874,7 +884,7 @@ impl Hash for User {
 
 ```rust
 let mut users = users;
-users.sort_by_key(|u| u.id);
+users.sort_by_key(|u| u.id); // 同键相邻，dedup 才能 O(n) 删重复
 users.dedup_by_key(|u| u.id);
 // 排序 + 按 id 去重，无需任何 trait 实现
 ```
@@ -884,7 +894,7 @@ users.dedup_by_key(|u| u.id);
 ```rust
 let mut map: HashMap<i64, User> = HashMap::new();
 for u in users {
-    map.entry(u.id).or_insert(u);   // 仅按 id 去重，保留首次
+    map.entry(u.id).or_insert(u); // 已有该 id 则忽略本条，保留先插入者
 }
 let result: Vec<User> = map.into_values().collect();
 ```
@@ -952,7 +962,7 @@ Rust 的核心差异：
 
 理解这 4 个升维方向，写出第 21、第 22 种都不在话下。
 
-**AI 时代，程序员不一定要手写代码，但一定要懂得编程思路，这样才能更好地指导 AI。**
+**AI 时代，程序员不一定要手写代码，但一定要懂得编程思路，这样才能更好地驾驭 AI。**
 
 ## 更多算法
 

@@ -35,6 +35,13 @@ graph TD
     class A1,B1,C1 detail
 ```
 
+## 生活类比与示意图
+
+> **生活类比**：就像收集水果，把苹果按大小或颜色放到不同的篮子里，每个篮子里再整理一下，最后按篮子顺序排列所有苹果，就得到整齐的果堆。
+
+![桶排序](../../resources/images/sort/bucket1.png)
+![桶排序](../../resources/images/sort/bucket2.gif)
+
 ## 实现思路对比
 
 | 实现方式 | 桶数量选择 | 桶内排序 | 适用场景 |

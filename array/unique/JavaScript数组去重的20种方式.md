@@ -1,6 +1,6 @@
 # JavaScript 数组去重的 20 种实现方式，用不同思路解决问题
 
-数组去重是最常见的算法。看似简单，但不同实现方式的性能差异可能高达**几百倍**。本文整理 JavaScript 数组去重的 20 种写法，按 5 个策略分类，帮你理解每类的核心思路。AI时代，可以不手写代码了，但需要知道代码背后的原理，这样才能更好地指导AI编程。
+数组去重是最常见的算法。看似简单，但不同实现方式的性能差异可能高达**几百倍**。本文整理 JavaScript 数组去重的 20 种写法，按 5 个策略分类，充分利用JavaScript的弱类型和动态性，帮助你理解语言特性，同时掌握多种解决问题的的思路。AI时代，你需要知道代码背后的原理，这样才能更好地指导AI编程。
 
 ## 为什么性能差异这么大？
 
@@ -10,7 +10,7 @@
 function unique(arr) {
   const result = []
   for (const item of arr) {
-    // 遍历原数组，每次取一个元素，判断是否已存在结果数组
+    // 遍历原数组，逐个取出元素判断是否存在新数组，若新数组中不存在则添加
     if (!result.includes(item)) {
       result.push(item)
     }
@@ -28,6 +28,8 @@ function unique(arr) {
 - **filter + 闭包**：在函数式管道里携带"已见"状态
 - **JSON 序列化**：处理对象、嵌套数组等不可哈希元素
 - **递归**：换种表达方式，本质仍是上面的思路
+
+**本文源码地址：[https://github.com/microwind/algorithms](https://github.com/microwind/algorithms)**
 
 ## 推荐方案
 
@@ -73,8 +75,9 @@ function unique1(arr) {
   for (let i = 0, l = arr.length; i < l; i++) {
     for (let j = 0; j <= i; j++) {
       if (arr[i] === arr[j]) {
-        // i === j 表示前面没有相同值，是首次出现
+        // i === j 表示前面没有相同值，当前项是首次出现，追加到新数组中
         if (i === j) result.push(arr[i])
+        // 只要遇到相同值，要么刚添加了，要么前面已添加，可跳出循环
         break
       }
     }
@@ -86,6 +89,7 @@ function unique1(arr) {
 function unique2(arr) {
   const result = []
   for (const item of arr) {
+    // 不存在新数组就添加，利用includes判断
     if (!result.includes(item)) result.push(item)
   }
   return result
@@ -96,6 +100,7 @@ function unique3(arr) {
   let l = arr.length
   while (l-- > 0) {
     for (let i = 0; i < l; i++) {
+      // 将当前项逐个与前面项比较，若遇到重复就删除当前项，原数组操作
       if (arr[l] === arr[i]) {
         arr.splice(l, 1)
         break
@@ -110,8 +115,10 @@ function unique4(arr) {
   let l = arr.length
   for (let i = 0; i < l; i++) {
     for (let j = i + 1; j < l; j++) {
+      // 将当前项逐个与后面项比较，若遇到重复就删除重复项，原数组操作
       if (arr[i] === arr[j]) {
         arr.splice(j, 1)
+        // 因为自前向后遍历，删除重复项后，需要将下标和总长度各自减1位
         j--; l--
       }
     }
@@ -124,17 +131,20 @@ function unique4(arr) {
 function unique5(arr) {
   const result = []
   arr.forEach((item, i) => {
+    // 与unique1思路一致，利用indexOf实现查找
     if (arr.indexOf(item) === i) result.push(item)
   })
   return result
 }
 
 // 方法6：双重 while 倒序 splice
+// 与 unique3 同类：自尾向前，当前尾元素若在前段出现过则删掉该尾元素
 function unique6(arr) {
   let l = arr.length
   while (l-- > 0) {
     let i = l
     while (i-- > 0) {
+      // 与左侧某项相等说明重复，删掉当前下标 l 的元素后跳出内层
       if (arr[l] === arr[i]) {
         arr.splice(l, 1)
         break
@@ -158,9 +168,9 @@ function unique6(arr) {
 graph LR
     A([原数组]) --> B[filter / reduce 管道]
     B --> C{选择策略}
-    C -->|indexOf 判重| D[O(n²) 但简洁]
-    C -->|Set 闭包判重| E[O(n) 推荐]
-    C -->|对象键| F[O(n) 但有类型陷阱]
+    C -->|indexOf 判重| D["O(n²) 但简洁"]
+    C -->|Set 闭包判重| E["O(n) 推荐"]
+    C -->|对象键| F["O(n) 但有类型陷阱"]
     D --> G([新数组])
     E --> G
     F --> G
@@ -177,6 +187,7 @@ graph LR
 // 方法7：filter + indexOf 一行经典
 // 写法最短，但每次 indexOf 都是 O(n)
 function unique7(arr) {
+  // indexOf 得首次下标，与当前 i 相同才保留，否则是后面出现的重复项
   return arr.filter((item, i) => arr.indexOf(item) === i)
 }
 
@@ -184,6 +195,7 @@ function unique7(arr) {
 // Set.add 返回 Set 自身，结合短路 && 返回布尔值
 function unique8(arr) {
   const seen = new Set()
+  // 未见过才执行 add；add 恒为真值，整体表达式作 filter 谓词
   return arr.filter(item => !seen.has(item) && seen.add(item))
 }
 
@@ -191,6 +203,7 @@ function unique8(arr) {
 // 函数式风格，但 includes 仍是 O(n²)
 function unique9(arr) {
   return arr.reduce((acc, item) => {
+    // 与 unique2 同思路，只是用 reduce 折叠出结果数组
     if (!acc.includes(item)) acc.push(item)
     return acc
   }, [])
@@ -200,6 +213,7 @@ function unique9(arr) {
 function unique10(arr) {
   const seen = new Set()
   return arr.reduce((acc, item) => {
+    // Set 判重 O(1)，首次出现才同步记入 acc
     if (!seen.has(item)) {
       seen.add(item)
       acc.push(item)
@@ -214,6 +228,7 @@ function unique11(arr) {
   const obj = {}
   return arr.filter(item => {
     const key = typeof item + item
+    // hasOwnProperty 防原型链上同名属性；赋值表达式求值为 true，表示首次保留
     return Object.prototype.hasOwnProperty.call(obj, key)
       ? false
       : (obj[key] = true)
@@ -252,6 +267,7 @@ graph LR
 // 方法12：new Set 转数组——一行经典
 // Set 用 SameValueZero 比较，NaN 也能正确去重
 function unique12(arr) {
+  // 展开成数组，迭代顺序与元素首次插入 Set 的顺序一致（保序）
   return [...new Set(arr)]
 }
 
@@ -259,6 +275,7 @@ function unique12(arr) {
 // 适合"按键去重，值携带其他信息"的场景
 function unique13(arr) {
   const map = new Map()
+  // 键重复时覆盖值，keys 迭代顺序仍为各键首次插入顺序
   arr.forEach(item => map.set(item, item))
   return [...map.keys()]
 }
@@ -268,6 +285,7 @@ function unique13(arr) {
 // [1, 'a', 2, 'b', -1] 会变成 [1, 2, 'a', 'b', -1]
 function unique14(arr) {
   const obj = {}
+  // 属性名会转成字符串，对象等引用类型键易撞成 '[object Object]'
   for (const item of arr) obj[item] = item
   return Object.values(obj)
 }
@@ -308,6 +326,7 @@ function unique15(arr) {
   arr.sort((a, b) => a - b)
   let l = arr.length
   while (l-- > 1) {
+    // 排序后相等必相邻，删后一重复项；从后往前 splice 不影响已扫下标
     if (arr[l] === arr[l - 1]) arr.splice(l, 1)
   }
   return arr
@@ -316,7 +335,7 @@ function unique15(arr) {
 // 方法16：sort + filter 相邻判重
 function unique16(arr) {
   arr.sort((a, b) => a - b)
-  // 保留首项 + 与前一项不同的项
+  // 首元素必留；之后仅当与前一项不同才保留，即每段相同值只留第一个
   return arr.filter((item, i) => i === 0 || item !== arr[i - 1])
 }
 
@@ -327,8 +346,10 @@ function unique17(arr) {
   arr.sort((a, b) => a - b)
   let slow = 0
   for (let fast = 1; fast < arr.length; fast++) {
+    // fast 遇到新值则扩展「唯一前缀」，写入 slow+1 位置
     if (arr[fast] !== arr[slow]) arr[++slow] = arr[fast]
   }
+  // 前缀长度为 slow+1，截掉尾部重复占位
   return arr.slice(0, slow + 1)
 }
 ```
@@ -364,31 +385,37 @@ graph LR
 
 ```javascript
 // 方法18：递归原地删除
+// 先看当前「末尾」是否在前缀中出现过，重复则 splice 掉末尾
 function unique18(arr, length) {
   if (length <= 1) return arr
   const last = length - 1
   for (let i = last - 1; i >= 0; i--) {
+    // 与前段某项相同则末尾是重复，删掉后不再比较
     if (arr[last] === arr[i]) {
       arr.splice(last, 1)
       break
     }
   }
+  // 本层已处理原末尾，子问题规模减一（与是否 splice 无关）
   return unique18(arr, length - 1)
 }
 
 // 方法19：递归拼接返回（不修改原数组）
+// 每层只决定「当前末尾项」是否并入结果，前缀由递归算好
 function unique19(arr, length) {
   if (length <= 1) return arr.slice(0, length)
   const last = length - 1
   const lastItem = arr[last]
   let isRepeat = false
   for (let i = last - 1; i >= 0; i--) {
+    // 末尾值在前段出现过则本层不追加
     if (lastItem === arr[i]) {
       isRepeat = true
       break
     }
   }
   const head = unique19(arr, length - 1)
+  // 非重复才把当前末尾接到前缀结果后面
   return isRepeat ? head : head.concat(lastItem)
 }
 
@@ -398,6 +425,7 @@ function unique20(arr) {
   const seen = new Set()
   const result = []
   for (const item of arr) {
+    // 结构一致则键一致（字段顺序不同会得到不同键）
     const key = JSON.stringify(item)
     if (!seen.has(key)) {
       seen.add(key)

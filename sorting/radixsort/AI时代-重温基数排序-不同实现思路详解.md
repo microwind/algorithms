@@ -38,6 +38,13 @@ graph TD
     class A1,B1,C,D,E,F detail
 ```
 
+## 生活类比与示意图
+
+> **生活类比**：就像整理邮政编码的信件，先按最后一位数字分堆，再按倒数第二位分堆……逐位处理，直到按完整邮编顺序排列好所有信件。
+
+![基数排序](../../resources/images/sort/radix1.png)
+![基数排序](../../resources/images/sort/radix2.gif)
+
 ## 实现思路对比
 
 | 方式 | 排序方向 | 位数处理 | 适用场景 |

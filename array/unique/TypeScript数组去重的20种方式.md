@@ -464,7 +464,7 @@ graph TD
 
     Ordered --> Q2{"侧重点"}
     Q2 -->|代码简洁| Set2["[...new Set(arr)]<br/>一行解决"]
-    Q2 -->|函数式 O(n)| FilterSet["filter + Set 闭包"]
+    Q2 -->|"函数式O(n)" | FilterSet["filter + Set 闭包"]
     Q2 -->|按字段去重| MapByKey["Map + keyFn"]
     Q2 -->|对象数组| JSON["JSON.stringify + Set"]
 

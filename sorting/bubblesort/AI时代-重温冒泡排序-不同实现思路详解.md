@@ -35,6 +35,13 @@ graph TD
     class A1,B1,C1 detail
 ```
 
+## 生活类比与示意图
+
+> **生活类比**：体育课排队，让相邻两人比身高，矮的站前面，高的站后面。一轮下来，最高的人一定到了队尾。
+
+![冒泡排序](../../resources/images/sort/bubble1.png)
+![冒泡排序](../../resources/images/sort/bubble2.gif)
+
 ## 实现思路对比
 
 | 实现方式 | 核心优化 | 时间复杂度 | 空间复杂度 | 稳定性 |

@@ -1,6 +1,6 @@
 // Copyright © https://github.com/microwind All rights reserved.
 // @author: jarryli@gmail.com
-// @version: 2.0
+// @version: 1.0
 //
 // 数组去重算法 - Rust 实现，20 种不同思路
 //
@@ -497,7 +497,7 @@ fn main() {
 
 /*
  * 编译运行：
- *   rustc unique.rs -o /tmp/unique_rs && /tmp/unique_rs
+ *   rustc unique.rs -o ./unique_rs && ./unique_rs
  *
  * 预期输出（已实测，rustc 1.84+）：
  *
